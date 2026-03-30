@@ -22,12 +22,12 @@ void	init(t_data *data)
 	if (!data->img)
 		exit(1);
 }
-
+/*
 void	draw(t_data *data)
 {
 	t_sphere sphere;
 	t_camera cam;
-}
+}*/
 
 static void	destroy_all(t_data *data)
 {
@@ -41,7 +41,7 @@ int	main(void)
 	t_data	data;
 
 	init(&data);
-	draw(&data);
+//	draw(&data);
 	mlx_loop(data.mlx);
 	destroy_all(&data);
 	return (0);
