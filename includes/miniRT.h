@@ -70,6 +70,28 @@ typedef struct s_hit_record
 	t_object	object;
 }	t_hit_record;
 
+typedef struct s_hit_list
+{
+	t_list *list;
+	int		(*hit_fn)(void *, t_ray *, double, double, t_hit_record *)
+}	t_hit_list;
+
+typedef struct s_light
+{
+	t_vec3 position;
+	double intensity;
+	t_vec3 color;
+}	t_light;
+
+typedef struct s_scene
+{
+	t_list *spheres;
+	t_list *planes;
+	t_list *cylinder;
+	t_light light;
+	t_vec3 ambient;
+	t_camera cam;
+}	t_scene;
 //src/hooks.c
 void	attach_hooks(t_data *data);
 
@@ -78,6 +100,7 @@ t_ray	camera_ray(t_camera cam, int x, int y);
 
 //src/hit.c
 int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
+int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3 ray_at(t_ray ray, double t);

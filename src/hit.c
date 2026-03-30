@@ -39,3 +39,57 @@ int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_r
 	return (1);
 }
 
+int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec)
+{
+	double d;
+	double t;
+	
+	d = vec_dot(ray->direction, plane->normal);
+	if (fabs(d) < 1e-6) // == 0 ( ray parallele)
+		return (0);
+
+	t = vec_dot(vec_sub(plane->point, ray->origin), plane->normal) / d;
+
+	if (t < t_min || t > t_max)
+		return (0);
+
+	rec->t = t;
+	rec->point = ray_at(*ray, t);
+	rec->normal = plane->normal;
+	rec->color = plane->color;
+	rec->object.plane = plane;
+	return (1);
+}
+
+
+static int hit_list(t_hit_list h, t_ray *ray, double *closest, t_hit_record *rec)
+{
+	t_hit_record temp;
+	int				hit;
+
+	hit = 0;
+	while (h.list)
+	{
+		if (h.hit_fn(h.list->content, ray, T_MIN, *closest, &temp))
+		{
+			hit = 1;
+			*closest = temp.t;
+			*rec = temp;
+		}
+		h.list = h.list->next;
+	}
+	return (hit);
+}
+
+int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
+{
+    int     hit;
+    double  closest;
+
+    hit = 0;
+    closest = t_max;
+    hit |= hit_list((t_hit_list){scene->spheres,   (void *)hit_sphere},   ray, &closest, rec);
+    hit |= hit_list((t_hit_list){scene->planes,    (void *)hit_plane},    ray, &closest, rec);
+//    hit |= hit_list((t_hit_list){scene->cylinders, (void *)hit_cylinder}, ray, &closest, rec);
+    return (hit);
+}
