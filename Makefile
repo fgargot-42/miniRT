@@ -6,7 +6,7 @@ NAME = miniRT
 SRCDIR = src
 MLX_DIR = lib/MacroLibX
 
-SOURCES = main.c ray.c camera.c
+SOURCES = main.c ray.c camera.c hooks.c
 VECLIB_SOURCES = veclib/veclib.c
 SRCS = $(addprefix $(SRCDIR)/, $(SOURCES) $(VECLIB_SOURCES))
 OBJS = $(SRCS:.c=.o)

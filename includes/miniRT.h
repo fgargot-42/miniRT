@@ -55,4 +55,13 @@ typedef struct s_camera
 	double fov;
 }	t_camera;
 
+//src/hooks.c
+void	attach_hooks(t_data *data);
 
+//src/camera.c
+t_ray	camera_ray(t_camera cam, int x, int y);
+
+//src/hit.c
+int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
+//src/ray.c
+t_vec3 ray_at(t_ray ray, double t);
