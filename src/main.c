@@ -43,19 +43,26 @@ void	init(t_data *data)
 
 void	draw(t_data *data)
 {
-	t_sphere sphere;
+	t_sphere sphere[3];
 	t_camera cam;
 	t_ray r;
 	t_hit_record hc;
 
 	cam.position = (t_vec3){0, 0, 0};
 	cam.fov = 90;
-	sphere.center = (t_vec3){0, 0, 5};
-	sphere.color = (t_vec3){255, 0, 0};
-	sphere.radius = 5;
+	sphere[0].center = (t_vec3){0, 0, 5};
+	sphere[0].color = (t_vec3){1, 22, 39};
+	sphere[0].radius = 1;
 
+	sphere[1].center = (t_vec3){1, -.5, 3};
+	sphere[1].color = (t_vec3){255, 0, 34};
+	sphere[1].radius = 0.8;
+	sphere[2].center = (t_vec3){-1, .5, 3};
+	sphere[2].color = (t_vec3){65, 234, 212};
+	sphere[2].radius = 1.1;
 	int x;
 	int y;
+	int i;
 	x = 0;
 
 	while (x < WIDTH)
@@ -64,12 +71,18 @@ void	draw(t_data *data)
 		while (y < HEIGHT)
 		{
 			r = camera_ray(cam, x, y);
-			if (hit_sphere(&sphere, &r, T_MIN, T_MAX, &hc))
-				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(hc.color));
+			i = 0;
+			while (i < 3)
+			{
+				if (hit_sphere(&sphere[i], &r, T_MIN, T_MAX, &hc))
+					mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(hc.color));
+				i++;
+			}
 			y++;
 		}
 		x++;
 	}
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
 static void	destroy_all(t_data *data)
