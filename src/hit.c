@@ -34,7 +34,7 @@ int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_r
 	rec->point = ray_at(*ray, rec->t);
 	rec->normal = vec_normalize(vec_sub(rec->point, sphere->center));
 	rec->color = sphere->color;
-	rec->object = sphere;
+	rec->object.sphere = sphere;
 
 	return (1);
 }
