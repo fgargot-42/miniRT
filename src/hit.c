@@ -39,28 +39,37 @@ int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_r
 	return (1);
 }
 
-int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec)
+
+int	hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec)
 {
-	double d;
-	double t;
-	
+	double	d;
+	double	t;
+	int		x;
+	int		z;
+
 	d = vec_dot(ray->direction, plane->normal);
-	if (fabs(d) < 1e-6) // == 0 ( ray parallele)
+	if (fabs(d) < 1e-6)
 		return (0);
-
 	t = vec_dot(vec_sub(plane->point, ray->origin), plane->normal) / d;
-
 	if (t < t_min || t > t_max)
 		return (0);
-
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
 	rec->normal = plane->normal;
-	rec->color = plane->color;
 	rec->object.plane = plane;
+	if (plane->checker)
+	{
+		x = (int)floor(rec->point.x);
+		z = (int)floor(rec->point.z);
+		if ((x + z) % 2 == 0)
+			rec->color = (t_vec3){255, 255, 255};
+		else
+			rec->color = (t_vec3){30, 30, 30};
+	}
+	else
+		rec->color = plane->color;
 	return (1);
 }
-
 
 static int hit_list(t_hit_list h, t_ray *ray, double *closest, t_hit_record *rec)
 {

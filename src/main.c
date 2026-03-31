@@ -2,19 +2,16 @@
 #include <stdlib.h>
 #include "miniRT.h"
 
-#define T_MIN 0.001
-#define T_MAX 1e9
-
-
-mlx_color   vec3_to_color(t_vec3 v)
+mlx_color	vec3_to_color(t_vec3 v)
 {
-    return (mlx_color){
-        .r = (int)v.x,
-        .g = (int)v.y,
-        .b = (int)v.z,
-        .a = 255
-    };
+	return (mlx_color){
+		.r = (int)v.x,
+		.g = (int)v.y,
+		.b = (int)v.z,
+		.a = 255
+	};
 }
+
 void	init(t_data *data)
 {
 	mlx_window_create_info	info;
@@ -36,80 +33,92 @@ void	init(t_data *data)
 		exit(1);
 }
 
-void    init_scene(t_scene *scene)
+void	init_scene(t_scene *scene)
 {
-    t_sphere    *s;
+	t_sphere	*s;
+	t_plane		*p;
 
-    scene->cam.position = (t_vec3){0, 0, 0};
-    scene->cam.fov = 90;
+	ft_bzero(scene, sizeof(t_scene));
 
-    scene->light.position = (t_vec3){-3, 5, 2};
-    scene->light.intensity = 1.0;
-    scene->light.color = (t_vec3){255, 255, 255};
+	// Camera
+	scene->cam.position = (t_vec3){0, 2, -5};
+	scene->cam.fov = 80;
 
-    scene->ambient = (t_vec3){20, 20, 20};
+	// Warm key light from top left
+	scene->light.position = (t_vec3){-4, 8, 2};
+	scene->light.intensity = 0.8;
+	scene->light.color = (t_vec3){255, 240, 200};
 
-    s = malloc(sizeof(t_sphere));
-    s->center = (t_vec3){0, 0, 5};
-    s->radius = 1.0;
-    s->color = (t_vec3){149, 215, 174};
-    ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+	// Soft ambient
+	scene->ambient = (t_vec3){15, 15, 25};
+
+	// Checkered floor
+	p = malloc(sizeof(t_plane));
+	p->point = (t_vec3){0, -1.5, 0};
+	p->normal = (t_vec3){0, 1, 0};
+	p->color = (t_vec3){200, 200, 200};
+	p->checker = 1;
+	ft_lstadd_back(&scene->planes, ft_lstnew(p));
+
+	// Big center sphere - matte white
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){0, 0, 6};
+	s->radius = 1.5;
+	s->color = (t_vec3){230, 230, 230};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Left sphere - deep blue
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){-3, -0.5, 5};
+	s->radius = 1.0;
+	s->color = (t_vec3){50, 80, 200};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Right sphere - coral red
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){3, -0.5, 5};
+	s->radius = 1.0;
+	s->color = (t_vec3){220, 80, 60};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Small sphere on top of center - gold
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){0, 2.2, 6};
+	s->radius = 0.5;
+	s->color = (t_vec3){255, 200, 50};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Tiny sphere front left - mint green
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){-1.5, -1.0, 3};
+	s->radius = 0.35;
+	s->color = (t_vec3){100, 220, 150};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Tiny sphere front right - purple
+	s = malloc(sizeof(t_sphere));
+	s->center = (t_vec3){1.5, -1.0, 3};
+	s->radius = 0.35;
+	s->color = (t_vec3){180, 80, 220};
+	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
 }
 
-
-void	draw(t_data *data)
+void	draw(t_data *data, t_scene *scene)
 {
-	t_sphere		sphere[3];
-	t_plane			plane;
-	t_camera		cam;
 	t_ray			r;
 	t_hit_record	hc;
-	t_hit_record	closest;
 	int				x;
 	int				y;
-	int				i;
-	int				hit;
 
-	plane.color = (t_vec3){69, 72, 81};
-	plane.point = (t_vec3){0, -3, 0};
-	plane.normal = (t_vec3){0, 1, 0};
-	cam.position = (t_vec3){0, 0, 0};
-	cam.fov = 90;
-	sphere[0].center = (t_vec3){0, 0, 5};
-	sphere[0].color = (t_vec3){115, 149, 111};
-	sphere[0].radius = 1;
-	sphere[1].center = (t_vec3){1, -.5, 3};
-	sphere[1].color = (t_vec3){123, 174, 127};
-	sphere[1].radius = 0.8;
-	sphere[2].center = (t_vec3){-1, .5, 3};
-	sphere[2].color = (t_vec3){149, 215, 174};
-	sphere[2].radius = 1.1;
 	x = 0;
 	while (x < WIDTH)
 	{
 		y = 0;
 		while (y < HEIGHT)
 		{
-			r = camera_ray(cam, x, y);
-			closest.t = T_MAX;
-			hit = 0;
-			i = 0;
-			while (i < 3)
-			{
-				if (hit_sphere(&sphere[i], &r, T_MIN, closest.t, &hc))
-				{
-					closest = hc;
-					hit = 1;
-				}
-				i++;
-			}
-			if (hit_plane(&plane, &r, T_MIN, closest.t, &hc))
-			{
-				closest = hc;
-				hit = 1;
-			}
-			if (hit)
-				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(closest.color));
+			r = camera_ray(scene->cam, x, y);
+			if (hit_scene(scene, &r, T_MAX, &hc))
+				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(shade(&hc, scene)));
 			y++;
 		}
 		x++;
@@ -117,54 +126,6 @@ void	draw(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
-int hit_scene(t_scene *scene, t_ray *ray, double t_min, double t_max, t_hit_record *rec)
-{
-    t_hit_record    temp_rec;
-    int            hit_anything;
-    double         closest;
-    t_list         *current;
-    
-    hit_anything = 0;
-    closest = t_max;
-    
-    current = scene->spheres;
-    while (current)
-    {
-        if (hit_sphere(current->content, ray, t_min, closest, &temp_rec))
-        {
-            hit_anything = 1;
-            closest = temp_rec.t;
-            *rec = temp_rec;
-        }
-        current = current->next;
-    }
-    
-    current = scene->planes;
-    while (current)
-    {
-        if (hit_plane(current->content, ray, t_min, closest, &temp_rec))
-        {
-            hit_anything = 1;
-            closest = temp_rec.t;
-            *rec = temp_rec;
-        }
-        current = current->next;
-    }
-    
-/*    current = scene->cylinders;
-    while (current)
-    {
-        if (hit_cylinder(current->content, ray, t_min, closest, &temp_rec))
-        {
-            hit_anything = 1;
-            closest = temp_rec.t;
-            *rec = temp_rec;
-        }
-        current = current->next;
-    }*/
-    
-    return (hit_anything);
-}
 static void	destroy_all(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
@@ -175,9 +136,11 @@ static void	destroy_all(t_data *data)
 int	main(void)
 {
 	t_data	data;
+	t_scene	scene;
 
+	init_scene(&scene);
 	init(&data);
-	draw(&data);
+	draw(&data, &scene);
 	attach_hooks(&data);
 	mlx_loop(data.mlx);
 	destroy_all(&data);

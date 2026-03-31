@@ -2,8 +2,12 @@
 #include "mlx.h"
 #include "math.h"
 #include "SDL2/SDL_scancode.h"
-#define WIDTH 800
-#define HEIGHT 600
+#define T_MIN 0.001
+#define T_MAX 1e9
+
+#include "libft.h"
+#define WIDTH 1920
+#define HEIGHT 1080
 
 typedef struct s_data
 {
@@ -37,6 +41,7 @@ typedef struct s_plane
 	t_vec3 point;
 	t_vec3 normal; // faut normaliser
 	t_vec3 color;
+	int	checker;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -73,7 +78,7 @@ typedef struct s_hit_record
 typedef struct s_hit_list
 {
 	t_list *list;
-	int		(*hit_fn)(void *, t_ray *, double, double, t_hit_record *)
+	int		(*hit_fn)(void *, t_ray *, double, double, t_hit_record *);
 }	t_hit_list;
 
 typedef struct s_light
@@ -104,3 +109,8 @@ int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_reco
 
 //src/ray.c
 t_vec3 ray_at(t_ray ray, double t);
+
+int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec);
+
+//lighting.c
+t_vec3  shade(t_hit_record *rec, t_scene *scene);

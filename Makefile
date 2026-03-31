@@ -6,8 +6,8 @@ NAME = miniRT
 SRCDIR = src
 MLX_DIR = lib/MacroLibX
 LIBFT_DIR = libft
-
-SOURCES = main.c ray.c camera.c hooks.c hit.c
+LIBFT = $(LIBFT_DIR)/libft.a
+SOURCES = main.c ray.c camera.c hooks.c hit.c lightning.c
 VECLIB_SOURCES = veclib/veclib.c
 SRCS = $(addprefix $(SRCDIR)/, $(SOURCES) $(VECLIB_SOURCES))
 OBJS = $(SRCS:.c=.o)
@@ -18,8 +18,11 @@ all: $(NAME)
 $(MLX):
 	make -j16 -C $(MLX_DIR)
 
-$(NAME): $(MLX) $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(MLX) $(LIBS)
+$(LIBFT):
+	make -C $(LIBFT_DIR)
+
+$(NAME): $(MLX) $(LIBFT) $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $(OBJS) $(MLX) $(LIBFT) $(LIBS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
