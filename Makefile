@@ -15,7 +15,7 @@ SRC =	main.c \
 		camera.c \
 		hooks.c \
 		hit.c \
-		lighting.c \
+		lightning.c \
 		veclib/veclib.c
 OBJ = $(SRC:.c=.o)
 
