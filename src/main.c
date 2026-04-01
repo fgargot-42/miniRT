@@ -4,12 +4,12 @@
 
 mlx_color	vec3_to_color(t_vec3 v)
 {
-	return (mlx_color){
+	return ((mlx_color){
 		.r = (int)v.x,
 		.g = (int)v.y,
 		.b = (int)v.z,
 		.a = 255
-	};
+	});
 }
 
 void	init(t_data *data)
@@ -31,6 +31,7 @@ void	init(t_data *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
+
 }
 
 void	init_scene(t_scene *scene)
@@ -42,6 +43,7 @@ void	init_scene(t_scene *scene)
 
 	// Camera
 	scene->cam.position = (t_vec3){0, 2, -5};
+	scene->cam.direction =  (t_vec3){0, 0, 1};
 	scene->cam.fov = 80;
 
 	// Warm key light from top left
@@ -103,26 +105,44 @@ void	init_scene(t_scene *scene)
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
 }
 
-void	draw(t_data *data, t_scene *scene)
+void	draw(t_data *data)
 {
 	t_ray			r;
 	t_hit_record	hc;
 	int				x;
 	int				y;
+	t_scene			*scene;
+	int				hit;
+	int				count;
+	hit = 0;
+	count = 0;
+	scene = data->scene;
+	printf("draw called\n");
 
 	x = 0;
+	printf("Camera: x=%.2f y=%.2f z=%.2f\n", scene->cam.position.x, scene->cam.position.y, scene->cam.position.z);
 	while (x < WIDTH)
 	{
 		y = 0;
 		while (y < HEIGHT)
 		{
-			r = camera_ray(scene->cam, x, y);
-			if (hit_scene(scene, &r, T_MAX, &hc))
+			r = camera_ray(&scene->cam, x, y);
+
+			hit = hit_scene(scene, &r, T_MAX, &hc);
+			if (hit)
+			{
+//				printf("hit %d %d\n", x, y);
+				count++;
+				printf("%lf %lf %lf\n", shade(&hc, scene).x, shade(&hc, scene).y, shade(&hc, scene).z);
 				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(shade(&hc, scene)));
+			}
+			else
+				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color((t_vec3){0, 0, 0}));
 			y++;
 		}
 		x++;
 	}
+	printf("Frame hits: %d\n", count);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
@@ -133,15 +153,29 @@ static void	destroy_all(t_data *data)
 	mlx_destroy_context(data->mlx);
 }
 
+
+void null(void *param)
+{
+	t_data *data;
+
+	data = (t_data*)param;
+	draw(data);
+}
+
 int	main(void)
 {
 	t_data	data;
-	t_scene	scene;
-
-	init_scene(&scene);
+	data.scene = malloc(sizeof(t_scene));
+    if (!data.scene)
+    {
+        fprintf(stderr, "Failed to allocate scene\n");
+        return 1;
+    }
+	init_scene(data.scene);
 	init(&data);
-	draw(&data, &scene);
+	draw(&data);
 	attach_hooks(&data);
+	mlx_add_loop_hook(data.mlx, null, &data);
 	mlx_loop(data.mlx);
 	destroy_all(&data);
 	return (0);
