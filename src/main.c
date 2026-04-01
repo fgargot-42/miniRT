@@ -108,7 +108,6 @@ void	init_scene(t_scene *scene)
 	s->radius = 1.0;
 	s->color = (t_vec3){220, 80, 60};
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
 	// Small sphere on top of center - gold
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){0, 2.2, 6};
@@ -130,13 +129,31 @@ void	init_scene(t_scene *scene)
 	s->color = (t_vec3){180, 80, 220};
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
 
-	// Cylinder
+	// Cylinder along y (green)
 	c = malloc(sizeof(t_cylinder));
-	c->center = (t_vec3){5, 4, 6};
-	c->axis = (t_vec3){0, 1, 0};
+	c->center = (t_vec3){2, 1, 8};
+	c->axis = vec_normalize((t_vec3){0, 1, 0});
+	c->radius = 2;
+	c->height = 4;
+	c->color = (t_vec3){0, 153, 0};
+	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
+
+	// Cylinder along x (red)
+	c = malloc(sizeof(t_cylinder));
+	c->center = (t_vec3){2, 2, 4};
+	c->axis = vec_normalize((t_vec3){1, 0, 0});
 	c->radius = 1;
 	c->height = 4;
-	c->color = (t_vec3){120, 180, 160};
+	c->color = (t_vec3){204, 0, 0};
+	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
+
+	// Cylinder along z (blue)
+	c = malloc(sizeof(t_cylinder));
+	c->center = (t_vec3){-2, 1, 4};
+	c->axis = vec_normalize((t_vec3){0, 1, 1});
+	c->radius = 1;
+	c->height = 4;
+	c->color = (t_vec3){0, 0, 204};
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 }
 

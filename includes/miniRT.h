@@ -6,9 +6,10 @@
 #define T_MAX 1e9
 
 #include "libft.h"
-#define WIDTH 500
-#define HEIGHT 500
-#define CAMERA_SENS 0.5
+
+#define WIDTH 480
+#define HEIGHT 360
+#define CAMERA_SENS 1.0
 
 typedef struct s_ray
 {
@@ -21,7 +22,6 @@ typedef struct s_ray
 // t distance sur le ray
 // O origin
 // D direction
-
 
 typedef struct s_sphere
 {
@@ -114,6 +114,7 @@ t_ray	camera_ray(t_camera *cam, int x, int y);
 //src/hit.c
 int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
 int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
+int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3 ray_at(t_ray ray, double t);
