@@ -2,6 +2,30 @@
 #include <stdlib.h>
 #include "miniRT.h"
 
+#define CENTER_X (WIDTH / 2)
+#define CENTER_Y (HEIGHT / 2)
+
+void	clear_image(t_data *fdf)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			mlx_set_image_pixel(fdf->mlx, fdf->img, x, y,
+				(mlx_color){.rgba = 0x000000FF});
+			x++;
+		}
+		y++;
+	}
+}
+
+
+
 mlx_color	vec3_to_color(t_vec3 v)
 {
 	return ((mlx_color){
@@ -28,6 +52,7 @@ void	init(t_data *data)
 	data->win = mlx_new_window(data->mlx, &info);
 	if (!data->win)
 		exit(1);
+	mlx_mouse_get_pos(data->mlx, &data->last_mouse_x, &data->last_mouse_y);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
@@ -115,45 +140,43 @@ void	init_scene(t_scene *scene)
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 }
 
-void	draw(t_data *data)
+
+void draw(t_data *data)
 {
-	t_ray			r;
-	t_hit_record	hc;
-	int				x;
-	int				y;
-	t_scene			*scene;
-	int				hit;
-	int				count;
-	hit = 0;
-	count = 0;
-	scene = data->scene;
-	printf("draw called\n");
+    t_ray r;
+    t_hit_record hc;
+    int x;
+    int y;
+    t_scene *scene;
 
-	x = 0;
-	printf("Camera: x=%.2f y=%.2f z=%.2f\n", scene->cam.position.x, scene->cam.position.y, scene->cam.position.z);
-	while (x < WIDTH)
-	{
-		y = 0;
-		while (y < HEIGHT)
-		{
-			r = camera_ray(&scene->cam, x, y);
+    scene = data->scene;
 
-			hit = hit_scene(scene, &r, T_MAX, &hc);
-			if (hit)
-			{
-//				printf("hit %d %d\n", x, y);
-				count++;
-				printf("%lf %lf %lf\n", shade(&hc, scene).x, shade(&hc, scene).y, shade(&hc, scene).z);
-				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color(shade(&hc, scene)));
-			}
-			else
-				mlx_set_image_pixel(data->mlx, data->img, x, y, vec3_to_color((t_vec3){0, 0, 0}));
-			y++;
-		}
-		x++;
-	}
-	printf("Frame hits: %d\n", count);
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+    x = 0;
+    while (x < WIDTH)
+    {
+        y = 0;
+        while (y < HEIGHT)
+        {
+            r = camera_ray(&scene->cam, x, y);
+
+            if (hit_scene(scene, &r, T_MAX, &hc))
+            {
+                t_vec3 color = shade(&hc, scene);
+                mlx_set_image_pixel(data->mlx, data->img,
+                    x, y, vec3_to_color(color));
+            }
+            else
+            {
+                mlx_set_image_pixel(data->mlx, data->img,
+                    x, y, vec3_to_color((t_vec3){0,0,0}));
+            }
+
+            y++;
+        }
+        x++;
+    }
+	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
+    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
 
 static void	destroy_all(t_data *data)
@@ -164,12 +187,54 @@ static void	destroy_all(t_data *data)
 }
 
 
-void null(void *param)
-{
-	t_data *data;
 
-	data = (t_data*)param;
-	draw(data);
+
+void rotate_camera(t_vec3 *direction, double *yaw, double *pitch, double mouse_dx, double mouse_dy, double sensitivity)
+{
+    *yaw   += mouse_dx * sensitivity;
+    *pitch -= mouse_dy * sensitivity;
+
+    if (*pitch > 89.0) *pitch = 89.0;
+    if (*pitch < -89.0) *pitch = -89.0;
+
+    direction->x = cos(*yaw * M_PI/180.0) * cos(*pitch * M_PI/180.0);
+    direction->y = sin(*pitch * M_PI/180.0);
+    direction->z = sin(*yaw * M_PI/180.0) * cos(*pitch * M_PI/180.0);
+
+    *direction = vec_normalize(*direction);
+}
+
+void mouse_loop(void *param)
+{
+    t_data *data;
+    int x, y;
+    int dx, dy;
+
+    data = param;
+
+    mlx_mouse_get_pos(data->mlx, &x, &y);
+
+    dx = x - data->last_mouse_x;
+    dy = y - data->last_mouse_y;
+
+    data->last_mouse_x = x;
+    data->last_mouse_y = y;
+
+    if (dx != 0 || dy != 0)
+    {
+        rotate_camera(&data->scene->cam.direction,
+                      &data->scene->cam.yaw,
+                      &data->scene->cam.pitch,
+                      (double)dx,
+                      (double)dy,
+					  CAMERA_SENS); // sensitivity
+
+        draw(data);
+
+        mlx_mouse_move(data->mlx, data->win, CENTER_X, CENTER_Y);
+        data->last_mouse_x = CENTER_X;
+        data->last_mouse_y = CENTER_Y;
+    }
 }
 
 int	main(void)
@@ -183,9 +248,10 @@ int	main(void)
     }
 	init_scene(data.scene);
 	init(&data);
+	mlx_mouse_hide(data.mlx);
 	draw(&data);
 	attach_hooks(&data);
-	mlx_add_loop_hook(data.mlx, null, &data);
+	mlx_add_loop_hook(data.mlx, mouse_loop, &data);
 	mlx_loop(data.mlx);
 	destroy_all(&data);
 	return (0);

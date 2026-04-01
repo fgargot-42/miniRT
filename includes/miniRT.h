@@ -6,9 +6,9 @@
 #define T_MAX 1e9
 
 #include "libft.h"
-#define WIDTH 800
-#define HEIGHT 600
-
+#define WIDTH 500
+#define HEIGHT 500
+#define CAMERA_SENS 0.5
 
 typedef struct s_ray
 {
@@ -52,6 +52,8 @@ typedef struct s_camera
 	t_vec3 position;
 	t_vec3 direction;
 	double fov;
+	double	pitch;
+	double	yaw;
 }	t_camera;
 typedef union u_object
 {
@@ -98,6 +100,9 @@ typedef struct s_data
 	mlx_window	win;
 	mlx_image	img;
 	t_scene		*scene;
+
+	int			last_mouse_x;
+	int			last_mouse_y;
 }	t_data;
 
 //src/hooks.c

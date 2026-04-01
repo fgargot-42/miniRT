@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O3
 CLINK = -lSDL2 -lm
 SRCDIR = src
 OBJDIR = obj
