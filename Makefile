@@ -1,17 +1,23 @@
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
-LIBS = -lSDL2 -lm
-
 NAME = miniRT
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+CLINK = -lSDL2 -lm
 SRCDIR = src
-MLX_DIR = lib/MacroLibX
+OBJDIR = obj
+INCDIR=includes
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-SOURCES = main.c ray.c camera.c hooks.c hit.c lightning.c
-VECLIB_SOURCES = veclib/veclib.c
-SRCS = $(addprefix $(SRCDIR)/, $(SOURCES) $(VECLIB_SOURCES))
-OBJS = $(SRCS:.c=.o)
+MLX_DIR = lib/MacroLibX
 MLX = $(MLX_DIR)/libmlx.so
+INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
+SRC =	main.c \
+		ray.c \
+		camera.c \
+		hooks.c \
+		hit.c \
+		lightning.c \
+		veclib/veclib.c
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
@@ -21,14 +27,15 @@ $(MLX):
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(NAME): $(MLX) $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS) $(MLX) $(LIBFT) $(LIBS)
+$(NAME): $(MLX) $(addprefix $(OBJDIR)/, $(OBJ)) $(LIBFT) 
+	$(CC) $(CFLAGS) $(CLINK) $(INCLUDE) $^ -o $@ 
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJDIR)
 	make -C $(MLX_DIR) clean
 	make -C $(LIBFT_DIR) clean
 

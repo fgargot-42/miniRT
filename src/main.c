@@ -38,6 +38,7 @@ void	init_scene(t_scene *scene)
 {
 	t_sphere	*s;
 	t_plane		*p;
+	t_cylinder	*c;
 
 	ft_bzero(scene, sizeof(t_scene));
 
@@ -103,6 +104,15 @@ void	init_scene(t_scene *scene)
 	s->radius = 0.35;
 	s->color = (t_vec3){180, 80, 220};
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
+
+	// Cylinder
+	c = malloc(sizeof(t_cylinder));
+	c->center = (t_vec3){5, 4, 6};
+	c->axis = (t_vec3){0, 1, 0};
+	c->radius = 1;
+	c->height = 4;
+	c->color = (t_vec3){120, 180, 160};
+	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 }
 
 void	draw(t_data *data)
