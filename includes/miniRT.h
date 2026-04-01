@@ -6,15 +6,9 @@
 #define T_MAX 1e9
 
 #include "libft.h"
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 800
+#define HEIGHT 600
 
-typedef struct s_data
-{
-	mlx_context	mlx;
-	mlx_window	win;
-	mlx_image	img;
-}	t_data;
 
 typedef struct s_ray
 {
@@ -97,11 +91,20 @@ typedef struct s_scene
 	t_vec3 ambient;
 	t_camera cam;
 }	t_scene;
+
+typedef struct s_data
+{
+	mlx_context	mlx;
+	mlx_window	win;
+	mlx_image	img;
+	t_scene		*scene;
+}	t_data;
+
 //src/hooks.c
 void	attach_hooks(t_data *data);
 
 //src/camera.c
-t_ray	camera_ray(t_camera cam, int x, int y);
+t_ray	camera_ray(t_camera *cam, int x, int y);
 
 //src/hit.c
 int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
@@ -114,3 +117,6 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec);
 
 //lighting.c
 t_vec3  shade(t_hit_record *rec, t_scene *scene);
+
+//src/main
+void	draw(t_data *data);
