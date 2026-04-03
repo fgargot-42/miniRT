@@ -3,7 +3,7 @@
 #include "math.h"
 #include "SDL2/SDL_scancode.h"
 #define T_MIN 0.001
-#define T_MAX 1e9
+#define T_MAX 1e2
 
 #include "libft.h"
 
