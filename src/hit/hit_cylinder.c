@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/02 23:43:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/03 17:33:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,12 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_
 		rec->normal = vec_normalize(vec_reverse_rotation_z((t_vec3){v_hit[0].x, v_hit[0].y, 0}, cyl->axis));
 		return (1);
 	}
-	if (fabs(v_hit[1].z) > cyl->height / 2.0)
+	if (fabs(v_hit[1].z) > cyl->height / 2.0 && (v_hit[0].z > 0) == (v_hit[1].z > 0))
 	//if  ((v_hit[1].z > (cyl->height / 2.0) && v_hit[0].z > 0) || (v_hit[1].z < -(cyl->height / 2.0) && v_hit[0].z < 0))
 		return (0);
-	//roots[1] = (roots[1] - roots[0]) * (cyl->height / 2.0 - v_hit[0].z) / (v_hit[1].z - v_hit[0].z) + roots[0];
-	if (roots[1] >= t_min && roots[1] <= t_max)
+	roots[1] = (roots[1] - roots[0]) * (cyl->height / 2.0 - v_hit[0].z) / (v_hit[1].z - v_hit[0].z) + roots[0];
+	if (roots[1] >= t_min && roots[1] <= t_max
+		&& fabs(v_hit[1].z) <= cyl->height / 2.0)
 	{
 		update_hit_record(rec, ray, cyl, roots[1]);
 		rec->normal = vec_reverse_rotation_z((t_vec3){0, 0, 2 * (roots[1] > 0) - 1}, cyl->axis);
