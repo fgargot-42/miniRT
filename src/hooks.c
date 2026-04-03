@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/03 17:38:55 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/03 20:36:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void key_hook(int scancode, void *param)
 	//printf("code: %d\n", scancode);
 
     if (scancode == SDL_SCANCODE_ESCAPE)
-        mlx_loop_end(data->mlx);
+        mlx_loop_end(*data->mlx);
 
     if (scancode == 26)
         cam->position = vec_add(cam->position, vec_scale(forward, MOVE_STEP));
@@ -62,7 +62,7 @@ void key_hook(int scancode, void *param)
 
 void	attach_hooks(t_data *data)
 {
-	mlx_on_event(data->mlx, data->win, MLX_WINDOW_EVENT, window_hook, data->mlx);
-	mlx_on_event(data->mlx, data->win, MLX_KEYDOWN, key_hook, data);
+	mlx_on_event(*data->mlx, *data->win, MLX_WINDOW_EVENT, window_hook, data->mlx);
+	mlx_on_event(*data->mlx, *data->win, MLX_KEYDOWN, key_hook, data);
 }
 

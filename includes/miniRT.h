@@ -3,7 +3,7 @@
 #include "math.h"
 #include "SDL2/SDL_scancode.h"
 #define T_MIN 0.001
-#define T_MAX 1e9
+#define T_MAX 50
 
 #include "libft.h"
 
@@ -96,15 +96,17 @@ typedef struct s_scene
 
 typedef struct s_data
 {
-	mlx_context	mlx;
-	mlx_window	win;
-	mlx_image	img;
+	mlx_context	*mlx;
+	mlx_window	*win;
+	mlx_image	*img;
 	t_scene		*scene;
 
 	int			last_mouse_x;
 	int			last_mouse_y;
 
 	int			render_scale;
+	int			th_nb;
+	int			nb_threads;
 }	t_data;
 
 //src/hooks.c
