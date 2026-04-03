@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/01 22:44:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/03 17:38:55 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ void key_hook(int scancode, void *param)
     else if (scancode == SDL_SCANCODE_E)
         cam->position = vec_add(cam->position, vec_scale(world_up, MOVE_STEP));
     else if (scancode == SDL_SCANCODE_Q)
-        cam->position = vec_add(cam->position, vec_scale(world_up, -MOVE_STEP));
-
-    //printf("Camera position: x=%.2f y=%.2f z=%.2f\n",
-    //      cam->position.x, cam->position.y, cam->position.z);
+		cam->position = vec_add(cam->position, vec_scale(world_up, -MOVE_STEP));
+	
+	if (scancode == SDL_SCANCODE_TAB)
+		data->render_scale = (data->render_scale == 1) ? 8 : 1;
+	//printf("Camera position: x=%.2f y=%.2f z=%.2f\n",
+	//      cam->position.x, cam->position.y, cam->position.z);
     draw(data);
 }
 

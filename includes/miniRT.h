@@ -7,9 +7,9 @@
 
 #include "libft.h"
 
-#define WIDTH 480
-#define HEIGHT 360
-#define CAMERA_SENS 1.0
+#define WIDTH 800
+#define HEIGHT 600
+#define CAMERA_SENS 0.35
 
 typedef struct s_ray
 {
@@ -103,6 +103,8 @@ typedef struct s_data
 
 	int			last_mouse_x;
 	int			last_mouse_y;
+
+	int			render_scale;
 }	t_data;
 
 //src/hooks.c
