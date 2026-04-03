@@ -1,7 +1,7 @@
 NAME = miniRT
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
-CLINK = -lSDL2 -lm
+CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
 INCDIR=includes

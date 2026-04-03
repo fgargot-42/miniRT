@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/03 20:50:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/03 22:34:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	clear_image(t_data *fdf)
 		x = 0;
 		while (x < WIDTH)
 		{
-			mlx_set_image_pixel(*fdf->mlx, *fdf->img, x, y,
+			mlx_set_image_pixel(fdf->mlx, fdf->img, x, y,
 				(mlx_color){.rgba = 0x000000FF});
 			x++;
 		}
@@ -52,10 +52,7 @@ void	init(t_data *data)
 {
 	mlx_window_create_info	info;
 
-	data->mlx = malloc(sizeof(mlx_context));
-	data->win = malloc(sizeof(mlx_window));
-	data->img = malloc(sizeof(mlx_image));
-	*data->mlx = mlx_init();
+	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit(1);
 	info = (mlx_window_create_info)
@@ -64,11 +61,11 @@ void	init(t_data *data)
 		.width = WIDTH,
 		.height = HEIGHT,
 	};
-	*data->win = mlx_new_window(*data->mlx, &info);
+	data->win = mlx_new_window(data->mlx, &info);
 	if (!data->win)
 		exit(1);
-	mlx_mouse_get_pos(*data->mlx, &data->last_mouse_x, &data->last_mouse_y);
-	*data->img = mlx_new_image(*data->mlx, WIDTH, HEIGHT);
+	mlx_mouse_get_pos(data->mlx, &data->last_mouse_x, &data->last_mouse_y);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
 
@@ -93,7 +90,7 @@ void	init_scene(t_scene *scene)
 	scene->light.color = (t_vec3){255, 240, 200};
 
 	// Soft ambient
-	scene->ambient = (t_vec3){15, 15, 25};
+	scene->ambient = (t_vec3){50, 50, 65};
 
 	// Checkered floor
 	p = malloc(sizeof(t_plane));
@@ -172,12 +169,8 @@ void	init_scene(t_scene *scene)
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 }
 
-
-#include <stdio.h>
-
 #include <stdio.h>
 #include <sys/time.h>
-#include "mlx.h"
 
 static double	get_time(void)
 {
@@ -210,31 +203,31 @@ void	add_debug(t_data *data)
 	}
 
 	sprintf(buf, "FPS: %.1f", fps);
-	mlx_string_put(*data->mlx, *data->win, 10, y, white, buf);
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
 
 	sprintf(buf, "Render Scale: %d", data->render_scale);
-	mlx_string_put(*data->mlx, *data->win, 10, y, white, buf);
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
 
 	sprintf(buf, "POS: %.2f %.2f %.2f",
 		data->scene->cam.position.x,
 		data->scene->cam.position.y,
 		data->scene->cam.position.z);
-	mlx_string_put(*data->mlx, *data->win, 10, y, white, buf);
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
 
 	sprintf(buf, "DIR: %.2f %.2f %.2f",
 		data->scene->cam.direction.x,
 		data->scene->cam.direction.y,
 		data->scene->cam.direction.z);
-	mlx_string_put(*data->mlx, *data->win, 10, y, white, buf);
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
 
 	sprintf(buf, "YAW: %.2f  PITCH: %.2f",
 		data->scene->cam.yaw,
 		data->scene->cam.pitch);
-	mlx_string_put(*data->mlx, *data->win, 10, y, white, buf);
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 }
 
 #include <pthread.h>
@@ -246,11 +239,11 @@ void *draw_thread(void *data)
     int          x, y;
     mlx_color    color;
 
-    x = ((t_data*)data)->th_nb;
-    while (x < WIDTH)
+	y = ((t_data*)data)->th_nb;
+	while (y < HEIGHT)
     {
-        y = 0;
-        while (y < HEIGHT)
+		x = 0;
+		while (x < WIDTH)
         {
             r = camera_ray(&scene->cam, x, y);
             if (hit_scene(scene, &r, T_MAX, &hc))
@@ -258,11 +251,10 @@ void *draw_thread(void *data)
             else
                 color = vec3_to_color((t_vec3){0, 0, 0});
 			if (x < WIDTH && y < HEIGHT)
-				mlx_set_image_pixel(*((t_data*)data)->mlx, *((t_data*)data)->img,
-						x, y, color);
-            y++;
+				mlx_set_image_pixel(((t_data*)data)->mlx, ((t_data*)data)->img, x, y, color);
+			x++;
         }
-        x += ((t_data*)data)->nb_threads;
+		y += ((t_data*)data)->nb_threads;
     }
 	return (NULL);
 }
@@ -289,13 +281,13 @@ void draw(t_data *data)
 		free(th_data[i]);
 		i++;
 	}
-	mlx_clear_window(*data->mlx, *data->win, vec3_to_color((t_vec3){0,0,0}));
-    mlx_put_image_to_window(*data->mlx, *data->win, *data->img, 0, 0);
+	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
+    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	i++;
 	add_debug(data);
 }
-/*
-void draw(t_data *data)
+
+void draw_first(t_data *data)
 {
     t_ray        r;
     t_hit_record hc;
@@ -339,15 +331,12 @@ void draw(t_data *data)
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	add_debug(data);
 }
-*/
+
 static void	destroy_all(t_data *data)
 {
-	mlx_destroy_image(*data->mlx, *data->img);
-	mlx_destroy_window(*data->mlx, *data->win);
-	mlx_destroy_context(*data->mlx);
-	free(data->img);
-	free(data->win);
-	free(data->mlx);
+	mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_context(data->mlx);
 }
 
 
@@ -385,7 +374,7 @@ void mouse_loop(void *param)
     int x, y;
     int dx, dy;
 
-    mlx_mouse_get_pos(*data->mlx, &x, &y);
+    mlx_mouse_get_pos(data->mlx, &x, &y);
 
     dx = x - data->last_mouse_x;
     dy = y - data->last_mouse_y;
@@ -396,7 +385,7 @@ void mouse_loop(void *param)
     if (dx || dy)
     {
         is_moving = 1;
-        data->render_scale = 8;
+        data->render_scale = 1;
 
         rotate_camera(&data->scene->cam.direction,
                       &data->scene->cam.yaw,
@@ -406,7 +395,7 @@ void mouse_loop(void *param)
                       CAMERA_SENS);
 		draw(data);
 
-        mlx_mouse_move(*data->mlx, *data->win, CENTER_X, CENTER_Y);
+        mlx_mouse_move(data->mlx, data->win, CENTER_X, CENTER_Y);
         data->last_mouse_x = CENTER_X;
         data->last_mouse_y = CENTER_Y;
     }
@@ -430,11 +419,11 @@ int	main(void)
     }
 	init_scene(data.scene);
 	init(&data);
-	mlx_mouse_hide(*data.mlx);
-	draw(&data);
+	mlx_mouse_hide(data.mlx);
+	draw_first(&data);
 	attach_hooks(&data);
-	mlx_add_loop_hook(*data.mlx, mouse_loop, &data);
-	mlx_loop(*data.mlx);
+	mlx_add_loop_hook(data.mlx, mouse_loop, &data);
+	mlx_loop(data.mlx);
 	destroy_all(&data);
 	return (0);
 }

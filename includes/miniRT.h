@@ -3,12 +3,12 @@
 #include "math.h"
 #include "SDL2/SDL_scancode.h"
 #define T_MIN 0.001
-#define T_MAX 50
+#define T_MAX 100
 
 #include "libft.h"
 
-#define WIDTH 800
-#define HEIGHT 600
+#define WIDTH 1280
+#define HEIGHT 720
 #define CAMERA_SENS 0.35
 
 typedef struct s_ray
@@ -96,9 +96,9 @@ typedef struct s_scene
 
 typedef struct s_data
 {
-	mlx_context	*mlx;
-	mlx_window	*win;
-	mlx_image	*img;
+	mlx_context	mlx;
+	mlx_window	win;
+	mlx_image	img;
 	t_scene		*scene;
 
 	int			last_mouse_x;
