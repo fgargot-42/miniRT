@@ -221,18 +221,16 @@ void	add_debug(t_data *data)
 		data->scene->cam.pitch);
 	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 }
+
 void draw(t_data *data)
 {
-    t_ray           r;
-    t_hit_record    hc;
-    t_scene         *scene;
-    int             x;
-    int             y;
-    int             bx;
-    int             by;
-    mlx_color       color;
+    t_ray        r;
+    t_hit_record hc;
+    t_scene      *scene = data->scene;
+    int          x, y;
+    int          i, bx, by;
+    mlx_color    color;
 
-    scene = data->scene;
     x = 0;
     while (x < WIDTH)
     {
@@ -248,63 +246,26 @@ void draw(t_data *data)
             else
                 color = vec3_to_color((t_vec3){0, 0, 0});
 
-            by = 0;
-            while (by < data->render_scale && (y + by) < HEIGHT)
+            i = 0;
+            while (i < data->render_scale * data->render_scale)
             {
-                bx = 0;
-                while (bx < data->render_scale && (x + bx) < WIDTH)
-                {
+                bx = i % data->render_scale;
+                by = i / data->render_scale;
+                if ((x + bx) < WIDTH && (y + by) < HEIGHT)
                     mlx_set_image_pixel(data->mlx, data->img,
-                        x + bx, y + by, color);
-                    bx++;
-                }
-                by++;
+                                        x + bx, y + by, color);
+                i++;
             }
-            y += data->render_scale; 
+
+            y += data->render_scale;
         }
         x += data->render_scale;
     }
-    mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0, 0, 0}));
-    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-//	add_debug(data);
-}
-/*void draw(t_data *data)
-{
-    t_ray r;
-    t_hit_record hc;
-    int x;
-    int y;
-    t_scene *scene;
 
-    scene = data->scene;
-
-    x = 0;
-    while (x < WIDTH)
-    {
-        y = 0;
-        while (y < HEIGHT)
-        {
-            r = camera_ray(&scene->cam, x, y);
-
-            if (hit_scene(scene, &r, T_MAX, &hc))
-            {
-                t_vec3 color = shade(&hc, scene);
-                mlx_set_image_pixel(data->mlx, data->img,
-                    x, y, vec3_to_color(color));
-            }
-            else
-            {
-                mlx_set_image_pixel(data->mlx, data->img,
-                    x, y, vec3_to_color((t_vec3){0,0,0}));
-            }
-
-            y++;
-        }
-        x++;
-    }
 	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-}*/
+	add_debug(data);
+}
 
 static void	destroy_all(t_data *data)
 {
@@ -316,7 +277,8 @@ static void	destroy_all(t_data *data)
 
 
 
-void rotate_camera(t_vec3 *direction, double *yaw, double *pitch, double mouse_dx, double mouse_dy, double sensitivity)
+void rotate_camera(t_vec3 *direction, double *yaw, double *pitch,
+                   double mouse_dx, double mouse_dy, double sensitivity)
 {
     *yaw   += mouse_dx * sensitivity;
     *pitch -= mouse_dy * sensitivity;
@@ -324,9 +286,17 @@ void rotate_camera(t_vec3 *direction, double *yaw, double *pitch, double mouse_d
     if (*pitch > 89.0) *pitch = 89.0;
     if (*pitch < -89.0) *pitch = -89.0;
 
-    direction->x = cos(*yaw * M_PI/180.0) * cos(*pitch * M_PI/180.0);
-    direction->y = sin(*pitch * M_PI/180.0);
-    direction->z = sin(*yaw * M_PI/180.0) * cos(*pitch * M_PI/180.0);
+    double yaw_rad   = *yaw * (M_PI / 180.0);
+    double pitch_rad = *pitch * (M_PI / 180.0);
+
+    double cos_pitch = cos(pitch_rad);
+    double sin_pitch = sin(pitch_rad);
+    double cos_yaw   = cos(yaw_rad);
+    double sin_yaw   = sin(yaw_rad);
+
+    direction->x = cos_yaw * cos_pitch;
+    direction->y = sin_pitch;
+    direction->z = sin_yaw * cos_pitch;
 
     *direction = vec_normalize(*direction);
 }
@@ -344,36 +314,32 @@ void mouse_loop(void *param)
     dx = x - data->last_mouse_x;
     dy = y - data->last_mouse_y;
 
-    data->last_mouse_x = x;
-    data->last_mouse_y = y;
-
-    if (!dx && !dy)
-    {
-        if (!is_moving)
-            return;
-
-        data->render_scale = 1;
-        is_moving = 0;
-        draw(data);
+    if (!dx && !dy && !is_moving)
         return;
+
+    if (dx || dy)
+    {
+        is_moving = 1;
+        data->render_scale = 8;
+
+        rotate_camera(&data->scene->cam.direction,
+                      &data->scene->cam.yaw,
+                      &data->scene->cam.pitch,
+                      (double)dx,
+                      (double)dy,
+                      CAMERA_SENS);
+		draw(data);
+
+        mlx_mouse_move(data->mlx, data->win, CENTER_X, CENTER_Y);
+        data->last_mouse_x = CENTER_X;
+        data->last_mouse_y = CENTER_Y;
     }
-
-    is_moving = 1;
-    data->render_scale = 8;
-
-    rotate_camera(&data->scene->cam.direction,
-                  &data->scene->cam.yaw,
-                  &data->scene->cam.pitch,
-                  (double)dx,
-                  (double)dy,
-                  CAMERA_SENS);
-
-    draw(data);
-
-    mlx_mouse_move(data->mlx, data->win, CENTER_X, CENTER_Y);
-
-    data->last_mouse_x = CENTER_X;
-    data->last_mouse_y = CENTER_Y;
+    else
+    {
+        is_moving = 0;
+        data->render_scale = 1; 
+        draw(data);
+    }
 }
 
 int	main(void)
