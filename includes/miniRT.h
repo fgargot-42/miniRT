@@ -11,6 +11,8 @@
 #define HEIGHT 720
 #define CAMERA_SENS 0.35
 
+#define NB_THREADS 16
+
 typedef struct s_ray
 {
     t_vec3  origin;
