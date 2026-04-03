@@ -6,11 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/04/07 19:56:16 by fgargot          ###   ########.fr       */
-=======
-/*   Updated: 2026/04/03 22:34:16 by fgargot          ###   ########.fr       */
->>>>>>> 41c4f6d (Fixed segfault on first draw)
+/*   Updated: 2026/04/07 19:58:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +52,8 @@ void	init(t_data *data)
 {
 	mlx_window_create_info	info;
 
+	data->nb_threads = NB_THREADS;
+	data->th_nb = 0;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit(1);
@@ -210,6 +208,13 @@ void	add_debug(t_data *data)
 	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
 
+	if (data->nb_threads > 1)
+	{
+		sprintf(buf, "Multi-thread mode using %i threads", data->nb_threads);
+		mlx_string_put(data->mlx, data->win, 10, y, white, buf);
+		y += 20;
+	}
+
 	sprintf(buf, "Render Scale: %d", data->render_scale);
 	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
 	y += 20;
@@ -266,11 +271,10 @@ void *draw_thread(void *data)
 void draw(t_data *data)
 {
 	int i = 0;
-	t_data	*th_data[16];
-	pthread_t	threads[16];
-	data->nb_threads = 16;
-	data->th_nb = 0;
-	while (i < 16)
+	t_data	*th_data[NB_THREADS];
+	pthread_t	threads[NB_THREADS];
+
+	while (i < NB_THREADS)
 	{
 		th_data[i] = malloc(sizeof(t_data));
 		memcpy(th_data[i], data, sizeof(t_data));
@@ -279,7 +283,7 @@ void draw(t_data *data)
 		i++;
 	}
 	i = 0;
-	while (i < 16)
+	while (i < NB_THREADS)
 	{
 		pthread_join(threads[i], NULL);
 		free(th_data[i]);
