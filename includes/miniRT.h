@@ -3,13 +3,13 @@
 #include "math.h"
 #include "SDL2/SDL_scancode.h"
 #define T_MIN 0.001
-#define T_MAX 1e2
+#define T_MAX 1e9
 
 #include "libft.h"
 
 #define WIDTH 800
 #define HEIGHT 600
-#define CAMERA_SENS 0.35
+#define CAMERA_SENS 0.2
 
 typedef struct s_ray
 {

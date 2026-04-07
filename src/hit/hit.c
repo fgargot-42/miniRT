@@ -6,12 +6,19 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/02 19:08:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 19:44:02 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
+
+t_vec3 face_normal(t_ray *ray, t_vec3 inverted)
+{
+    if (vec_dot(ray->direction, inverted) > 0)
+        return vec_scale(inverted, -1.0);
+    return (inverted);
+}
 
 int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec)
 {
@@ -46,7 +53,7 @@ int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_r
 
 	rec->t = root;
 	rec->point = ray_at(*ray, rec->t);
-	rec->normal = vec_normalize(vec_sub(rec->point, sphere->center));
+	rec->normal = face_normal(ray, vec_normalize(vec_sub(rec->point, sphere->center)));
 	rec->color = sphere->color;
 	rec->object.sphere = sphere;
 
@@ -69,7 +76,7 @@ int	hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_reco
 		return (0);
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
-	rec->normal = plane->normal;
+	rec->normal = face_normal(ray, plane->normal);
 	rec->object.plane = plane;
 	if (plane->checker)
 	{

@@ -267,11 +267,21 @@ void draw(t_data *data)
 	add_debug(data);
 }
 
+static void free_scene(t_scene *scene)
+{
+    ft_lstclear(&scene->spheres, free);
+    ft_lstclear(&scene->planes, free);
+    ft_lstclear(&scene->cylinder, free);
+    free(scene);
+}
+
+
 static void	destroy_all(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_context(data->mlx);
+	free_scene(data->scene);
 }
 
 
