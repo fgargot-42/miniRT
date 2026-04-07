@@ -14,6 +14,8 @@ SRC =	main.c \
 		ray.c \
 		camera.c \
 		hooks.c \
+		hit/hit_sphere.c \
+		hit/hit_plane.c \
 		hit/hit_cylinder.c \
 		hit/hit.c \
 		lighting.c \

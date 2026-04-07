@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 19:15:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 20:07:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 {
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
-	rec->normal = plane->normal;
+	rec->normal = face_normal(ray, plane->normal);
 	rec->object.plane = plane;
 }
 

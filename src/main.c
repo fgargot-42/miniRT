@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 19:58:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 20:17:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	init_scene(t_scene *scene)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 1, 8};
 	c->axis = vec_normalize((t_vec3){0, 1, 0});
-	c->transform_axis = vec_get_matrix_transform(c->axis);
+	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 2;
 	c->height = 4;
 	c->color = (t_vec3){0, 153, 0};
@@ -156,8 +156,8 @@ void	init_scene(t_scene *scene)
 	// Cylinder along x (red)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 2, 4};
-	c->axis = vec_normalize((t_vec3){1, 0, 0});
-	c->transform_axis = vec_get_matrix_transform(c->axis);
+	c->axis = vec_normalize((t_vec3){1, 2, 0});
+	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){204, 0, 0};
@@ -167,7 +167,7 @@ void	init_scene(t_scene *scene)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){-2, 1, 4};
 	c->axis = vec_normalize((t_vec3){0, 1, 1});
-	c->transform_axis = vec_get_matrix_transform(c->axis);
+	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){0, 0, 204};
@@ -343,11 +343,20 @@ void draw_first(t_data *data)
 	add_debug(data);
 }
 
+static void free_scene(t_scene *scene)
+{
+    ft_lstclear(&scene->spheres, free);
+    ft_lstclear(&scene->planes, free);
+    ft_lstclear(&scene->cylinder, free);
+    free(scene);
+}
+
 static void	destroy_all(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_context(data->mlx);
+	free_scene(data->scene);
 }
 
 void rotate_camera(t_vec3 *direction, double *yaw, double *pitch,

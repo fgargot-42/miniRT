@@ -77,7 +77,7 @@ typedef struct s_hit_record
 typedef struct s_hit_list
 {
 	t_list *list;
-	int		(*hit_fn)(void *, t_ray *, double, double, t_hit_record *);
+	int		(*hit_fn)(void *, t_ray *, double, t_hit_record *);
 }	t_hit_list;
 
 typedef struct s_light
@@ -119,14 +119,15 @@ void	attach_hooks(t_data *data);
 t_ray	camera_ray(t_camera *cam, int x, int y);
 
 //src/hit.c
-int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
-int hit_plane(t_plane *plane, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
-int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_record *rec);
+t_vec3	face_normal(t_ray *ray, t_vec3 inverted);
+int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec);
+
+int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_max, t_hit_record *rec);
+int hit_plane(t_plane *plane, t_ray *ray, double t_max, t_hit_record *rec);
+int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3 ray_at(t_ray ray, double t);
-
-int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec);
 
 //lighting.c
 t_vec3  shade(t_hit_record *rec, t_scene *scene);

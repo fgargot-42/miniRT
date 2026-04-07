@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 18:46:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 19:01:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static double	**get_empty_matrix(void)
 	return (matrix);
 }
 
-double	**vec_get_matrix_transform(t_vec3 v_from)
+double	**vec_get_matrix_rotation_z(t_vec3 v_from)
 {
 	double	c;
 	double	s;
@@ -73,7 +73,7 @@ double	**vec_get_matrix_transform(t_vec3 v_from)
 	return (matrix);
 }
 
-t_vec3	vec_apply_transform(t_vec3 v_from, double **t_matrix)
+t_vec3	vec_apply_rotation_z(t_vec3 v_from, double **t_matrix)
 {
 	t_vec3	v_to;
 
