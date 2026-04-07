@@ -6,61 +6,24 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/03 22:02:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 18:15:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 
-static void	make_rotation_to_z(t_vec3 v, double *angle1, double *angle2)
+static t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix)
 {
-	double	r_xy;
+	t_vec3	v_to;
 
-	r_xy = vec_length((t_vec3){v.x, v.y, 0});
-	if (r_xy < 1e-10)
-		*angle1 = 0;
-	else
-		*angle1 = -atan2(v.y, v.x);
-	*angle2 = atan2(r_xy, v.z);
-}
-
-static t_vec3	vec_apply_rotation(t_vec3 v, t_vec3 axis, double angle)
-{
-	double	c;
-	double	s;
-	t_vec3	v_term1;
-	t_vec3	v_term2;
-	t_vec3	v_term3;
-
-	c = cos(angle);
-	s = sin(angle);
-	v_term1 = vec_scale(v, c);
-	v_term2 = vec_scale(vec_cross(axis, v), s);
-	v_term3 = vec_scale(axis, vec_dot(axis, v) * (1.0 - c));
-	return (vec_add(vec_add(v_term1, v_term2), v_term3));
-}
-
-static t_vec3	vec_apply_rotation_z(t_vec3 v, t_vec3 origin)
-{
-	double angle1;
-	double angle2;
-
-	make_rotation_to_z(origin, &angle1, &angle2);
-	v = vec_apply_rotation(v, (t_vec3){0, 0, 1}, angle1);
-	v = vec_apply_rotation(v, (t_vec3){0, 1, 0}, angle2);
-	return (v);
-}
-
-static t_vec3	vec_reverse_rotation_z(t_vec3 v, t_vec3 origin)
-{
-	double angle1;
-	double angle2;
-
-	make_rotation_to_z(origin, &angle1, &angle2);
-	v = vec_apply_rotation(v, (t_vec3){0, 0, 1}, -angle1);
-	v = vec_apply_rotation(v, (t_vec3){0, 1, 0}, -angle2);
-	return (v);
+	v_to.x = v_from.x * t_matrix[0][0] + v_from.y * t_matrix[1][0]
+		+ v_from.z * t_matrix[2][0];
+	v_to.y = v_from.x * t_matrix[0][1] + v_from.y * t_matrix[1][1]
+		+ v_from.z * t_matrix[2][1];
+	v_to.z = v_from.x * t_matrix[0][2] + v_from.y * t_matrix[1][2]
+		+ v_from.z * t_matrix[2][2];
+	return (v_to);
 }
 
 static int	get_polynom2_root(double *roots, double a, double b, double c)
@@ -96,8 +59,8 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_
 	double	roots[2];
 
 	oc = vec_sub(ray->origin, cyl->center);
-	oc = vec_apply_rotation_z(oc, cyl->axis);
-	rd = vec_apply_rotation_z(ray->direction, cyl->axis);
+	oc = vec_apply_transform(oc, cyl->transform_axis);
+	rd = vec_apply_transform(ray->direction, cyl->transform_axis);
 	nb_roots = get_polynom2_root(roots,
 				rd.x * rd.x + rd.y * rd.y,
 				2.0 * (oc.x * rd.x + oc.y * rd.y),
@@ -110,7 +73,8 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_
 			&& fabs(v_hit[0].z) <= cyl->height / 2.0)
 	{
 		update_hit_record(rec, ray, cyl, roots[0]);
-		rec->normal = vec_normalize(vec_reverse_rotation_z((t_vec3){v_hit[0].x, v_hit[0].y, 0}, cyl->axis));
+		rec->normal = vec_normalize(vec_reverse_rotation(
+			(t_vec3){v_hit[0].x, v_hit[0].y, 0}, cyl->transform_axis));
 		return (1);
 	}
 	if (fabs(v_hit[1].z) > (cyl->height / 2.0))// && (v_hit[0].z > 0) == (v_hit[1].z > 0))
@@ -120,7 +84,7 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_min, double t_max, t_hit_
 	if (roots[1] >= t_min && roots[1] <= t_max)
 	{
 		update_hit_record(rec, ray, cyl, roots[1]);
-		rec->normal = vec_reverse_rotation_z((t_vec3){0, 0, 2 * (cap_z > 0) - 1}, cyl->axis);
+		rec->normal = vec_reverse_rotation((t_vec3){0, 0, 2 * (cap_z > 0) - 1}, cyl->transform_axis);
 		return (1);
 	}
 	return (0);

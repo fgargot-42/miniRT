@@ -44,6 +44,7 @@ typedef struct s_cylinder
 {
 	t_vec3 center;
 	t_vec3 axis;
+	double **transform_axis;
 	double radius;
 	double height;
 	t_vec3 color;

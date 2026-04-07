@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/03 22:45:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:37:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void	init_scene(t_scene *scene)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 1, 8};
 	c->axis = vec_normalize((t_vec3){0, 1, 0});
+	c->transform_axis = vec_get_matrix_transform(c->axis);
 	c->radius = 2;
 	c->height = 4;
 	c->color = (t_vec3){0, 153, 0};
@@ -156,6 +157,7 @@ void	init_scene(t_scene *scene)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 2, 4};
 	c->axis = vec_normalize((t_vec3){1, 0, 0});
+	c->transform_axis = vec_get_matrix_transform(c->axis);
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){204, 0, 0};
@@ -165,6 +167,7 @@ void	init_scene(t_scene *scene)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){-2, 1, 4};
 	c->axis = vec_normalize((t_vec3){0, 1, 1});
+	c->transform_axis = vec_get_matrix_transform(c->axis);
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){0, 0, 204};

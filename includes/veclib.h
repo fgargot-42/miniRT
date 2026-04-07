@@ -25,4 +25,8 @@ t_vec3 vec_normalize(t_vec3 v);
 t_vec3 vec_multiply(t_vec3 a, t_vec3 b);
 t_vec3 vec_clamp(t_vec3 v, double min, double max);
 double vec_distance(t_vec3 a, t_vec3 b);
+
+void	free_matrix(double **matrix);
+double	**vec_get_matrix_transform(t_vec3 v_from);
+t_vec3	vec_apply_transform(t_vec3 v_from, double **t_matrix);
 #endif
