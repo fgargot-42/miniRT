@@ -6,25 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 21:29:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 23:13:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
-
-static t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix)
-{
-	t_vec3	v_to;
-
-	v_to.x = v_from.x * t_matrix[0][0] + v_from.y * t_matrix[1][0]
-		+ v_from.z * t_matrix[2][0];
-	v_to.y = v_from.x * t_matrix[0][1] + v_from.y * t_matrix[1][1]
-		+ v_from.z * t_matrix[2][1];
-	v_to.z = v_from.x * t_matrix[0][2] + v_from.y * t_matrix[1][2]
-		+ v_from.z * t_matrix[2][2];
-	return (v_to);
-}
 
 static int	get_polynom2_roots(double *roots, double a, double b, double c)
 {
@@ -50,13 +37,10 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
 
 	oc = vec_apply_rotation_z(vec_sub(ray->origin, cyl->center),
 		cyl->transform_axis);
-	//double	cap_z;
-
-	//cap_z = (2 * (v_hit.z >= 0) - 1) * cyl->height;
-//	if (fabs(v_hit.z) == cyl->height / 2.0)
-//		normal = vec_reverse_rotation(
-//				(t_vec3){0, 0, 2 * (cap_z > 0) - 1}, cyl->transform_axis);
-//	else
+	if ((fabs(v_hit.z) - cyl->height / 2.0) <= 1e-6)
+		normal = vec_reverse_rotation(
+				(t_vec3){0, 0, 2 * (v_hit.z > 0) - 1}, cyl->transform_axis);
+	else
 		normal = vec_normalize(vec_reverse_rotation(
 				(t_vec3){v_hit.x, v_hit.y, 0}, cyl->transform_axis));
 	rec->t = vec_distance(v_hit, oc);
@@ -87,6 +71,37 @@ static int	get_intersections(double *roots, t_vec3 *v_hit, t_ray *ray,
 	return (1);
 }
 
+static int	hit_cylinder_cap(t_cylinder *cyl, t_ray *ray, t_vec3 *v_hit, double *roots)
+{
+	t_vec3	oc;
+	t_vec3	rd;
+	double	cap_z;
+	double	z_scale;
+
+	oc = vec_sub(ray->origin, cyl->center);
+	oc = vec_apply_rotation_z(oc, cyl->transform_axis);
+	rd = vec_apply_rotation_z(ray->direction, cyl->transform_axis);
+	if (v_hit[1].z > cyl->height / 2.0 && v_hit[0].z > cyl->height / 2.0)
+		return (0);
+	if (v_hit[1].z < -cyl->height / 2.0 && v_hit[0].z < -cyl->height / 2.0)
+		return (0);
+	if (fabs(oc.z) < cyl->height / 2.0 && fabs(v_hit[1].z) < cyl->height / 2.0)
+		return (1);
+	if (fabs(vec_dot(ray->direction, cyl->axis)) < 1e-6)
+		return (0);
+	cap_z = (2 * (v_hit[0].z > 0) - 1) * cyl->height / 2.0;
+	if (fabs(oc.z) < cyl->height / 2.0)
+		cap_z = (2 * (v_hit[1].z > 0) - 1) * cyl->height / 2.0;
+	z_scale = (cap_z - v_hit[0].z) / (v_hit[1].z - v_hit[0].z);
+	if (fabs(oc.z) < cyl->height / 2.0)
+		z_scale = (cap_z - oc.z) / (v_hit[1].z - oc.z);
+	roots[1] = (roots[1] - roots[0]) * z_scale + roots[0];
+	v_hit[1] = vec_add(vec_scale(vec_sub(v_hit[1], v_hit[0]), z_scale), v_hit[0]); 
+	if (fabs(oc.z) < cyl->height / 2.0)
+		v_hit[1] = vec_add(vec_scale(vec_sub(v_hit[1], oc), z_scale), oc); 
+	return (1);
+}
+
 int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	double	roots[2];
@@ -94,18 +109,15 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec)
 	int		has_intersections;
 
 	has_intersections = get_intersections(roots, v_hit, ray, cyl);
-	if (!has_intersections)
+	if (!has_intersections || roots[0] > t_max)
 		return (0);
-	if (roots[0] >= T_MIN && roots[0] <= t_max
-		&& fabs(v_hit[0].z) <= cyl->height / 2.0)
+	if (roots[0] >= T_MIN && fabs(v_hit[0].z) <= cyl->height / 2.0)
 	{
 		update_hit_record(rec, ray, cyl, v_hit[0]);
 		return (1);
 	}
-	if (fabs(v_hit[1].z) > (cyl->height / 2.0))// && (v_hit[0].z > 0) == (v_hit[1].z > 0))
-		return (0);
-	//roots[1] = (roots[1] - roots[0]) * ((cap_z - v_hit[0].z) / (v_hit[1].z - v_hit[0].z)) + roots[0];
-	if (roots[1] >= T_MIN && roots[1] <= t_max)
+	has_intersections = hit_cylinder_cap(cyl, ray, v_hit, roots);
+	if (has_intersections && roots[1] >= T_MIN && roots[1] <= t_max)
 	{
 		update_hit_record(rec, ray, cyl, v_hit[1]);
 		return (1);

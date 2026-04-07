@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 21:42:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 22:45:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,7 +406,8 @@ void mouse_loop(void *param)
     if (dx || dy)
     {
         is_moving = 1;
-        data->render_scale = 8;
+		if (NB_THREADS <= 1)
+			data->render_scale = 8;
 
         rotate_camera(&data->scene->cam.direction,
                       &data->scene->cam.yaw,

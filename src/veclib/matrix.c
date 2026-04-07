@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 19:01:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 21:54:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,19 @@ t_vec3	vec_apply_rotation_z(t_vec3 v_from, double **t_matrix)
 	v_to.y = v_from.x * t_matrix[1][0] + v_from.y * t_matrix[1][1]
 		+ v_from.z * t_matrix[1][2];
 	v_to.z = v_from.x * t_matrix[2][0] + v_from.y * t_matrix[2][1]
+		+ v_from.z * t_matrix[2][2];
+	return (v_to);
+}
+
+t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix)
+{
+	t_vec3	v_to;
+
+	v_to.x = v_from.x * t_matrix[0][0] + v_from.y * t_matrix[1][0]
+		+ v_from.z * t_matrix[2][0];
+	v_to.y = v_from.x * t_matrix[0][1] + v_from.y * t_matrix[1][1]
+		+ v_from.z * t_matrix[2][1];
+	v_to.z = v_from.x * t_matrix[0][2] + v_from.y * t_matrix[1][2]
 		+ v_from.z * t_matrix[2][2];
 	return (v_to);
 }
