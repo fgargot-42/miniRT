@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 20:17:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/07 21:42:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,11 +212,11 @@ void	add_debug(t_data *data)
 	y += 20;
 
 	if (data->nb_threads > 1)
-	{
 		sprintf(buf, "Multi-thread mode using %i threads", data->nb_threads);
-		mlx_string_put(data->mlx, data->win, 10, y, white, buf);
-		y += 20;
-	}
+	else
+		sprintf(buf, "Single-thread mode");
+	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
+	y += 20;
 
 	sprintf(buf, "Render Scale: %d", data->render_scale);
 	mlx_string_put(data->mlx, data->win, 10, y, white, buf);
@@ -271,34 +271,7 @@ void *draw_thread(void *data)
 	return (NULL);
 }
 
-void draw(t_data *data)
-{
-	int i = 0;
-	t_data	*th_data[NB_THREADS];
-	pthread_t	threads[NB_THREADS];
-
-	while (i < NB_THREADS)
-	{
-		th_data[i] = malloc(sizeof(t_data));
-		memcpy(th_data[i], data, sizeof(t_data));
-		th_data[i]->th_nb = i;
-		pthread_create(&threads[i], NULL, draw_thread, th_data[i]);
-		i++;
-	}
-	i = 0;
-	while (i < NB_THREADS)
-	{
-		pthread_join(threads[i], NULL);
-		free(th_data[i]);
-		i++;
-	}
-	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
-    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	i++;
-	add_debug(data);
-}
-
-void draw_first(t_data *data)
+void draw_single(t_data *data)
 {
     t_ray        r;
     t_hit_record hc;
@@ -341,6 +314,37 @@ void draw_first(t_data *data)
 	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
     mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	add_debug(data);
+}
+
+void draw(t_data *data)
+{
+	int i = 0;
+	t_data	*th_data[NB_THREADS];
+	pthread_t	threads[NB_THREADS];
+
+	if (NB_THREADS >= 2)
+	{
+		while (i < NB_THREADS)
+		{
+			th_data[i] = malloc(sizeof(t_data));
+			memcpy(th_data[i], data, sizeof(t_data));
+			th_data[i]->th_nb = i;
+			pthread_create(&threads[i], NULL, draw_thread, th_data[i]);
+			i++;
+		}
+		i = 0;
+		while (i < NB_THREADS)
+		{
+			pthread_join(threads[i], NULL);
+			free(th_data[i]);
+			i++;
+		}
+		mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){0,0,0}));
+		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+		add_debug(data);
+		return ;
+	}
+	draw_single(data);
 }
 
 static void free_scene(t_scene *scene)
@@ -402,7 +406,7 @@ void mouse_loop(void *param)
     if (dx || dy)
     {
         is_moving = 1;
-        data->render_scale = 1;
+        data->render_scale = 8;
 
         rotate_camera(&data->scene->cam.direction,
                       &data->scene->cam.yaw,
@@ -437,7 +441,7 @@ int	main(void)
 	init_scene(data.scene);
 	init(&data);
 	mlx_mouse_hide(data.mlx);
-	draw_first(&data);
+	draw_single(&data);
 	attach_hooks(&data);
 	mlx_add_loop_hook(data.mlx, mouse_loop, &data);
 	mlx_loop(data.mlx);
