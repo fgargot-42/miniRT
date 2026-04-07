@@ -17,7 +17,9 @@ SRC =	main.c \
 		hit/hit_cylinder.c \
 		hit/hit.c \
 		lighting.c \
-		veclib/veclib.c
+		veclib/veclib_math.c \
+		veclib/veclib_math2.c \
+		veclib/matrix.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
