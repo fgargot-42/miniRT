@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 21:54:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/10 19:18:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ t_vec3	vec_apply_rotation_z(t_vec3 v_from, double **t_matrix)
 {
 	t_vec3	v_to;
 
+	if (t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0
+		&& t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0
+		&& t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0)
+		return (v_from);
 	v_to.x = v_from.x * t_matrix[0][0] + v_from.y * t_matrix[0][1]
 		+ v_from.z * t_matrix[0][2];
 	v_to.y = v_from.x * t_matrix[1][0] + v_from.y * t_matrix[1][1]
@@ -90,6 +94,11 @@ t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix)
 {
 	t_vec3	v_to;
 
+	v_to = vec_normalize(v_from);
+	if (t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0
+		&& t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0
+		&& t_matrix[0][0] == 0 && t_matrix[0][1] == 0 && t_matrix[0][2] == 0)
+		return (v_to);
 	v_to.x = v_from.x * t_matrix[0][0] + v_from.y * t_matrix[1][0]
 		+ v_from.z * t_matrix[2][0];
 	v_to.y = v_from.x * t_matrix[0][1] + v_from.y * t_matrix[1][1]

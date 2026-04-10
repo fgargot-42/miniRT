@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hit_cylinder.c                                     :+:      :+:    :+:   */
+/*   hit_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/09 17:25:14 by fgargot          ###   ########.fr       */
+/*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
+/*   Updated: 2026/04/09 18:32:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 
-static int	get_polynom2_roots(double *roots, double a, double b, double c)
+static double	vec_get_intersection(t_vec3 a_origin, t_vec3 a_dir,
+	t_vec3 b_dir, t_vec3 *intersection)
 {
-	double	delta;
-	double	sqrt_delta;
+	double	cross;
+	double	t;
 
-	delta = b * b - 4 * a * c;
-	if (delta < 0)
+	cross = a_dir.x * b_dir.z - a_dir.z * b_dir.x;
+	if (cross == 0)
 		return (0);
-	sqrt_delta = sqrt(delta);
-	roots[0] = (-b - sqrt_delta) / (2.0 * a);
-	roots[1] = (-b + sqrt_delta) / (2.0 * a);
-	if (sqrt_delta == 0)
-		return (1);
-	return (2);
+	t = (a_origin.x * b_dir.z - a_origin.z * b_dir.x) / cross;
+	*intersection = (t_vec3){t * a_dir.x, t * a_dir.y, t * a_dir.z};
+	return (t);
 }
 
-static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
+static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
 	t_vec3 v_hit)
 {
 	t_vec3	normal;
@@ -51,24 +49,32 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
 }
 
 static int	get_intersections(double *roots, t_vec3 *v_hit, t_ray *ray,
-	t_cylinder *cyl)
+	t_cone *cone)
 {
 	t_vec3	oc;
 	t_vec3	rd;
-	int		nb_roots;
+	t_vec3	v_cone[2];
+	int		nb_hits;
 
-	oc = vec_sub(ray->origin, cyl->center);
-	oc = vec_apply_rotation_z(oc, cyl->transform_axis);
-	rd = vec_apply_rotation_z(ray->direction, cyl->transform_axis);
-	nb_roots = get_polynom2_roots(roots,
-			rd.x * rd.x + rd.y * rd.y,
-			2.0 * (oc.x * rd.x + oc.y * rd.y),
-			(oc.x * oc.x + oc.y * oc.y) - cyl->radius * cyl->radius);
-	if (nb_roots == 0)
-		return (0);
-	v_hit[0] = vec_add(oc, vec_scale(rd, roots[0]));
-	v_hit[1] = vec_add(oc, vec_scale(rd, roots[1]));
-	return (1);
+	nb_hits = 0;
+	oc = vec_sub(ray->origin, cone->center);
+	oc = vec_apply_rotation_z(oc, cone->transform_axis);
+	rd = vec_apply_rotation_z(ray->direction, cone->transform_axis);
+	v_cone[0] = vec_normalize((t_vec3){cone->tan_angle, 0, 1});
+	v_cone[1] = vec_normalize((t_vec3){-cone->tan_angle, 0, 1});
+	if (fabs(rd.x * v_cone[0].z - rd.z * v_cone[0].x) > 1e-6)
+	{
+		roots[0] = vec_get_intersection(oc, rd, v_cone[0], &v_hit[0]);
+		//if (v_hit[0].z >= -cone->depth && v_hit[0].z <= cone->height
+		//	&& vec_length((t_vec){v_hit[0].x, v_hit[0].y, 0}) - 	
+		nb_hits++;
+	}
+	if (fabs(rd.x * v_cone[1].z - rd.z * v_cone[1].x) > 1e-6)
+	{
+		roots[1] = vec_get_intersection(oc, rd, v_cone[1], &v_hit[1]);
+		nb_hits++;
+	}
+	return (nb_hits);
 }
 
 static int	hit_cylinder_cap(t_cylinder *cyl, t_ray *ray, t_vec3 *v_hit,
@@ -105,14 +111,14 @@ static int	hit_cylinder_cap(t_cylinder *cyl, t_ray *ray, t_vec3 *v_hit,
 	return (1);
 }
 
-int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec)
+int	hit_cone(t_cone *cone, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	double	roots[2];
 	t_vec3	v_hit[2];
-	int		has_intersections;
+	int		nb_hits;
 
-	has_intersections = get_intersections(roots, v_hit, ray, cyl);
-	if (!has_intersections || roots[0] > t_max)
+	nb_hits = get_intersections(roots, v_hit, ray, cone);
+	if (!nb_hits || roots[0] > t_max)
 		return (0);
 	if (roots[0] >= T_MIN && fabs(v_hit[0].z) <= cyl->height / 2.0)
 	{

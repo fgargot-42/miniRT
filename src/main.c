@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/10 19:55:45 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:10:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	init_scene(t_scene *scene)
 	t_sphere	*s;
 	t_plane		*p;
 	t_cylinder	*c;
- 
+	t_cone		*co;
+
 	ft_bzero(scene, sizeof(t_scene));
  
 	// Camera
@@ -183,7 +184,7 @@ void	init_scene(t_scene *scene)
 	// Cylinder along x (red)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 2, 4};
-	c->axis = vec_normalize((t_vec3){1, 2, 0});
+	c->axis = vec_normalize((t_vec3){1, 0, 0});
 	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 1;
 	c->height = 4;
@@ -194,8 +195,8 @@ void	init_scene(t_scene *scene)
  
 	// Cylinder along z (blue)
 	c = malloc(sizeof(t_cylinder));
-	c->center = (t_vec3){-2, 1, 4};
-	c->axis = vec_normalize((t_vec3){0, 1, 1});
+	c->center = (t_vec3){3, 1, 4};
+	c->axis = vec_normalize((t_vec3){0, 0, 1});
 	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 1;
 	c->height = 4;
@@ -203,6 +204,18 @@ void	init_scene(t_scene *scene)
 	c->specular = 0.4;
 	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
+
+	// half-cone along z (gold)
+	co = malloc(sizeof(t_cone));
+	co->center = (t_vec3){1, -1, 4};
+	co->axis = vec_normalize((t_vec3){0, 0, 1});
+	co->transform_axis = vec_get_matrix_rotation_z(co->axis);
+	co->angle = M_PI / 6.0;
+	co->tan_angle = tan(co->angle);
+	co->height = 0;
+	co->depth = 4;
+	co->color = (t_vec3){255, 215, 0};
+	ft_lstadd_back(&scene->cone, ft_lstnew(co));
 }
 
 

@@ -58,6 +58,18 @@ typedef struct s_cylinder
 	double shininess;
 }	t_cylinder;
 
+typedef struct s_cone
+{
+	t_vec3 center;
+	t_vec3 axis;
+	double **transform_axis;
+	double angle;
+	double tan_angle;
+	double height;
+	double depth;
+	t_vec3 color;
+}	t_cone;
+
 typedef struct s_camera
 {
 	t_vec3 position;
@@ -71,6 +83,7 @@ typedef union u_object
 	t_sphere	*sphere;
 	t_plane		*plane;
 	t_cylinder	*cylinder;
+	t_cone		*cone;
 }	t_object;
 
 typedef struct s_hit_record
@@ -102,6 +115,7 @@ typedef struct s_scene
 	t_list *spheres;
 	t_list *planes;
 	t_list *cylinder;
+	t_list *cone;
 	t_list *lights;
 	t_vec3 ambient;
 	t_camera cam;
