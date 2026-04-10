@@ -150,6 +150,7 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec);
 int	hit_sphere(t_sphere *sphere, t_ray *ray, double t_max, t_hit_record *rec);
 int hit_plane(t_plane *plane, t_ray *ray, double t_max, t_hit_record *rec);
 int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec);
+int	hit_cone(t_cone *cone, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3 ray_at(t_ray ray, double t);

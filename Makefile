@@ -17,6 +17,7 @@ SRC =	main.c \
 		hit/hit_sphere.c \
 		hit/hit_plane.c \
 		hit/hit_cylinder.c \
+		hit/hit_cone.c \
 		hit/hit.c \
 		lighting.c \
 		veclib/veclib_math.c \

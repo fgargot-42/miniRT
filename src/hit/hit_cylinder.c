@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/09 17:25:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/11 02:21:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,21 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
 {
 	t_vec3	normal;
 	t_vec3	oc;
+	double	z_cap;
 
-	oc = vec_apply_rotation_z(vec_sub(ray->origin, cyl->center),
-		cyl->transform_axis);
-	if ((fabs(v_hit.z) - cyl->height / 2.0) < 1e-6)
-		normal = vec_reverse_rotation(
-				(t_vec3){0, 0, 2 * (v_hit.z > 0) - 1}, cyl->transform_axis);
+	z_cap = 2 * (v_hit.z > 0) - 1;
+	oc = vec_sub(ray->origin, cyl->center);
+	if (fabs(cyl->axis.z - 1) > 1e-6)
+		oc = vec_apply_rotation_z(oc, cyl->transform_axis);
+	if (fabs(fabs(v_hit.z) - cyl->height / 2.0) < 1e-6)
+		normal = (t_vec3){0, 0, 2 * (v_hit.z > 0) - 1};
 	else
-		normal = vec_normalize(vec_reverse_rotation(
-				(t_vec3){v_hit.x, v_hit.y, 0}, cyl->transform_axis));
+		normal = vec_normalize((t_vec3){v_hit.x, v_hit.y, 0});
+	if (fabs(cyl->axis.z - 1) > 1e-6)
+		normal = vec_reverse_rotation(normal, cyl->transform_axis);
 	rec->t = vec_distance(v_hit, oc);
 	rec->point = ray_at(*ray, rec->t);
-	rec->normal = normal;
+	rec->normal = face_normal(ray, normal);
 	rec->color = cyl->color;
 	rec->object.cylinder = cyl;
 }
@@ -58,8 +61,12 @@ static int	get_intersections(double *roots, t_vec3 *v_hit, t_ray *ray,
 	int		nb_roots;
 
 	oc = vec_sub(ray->origin, cyl->center);
-	oc = vec_apply_rotation_z(oc, cyl->transform_axis);
-	rd = vec_apply_rotation_z(ray->direction, cyl->transform_axis);
+	rd = ray->direction;
+	if (fabs(cyl->axis.z - 1) > 1e-6)
+	{
+		oc = vec_apply_rotation_z(oc, cyl->transform_axis);
+		rd = vec_apply_rotation_z(rd, cyl->transform_axis);
+	}
 	nb_roots = get_polynom2_roots(roots,
 			rd.x * rd.x + rd.y * rd.y,
 			2.0 * (oc.x * rd.x + oc.y * rd.y),
@@ -80,8 +87,12 @@ static int	hit_cylinder_cap(t_cylinder *cyl, t_ray *ray, t_vec3 *v_hit,
 	double	z_scale;
 
 	oc = vec_sub(ray->origin, cyl->center);
-	oc = vec_apply_rotation_z(oc, cyl->transform_axis);
-	rd = vec_apply_rotation_z(ray->direction, cyl->transform_axis);
+	rd = ray->direction;
+	if (fabs(cyl->axis.z - 1) > 1e-6)
+	{
+		oc = vec_apply_rotation_z(oc, cyl->transform_axis);
+		rd = vec_apply_rotation_z(rd, cyl->transform_axis);
+	}
 	if (v_hit[1].z > cyl->height / 2.0 && v_hit[0].z > cyl->height / 2.0)
 		return (0);
 	if (v_hit[1].z < -cyl->height / 2.0 && v_hit[0].z < -cyl->height / 2.0)

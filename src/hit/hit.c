@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 20:36:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/10 20:47:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 	hit |= hit_list((t_hit_list){scene->planes, (void *)hit_plane},
 			ray, &closest, rec);
 	hit |= hit_list((t_hit_list){scene->cylinder, (void *)hit_cylinder},
+			ray, &closest, rec);
+	hit |= hit_list((t_hit_list){scene->cone, (void *)hit_cone},
 			ray, &closest, rec);
 	return (hit);
 }

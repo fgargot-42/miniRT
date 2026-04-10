@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/10 20:10:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/11 02:23:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	init_scene(t_scene *scene)
 	t_sphere	*s;
 	t_plane		*p;
 	t_cylinder	*c;
-	t_cone		*co;
+	//t_cone		*co;
 
 	ft_bzero(scene, sizeof(t_scene));
  
@@ -177,8 +177,8 @@ void	init_scene(t_scene *scene)
 	c->radius = 2;
 	c->height = 4;
 	c->color = (t_vec3){0, 153, 0};
-	c->specular = 1;
-	c->shininess = 100;
+	c->specular = 0.2;
+	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
  
 	// Cylinder along x (red)
@@ -189,36 +189,35 @@ void	init_scene(t_scene *scene)
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){204, 0, 0};
-	c->specular = 0.4;
+	c->specular = 0.2;
 	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
  
 	// Cylinder along z (blue)
 	c = malloc(sizeof(t_cylinder));
-	c->center = (t_vec3){3, 1, 4};
+	c->center = (t_vec3){-3, 3, 4};
 	c->axis = vec_normalize((t_vec3){0, 0, 1});
 	c->transform_axis = vec_get_matrix_rotation_z(c->axis);
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){0, 0, 204};
-	c->specular = 0.4;
+	c->specular = 0.2;
 	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 
 	// half-cone along z (gold)
-	co = malloc(sizeof(t_cone));
-	co->center = (t_vec3){1, -1, 4};
-	co->axis = vec_normalize((t_vec3){0, 0, 1});
+	/*co = malloc(sizeof(t_cone));
+	co->center = (t_vec3){-6, 4, 10};
+	co->axis = vec_normalize((t_vec3){0, 1, 0});
 	co->transform_axis = vec_get_matrix_rotation_z(co->axis);
-	co->angle = M_PI / 6.0;
+	co->angle = M_PI / 4.0;
 	co->tan_angle = tan(co->angle);
+	printf("tan_angle=%.2f", co->tan_angle);
 	co->height = 0;
 	co->depth = 4;
 	co->color = (t_vec3){255, 215, 0};
-	ft_lstadd_back(&scene->cone, ft_lstnew(co));
+	ft_lstadd_back(&scene->cone, ft_lstnew(co));*/
 }
-
-
 
 #include <stdio.h>
 #include <sys/time.h>
