@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/10 19:48:45 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/10 19:55:45 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,21 @@ void	init(t_data *data)
 
 }
 
+
 void	init_scene(t_scene *scene)
 {
 	t_sphere	*s;
 	t_plane		*p;
 	t_cylinder	*c;
-
+ 
 	ft_bzero(scene, sizeof(t_scene));
-
+ 
 	// Camera
 	scene->cam.position = (t_vec3){0, 2, -5};
 	scene->cam.direction =  (t_vec3){0, 0, 1};
 	scene->cam.fov = 80;
-
+ 
+	// Warm key light from top left
 	t_light	*l;
 	l = malloc(sizeof(t_light));
 	l->position = (t_vec3){-4, 8, 2};
@@ -96,63 +98,76 @@ void	init_scene(t_scene *scene)
 	// Cool fill light from right
 	l = malloc(sizeof(t_light));
 	l->position = (t_vec3){6, 3, -2};
-	l->intensity = 1;
-	l->color = (t_vec3){50,50, 255};
+	l->intensity = 0.35;
+	l->color = (t_vec3){180, 200, 255};
 	ft_lstadd_back(&scene->lights, ft_lstnew(l));
  
 	// Soft ambient
 	scene->ambient = (t_vec3){50, 50, 65};
-
-
+ 
 	// Checkered floor
 	p = malloc(sizeof(t_plane));
 	p->point = (t_vec3){0, -1.5, 0};
 	p->normal = (t_vec3){0, 1, 0};
 	p->color = (t_vec3){200, 200, 200};
 	p->checker = 1;
+	p->specular = 0.05;
+	p->shininess = 8;
 	ft_lstadd_back(&scene->planes, ft_lstnew(p));
-
+ 
 	// Big center sphere - matte white
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){0, 0, 6};
 	s->radius = 1.5;
 	s->color = (t_vec3){230, 230, 230};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
+ 
 	// Left sphere - deep blue
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){-3, -0.5, 5};
 	s->radius = 1.0;
 	s->color = (t_vec3){50, 80, 200};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
+ 
 	// Right sphere - coral red
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){3, -0.5, 5};
 	s->radius = 1.0;
 	s->color = (t_vec3){220, 80, 60};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
 	// Small sphere on top of center - gold
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){0, 2.2, 6};
 	s->radius = 0.5;
 	s->color = (t_vec3){255, 200, 50};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
+ 
 	// Tiny sphere front left - mint green
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){-1.5, -1.0, 3};
 	s->radius = 0.35;
 	s->color = (t_vec3){100, 220, 150};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
+ 
 	// Tiny sphere front right - purple
 	s = malloc(sizeof(t_sphere));
 	s->center = (t_vec3){1.5, -1.0, 3};
 	s->radius = 0.35;
 	s->color = (t_vec3){180, 80, 220};
+	s->specular = 0.6;
+	s->shininess = 64;
 	ft_lstadd_back(&scene->spheres, ft_lstnew(s));
-
+ 
 	// Cylinder along y (green)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 1, 8};
@@ -161,8 +176,10 @@ void	init_scene(t_scene *scene)
 	c->radius = 2;
 	c->height = 4;
 	c->color = (t_vec3){0, 153, 0};
+	c->specular = 1;
+	c->shininess = 100;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
-
+ 
 	// Cylinder along x (red)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){2, 2, 4};
@@ -171,8 +188,10 @@ void	init_scene(t_scene *scene)
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){204, 0, 0};
+	c->specular = 0.4;
+	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
-
+ 
 	// Cylinder along z (blue)
 	c = malloc(sizeof(t_cylinder));
 	c->center = (t_vec3){-2, 1, 4};
@@ -181,8 +200,12 @@ void	init_scene(t_scene *scene)
 	c->radius = 1;
 	c->height = 4;
 	c->color = (t_vec3){0, 0, 204};
+	c->specular = 0.4;
+	c->shininess = 32;
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 }
+
+
 
 #include <stdio.h>
 #include <sys/time.h>

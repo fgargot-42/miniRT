@@ -1,3 +1,5 @@
+#ifndef MINIRT_H
+#define MINIRT_H
 #include "veclib.h"
 #include "mlx.h"
 #include "math.h"
@@ -143,3 +145,4 @@ t_vec3  shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
 //src/main
 void	draw(t_data *data);
+#endif
