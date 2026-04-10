@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 22:45:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/10 19:48:45 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,23 @@ void	init_scene(t_scene *scene)
 	scene->cam.direction =  (t_vec3){0, 0, 1};
 	scene->cam.fov = 80;
 
-	// Warm key light from top left
-	scene->light.position = (t_vec3){-4, 8, 2};
-	scene->light.intensity = 0.8;
-	scene->light.color = (t_vec3){255, 240, 200};
-
+	t_light	*l;
+	l = malloc(sizeof(t_light));
+	l->position = (t_vec3){-4, 8, 2};
+	l->intensity = 0.8;
+	l->color = (t_vec3){255, 240, 200};
+	ft_lstadd_back(&scene->lights, ft_lstnew(l));
+ 
+	// Cool fill light from right
+	l = malloc(sizeof(t_light));
+	l->position = (t_vec3){6, 3, -2};
+	l->intensity = 1;
+	l->color = (t_vec3){50,50, 255};
+	ft_lstadd_back(&scene->lights, ft_lstnew(l));
+ 
 	// Soft ambient
 	scene->ambient = (t_vec3){50, 50, 65};
+
 
 	// Checkered floor
 	p = malloc(sizeof(t_plane));
@@ -259,7 +269,7 @@ void *draw_thread(void *data)
         {
             r = camera_ray(&scene->cam, x, y);
             if (hit_scene(scene, &r, T_MAX, &hc))
-                color = vec3_to_color(shade(&hc, scene));
+                color = vec3_to_color(shade(&hc, scene, &r));
             else
                 color = vec3_to_color((t_vec3){0, 0, 0});
 			if (x < WIDTH && y < HEIGHT)
@@ -291,7 +301,7 @@ void draw_single(t_data *data)
                            y + data->render_scale / 2);
 
             if (hit_scene(scene, &r, T_MAX, &hc))
-                color = vec3_to_color(shade(&hc, scene));
+                color = vec3_to_color(shade(&hc, scene, &r));
             else
                 color = vec3_to_color((t_vec3){0, 0, 0});
 
@@ -352,6 +362,7 @@ static void free_scene(t_scene *scene)
     ft_lstclear(&scene->spheres, free);
     ft_lstclear(&scene->planes, free);
     ft_lstclear(&scene->cylinder, free);
+	ft_lstclear(&scene->lights, free);
     free(scene);
 }
 

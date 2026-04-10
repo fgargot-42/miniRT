@@ -7,8 +7,8 @@
 
 #include "libft.h"
 
-#define WIDTH 1280
-#define HEIGHT 720
+#define WIDTH 800
+#define HEIGHT 600
 #define CAMERA_SENS 0.35
 
 #define NB_THREADS 16
@@ -30,6 +30,8 @@ typedef struct s_sphere
 	t_vec3 center;
 	double radius;
 	t_vec3 color;
+	double specular;
+	double shininess;
 }	t_sphere;
 
 typedef struct s_plane
@@ -38,6 +40,8 @@ typedef struct s_plane
 	t_vec3 normal; // faut normaliser
 	t_vec3 color;
 	int	checker;
+	double specular;
+	double shininess;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -48,6 +52,8 @@ typedef struct s_cylinder
 	double radius;
 	double height;
 	t_vec3 color;
+	double specular;
+	double shininess;
 }	t_cylinder;
 
 typedef struct s_camera
@@ -72,6 +78,8 @@ typedef struct s_hit_record
 	t_vec3		normal;
 	t_vec3		color;
 	t_object	object;
+	double specular;
+	double shininess;
 }	t_hit_record;
 
 typedef struct s_hit_list
@@ -92,10 +100,11 @@ typedef struct s_scene
 	t_list *spheres;
 	t_list *planes;
 	t_list *cylinder;
-	t_light light;
+	t_list *lights;
 	t_vec3 ambient;
 	t_camera cam;
 }	t_scene;
+
 
 typedef struct s_data
 {
@@ -130,7 +139,7 @@ int	hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max, t_hit_record *rec);
 t_vec3 ray_at(t_ray ray, double t);
 
 //lighting.c
-t_vec3  shade(t_hit_record *rec, t_scene *scene);
+t_vec3  shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
 //src/main
 void	draw(t_data *data);
