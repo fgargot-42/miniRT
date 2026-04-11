@@ -14,6 +14,14 @@ SRC =	main.c \
 		ray.c \
 		camera.c \
 		hooks.c \
+		parser/parser.c \
+		parser/parse_ambient.c \
+		parser/parse_camera.c \
+		parser/parse_light.c \
+		parser/parse_sphere.c \
+		parser/parse_plane.c \
+		parser/parse_cylinder.c \
+		parser/parse_cone.c \
 		hit/hit_sphere.c \
 		hit/hit_plane.c \
 		hit/hit_cylinder.c \

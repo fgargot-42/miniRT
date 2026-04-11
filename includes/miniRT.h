@@ -21,7 +21,6 @@ typedef struct s_ray
     t_vec3  direction;
 }   t_ray;
 
-
 // P(t) = O + t * D
 // t distance sur le ray
 // O origin
@@ -68,6 +67,8 @@ typedef struct s_cone
 	double height;
 	double depth;
 	t_vec3 color;
+	double specular;
+	double shininess;
 }	t_cone;
 
 typedef struct s_camera
@@ -78,6 +79,7 @@ typedef struct s_camera
 	double	pitch;
 	double	yaw;
 }	t_camera;
+
 typedef union u_object
 {
 	t_sphere	*sphere;
@@ -136,6 +138,18 @@ typedef struct s_data
 	int			th_nb;
 	int			nb_threads;
 }	t_data;
+
+// Parsing
+ 
+typedef	int	(*t_parser_func)(char **line_split, t_scene *scene);
+int	parse_scene(char *file, t_scene *scene);
+int	parse_ambient(char **line_split, t_scene *scene);
+int	parse_camera(char **line_split, t_scene *scene);
+int	parse_light(char **line_split, t_scene *scene);
+int	parse_sphere(char **line_split, t_scene *scene);
+int	parse_plane(char **line_split, t_scene *scene);
+int	parse_cylinder(char **line_split, t_scene *scene);
+int	parse_cone(char **line_split, t_scene *scene);
 
 //src/hooks.c
 void	attach_hooks(t_data *data);

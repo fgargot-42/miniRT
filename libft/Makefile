@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/04/11 20:14:58 by fgargot          ###   ########.fr        #
+#    Updated: 2026/04/11 20:57:46 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ SRC=ft_is/ft_isalpha.c \
 	ft_is/ft_isalnum.c \
 	ft_is/ft_isascii.c \
 	ft_is/ft_isprint.c \
-	ft_str/ft_atod.c \
 	ft_is/ft_iswhitespace.c \
+	ft_is/ft_isnumeric.c \
 	ft_mem/ft_memset.c \
 	ft_mem/ft_bzero.c \
 	ft_mem/ft_memcpy.c \
@@ -40,6 +40,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_str/ft_strcmp.c \
 	ft_str/ft_strncmp.c \
 	ft_str/ft_strnstr.c \
+	ft_str/ft_atod.c \
 	ft_str/ft_atoi.c \
 	ft_str/ft_strdup.c \
 	ft_str/ft_substr.c \

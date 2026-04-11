@@ -40,6 +40,11 @@ static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
 
 static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 {
+	(void)rec;
+	(void)light;
+	(void)ray;
+	return ((t_vec3){0, 0, 0});
+	/*
 	t_vec3	light_dir;
 	t_vec3	view_dir;
 	t_vec3	reflect_dir;
@@ -58,7 +63,7 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 		light->color.x * spec,
 		light->color.y * spec,
 		light->color.z * spec,
-	};
+	};*/
 }
 
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/11 02:23:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/12 00:26:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,21 @@ void	init(t_data *data)
 }
 
 
-void	init_scene(t_scene *scene)
+void	init_scene(char *file, t_scene *scene)
 {
-	t_sphere	*s;
-	t_plane		*p;
-	t_cylinder	*c;
+	//t_sphere	*s;
+	//t_plane		*p;
+	//t_cylinder	*c;
 	//t_cone		*co;
+	int	parse_status;
 
 	ft_bzero(scene, sizeof(t_scene));
- 
+	parse_status = parse_scene(file, scene);
+	if (!parse_status)
+	{
+		exit(1);
+	}
+ 	/*
 	// Camera
 	scene->cam.position = (t_vec3){0, 2, -5};
 	scene->cam.direction =  (t_vec3){0, 0, 1};
@@ -206,7 +212,7 @@ void	init_scene(t_scene *scene)
 	ft_lstadd_back(&scene->cylinder, ft_lstnew(c));
 
 	// half-cone along z (gold)
-	/*co = malloc(sizeof(t_cone));
+	co = malloc(sizeof(t_cone));
 	co->center = (t_vec3){-6, 4, 10};
 	co->axis = vec_normalize((t_vec3){0, 1, 0});
 	co->transform_axis = vec_get_matrix_rotation_z(co->axis);
@@ -475,17 +481,23 @@ void mouse_loop(void *param)
     }
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_data	data;
+
+	if (argc != 2)
+	{
+		ft_putstr_fd("Error\n1 argument expected\n./miniRT <scene.rt>\n", 2);
+		return (1);
+	}
 	data.render_scale = 1;
 	data.scene = malloc(sizeof(t_scene));
     if (!data.scene)
     {
         fprintf(stderr, "Failed to allocate scene\n");
-        return 1;
+        return (1);
     }
-	init_scene(data.scene);
+	init_scene(argv[1], data.scene);
 	init(&data);
 	mlx_mouse_hide(data.mlx);
 	draw_single(&data);
