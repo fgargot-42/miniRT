@@ -6,13 +6,13 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/02/04 19:20:25 by fgargot          ###   ########.fr        #
+#    Updated: 2026/04/11 20:14:58 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libft.a
 CC=cc
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -g
 INCDIR=includes
 SRCDIR=srcs
 OBJDIR=objs
@@ -21,6 +21,8 @@ SRC=ft_is/ft_isalpha.c \
 	ft_is/ft_isalnum.c \
 	ft_is/ft_isascii.c \
 	ft_is/ft_isprint.c \
+	ft_str/ft_atod.c \
+	ft_is/ft_iswhitespace.c \
 	ft_mem/ft_memset.c \
 	ft_mem/ft_bzero.c \
 	ft_mem/ft_memcpy.c \
@@ -44,6 +46,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_str/ft_strjoin.c \
 	ft_str/ft_strtrim.c \
 	ft_str/ft_split.c \
+	ft_str/ft_split_by_whitespace.c \
 	ft_str/ft_itoa.c \
 	ft_str/ft_strmapi.c \
 	ft_str/ft_striteri.c \
