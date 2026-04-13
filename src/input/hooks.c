@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/03 21:26:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/13 22:26:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	window_hook(int event, void *param)
 void key_hook(int scancode, void *param)
 {
     t_data *data = (t_data *)param;
-    t_camera *cam = &data->scene->cam;
+    t_camera *cam = data->scene->cam;
 
     t_vec3 forward = vec_normalize(cam->direction);
     t_vec3 world_up = (t_vec3){0, 1, 0};

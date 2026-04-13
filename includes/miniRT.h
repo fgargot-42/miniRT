@@ -119,8 +119,8 @@ typedef struct s_scene
 	t_list *cylinder;
 	t_list *cone;
 	t_list *lights;
-	t_vec3 ambient;
-	t_camera cam;
+	t_vec3 *ambient;
+	t_camera *cam;
 }	t_scene;
 
 
@@ -139,17 +139,33 @@ typedef struct s_data
 	int			nb_threads;
 }	t_data;
 
-// Parsing
+// PARSING
  
-typedef	int	(*t_parser_func)(char **line_split, t_scene *scene);
+typedef	int	(*t_parser_func)(char **, t_scene *, int);
 int	parse_scene(char *file, t_scene *scene);
-int	parse_ambient(char **line_split, t_scene *scene);
-int	parse_camera(char **line_split, t_scene *scene);
-int	parse_light(char **line_split, t_scene *scene);
-int	parse_sphere(char **line_split, t_scene *scene);
-int	parse_plane(char **line_split, t_scene *scene);
-int	parse_cylinder(char **line_split, t_scene *scene);
-int	parse_cone(char **line_split, t_scene *scene);
+int	parse_ambient(char **line_split, t_scene *scene, int line_nb);
+int	parse_camera(char **line_split, t_scene *scene, int line_nb);
+int	parse_light(char **line_split, t_scene *scene, int line_nb);
+int	parse_sphere(char **line_split, t_scene *scene, int line_nb);
+int	parse_plane(char **line_split, t_scene *scene, int line_nb);
+int	parse_cylinder(char **line_split, t_scene *scene, int line_nb);
+int	parse_cone(char **line_split, t_scene *scene, int line_nb);
+
+void	print_parse_error(char *message, char *element, int line_nb);
+int		check_array_size(char **array, int expected, char *object, int line_nb);
+int		parse_vector(char *param, t_vec3 *v_res, char *object, int line_nb);
+int		parse_double(char *param, double *res, char *object, int line_nb);
+
+// SCENE
+void	init_scene(char *file, t_scene *scene);
+void 	free_scene(t_scene *scene);
+
+// DRAWER
+
+void 		draw(t_data *data);
+void 		draw_single(t_data *data);
+void		add_debug(t_data *data);
+mlx_color	vec3_to_color(t_vec3 v);
 
 //src/hooks.c
 void	attach_hooks(t_data *data);
@@ -172,6 +188,4 @@ t_vec3 ray_at(t_ray ray, double t);
 //lighting.c
 t_vec3  shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
-//src/main
-void	draw(t_data *data);
 #endif

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:19:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/11 20:04:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/13 19:55:01 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	strcountsub(const char *s)
 	int	count;
 	int	issep;
 
-	count = 0;
+	count = (*s != '\0');
 	issep = 1;
 	if (!s)
 		return (0);
@@ -77,10 +77,9 @@ char	**ft_split_by_whitespace(char const *s)
 	if (!s)
 		return (NULL);
 	strcount = strcountsub(s);
-	strs = malloc(sizeof (char *) * (strcount + 1));
+	strs = ft_calloc(sizeof (char *), (strcount + 1));
 	if (!strs)
 		return (NULL);
-	strs[strcount] = NULL;
 	i = 0;
 	while (i < strcount && *s)
 	{

@@ -74,7 +74,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	t_list		*node;
 	t_light		*light;
 
-	result = apply_ambient(rec->color, scene->ambient);
+	result = apply_ambient(rec->color, *scene->ambient);
 	node = scene->lights;
 	while (node)
 	{

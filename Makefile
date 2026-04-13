@@ -13,8 +13,9 @@ INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
 		camera.c \
-		hooks.c \
+		input/hooks.c \
 		parser/parser.c \
+		parser/parse_number.c \
 		parser/parse_ambient.c \
 		parser/parse_camera.c \
 		parser/parse_light.c \
@@ -22,6 +23,10 @@ SRC =	main.c \
 		parser/parse_plane.c \
 		parser/parse_cylinder.c \
 		parser/parse_cone.c \
+		renderer/drawer.c \
+		renderer/drawer_utils.c \
+		renderer/debug.c \
+		scene/scene.c \
 		hit/hit_sphere.c \
 		hit/hit_plane.c \
 		hit/hit_cylinder.c \
