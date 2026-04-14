@@ -35,7 +35,9 @@ SRC =	main.c \
 		lighting.c \
 		veclib/veclib_math.c \
 		veclib/veclib_math2.c \
-		veclib/matrix.c
+		veclib/matrix.c \
+		utils/double_utils.c \
+		utils/polynom.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

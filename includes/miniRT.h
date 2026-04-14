@@ -188,4 +188,9 @@ t_vec3 ray_at(t_ray ray, double t);
 //lighting.c
 t_vec3  shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
+// UTILS
+
+int	near_equal(double a, double b, double epsilon);
+int	get_polynom2_roots(double *roots, double a, double b, double c);
+
 #endif
