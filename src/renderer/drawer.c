@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 23:56:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/14 22:56:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
 	if (hit_scene(data->scene, &r, T_MAX, &hc))
 		color = vec3_to_color(shade(&hc, data->scene, &r));
 	else
-		color = vec3_to_color((t_vec3){0, 0, 0});
+		color = vec3_to_color(*(data->scene->sky));
 	i = 0;
 	while (i < render_scale)
 	{

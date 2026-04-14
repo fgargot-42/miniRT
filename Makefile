@@ -18,6 +18,7 @@ SRC =	main.c \
 		parser/parse_number.c \
 		parser/parse_ambient.c \
 		parser/parse_camera.c \
+		parser/parse_sky.c \
 		parser/parse_light.c \
 		parser/parse_sphere.c \
 		parser/parse_plane.c \

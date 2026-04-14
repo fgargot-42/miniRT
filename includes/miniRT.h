@@ -120,6 +120,7 @@ typedef struct s_scene
 	t_list *cone;
 	t_list *lights;
 	t_vec3 *ambient;
+	t_vec3 *sky;
 	t_camera *cam;
 }	t_scene;
 
@@ -145,6 +146,7 @@ typedef	int	(*t_parser_func)(char **, t_scene *, int);
 int	parse_scene(char *file, t_scene *scene);
 int	parse_ambient(char **line_split, t_scene *scene, int line_nb);
 int	parse_camera(char **line_split, t_scene *scene, int line_nb);
+int	parse_sky(char **line_split, t_scene *scene, int line_nb);
 int	parse_light(char **line_split, t_scene *scene, int line_nb);
 int	parse_sphere(char **line_split, t_scene *scene, int line_nb);
 int	parse_plane(char **line_split, t_scene *scene, int line_nb);
