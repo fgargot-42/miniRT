@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 20:06:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/15 18:45:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	parse_cone(char **line_split, t_scene *scene, int line_nb)
 	if (!co)
 		return (0);
 	parse_result = parse_cone_elements(line_split, co, line_nb);
+	if (parse_result)
+		co->tan_angle = tan(co->angle * M_PI / 180);
 	ft_lstadd_back(&scene->cone, ft_lstnew(co));
 	return (parse_result);
 }
