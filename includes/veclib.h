@@ -1,5 +1,6 @@
 #ifndef VECLIB_H
-#define VECLIB_H
+# define VECLIB_H
+
 typedef struct s_vec3
 {
 	double x;
@@ -30,4 +31,5 @@ void	free_matrix(double **matrix);
 double	**vec_get_matrix_rotation_z(t_vec3 v_from);
 t_vec3	vec_apply_rotation_z(t_vec3 v_from, double **t_matrix);
 t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix);
-#endif
+
+#endif // VECLIB_H

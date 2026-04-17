@@ -1,19 +1,19 @@
 #ifndef MINIRT_H
 #define MINIRT_H
-#include "veclib.h"
-#include "mlx.h"
-#include "math.h"
-#include "SDL2/SDL_scancode.h"
-#define T_MIN 0.001
-#define T_MAX 100
+# include "veclib.h"
+# include "mlx.h"
+# include "math.h"
+# include "SDL2/SDL_scancode.h"
+# define T_MIN 0.001
+# define T_MAX 100
 
-#include "libft.h"
+# include "libft.h"
 
-#define WIDTH 800
-#define HEIGHT 600
-#define CAMERA_SENS 0.35
+# define WIDTH 800
+# define HEIGHT 600
+# define CAMERA_SENS 0.35
 
-#define NB_THREADS 16
+# define NB_THREADS 16
 
 typedef struct s_ray
 {

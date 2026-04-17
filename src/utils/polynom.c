@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 17:21:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/15 23:06:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/16 18:38:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,11 @@ int	get_polynom2_roots(double *roots, double a, double b, double c)
 	roots[1] = (-b + sqrt_delta) / (2.0 * a);
 	if (delta == 0)
 		return (1);
+	if (roots[1] < roots[0])
+	{
+		sqrt_delta = roots[1];
+		roots[1] = roots[0];
+		roots[0] = sqrt_delta;
+	}
 	return (2);
 }
