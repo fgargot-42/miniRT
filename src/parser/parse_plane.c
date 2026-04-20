@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 20:08:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 22:13:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	parse_plane(char **line_split, t_scene *scene, int line_nb)
 	if (line_split[5] && line_split[6] && ft_strlen(line_split[6]))
 		parse_result &= parse_double(line_split[6], &(pl->shininess),
 				"plane", line_nb);
+	if (parse_result)
+		pl->normal = vec_normalize(pl->normal);
 	ft_lstadd_back(&scene->planes, ft_lstnew(pl));
 	return (parse_result);
 }

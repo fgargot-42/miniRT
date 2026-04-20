@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/15 18:45:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 22:22:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ static int	parse_cone_elements(char **line_split, t_cone *co, int line_nb)
 		parse_result &= parse_double(line_split[8], &(co->shininess), "cone",
 				line_nb);
 	if (parse_result)
+	{
+		co->axis = vec_normalize(co->axis);
+		co->tan_angle = tan(co->angle * M_PI / 180);
 		co->transform_axis = vec_get_matrix_rotation_z(co->axis);
+	}
 	return (parse_result);
 }
 
@@ -49,8 +53,6 @@ int	parse_cone(char **line_split, t_scene *scene, int line_nb)
 	if (!co)
 		return (0);
 	parse_result = parse_cone_elements(line_split, co, line_nb);
-	if (parse_result)
-		co->tan_angle = tan(co->angle * M_PI / 180);
 	ft_lstadd_back(&scene->cone, ft_lstnew(co));
 	return (parse_result);
 }
