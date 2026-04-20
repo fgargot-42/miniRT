@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/07 20:20:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 19:48:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static void	update_hit_record(t_hit_record *rec, double root, t_ray *ray,
 	rec->normal = face_normal(ray, vec_normalize(vec_sub(
 					rec->point, sphere->center)));
 	rec->color = sphere->color;
+	if (DEBUG && vec_dot(ray->direction, rec->normal) > 0)
+		rec->color = (t_vec3){255, 0, 255};
 	rec->object.sphere = sphere;
 }
 

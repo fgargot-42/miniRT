@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/17 19:23:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 19:49:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
 	rec->point = ray_at(*ray, rec->t);
 	rec->normal = normal;
 	rec->color = cone->color;
+	if (DEBUG && vec_dot(ray->direction, rec->normal) > 0)
+		rec->color = (t_vec3){255, 0, 255};
 	rec->object.cone = cone;
 }
 

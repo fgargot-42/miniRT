@@ -15,6 +15,8 @@
 
 # define NB_THREADS 16
 
+# define DEBUG 1
+
 typedef struct s_ray
 {
     t_vec3  origin;
