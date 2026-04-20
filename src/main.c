@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 23:53:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 23:08:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	destroy_all(t_data *data)
 void rotate_camera(t_vec3 *direction, double *yaw, double *pitch,
                    double mouse_dx, double mouse_dy, double sensitivity)
 {
-    *yaw   += mouse_dx * sensitivity;
+    *yaw   -= mouse_dx * sensitivity;
     *pitch -= mouse_dy * sensitivity;
 
     if (*pitch > 89.0) *pitch = 89.0;

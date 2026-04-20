@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 22:26:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 23:04:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void key_hook(int scancode, void *param)
         cam->position = vec_add(cam->position, vec_scale(forward, MOVE_STEP));
     else if (scancode == 22)
         cam->position = vec_add(cam->position, vec_scale(forward, -MOVE_STEP));
-    else if (scancode == 7)
-        cam->position = vec_add(cam->position, vec_scale(right, MOVE_STEP));
     else if (scancode == 4)
+        cam->position = vec_add(cam->position, vec_scale(right, MOVE_STEP));
+    else if (scancode == 7)
         cam->position = vec_add(cam->position, vec_scale(right, -MOVE_STEP));
     else if (scancode == SDL_SCANCODE_E)
         cam->position = vec_add(cam->position, vec_scale(world_up, MOVE_STEP));

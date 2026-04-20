@@ -37,7 +37,7 @@ t_ray camera_ray(t_camera *cam, int x, int y)
     t_vec3 right = vec_normalize(vec_cross(forward, world_up));
     t_vec3 up    = vec_cross(right, forward);
 
-    t_vec3 dir = vec_normalize(vec_add(vec_add(vec_scale(right, u),
+    t_vec3 dir = vec_normalize(vec_add(vec_add(vec_scale(right, -u),
                                                vec_scale(up, -v)),
                                        forward));
 
