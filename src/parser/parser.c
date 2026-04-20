@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/14 22:40:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/20 23:36:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
-
-static int	open_file_read(char *file)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-		perror("miniRT");
-	return (fd);
-}
 
 void	print_parse_error(char *message, char *element, int line_nb)
 {
