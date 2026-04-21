@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/20 23:36:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 00:11:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,40 @@ static int	parse_line(char *line, int line_nb, t_scene *scene)
 {
 	char						**line_split;
 	int							i;
+	int							parse_status;
 	static const t_parser_func	parse_elem[] = {parse_ambient,
 		parse_camera, parse_light, parse_sky, parse_sphere, parse_plane,
 		parse_cylinder, parse_cone};
 
 	line_split = ft_split_by_whitespace(line);
+	parse_status = 0;
 	if (!line_split)
 		return (0);
 	if (!*line_split || *line_split[0] == '\0' || *line_split[0] == '#')
+	{
+		free_str_array(line_split);
 		return (1);
+	}
 	i = get_parse_element(line_split[0]);
 	if (i != -1)
-		return (parse_elem[i](line_split, scene, line_nb));
-	print_parse_error("parser: wrong element identifier", line_split[0],
-		line_nb);
-	return (0);
+		parse_status = parse_elem[i](line_split, scene, line_nb);
+	else
+		print_parse_error("parser: wrong element identifier", line_split[0],
+			line_nb);
+	free_str_array(line_split);
+	return (parse_status);
+}
+
+static void	clear_gnl(int fd)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
 }
 
 int	parse_scene(char *file, t_scene *scene)
@@ -92,8 +111,7 @@ int	parse_scene(char *file, t_scene *scene)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	if (!parse_status)
-		get_next_line(fd);
 	free(line);
+	clear_gnl(fd);
 	return (parse_status);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 17:39:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 20:24:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/21 23:52:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,13 @@ int	parse_vector(char *param, t_vec3 *v_res, char *object, int line_nb)
 		print_parse_error("vector: non-numeric value detected", object,
 			line_nb);
 		ft_putendl_fd(param, 2);
+		free_str_array(param_split);
 		return (0);
 	}
 	v_res->x = ft_atod(param_split[0]);
 	v_res->y = ft_atod(param_split[1]);
 	v_res->z = ft_atod(param_split[2]);
+	free_str_array(param_split);
 	return (1);
 }
 
