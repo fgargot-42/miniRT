@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/21 18:51:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 20:06:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define NB_THREADS 16
 
 # define DEBUG 1
+
+# define MLX_WHITE 0xFFFFFFFF
 
 typedef struct s_ray
 {
@@ -188,6 +190,7 @@ void		attach_hooks(t_data *data);
 
 //src/camera.c
 t_ray		camera_ray(t_camera *cam, int x, int y);
+void		mouse_loop(void *param);
 
 //src/hit.c
 t_vec3		face_normal(t_ray *ray, t_vec3 inverted);

@@ -6,16 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/20 23:08:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:59:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
 #include <stdlib.h>
 #include "miniRT.h"
-
-#define CENTER_X (WIDTH / 2)
-#define CENTER_Y (HEIGHT / 2)
 
 void	clear_image(t_data *fdf)
 {
@@ -58,7 +55,6 @@ void	init(t_data *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
-
 }
 
 static void	destroy_all(t_data *data)
@@ -67,72 +63,6 @@ static void	destroy_all(t_data *data)
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_context(data->mlx);
 	free_scene(data->scene);
-}
-
-void rotate_camera(t_vec3 *direction, double *yaw, double *pitch,
-                   double mouse_dx, double mouse_dy, double sensitivity)
-{
-    *yaw   -= mouse_dx * sensitivity;
-    *pitch -= mouse_dy * sensitivity;
-
-    if (*pitch > 89.0) *pitch = 89.0;
-    if (*pitch < -89.0) *pitch = -89.0;
-
-    double yaw_rad   = *yaw * (M_PI / 180.0);
-    double pitch_rad = *pitch * (M_PI / 180.0);
-
-    double cos_pitch = cos(pitch_rad);
-    double sin_pitch = sin(pitch_rad);
-    double cos_yaw   = cos(yaw_rad);
-    double sin_yaw   = sin(yaw_rad);
-
-    direction->x = cos_yaw * cos_pitch;
-    direction->y = sin_pitch;
-    direction->z = sin_yaw * cos_pitch;
-
-    *direction = vec_normalize(*direction);
-}
-
-void mouse_loop(void *param)
-{
-    static int is_moving = 0;
-
-    t_data *data = param;
-    int x, y;
-    int dx, dy;
-
-    mlx_mouse_get_pos(data->mlx, &x, &y);
-
-    dx = x - data->last_mouse_x;
-    dy = y - data->last_mouse_y;
-
-    if (!dx && !dy && !is_moving)
-        return;
-
-    if (dx || dy)
-    {
-        is_moving = 1;
-		if (NB_THREADS <= 1)
-			data->render_scale = 8;
-
-        rotate_camera(&data->scene->cam->direction,
-                      &data->scene->cam->yaw,
-                      &data->scene->cam->pitch,
-                      (double)dx,
-                      (double)dy,
-                      CAMERA_SENS);
-		draw(data);
-
-        mlx_mouse_move(data->mlx, data->win, CENTER_X, CENTER_Y);
-        data->last_mouse_x = CENTER_X;
-        data->last_mouse_y = CENTER_Y;
-    }
-    else
-    {
-        is_moving = 0;
-        data->render_scale = 1; 
-        draw(data);
-    }
 }
 
 int	main(int argc, char **argv)
@@ -146,11 +76,11 @@ int	main(int argc, char **argv)
 	}
 	data.render_scale = 1;
 	data.scene = malloc(sizeof(t_scene));
-    if (!data.scene)
-    {
-        fprintf(stderr, "Failed to allocate scene\n");
-        return (1);
-    }
+	if (!data.scene)
+	{
+		fprintf(stderr, "Failed to allocate scene\n");
+		return (1);
+	}
 	init_scene(argv[1], data.scene);
 	init(&data);
 	mlx_mouse_hide(data.mlx);

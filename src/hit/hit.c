@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/10 20:47:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:10:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 t_vec3	face_normal(t_ray *ray, t_vec3 inverted)
 {
-	if (vec_dot(ray->direction, inverted) > 0)
-		return (vec_scale(inverted, -1.0));
+	if (vec3_dot(ray->direction, inverted) > 0)
+		return (vec3_scale(inverted, -1.0));
 	return (inverted);
 }
 

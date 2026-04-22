@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 23:45:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:08:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ int	parse_ambient(char **line_split, t_scene *scene, int line_nb)
 			line_nb);
 	parse_result &= parse_double(line_split[1], &intensity, "ambient", line_nb);
 	if (parse_result)
-		*scene->ambient = vec_scale(*scene->ambient, intensity);
+		*scene->ambient = vec3_scale(*scene->ambient, intensity);
 	return (parse_result);
 }

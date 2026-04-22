@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 00:01:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 18:48:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	init_scene(char *file, t_scene *scene)
 	set_default_sky(scene);
 }
 
-static void free_cylinder(void *cyl)
+static void	free_cylinder(void *cyl)
 {
-	t_cylinder *elem;
+	t_cylinder	*elem;
 
 	elem = (t_cylinder *)cyl;
 	free_matrix(elem->transform_axis);
@@ -70,21 +70,21 @@ static void free_cylinder(void *cyl)
 
 static void	free_cone(void *cone)
 {
-	t_cone *elem;
+	t_cone	*elem;
 
 	elem = (t_cone *)cone;
 	free_matrix(elem->transform_axis);
 	free(elem);
 }
 
-void free_scene(t_scene *scene)
+void	free_scene(t_scene *scene)
 {
-    ft_lstclear(&scene->spheres, free);
-    ft_lstclear(&scene->planes, free);
-    ft_lstclear(&scene->cylinder, free_cylinder);
-    ft_lstclear(&scene->cone, free_cone);
+	ft_lstclear(&scene->spheres, free);
+	ft_lstclear(&scene->planes, free);
+	ft_lstclear(&scene->cylinder, free_cylinder);
+	ft_lstclear(&scene->cone, free_cone);
 	ft_lstclear(&scene->lights, free);
 	free(scene->cam);
 	free(scene->ambient);
-    free(scene);
+	free(scene);
 }

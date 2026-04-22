@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/11 01:57:38 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:12:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ double	**vec_get_matrix_rotation_z(t_vec3 v_from)
 	if (!matrix)
 		return (NULL);
 	c = v_from.z;
-	s = vec_length((t_vec3){v_from.x, v_from.y, 0});
+	s = vec3_length((t_vec3){v_from.x, v_from.y, 0});
 	kx = v_from.y / s;
 	ky = -v_from.x / s;
 	matrix[0][0] = c + kx * kx * (1 - c);

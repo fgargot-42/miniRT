@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/20 22:22:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:09:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	parse_cone_elements(char **line_split, t_cone *co, int line_nb)
 				line_nb);
 	if (parse_result)
 	{
-		co->axis = vec_normalize(co->axis);
+		co->axis = vec3_normalize(co->axis);
 		co->tan_angle = tan(co->angle * M_PI / 180);
 		co->transform_axis = vec_get_matrix_rotation_z(co->axis);
 	}

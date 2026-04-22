@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/20 23:04:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 19:15:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <SDL2/SDL_scancode.h>
 
 #define MOVE_STEP 0.5
-
 
 void	window_hook(int event, void *param)
 {
@@ -26,43 +25,51 @@ void	window_hook(int event, void *param)
 		mlx_loop_end(mlx);
 }
 
-void key_hook(int scancode, void *param)
+static void	move_camera(int scancode, t_data *data)
 {
-    t_data *data = (t_data *)param;
-    t_camera *cam = data->scene->cam;
+	static t_vec3	w_up = (t_vec3){0, 1, 0};
+	t_camera		*cam;
+	t_vec3			fwd;
+	t_vec3			right;
 
-    t_vec3 forward = vec_normalize(cam->direction);
-    t_vec3 world_up = (t_vec3){0, 1, 0};
-    t_vec3 right = vec_normalize(vec_cross(forward, world_up));
+	cam = data->scene->cam;
+	fwd = vec3_normalize(cam->direction);
+	right = vec3_normalize(vec3_cross(fwd, w_up));
+	if (scancode == 26)
+		cam->position = vec3_add(cam->position, vec3_scale(fwd, MOVE_STEP));
+	else if (scancode == 22)
+		cam->position = vec3_add(cam->position, vec3_scale(fwd, -MOVE_STEP));
+	else if (scancode == 4)
+		cam->position = vec3_add(cam->position, vec3_scale(right, MOVE_STEP));
+	else if (scancode == 7)
+		cam->position = vec3_add(cam->position, vec3_scale(right, -MOVE_STEP));
+	else if (scancode == SDL_SCANCODE_E)
+		cam->position = vec3_add(cam->position, vec3_scale(w_up, MOVE_STEP));
+	else if (scancode == SDL_SCANCODE_Q)
+		cam->position = vec3_add(cam->position, vec3_scale(w_up, -MOVE_STEP));
+}
 
-	//printf("code: %d\n", scancode);
+void	key_hook(int scancode, void *param)
+{
+	t_data	*data;
 
-    if (scancode == SDL_SCANCODE_ESCAPE)
-        mlx_loop_end(data->mlx);
-
-    if (scancode == 26)
-        cam->position = vec_add(cam->position, vec_scale(forward, MOVE_STEP));
-    else if (scancode == 22)
-        cam->position = vec_add(cam->position, vec_scale(forward, -MOVE_STEP));
-    else if (scancode == 4)
-        cam->position = vec_add(cam->position, vec_scale(right, MOVE_STEP));
-    else if (scancode == 7)
-        cam->position = vec_add(cam->position, vec_scale(right, -MOVE_STEP));
-    else if (scancode == SDL_SCANCODE_E)
-        cam->position = vec_add(cam->position, vec_scale(world_up, MOVE_STEP));
-    else if (scancode == SDL_SCANCODE_Q)
-		cam->position = vec_add(cam->position, vec_scale(world_up, -MOVE_STEP));
-	
+	data = (t_data *)param;
+	if (scancode == SDL_SCANCODE_ESCAPE)
+		mlx_loop_end(data->mlx);
+	move_camera(scancode, data);
 	if (scancode == SDL_SCANCODE_TAB)
-		data->render_scale = (data->render_scale == 1) ? 8 : 1;
-	//printf("Camera position: x=%.2f y=%.2f z=%.2f\n",
-	//      cam->position.x, cam->position.y, cam->position.z);
-    draw(data);
+	{
+		if (data->render_scale == 1)
+			data->render_scale = 8;
+		else
+			data->render_scale = 1;
+	}
+	draw(data);
 }
 
 void	attach_hooks(t_data *data)
 {
-	mlx_on_event(data->mlx, data->win, MLX_WINDOW_EVENT, window_hook, data->mlx);
+	mlx_on_event(data->mlx, data->win, MLX_WINDOW_EVENT, window_hook,
+		data->mlx);
 	mlx_on_event(data->mlx, data->win, MLX_KEYDOWN, key_hook, data);
 }
-

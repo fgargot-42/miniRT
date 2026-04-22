@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/22 19:28:05 by fgargot           #+#    #+#             */
+/*   Updated: 2026/04/22 19:28:34 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
-t_vec3 ray_at(t_ray ray, double t)
+t_vec3	ray_at(t_ray ray, double t)
 {
-    return vec_add(ray.origin, vec_scale(ray.direction, t));
+	return (vec3_add(ray.origin, vec3_scale(ray.direction, t)));
 }

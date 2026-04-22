@@ -34,8 +34,10 @@ SRC =	main.c \
 		hit/hit_cone.c \
 		hit/hit.c \
 		lighting.c \
-		veclib/veclib_math.c \
-		veclib/veclib_math2.c \
+		veclib/veclib2_math.c \
+		veclib/veclib2_math2.c \
+		veclib/veclib3_math.c \
+		veclib/veclib3_math2.c \
 		veclib/matrix.c \
 		utils/double_utils.c \
 		utils/polynom.c \
