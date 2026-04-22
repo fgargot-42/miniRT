@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 20:01:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 21:19:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	mouse_loop(void *param)
 	t_vec2		mouse_delta;
 
 	data = (t_data *)param;
+	if (!data->r_click_hold)
+		return ;
 	mlx_mouse_get_pos(data->mlx, &mouse_x, &mouse_y);
 	mouse_delta.x = mouse_x - data->last_mouse_x;
 	mouse_delta.y = mouse_y - data->last_mouse_y;

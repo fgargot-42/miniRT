@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:10:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 22:37:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
 	rec->color = cone->color;
 	if (DEBUG && vec3_dot(ray->direction, rec->normal) > 1)
 		rec->color = (t_vec3){255, 0, 255};
-	rec->object.cone = cone;
+	rec->object = (t_object *)cone;
 }
 
 static int	get_intersection(t_cone *cone, t_hit_ctx *ctx)
@@ -100,6 +100,7 @@ int	hit_cone(t_cone *cone, t_ray *ray, double t_max, t_hit_record *rec)
 	ctx.oc = vec3_sub(ray->origin, cone->center);
 	ctx.rd = ray->direction;
 	ctx.t_max = t_max;
+	ctx.render_t = t_max;
 	if (fabs(cone->axis.z - 1) > 1e-9)
 	{
 		ctx.oc = vec_apply_rotation_z(ctx.oc, cone->transform_axis);

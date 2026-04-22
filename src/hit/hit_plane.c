@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:09:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 22:36:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	rec->normal = face_normal(ray, plane->normal);
 	if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 		rec->color = (t_vec3){255, 0, 255};
-	rec->object.plane = plane;
+	rec->object = (t_object *)plane;
 }
 
 int	hit_plane(t_plane *plane, t_ray *ray, double t_max, t_hit_record *rec)

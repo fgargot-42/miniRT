@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 20:06:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 22:14:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define CAMERA_SENS 0.35
+# define MOVE_STEP 0.5
 
 # define NB_THREADS 16
 
@@ -110,7 +111,7 @@ typedef struct s_hit_record
 	t_vec3		point;
 	t_vec3		normal;
 	t_vec3		color;
-	t_object	object;
+	t_object	*object;
 	double		specular;
 	double		shininess;
 }	t_hit_record;
@@ -138,6 +139,7 @@ typedef struct s_scene
 	t_vec3		*ambient;
 	t_vec3		*sky;
 	t_camera	*cam;
+	t_object	*selected;
 }	t_scene;
 
 typedef struct s_data
@@ -146,10 +148,9 @@ typedef struct s_data
 	mlx_window	win;
 	mlx_image	img;
 	t_scene		*scene;
-
+	int			r_click_hold;
 	int			last_mouse_x;
 	int			last_mouse_y;
-
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
@@ -187,6 +188,10 @@ mlx_color	vec3_to_color(t_vec3 v);
 
 //src/hooks.c
 void		attach_hooks(t_data *data);
+
+void		mouse_down_hook(int mouse_event, void *param);
+void		mouse_up_hook(int mouse_event, void *param);
+void		mouse_wheel_hook(int mouse_event, void *param);
 
 //src/camera.c
 t_ray		camera_ray(t_camera *cam, int x, int y);

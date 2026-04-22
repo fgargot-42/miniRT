@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
+FLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -14,6 +14,7 @@ SRC =	main.c \
 		ray.c \
 		camera.c \
 		input/hooks.c \
+		input/mouse_hooks.c \
 		parser/parser.c \
 		parser/parse_number.c \
 		parser/parse_ambient.c \

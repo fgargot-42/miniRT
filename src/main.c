@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:59:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 22:51:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	data.render_scale = 1;
+	data.r_click_hold = 0;
 	data.scene = malloc(sizeof(t_scene));
 	if (!data.scene)
 	{
@@ -83,7 +84,6 @@ int	main(int argc, char **argv)
 	}
 	init_scene(argv[1], data.scene);
 	init(&data);
-	mlx_mouse_hide(data.mlx);
 	draw_single(&data);
 	attach_hooks(&data);
 	mlx_add_loop_hook(data.mlx, mouse_loop, &data);

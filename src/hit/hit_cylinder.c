@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:10:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 22:37:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
 	rec->color = cyl->color;
 	if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 		rec->color = (t_vec3){255, 0, 255};
-	rec->object.cylinder = cyl;
+	rec->object = (t_object *)cyl;
 }
 
 static int	get_intersection(t_cylinder *cyl, t_hit_ctx *ctx)

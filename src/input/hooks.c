@@ -6,16 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:15:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 21:50:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <SDL2/SDL_scancode.h>
 
-#define MOVE_STEP 0.5
-
-void	window_hook(int event, void *param)
+static void	window_hook(int event, void *param)
 {
 	mlx_context	mlx;
 
@@ -49,7 +47,7 @@ static void	move_camera(int scancode, t_data *data)
 		cam->position = vec3_add(cam->position, vec3_scale(w_up, -MOVE_STEP));
 }
 
-void	key_hook(int scancode, void *param)
+static void	key_hook(int scancode, void *param)
 {
 	t_data	*data;
 
@@ -72,4 +70,7 @@ void	attach_hooks(t_data *data)
 	mlx_on_event(data->mlx, data->win, MLX_WINDOW_EVENT, window_hook,
 		data->mlx);
 	mlx_on_event(data->mlx, data->win, MLX_KEYDOWN, key_hook, data);
+	mlx_on_event(data->mlx, data->win, MLX_MOUSEDOWN, mouse_down_hook, data);
+	mlx_on_event(data->mlx, data->win, MLX_MOUSEUP, mouse_up_hook, data);
+	mlx_on_event(data->mlx, data->win, MLX_MOUSEWHEEL, mouse_wheel_hook, data);
 }
