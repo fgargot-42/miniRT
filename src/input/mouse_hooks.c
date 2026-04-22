@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 22:48:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 23:28:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,30 @@ void	mouse_down_hook(int mouse_event, void *param)
 			data->scene->selected = hc.object;
 		printf("Object selected at address %p\n", data->scene->selected);
 	}
-	if (mouse_event == 3)
+	if (mouse_event == 2 || mouse_event == 3)
 	{
 		mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
 		mlx_mouse_hide(data->mlx);
-		data->r_click_hold = 1;
+		if (mouse_event == 2)
+			data->w_click_hold = 1;
+		else
+			data->r_click_hold = 1;
 	}
 }
 
 void	mouse_up_hook(int mouse_event, void *param)
 {
-	if (mouse_event == 3)
+	t_data	*data;
+
+	data = (t_data *)param;
+	if (mouse_event == 2 || mouse_event == 3)
 	{
-		mlx_mouse_show(((t_data *)param)->mlx);
-		((t_data *)param)->r_click_hold = 0;
+		mlx_mouse_show(data->mlx);
+		data->r_click_hold = 0;
+		if (mouse_event == 2)
+			data->w_click_hold = 0;
+		else
+			data->r_click_hold = 0;
 	}
 }
 

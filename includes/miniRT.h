@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 22:14:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/22 23:19:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct s_data
 	mlx_image	img;
 	t_scene		*scene;
 	int			r_click_hold;
+	int			w_click_hold;
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
