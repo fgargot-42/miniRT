@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 23:24:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/23 12:52:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	init(t_data *data)
 	data->win = mlx_new_window(data->mlx, &info);
 	if (!data->win)
 		exit(1);
+	mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
 	mlx_mouse_get_pos(data->mlx, &data->last_mouse_x, &data->last_mouse_y);
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)

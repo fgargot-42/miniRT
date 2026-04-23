@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 23:28:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/23 12:33:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	mouse_up_hook(int mouse_event, void *param)
 	if (mouse_event == 2 || mouse_event == 3)
 	{
 		mlx_mouse_show(data->mlx);
-		data->r_click_hold = 0;
 		if (mouse_event == 2)
 			data->w_click_hold = 0;
 		else
