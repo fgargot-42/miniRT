@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 20:14:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 20:08:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,26 +87,20 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
 	t_vec3		result;
-	t_vec3		diffuse;
-	t_vec3		specular;
 	t_list		*node;
 	t_light		*light;
 
-	result = apply_ambient(rec->color, *scene->ambient);
+	result = apply_ambient(rec->color, scene->ambient->color);
 	node = scene->lights;
 	while (node)
 	{
-		light = (t_light *)node->content;
+		light = ((t_light *)((t_object *)node->content)->object);
 		if (!in_shadow(rec, scene, light))
 		{
-			diffuse = apply_diffuse(rec, light);
-			specular = apply_specular(rec, light, ray);
-			result.x += diffuse.x + specular.x;
-			result.y += diffuse.y + specular.y;
-			result.z += diffuse.z + specular.z;
+			result = vec3_add(result, apply_diffuse(rec, light));
+			result = vec3_add(result, apply_specular(rec, light, ray));
 		}
 		node = node->next;
 	}
-	return ((t_vec3){fmin(result.x, 255.0), fmin(result.y, 255.0),
-		fmin(result.z, 255.0)});
+	return (vec3_clamp(result, 0.0, 255.0));
 }

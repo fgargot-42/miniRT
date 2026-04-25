@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 23:19:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 20:07:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,19 @@ typedef struct s_ray
 // t distance sur le ray
 // O origin
 // D direction
+
+typedef struct s_ambient
+{
+	double	intensity;
+	t_vec3	color;
+}	t_ambient;
+
+typedef struct s_light
+{
+	t_vec3	position;
+	double	intensity;
+	t_vec3	color;
+}	t_light;
 
 typedef struct s_sphere
 {
@@ -97,12 +110,22 @@ typedef struct s_camera
 	double	yaw;
 }	t_camera;
 
-typedef union u_object
+typedef enum	e_obj_type
 {
-	t_sphere	*sphere;
-	t_plane		*plane;
-	t_cylinder	*cylinder;
-	t_cone		*cone;
+	OBJ_AMBIENT,
+	OBJ_CAMERA,
+	OBJ_SKY,
+	OBJ_LIGHT,
+	OBJ_PLANE,
+	OBJ_SPHERE,
+	OBJ_CYLINDER,
+	OBJ_CONE
+}	t_obj_type;
+
+typedef struct	s_object
+{
+	void		*object;
+	t_obj_type	type;
 }	t_object;
 
 typedef struct s_hit_record
@@ -116,27 +139,17 @@ typedef struct s_hit_record
 	double		shininess;
 }	t_hit_record;
 
-typedef struct s_hit_list
+typedef struct s_hit_fn
 {
-	t_list	*list;
-	int		(*hit_fn)(void *, t_ray *, double, t_hit_record *);
-}	t_hit_list;
-
-typedef struct s_light
-{
-	t_vec3	position;
-	double	intensity;
-	t_vec3	color;
-}	t_light;
+	t_obj_type 	type;
+	int			(*hit_fn)(void *, t_ray *, double, t_hit_record *);
+}	t_hit_fn;
 
 typedef struct s_scene
 {
-	t_list		*spheres;
-	t_list		*planes;
-	t_list		*cylinder;
-	t_list		*cone;
+	t_list		*objects;
 	t_list		*lights;
-	t_vec3		*ambient;
+	t_ambient	*ambient;
 	t_vec3		*sky;
 	t_camera	*cam;
 	t_object	*selected;
@@ -157,20 +170,25 @@ typedef struct s_data
 	int			nb_threads;
 }	t_data;
 
+// OBJECTS
+
+t_object			*create_object(void *object, t_obj_type type);
+
 // PARSING
 
-typedef int	(*t_parser_func)(char **, t_scene *, int);
-int			parse_scene(char *file, t_scene *scene);
-int			parse_ambient(char **line_split, t_scene *scene, int line_nb);
-int			parse_camera(char **line_split, t_scene *scene, int line_nb);
-int			parse_sky(char **line_split, t_scene *scene, int line_nb);
-int			parse_light(char **line_split, t_scene *scene, int line_nb);
-int			parse_sphere(char **line_split, t_scene *scene, int line_nb);
-int			parse_plane(char **line_split, t_scene *scene, int line_nb);
-int			parse_cylinder(char **line_split, t_scene *scene, int line_nb);
-int			parse_cone(char **line_split, t_scene *scene, int line_nb);
+typedef t_object	*(*t_parser_func)(char **, int);
+int					parse_scene(char *file, t_scene *scene);
+t_object			*parse_ambient(char **line_split, int line_nb);
+t_object			*parse_camera(char **line_split, int line_nb);
+t_object			*parse_sky(char **line_split, int line_nb);
+t_object			*parse_light(char **line_split, int line_nb);
+t_object			*parse_sphere(char **line_split, int line_nb);
+t_object			*parse_plane(char **line_split, int line_nb);
+t_object			*parse_cylinder(char **line_split, int line_nb);
+t_object			*parse_cone(char **line_split, int line_nb);
 
 void		print_parse_error(char *message, char *element, int line_nb);
+void		clear_gnl(int fd, char *line);
 int			check_array_size(char **array, int expected, char *object,
 				int line_nb);
 int			parse_vector(char *param, t_vec3 *v_res, char *object, int line_nb);
@@ -203,13 +221,10 @@ t_vec3		face_normal(t_ray *ray, t_vec3 inverted);
 int			hit_scene(t_scene *scene, t_ray *ray, double t_max,
 				t_hit_record *rec);
 
-int			hit_sphere(t_sphere *sphere, t_ray *ray, double t_max,
-				t_hit_record *rec);
-int			hit_plane(t_plane *plane, t_ray *ray, double t_max,
-				t_hit_record *rec);
-int			hit_cylinder(t_cylinder *cyl, t_ray *ray, double t_max,
-				t_hit_record *rec);
-int			hit_cone(t_cone *cone, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_sphere(void *sphere, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_plane(void *plane, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cylinder(void *cyl, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cone(void *cone, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3		ray_at(t_ray ray, double t);

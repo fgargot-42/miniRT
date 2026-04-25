@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:09:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/24 23:58:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,24 @@ static int	parse_cone_elements(char **line_split, t_cone *co, int line_nb)
 	return (parse_result);
 }
 
-int	parse_cone(char **line_split, t_scene *scene, int line_nb)
+t_object	*parse_cone(char **line_split, int line_nb)
 {
-	int		parse_result;
-	t_cone	*co;
+	int			parse_result;
+	t_cone		*co;
+	t_object	*obj;
 
+	obj = NULL;
 	if (check_array_size(line_split, 6, "cone", line_nb))
-		return (0);
+		return (NULL);
 	co = malloc(sizeof(t_cone));
 	if (!co)
 		print_parse_error("allocation failed", "cone", line_nb);
 	if (!co)
-		return (0);
+		return (NULL);
 	parse_result = parse_cone_elements(line_split, co, line_nb);
-	ft_lstadd_back(&scene->cone, ft_lstnew(co));
-	return (parse_result);
+	if (parse_result)
+		obj = create_object(co, OBJ_CONE);
+	if (!obj)
+		free(co);
+	return (obj);
 }

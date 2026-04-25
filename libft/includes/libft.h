@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/11 20:57:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/24 23:26:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void*));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void*), void (*del)(void*));
 void	ft_lstsort(t_list **lst, int (*cmp)(void *, void *));
+t_list	*ft_lstfilter(t_list *lst, int (*filter)(void *), void (*del)(void *));
 
 char	*get_next_line(int fd);
 int		ft_printf(const char *s, ...);

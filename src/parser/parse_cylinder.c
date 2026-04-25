@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:09:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/24 23:59:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,13 @@ static int	parse_cylinder_elements(char **line_split, t_cylinder *cy,
 	return (p_res);
 }
 
-int	parse_cylinder(char **line_split, t_scene *scene, int line_nb)
+t_object	*parse_cylinder(char **line_split, int line_nb)
 {
 	int			parse_result;
 	t_cylinder	*cy;
+	t_object	*obj;
 
-	parse_result = 1;
+	obj = NULL;
 	if (check_array_size(line_split, 4, "cylinder", line_nb))
 		return (0);
 	cy = malloc(sizeof(t_cylinder));
@@ -55,6 +56,9 @@ int	parse_cylinder(char **line_split, t_scene *scene, int line_nb)
 		return (0);
 	}
 	parse_result = parse_cylinder_elements(line_split, cy, line_nb);
-	ft_lstadd_back(&scene->cylinder, ft_lstnew(cy));
-	return (parse_result);
+	if (parse_result)
+		obj = create_object(cy, OBJ_CYLINDER);
+	if (!obj)
+		free(cy);
+	return (obj);
 }

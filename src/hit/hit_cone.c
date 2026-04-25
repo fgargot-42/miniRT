@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 22:37:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 20:19:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
 	rec->point = ray_at(*ray, rec->t);
 	rec->normal = face_normal(ray, normal);
 	rec->color = cone->color;
-	if (DEBUG && vec3_dot(ray->direction, rec->normal) > 1)
-		rec->color = (t_vec3){255, 0, 255};
+	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 1)
+	//	rec->color = (t_vec3){255, 0, 255};
 	rec->object = (t_object *)cone;
 }
 
@@ -92,24 +92,26 @@ static int	hit_cone_cap(t_cone *cone, t_hit_ctx *ctx)
 	return (1);
 }
 
-int	hit_cone(t_cone *cone, t_ray *ray, double t_max, t_hit_record *rec)
+int	hit_cone(void *cone, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	int			has_hit;
 	t_hit_ctx	ctx;
+	t_cone		*co;
 
-	ctx.oc = vec3_sub(ray->origin, cone->center);
+	co = (t_cone *)cone;
+	ctx.oc = vec3_sub(ray->origin, co->center);
 	ctx.rd = ray->direction;
 	ctx.t_max = t_max;
 	ctx.render_t = t_max;
-	if (fabs(cone->axis.z - 1) > 1e-9)
+	if (fabs(co->axis.z - 1) > 1e-9)
 	{
-		ctx.oc = vec_apply_rotation_z(ctx.oc, cone->transform_axis);
-		ctx.rd = vec_apply_rotation_z(ctx.rd, cone->transform_axis);
+		ctx.oc = vec_apply_rotation_z(ctx.oc, co->transform_axis);
+		ctx.rd = vec_apply_rotation_z(ctx.rd, co->transform_axis);
 	}
-	has_hit = get_intersection(cone, &ctx);
-	has_hit |= hit_cone_cap(cone, &ctx);
+	has_hit = get_intersection(co, &ctx);
+	has_hit |= hit_cone_cap(co, &ctx);
 	if (!has_hit)
 		return (0);
-	update_hit_record(rec, ray, cone, ctx);
+	update_hit_record(rec, ray, co, ctx);
 	return (1);
 }

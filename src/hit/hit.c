@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 22:11:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 20:17:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,48 @@ t_vec3	face_normal(t_ray *ray, t_vec3 inverted)
 	return (inverted);
 }
 
-static int	hit_list(t_hit_list h, t_ray *ray, double *closest,
+static t_hit_fn	*get_hit_fn(t_obj_type type)
+{
+	int					i;
+	static const int	hit_list_size = 4;
+	static t_hit_fn		hit_list[] = {
+		{OBJ_PLANE, hit_plane}, {OBJ_SPHERE, hit_sphere},
+		{OBJ_CYLINDER, hit_cylinder}, {OBJ_CONE, hit_cone}};
+
+	i = 0;
+	while (i < hit_list_size)
+	{
+		if (type == hit_list[i].type)
+			return (&hit_list[i]);
+		i++;
+	}
+	return (NULL);
+}
+
+static int	hit_list(t_list *obj, t_ray *ray, double *closest,
 	t_hit_record *rec)
 {
 	t_hit_record	temp;
+	int				hit_current;
+	t_object		*current;
+	t_hit_fn		*hit_func;
 	int				hit;
 
 	hit = 0;
-	while (h.list)
+	while (obj)
 	{
-		if (h.hit_fn(h.list->content, ray, *closest, &temp))
+		current = (t_object *)obj->content;
+		hit_current = 0;
+		hit_func = get_hit_fn(current->type);
+		if (hit_func)
+			hit_current = hit_func->hit_fn(current->object, ray, *closest, &temp);
+		if (hit_current)
 		{
 			hit = 1;
 			*closest = temp.t;
 			*rec = temp;
 		}
-		h.list = h.list->next;
+		obj = obj->next;
 	}
 	return (hit);
 }
@@ -47,13 +73,6 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 
 	hit = 0;
 	closest = t_max;
-	hit |= hit_list((t_hit_list){scene->spheres, (void *)hit_sphere},
-			ray, &closest, rec);
-	hit |= hit_list((t_hit_list){scene->planes, (void *)hit_plane},
-			ray, &closest, rec);
-	hit |= hit_list((t_hit_list){scene->cylinder, (void *)hit_cylinder},
-			ray, &closest, rec);
-	hit |= hit_list((t_hit_list){scene->cone, (void *)hit_cone},
-			ray, &closest, rec);
+	hit = hit_list(scene->objects, ray, &closest, rec);
 	return (hit);
 }

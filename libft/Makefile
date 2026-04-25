@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/04/11 20:57:46 by fgargot          ###   ########.fr        #
+#    Updated: 2026/04/24 23:27:07 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_lst/ft_lstiter.c \
 	ft_lst/ft_lstmap.c \
 	ft_lst/ft_lstsort.c \
+	ft_lst/ft_lstfilter.c \
 	ft_gnl/get_next_line.c \
 	ft_printf/ft_printf.c \
 	ft_printf/ft_convert.c \

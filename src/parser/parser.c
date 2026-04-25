@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 00:11:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 19:44:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 #include "libft.h"
 #include <fcntl.h>
 #include <unistd.h>
-
-void	print_parse_error(char *message, char *element, int line_nb)
-{
-	ft_putstr_fd("Error\nLine ", 2);
-	ft_putnbr_fd(line_nb, 2);
-	ft_putstr_fd(": ", 2);
-	if (message)
-		ft_putstr_fd(message, 2);
-	if (element)
-	{
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(element, 2);
-	}
-	if (message || element)
-		ft_putstr_fd("\n", 2);
-}
 
 static int	get_parse_element(char *id)
 {
@@ -48,70 +32,100 @@ static int	get_parse_element(char *id)
 	return (-1);
 }
 
-static int	parse_line(char *line, int line_nb, t_scene *scene)
+static int	parse_line(char *line, int line_nb, t_object **obj)
 {
 	char						**line_split;
 	int							i;
-	int							parse_status;
 	static const t_parser_func	parse_elem[] = {parse_ambient,
 		parse_camera, parse_light, parse_sky, parse_sphere, parse_plane,
 		parse_cylinder, parse_cone};
 
 	line_split = ft_split_by_whitespace(line);
-	parse_status = 0;
-	if (!line_split)
+	if (!line_split || !obj)
 		return (0);
 	if (!*line_split || *line_split[0] == '\0' || *line_split[0] == '#')
 	{
 		free_str_array(line_split);
-		return (1);
+		return (2);
 	}
 	i = get_parse_element(line_split[0]);
 	if (i != -1)
-		parse_status = parse_elem[i](line_split, scene, line_nb);
+		*obj = parse_elem[i](line_split, line_nb);
 	else
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			line_nb);
 	free_str_array(line_split);
-	return (parse_status);
+	free(line);
+	return (*obj != NULL);
 }
 
-static void	clear_gnl(int fd)
+static int	add_specials(void **dst, t_object *obj, char *elem, int line_nb)
 {
-	char	*line;
-
-	line = get_next_line(fd);
-	while (line)
+	if (*dst)
 	{
-		free(line);
-		line = get_next_line(fd);
+		print_parse_error("Duplicate element detected", elem, line_nb);
+		return (0);
 	}
+	*dst = obj->object;
+	return (1);
+}
+
+static int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
+{
+	int		status;
+	t_list	*new_object;
+
+	status = 1;
+	if (!*obj)
+		return (1);
+	if ((*obj)->type == OBJ_SPHERE || (*obj)->type == OBJ_CYLINDER
+		|| (*obj)->type == OBJ_CONE || (*obj)->type == OBJ_PLANE
+		|| (*obj)->type == OBJ_LIGHT)
+		{
+			new_object = ft_lstnew(*obj);
+			if (!new_object)
+				return (0);
+			if ((*obj)->type == OBJ_LIGHT)
+				ft_lstadd_back(&scene->lights, new_object);
+			else
+				ft_lstadd_back(&scene->objects, new_object);
+			return (1);
+		}
+	if ((*obj)->type == OBJ_AMBIENT)
+		status = add_specials((void **)&scene->ambient, *obj, "ambient", line_nb);
+	if ((*obj)->type == OBJ_CAMERA)
+		status = add_specials((void **)&scene->cam, *obj, "camera", line_nb);
+	if ((*obj)->type == OBJ_SKY)
+		status = add_specials((void **)&scene->sky, *obj, "sky", line_nb);
+	free(*obj);
+	*obj = NULL;
+	return (status);
 }
 
 int	parse_scene(char *file, t_scene *scene)
 {
-	int		fd;
-	int		parse_status;
-	char	*line;
-	int		line_nb;
+	int			fd;
+	t_object	*obj;
+	char		*line;
+	int			line_nb;
+	int			status;
 
-	parse_status = 1;
 	line_nb = 0;
+	status = 1;
 	fd = open_file_read(file);
 	if (fd == -1)
 		return (0);
 	line = get_next_line(fd);
-	while (line && parse_status)
+	while (line && status)
 	{
 		line_nb++;
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		parse_status = parse_line(line, line_nb, scene);
-		free(line);
+		status = parse_line(line, line_nb, &obj);
 		line = get_next_line(fd);
+		if (status == 1)
+			status = add_element_to_scene(scene, &obj, line_nb);
 	}
-	close(fd);
-	free(line);
-	clear_gnl(fd);
-	return (parse_status);
+	clear_gnl(fd, line);
+	return (status);
 }

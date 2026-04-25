@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/13 20:14:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 18:35:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ static int	parse_sphere_elements(char **line_split, t_sphere *sp, int line_nb)
 	return (p_res);
 }
 
-int	parse_sphere(char **line_split, t_scene *scene, int line_nb)
+t_object	*parse_sphere(char **line_split, int line_nb)
 {
 	int			parse_result;
 	t_sphere	*sp;
+	t_object	*obj;
 
+	obj = NULL;
 	if (check_array_size(line_split, 4, "sphere", line_nb))
 		return (0);
 	sp = malloc(sizeof(t_sphere));
@@ -49,6 +51,9 @@ int	parse_sphere(char **line_split, t_scene *scene, int line_nb)
 		return (0);
 	}
 	parse_result = parse_sphere_elements(line_split, sp, line_nb);
-	ft_lstadd_back(&scene->spheres, ft_lstnew(sp));
-	return (parse_result);
+	if (parse_result)
+		obj = create_object(sp, OBJ_SPHERE);
+	if (!obj)
+		free(sp);
+	return (obj);
 }

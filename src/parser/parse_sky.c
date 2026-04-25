@@ -6,30 +6,32 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/14 22:52:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 00:05:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
 
-int	parse_sky(char **line_split, t_scene *scene, int line_nb)
+t_object	*parse_sky(char **line_split, int line_nb)
 {
-	int		parse_result;
+	t_vec3		*sky;
+	t_object	*obj;
+	int			parse_result;
 
-	if (scene->sky)
-	{
-		print_parse_error("duplicate object detected", "sky", line_nb);
-		return (0);
-	}
+	obj = NULL;
 	if (check_array_size(line_split, 2, "sky", line_nb))
-		return (0);
-	scene->sky = malloc(sizeof(t_vec3));
-	if (!scene->sky)
+		return (NULL);
+	sky = malloc(sizeof(t_vec3));
+	if (!sky)
 	{
 		print_parse_error("allocation failed", "sky", line_nb);
-		return (0);
+		return (NULL);
 	}
-	parse_result = parse_vector(line_split[1], scene->sky, "sky", line_nb);
-	return (parse_result);
+	parse_result = parse_vector(line_split[1], sky, "sky", line_nb);
+	if (parse_result)
+		obj = create_object(sky, OBJ_SKY);
+	if (!obj)
+		free(sky);
+	return (obj);
 }

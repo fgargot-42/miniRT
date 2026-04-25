@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = cc
-FLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -13,9 +13,11 @@ INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
 		camera.c \
+		objects/object.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
 		parser/parser.c \
+		parser/parser_utils.c \
 		parser/parse_number.c \
 		parser/parse_ambient.c \
 		parser/parse_camera.c \
