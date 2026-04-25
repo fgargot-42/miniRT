@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 20:29:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 21:17:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_sphere *sphere,
 	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 	//	rec->color = (t_vec3){255, 0, 255};
 	rec->object = (t_object *)sphere;
+	rec->specular = sphere->specular;
+	rec->shininess = sphere->shininess;
 }
 
 static int	get_intersection(t_sphere *sp, t_hit_ctx *ctx)

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 20:08:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 21:04:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
 }
 
 // Dummy function as the real one is buggy.
+/*
 static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 {
 	(void)rec;
@@ -58,8 +59,7 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 	(void)ray;
 	return ((t_vec3){0, 0, 0});
 }
-
-/*
+*/
 static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 {
 	t_vec3	light_dir;
@@ -82,7 +82,6 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 		light->color.z * spec,
 	};
 }
-*/
 
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {

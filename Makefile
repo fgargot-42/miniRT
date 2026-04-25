@@ -12,10 +12,11 @@ MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
-		camera.c \
 		objects/object.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
+		camera/camera.c \
+		camera/move_camera.c \
 		parser/parser.c \
 		parser/parser_utils.c \
 		parser/parse_number.c \
@@ -41,7 +42,7 @@ SRC =	main.c \
 		veclib/veclib2_math2.c \
 		veclib/veclib3_math.c \
 		veclib/veclib3_math2.c \
-		veclib/matrix.c \
+		utils/matrix.c \
 		utils/double_utils.c \
 		utils/polynom.c \
 		utils/file_utils.c \

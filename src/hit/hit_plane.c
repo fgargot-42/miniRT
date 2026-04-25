@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 20:19:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/25 21:16:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 	//	rec->color = (t_vec3){255, 0, 255};
 	rec->object = (t_object *)plane;
+	rec->specular = plane->specular;
+	rec->shininess = plane->shininess;
 }
 
 static void	apply_checker(t_hit_record *rec)
