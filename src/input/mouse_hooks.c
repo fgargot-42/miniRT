@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/23 12:33:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/27 19:03:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ void	mouse_down_hook(int mouse_event, void *param)
 	t_hit_record	hc;
 
 	data = (t_data *)param;
+	ft_bzero(&hc, sizeof(hc));
 	if (mouse_event == 1)
 	{
 		data->scene->selected = NULL;
 		mlx_mouse_get_pos(data->mlx, &mouse_x, &mouse_y);
 		ray = camera_ray(data->scene->cam, mouse_x, mouse_y);
 		if (hit_scene(data->scene, &ray, T_MAX, &hc))
+		{
+			hc.color = shade(&hc, data->scene, &ray);
 			data->scene->selected = hc.object;
-		printf("Object selected at address %p\n", data->scene->selected);
+		}
+		print_hit_info(hc, mouse_x, mouse_y);
 	}
 	if (mouse_event == 2 || mouse_event == 3)
 	{

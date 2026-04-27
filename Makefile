@@ -31,6 +31,7 @@ SRC =	main.c \
 		renderer/drawer.c \
 		renderer/drawer_utils.c \
 		renderer/debug.c \
+		renderer/print_debug.c \
 		scene/scene.c \
 		hit/hit_sphere.c \
 		hit/hit_plane.c \
