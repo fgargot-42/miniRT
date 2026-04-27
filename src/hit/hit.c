@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 20:17:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:06:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	hit_list(t_list *obj, t_ray *ray, double *closest,
 		hit_current = 0;
 		hit_func = get_hit_fn(current->type);
 		if (hit_func)
-			hit_current = hit_func->hit_fn(current->object, ray, *closest, &temp);
+			hit_current = hit_func->hit_fn(current, ray, *closest, &temp);
 		if (hit_current)
 		{
 			hit = 1;

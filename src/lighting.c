@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 21:04:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/27 20:01:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,21 +85,26 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
+	bool		is_shadow;
 	t_vec3		result;
 	t_list		*node;
 	t_light		*light;
 
 	result = apply_ambient(rec->color, scene->ambient->color);
 	node = scene->lights;
+	is_shadow = 1;
 	while (node)
 	{
 		light = ((t_light *)((t_object *)node->content)->object);
 		if (!in_shadow(rec, scene, light))
 		{
+			is_shadow = 0;
 			result = vec3_add(result, apply_diffuse(rec, light));
 			result = vec3_add(result, apply_specular(rec, light, ray));
 		}
 		node = node->next;
 	}
+	if (is_shadow)
+		return (apply_ambient(rec->color, scene->ambient->color));
 	return (vec3_clamp(result, 0.0, 255.0));
 }

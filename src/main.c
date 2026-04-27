@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/23 12:52:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/27 22:00:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ static void	destroy_all(t_data *data)
 	free_scene(data->scene);
 }
 
+void	print_obj_list(void *o)
+{
+	printf("Object type: %d\n", ((t_object *)o)->type);
+}
+
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -85,6 +91,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_scene(argv[1], data.scene);
+	ft_lstiter(data.scene->objects, print_obj_list);
 	init(&data);
 	draw_single(&data);
 	attach_hooks(&data);

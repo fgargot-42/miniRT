@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 21:17:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:07:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 #include "hit.h"
 #include "veclib.h"
 
-static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_sphere *sphere,
+static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
+	t_sphere	*sphere;
+
+	sphere = (t_sphere *)obj->object;
 	rec->t = ctx.render_t;
 	rec->point = ray_at(*ray, rec->t);
 	rec->normal = face_normal(ray, vec3_normalize(vec3_sub(
@@ -24,7 +27,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_sphere *sphere,
 	rec->color = sphere->color;
 	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 	//	rec->color = (t_vec3){255, 0, 255};
-	rec->object = (t_object *)sphere;
+	rec->object = obj;
 	rec->specular = sphere->specular;
 	rec->shininess = sphere->shininess;
 }
@@ -53,19 +56,19 @@ static int	get_intersection(t_sphere *sp, t_hit_ctx *ctx)
 	return (1);
 }
 
-int	hit_sphere(void *sphere, t_ray *ray, double t_max, t_hit_record *rec)
+int	hit_sphere(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	int			has_hit;
 	t_hit_ctx	ctx;
 	t_sphere	*sp;
 
-	sp = (t_sphere *)sphere;
+	sp = (t_sphere *)obj->object;
 	ctx.oc = vec3_sub(ray->origin, sp->center);
 	ctx.rd = ray->direction;
 	ctx.t_max = t_max;
 	has_hit = get_intersection(sp, &ctx);
 	if (!has_hit)
 		return (0);
-	update_hit_record(rec, ray, sp, ctx);
+	update_hit_record(rec, ray, obj, ctx);
 	return (1);
 }

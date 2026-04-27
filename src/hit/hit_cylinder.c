@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 21:16:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:02:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include "hit.h"
 #include "veclib.h"
 
-static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
+static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
+	t_cylinder			*cyl;
 	double				z_cap;
 	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
 
+	cyl = (t_cylinder *)obj->object;
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	if (fabs(fabs(ctx.render_hit.z) - cyl->height / 2.0) < 1e-6)
 		rec->normal = vec3_normalize((t_vec3){0, 0, z_cap});
@@ -33,7 +35,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cylinder *cyl,
 	rec->color = cyl->color;
 	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
 	//	rec->color = (t_vec3){255, 0, 255};
-	rec->object = (t_object *)cyl;
+	rec->object = obj;
 	rec->specular = cyl->specular;
 	rec->shininess = cyl->shininess;
 }
@@ -91,13 +93,13 @@ static int	hit_cylinder_cap(t_cylinder *cyl, t_hit_ctx *ctx)
 	return (1);
 }
 
-int	hit_cylinder(void *cylinder, t_ray *ray, double t_max, t_hit_record *rec)
+int	hit_cylinder(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	int			has_hit;
 	t_hit_ctx	ctx;
 	t_cylinder	*cyl;
 
-	cyl = (t_cylinder *)cylinder;
+	cyl = (t_cylinder *)obj->object;
 	ctx.oc = vec3_sub(ray->origin, cyl->center);
 	ctx.rd = ray->direction;
 	ctx.t_max = t_max;
@@ -110,6 +112,6 @@ int	hit_cylinder(void *cylinder, t_ray *ray, double t_max, t_hit_record *rec)
 	has_hit |= hit_cylinder_cap(cyl, &ctx);
 	if (!has_hit)
 		return (0);
-	update_hit_record(rec, ray, cyl, ctx);
+	update_hit_record(rec, ray, obj, ctx);
 	return (1);
 }

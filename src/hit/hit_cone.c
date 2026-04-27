@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/27 19:06:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:03:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include "hit.h"
 #include "veclib.h"
 
-static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
+static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
+	t_cone	*cone;
 	t_vec3	normal;
 	double	z_cap;
 
+	cone = (t_cone *)obj->object;
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	normal = (t_vec3){ctx.render_hit.x, ctx.render_hit.y,
 		-z_cap * cone->tan_angle};
@@ -34,7 +36,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_cone *cone,
 	rec->color = cone->color;
 	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 1)
 	//	rec->color = (t_vec3){255, 0, 255};
-	rec->object = (t_object *)cone;
+	rec->object = obj;
 	rec->specular = cone->specular;
 	rec->shininess = cone->shininess;
 }
@@ -94,13 +96,13 @@ static int	hit_cone_cap(t_cone *cone, t_hit_ctx *ctx)
 	return (1);
 }
 
-int	hit_cone(void *cone, t_ray *ray, double t_max, t_hit_record *rec)
+int	hit_cone(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	int			has_hit;
 	t_hit_ctx	ctx;
 	t_cone		*co;
 
-	co = (t_cone *)cone;
+	co = (t_cone *)obj->object;
 	ctx.oc = vec3_sub(ray->origin, co->center);
 	ctx.rd = ray->direction;
 	ctx.t_max = t_max;
@@ -114,6 +116,6 @@ int	hit_cone(void *cone, t_ray *ray, double t_max, t_hit_record *rec)
 	has_hit |= hit_cone_cap(co, &ctx);
 	if (!has_hit)
 		return (0);
-	update_hit_record(rec, ray, co, ctx);
+	update_hit_record(rec, ray, obj, ctx);
 	return (1);
 }

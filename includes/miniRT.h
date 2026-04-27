@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/27 18:42:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 18:06:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ typedef struct s_hit_record
 typedef struct s_hit_fn
 {
 	t_obj_type 	type;
-	int			(*hit_fn)(void *, t_ray *, double, t_hit_record *);
+	int			(*hit_fn)(t_object *, t_ray *, double, t_hit_record *);
 }	t_hit_fn;
 
 typedef struct s_scene
@@ -222,10 +222,10 @@ t_vec3		face_normal(t_ray *ray, t_vec3 inverted);
 int			hit_scene(t_scene *scene, t_ray *ray, double t_max,
 				t_hit_record *rec);
 
-int			hit_sphere(void *sphere, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_plane(void *plane, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cylinder(void *cyl, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cone(void *cone, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_sphere(t_object *sphere, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_plane(t_object *plane, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cylinder(t_object *cyl, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cone(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3		ray_at(t_ray ray, double t);
