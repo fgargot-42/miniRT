@@ -47,7 +47,8 @@ SRC =	main.c \
 		utils/double_utils.c \
 		utils/polynom.c \
 		utils/file_utils.c \
-		utils/str_utils.c
+		utils/str_utils.c \
+		ui/ui.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

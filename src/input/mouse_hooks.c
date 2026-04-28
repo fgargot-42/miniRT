@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/27 22:24:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 20:35:09 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	mouse_down_hook(int mouse_event, void *param)
 			data->scene->selected = hc.object;
 			printf("%d\n", data->scene->selected->type);
 		}
-		print_hit_info(hc, mouse_x, mouse_y);
+		print_hit_info(data, hc, mouse_x, mouse_y);
 	}
 	if (mouse_event == 2 || mouse_event == 3)
 	{

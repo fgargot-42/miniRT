@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 18:06:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 20:27:48 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ typedef struct s_data
 {
 	mlx_context	mlx;
 	mlx_window	win;
+	mlx_window	editor;
 	mlx_image	img;
 	t_scene		*scene;
 	int			r_click_hold;
@@ -203,7 +204,7 @@ void		free_scene(t_scene *scene);
 void		draw(t_data *data);
 void		draw_single(t_data *data);
 void		add_debug(t_data *data);
-void		print_hit_info(t_hit_record hc, double mouse_x, double mouse_y);
+void		print_hit_info(t_data *data, t_hit_record hc, double mouse_x, double mouse_y);
 mlx_color	vec3_to_color(t_vec3 v);
 
 //src/hooks.c
@@ -239,4 +240,8 @@ int			get_polynom2_roots(double *roots, double a, double b, double c);
 int			open_file_read(char *file);
 void		free_str_array(char **array);
 
+
+// ui
+
+void	init_editor(t_data *data);
 #endif
