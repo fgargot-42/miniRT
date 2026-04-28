@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 20:35:59 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/29 22:39:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	mouse_down_hook(int mouse_event, void *param)
 		ray = camera_ray(data->scene->cam, mouse_x, mouse_y);
 		if (hit_scene(data->scene, &ray, T_MAX, &hc))
 		{
-			hc.color = shade(&hc, data->scene, &ray);
 			data->scene->selected = hc.object;
 			printf("%d\n", data->scene->selected->type);
 		}
 		print_hit_info(data, hc, mouse_x, mouse_y);
+		print_hit_info_debug(hc, data->scene, &ray, mouse_x, mouse_y);
 	}
 	if (mouse_event == 2 || mouse_event == 3)
 	{
