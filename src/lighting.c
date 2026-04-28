@@ -6,25 +6,32 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/27 20:01:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/28 21:40:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <math.h>
 
-static int	in_shadow(t_hit_record *rec, t_scene *scene, t_light *light)
+static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
+	t_light *light)
 {
 	t_ray			shadow_ray;
 	t_vec3			to_light;
 	double			light_dist;
-	t_hit_record	tmp;
+	bool			is_hit;
 
-	to_light = vec3_sub(light->position, rec->point);
+	to_light = vec3_sub(light->position, tmp.point);
 	light_dist = vec3_length(to_light);
-	shadow_ray.origin = rec->point;
+	shadow_ray.origin = tmp.point;
 	shadow_ray.direction = vec3_normalize(to_light);
-	return (hit_scene(scene, &shadow_ray, light_dist, &tmp));
+	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp);
+	if (is_hit)
+	{
+		rec->t = tmp.t;
+		rec->point = tmp.point;
+	}
+	return (is_hit);
 }
 
 static t_vec3	apply_ambient(t_vec3 color, t_vec3 ambient)
@@ -86,25 +93,28 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
 	bool		is_shadow;
+	t_hit_record	tmp;
 	t_vec3		result;
 	t_list		*node;
 	t_light		*light;
 
-	result = apply_ambient(rec->color, scene->ambient->color);
+	tmp = *rec;
+	rec->color = apply_ambient(rec->color, scene->ambient->color);
+	result = rec->color;
 	node = scene->lights;
 	is_shadow = 1;
 	while (node)
 	{
 		light = ((t_light *)((t_object *)node->content)->object);
-		if (!in_shadow(rec, scene, light))
+		if (!in_shadow(rec, tmp, scene, light))
 		{
 			is_shadow = 0;
-			result = vec3_add(result, apply_diffuse(rec, light));
-			result = vec3_add(result, apply_specular(rec, light, ray));
+			result = vec3_add(result, apply_diffuse(&tmp, light));
+			result = vec3_add(result, apply_specular(&tmp, light, ray));
 		}
 		node = node->next;
 	}
-	if (is_shadow)
-		return (apply_ambient(rec->color, scene->ambient->color));
-	return (vec3_clamp(result, 0.0, 255.0));
+	if (!is_shadow)
+		rec->color = vec3_clamp(result, 0.0, 255.0);
+	return (rec->color);
 }
