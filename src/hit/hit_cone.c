@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 18:50:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/29 21:36:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 		&& ctx.render_hit.z > -cone->depth + 1e-3)
 	{
 		normal = vec3_normalize((t_vec3){ctx.render_hit.x, ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap});
+		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * cone->tan_angle});
 	}
 	if (fabs(cone->axis.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, cone->transform_axis);
