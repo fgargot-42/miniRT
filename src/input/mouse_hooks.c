@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 20:35:09 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:35:59 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,89 @@ void	mouse_wheel_hook(int mouse_event, void *param)
 		cam->position = vec3_add(cam->position, vec3_scale(fwd, -MOVE_STEP));
 	draw(data);
 }
+
+
+
+
+// editor
+//
+//
+
+static void	apply_slider_x(t_slider *s, int mx)
+{
+	double	t;
+	double	new_val;
+ 
+	t = (double)(mx - SLD_X) / SLD_W;
+	if (t < 0.0)
+		t = 0.0;
+	if (t > 1.0)
+		t = 1.0;
+	new_val = s->min + t * (s->max - s->min);
+	*s->value = new_val;
+}
+ 
+void	editor_mouse_down(int event, void *param)
+{
+	t_data		*data;
+	t_slider	*s;
+	int			mx;
+	int			my;
+	int			i;
+ 
+	if (event != 1)
+		return ;
+	data = (t_data *)param;
+	if (data->nb_sliders == 0)
+		return ;
+	mlx_mouse_get_pos(data->mlx, &mx, &my);
+	i = 0;
+	while (i < data->nb_sliders)
+	{
+		s = &data->sliders[i];
+		if (mx >= SLD_X && mx <= SLD_X + SLD_W
+			&& my >= s->y - 6 && my <= s->y + SLD_H + 6)
+		{
+			data->dragging_slider = i;
+			apply_slider_x(s, mx);
+			draw_editor(data);
+			draw(data);
+			return ;
+		}
+		i++;
+	}
+}
+ 
+void	editor_mouse_up(int event, void *param)
+{
+	t_data	*data;
+ 
+	if (event != 1)
+		return ;
+	data = (t_data *)param;
+	if (data->dragging_slider >= 0)
+	{
+		data->dragging_slider = -1;
+		draw(data);
+	}
+}
+
+
+void	editor_loop(void *param)
+{
+	t_data		*data;
+	t_slider	*s;
+	int			mx;
+	int			my;
+ 
+	data = (t_data *)param;
+	if (data->dragging_slider < 0
+		|| data->dragging_slider >= data->nb_sliders)
+		return ;
+	mlx_mouse_get_pos(data->mlx, &mx, &my);
+	s = &data->sliders[data->dragging_slider];
+	apply_slider_x(s, mx);
+	draw_editor(data);
+	draw(data);
+}
+ 

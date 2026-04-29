@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 20:27:48 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/29 22:17:38 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ typedef struct s_scene
 	t_object	*selected;
 }	t_scene;
 
+#include "ui.h"
 typedef struct s_data
 {
 	mlx_context	mlx;
@@ -169,6 +170,12 @@ typedef struct s_data
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
+
+
+	// temp slider -> ui.h
+	t_slider	sliders[MAX_SLIDERS];
+	int			nb_sliders;
+	int			dragging_slider;
 }	t_data;
 
 // OBJECTS
@@ -244,4 +251,12 @@ void		free_str_array(char **array);
 // ui
 
 void	init_editor(t_data *data);
+
+
+void		init_editor(t_data *data);
+void		setup_sliders(t_data *data);
+void		draw_editor(t_data *data);
+void		editor_mouse_down(int event, void *param);
+void		editor_mouse_up(int event, void *param);
+void		editor_loop(void *param);
 #endif

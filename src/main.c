@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 19:35:51 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/04/29 20:37:35 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ int	main(int argc, char **argv)
 	data.render_scale = 1;
 	data.r_click_hold = 0;
 	data.w_click_hold = 0;
+	data.editor = NULL;
+	data.nb_sliders=0;
+	data.dragging_slider=-1;
 	data.scene = malloc(sizeof(t_scene));
 	if (!data.scene)
 	{
