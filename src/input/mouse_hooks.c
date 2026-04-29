@@ -6,11 +6,24 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 20:22:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/29 20:26:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+static void	mouse_enable_move_mode(t_data *data, int mouse_event)
+{
+	if (mouse_event == 2 || mouse_event == 3)
+	{
+		mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
+		mlx_mouse_hide(data->mlx);
+		if (mouse_event == 2)
+			data->w_click_hold = 1;
+		else
+			data->r_click_hold = 1;
+	}
+}
 
 void	mouse_down_hook(int mouse_event, void *param)
 {
@@ -34,16 +47,9 @@ void	mouse_down_hook(int mouse_event, void *param)
 		}
 		print_hit_info(data, hc, mouse_x, mouse_y);
 		print_hit_info_debug(hc, data->scene, &ray, mouse_x, mouse_y);
+		draw(data);
 	}
-	if (mouse_event == 2 || mouse_event == 3)
-	{
-		mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
-		mlx_mouse_hide(data->mlx);
-		if (mouse_event == 2)
-			data->w_click_hold = 1;
-		else
-			data->r_click_hold = 1;
-	}
+	mouse_enable_move_mode(data, mouse_event);
 }
 
 void	mouse_up_hook(int mouse_event, void *param)
