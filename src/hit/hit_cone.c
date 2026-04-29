@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 21:36:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/30 00:05:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	if (ctx.render_hit.z < cone->height - 1e-3
 		&& ctx.render_hit.z > -cone->depth + 1e-3)
 	{
-		normal = vec3_normalize((t_vec3){ctx.render_hit.x, ctx.render_hit.y, 0});
+		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
+				ctx.render_hit.y, 0});
 		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * cone->tan_angle});
 	}
 	if (fabs(cone->axis.z - 1) > 1e-3)
@@ -78,12 +79,13 @@ static int	hit_cone_cap(t_cone *cone, t_hit_ctx *ctx)
 	v_len = (ctx->oc.z > 0) * cone->height - (ctx->oc.z < 0) * cone->depth;
 	if (ctx->oc.z < cone->height && ctx->oc.z > -cone->depth)
 		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > fabs(ctx->oc.z
-				* cone->tan_angle) || (ctx->oc.z > 0) != (ctx->rd.z > 0))
+				* cone->tan_angle) + 1e-3
+			|| (ctx->oc.z > 0) != (ctx->rd.z > 0))
 			return (0);
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
-	if (v_len < T_MIN || v_len > ctx->t_max || v_len > ctx->render_t)
+	if (v_len < T_MIN)
 		return (0);
 	if (fabs(v_hit_cap.z - cone->height) > 1e-3
 		&& fabs(v_hit_cap.z + cone->depth) > 1e-3)
