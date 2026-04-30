@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 18:34:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/30 22:46:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ t_vec3	face_normal(t_ray *ray, t_vec3 inverted)
 static t_hit_fn	*get_hit_fn(t_obj_type type)
 {
 	int					i;
-	static const int	hit_list_size = 4;
+	static const int	hit_list_size = 6;
 	static t_hit_fn		hit_list[] = {
 		{OBJ_PLANE, hit_plane}, {OBJ_SPHERE, hit_sphere},
-		{OBJ_CYLINDER, hit_cylinder}, {OBJ_CONE, hit_cone}};
+		{OBJ_CYLINDER, hit_cylinder}, {OBJ_CONE, hit_cone},
+		{OBJ_HYPERBOLOID, hit_hyperboloid}, {OBJ_PARABOLOID, hit_paraboloid}};
 
 	i = 0;
 	while (i < hit_list_size)

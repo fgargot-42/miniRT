@@ -118,10 +118,12 @@ void	init_editor(t_data *data)
 static const char	*obj_type_name(int type)
 {
 	static const char	*names[] = {
-		[OBJ_SPHERE]   = "SPHERE",
-		[OBJ_PLANE]    = "PLANE",
-		[OBJ_CYLINDER] = "CYLINDER",
-		[OBJ_CONE]     = "CONE",
+		[OBJ_SPHERE]		= "SPHERE",
+		[OBJ_PLANE]			= "PLANE",
+		[OBJ_CYLINDER]		= "CYLINDER",
+		[OBJ_CONE]			= "CONE",
+		[OBJ_HYPERBOLOID]	="HYPERBOLOID",
+		[OBJ_PARABOLOID]	= "PARABOLOID",
 	};
 	if (type < 0 || type >= (int)(sizeof(names) / sizeof(*names)))
 		return ("UNKNOWN");
@@ -209,6 +211,24 @@ void	setup_sliders(t_data *data)
 		shin = &((t_cone *)obj->object)->shininess;
 		radius = &((t_cone *)obj->object)->angle;
 		height = &((t_cone *)obj->object)->height;
+	}
+	else if (obj->type == OBJ_HYPERBOLOID)
+	{
+		pos = &((t_hyperboloid *)obj->object)->center;
+		col = &((t_hyperboloid *)obj->object)->color;
+		spec = &((t_hyperboloid *)obj->object)->specular;
+		shin = &((t_hyperboloid *)obj->object)->shininess;
+		radius = &((t_hyperboloid *)obj->object)->angle;
+		height = &((t_hyperboloid *)obj->object)->height;
+	}
+	else if (obj->type == OBJ_PARABOLOID)
+	{
+		pos = &((t_paraboloid *)obj->object)->center;
+		col = &((t_paraboloid *)obj->object)->color;
+		spec = &((t_paraboloid *)obj->object)->specular;
+		shin = &((t_paraboloid *)obj->object)->shininess;
+		radius = &((t_paraboloid *)obj->object)->angle;
+		height = &((t_paraboloid *)obj->object)->height;
 	}
 	if (!pos || !col)
 		return ;

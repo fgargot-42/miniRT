@@ -101,6 +101,34 @@ typedef struct s_cone
 	double	shininess;
 }	t_cone;
 
+typedef struct s_hyperboloid
+{
+	t_vec3	center;
+	t_vec3	axis;
+	double	**transform_axis;
+	double	angle;
+	double	tan_angle;
+	double	height;
+	double	depth;
+	t_vec3	color;
+	double	specular;
+	double	shininess;
+}	t_hyperboloid;
+
+typedef struct s_paraboloid
+{
+	t_vec3	center;
+	t_vec3	axis;
+	double	**transform_axis;
+	double	angle;
+	double	tan_angle;
+	double	height;
+	double	depth;
+	t_vec3	color;
+	double	specular;
+	double	shininess;
+}	t_paraboloid;
+
 typedef struct s_camera
 {
 	t_vec3	position;
@@ -119,7 +147,9 @@ typedef enum	e_obj_type
 	OBJ_PLANE,
 	OBJ_SPHERE,
 	OBJ_CYLINDER,
-	OBJ_CONE
+	OBJ_CONE,
+	OBJ_HYPERBOLOID,
+	OBJ_PARABOLOID
 }	t_obj_type;
 
 typedef struct	s_object
@@ -194,6 +224,8 @@ t_object			*parse_sphere(char **line_split, int line_nb);
 t_object			*parse_plane(char **line_split, int line_nb);
 t_object			*parse_cylinder(char **line_split, int line_nb);
 t_object			*parse_cone(char **line_split, int line_nb);
+t_object			*parse_hyperboloid(char **line_split, int line_nb);
+t_object			*parse_paraboloid(char **line_split, int line_nb);
 
 void		print_parse_error(char *message, char *element, int line_nb);
 void		clear_gnl(int fd, char *line);
@@ -235,6 +267,8 @@ int			hit_sphere(t_object *sphere, t_ray *ray, double t_max, t_hit_record *rec);
 int			hit_plane(t_object *plane, t_ray *ray, double t_max, t_hit_record *rec);
 int			hit_cylinder(t_object *cyl, t_ray *ray, double t_max, t_hit_record *rec);
 int			hit_cone(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_hyperboloid(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_paraboloid(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3		ray_at(t_ray ray, double t);

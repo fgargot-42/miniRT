@@ -28,6 +28,8 @@ SRC =	main.c \
 		parser/parse_plane.c \
 		parser/parse_cylinder.c \
 		parser/parse_cone.c \
+		parser/parse_hyperboloid.c \
+		parser/parse_paraboloid.c \
 		renderer/drawer.c \
 		renderer/drawer_utils.c \
 		renderer/debug.c \
@@ -37,6 +39,8 @@ SRC =	main.c \
 		hit/hit_plane.c \
 		hit/hit_cylinder.c \
 		hit/hit_cone.c \
+		hit/hit_hyperboloid.c \
+		hit/hit_paraboloid.c \
 		hit/hit.c \
 		lighting.c \
 		veclib/veclib2_math.c \

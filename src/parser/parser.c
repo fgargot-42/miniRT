@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/25 19:44:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/30 22:23:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 static int	get_parse_element(char *id)
 {
-	static char	*id_elem[] = {"A", "C", "L", "S", "sp", "pl", "cy", "co"};
+	static char	*id_elem[] = {"A", "C", "L", "S", "sp", "pl",
+		"cy", "co", "hy", "pa"};
 	int			i;
 	int			size;
 
@@ -38,7 +39,7 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 	int							i;
 	static const t_parser_func	parse_elem[] = {parse_ambient,
 		parse_camera, parse_light, parse_sky, parse_sphere, parse_plane,
-		parse_cylinder, parse_cone};
+		parse_cylinder, parse_cone, parse_hyperboloid, parse_paraboloid};
 
 	line_split = ft_split_by_whitespace(line);
 	if (!line_split || !obj)
@@ -49,6 +50,7 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 		return (2);
 	}
 	i = get_parse_element(line_split[0]);
+	printf("Adding object to scene: %s\t(id=%i)\n", line_split[0], i);
 	if (i != -1)
 		*obj = parse_elem[i](line_split, line_nb);
 	else
@@ -78,9 +80,7 @@ static int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
 	status = 1;
 	if (!*obj)
 		return (1);
-	if ((*obj)->type == OBJ_SPHERE || (*obj)->type == OBJ_CYLINDER
-		|| (*obj)->type == OBJ_CONE || (*obj)->type == OBJ_PLANE
-		|| (*obj)->type == OBJ_LIGHT)
+	if ((*obj)->type >= OBJ_LIGHT)
 		{
 			new_object = ft_lstnew(*obj);
 			if (!new_object)

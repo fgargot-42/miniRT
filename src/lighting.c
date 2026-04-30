@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 21:40:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/04/30 19:09:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
 	bool			is_hit;
 
 	to_light = vec3_sub(light->position, tmp.point);
+	if (vec3_dot(to_light, tmp.normal) < 0)
+		return (1);
 	light_dist = vec3_length(to_light);
 	shadow_ray.origin = tmp.point;
 	shadow_ray.direction = vec3_normalize(to_light);
@@ -57,16 +59,6 @@ static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
 	});
 }
 
-// Dummy function as the real one is buggy.
-/*
-static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
-{
-	(void)rec;
-	(void)light;
-	(void)ray;
-	return ((t_vec3){0, 0, 0});
-}
-*/
 static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 {
 	t_vec3	light_dir;

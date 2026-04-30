@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 20:37:35 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/01 00:00:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,93 @@ static void	destroy_all(t_data *data)
 	free_scene(data->scene);
 }
 
+void	print_sphere(t_sphere *s)
+{
+	printf("Object type: SPHERE\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n",
+		s->center.x, s->center.y, s->center.z, s->radius);
+	printf("--color: x=%f y=%f z=%f\n", s->color.x, s->color.y, s->color.z);
+	printf("--specular: %f\n", s->specular);
+	printf("--shininess: %f\n", s->shininess);
+}
+
+void	print_plane(t_plane *p)
+{
+	printf("Object type: PLANE\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f\n",
+		p->point.x, p->point.y, p->point.z);
+	printf("--normal: x=%.2f y=%.2f z=%.2f\n",
+		p->normal.x, p->normal.y, p->normal.z);
+	printf("--color: x=%f y=%f z=%f (checkered: %s)\n", p->color.x, p->color.y, p->color.z,
+		p->checker ? "true" : "false");
+	printf("--specular: %f\n", p->specular);
+	printf("--shininess: %f\n", p->shininess);
+}
+
+void	print_cylinder(t_cylinder *c)
+{
+	printf("Object type: CYLINDER\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f h=%.2f)\n",
+		c->center.x, c->center.y, c->center.z, c->radius, c->height);
+	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
+		c->axis.x, c->axis.y, c->axis.z);
+	printf("--color: x=%f y=%f z=%f\n", c->color.x, c->color.y, c->color.z);
+	printf("--specular: %f\n", c->specular);
+	printf("--shininess: %f\n", c->shininess);
+}
+
+void	print_cone(t_cone *c)
+{
+	printf("Object type: CONE\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
+		c->center.x, c->center.y, c->center.z, c->angle, c->height, c->depth);
+	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
+		c->axis.x, c->axis.y, c->axis.z);
+	printf("--color: x=%f y=%f z=%f\n", c->color.x, c->color.y, c->color.z);
+	printf("--specular: %f\n", c->specular);
+	printf("--shininess: %f\n", c->shininess);
+}
+
+void	print_hyper(t_hyperboloid *c)
+{
+	printf("Object type: HYPERBOLOID\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
+		c->center.x, c->center.y, c->center.z, c->angle, c->height, c->depth);
+	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
+		c->axis.x, c->axis.y, c->axis.z);
+	printf("--color: x=%f y=%f z=%f\n", c->color.x, c->color.y, c->color.z);
+	printf("--specular: %f\n", c->specular);
+	printf("--shininess: %f\n", c->shininess);
+}
+
+void	print_para(t_paraboloid *c)
+{
+	printf("Object type: PARABOLOID\n");
+	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
+		c->center.x, c->center.y, c->center.z, c->angle, c->height, c->depth);
+	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
+		c->axis.x, c->axis.y, c->axis.z);
+	printf("--color: x=%f y=%f z=%f\n", c->color.x, c->color.y, c->color.z);
+	printf("--specular: %f\n", c->specular);
+	printf("--shininess: %f\n", c->shininess);
+}
+
 void	print_obj_list(void *o)
 {
-	printf("Object type: %d\n", ((t_object *)o)->type);
+	t_object *obj = (t_object *)o;
+
+	if (obj->type == OBJ_SPHERE)
+		print_sphere((t_sphere *)obj->object);
+	if (obj->type == OBJ_PLANE)
+		print_plane((t_plane *)obj->object);
+	if (obj->type == OBJ_CYLINDER)
+		print_cylinder((t_cylinder *)obj->object);
+	if (obj->type == OBJ_CONE)
+		print_cone((t_cone *)obj->object);
+	if (obj->type == OBJ_HYPERBOLOID)
+		print_hyper((t_hyperboloid *)obj->object);
+	if (obj->type == OBJ_PARABOLOID)
+		print_para((t_paraboloid *)obj->object);
 }
 
 
