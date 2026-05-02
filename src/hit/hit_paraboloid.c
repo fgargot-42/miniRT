@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/30 23:35:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/02 18:53:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,32 @@
 #include "hit.h"
 #include "veclib.h"
 
+static double	get_paraboloid_z_radius(t_vec3 point, double tan_angle)
+{
+	point.z = 0;
+	if (fabs(tan_angle) < 1e-3)
+		return (0);
+	return (vec3_dot(point, point) / tan_angle);
+}
+
 static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
 	t_paraboloid	*pa;
 	t_vec3			normal;
 	double			z_cap;
+	double			z_ratio;
 
 	pa = (t_paraboloid *)obj->object;
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
+	z_ratio = get_paraboloid_z_radius(ctx.render_hit, pa->tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
 	if (ctx.render_hit.z < pa->height - 1e-3
 		&& ctx.render_hit.z > -pa->depth + 1e-3)
 	{
 		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
 				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * pa->tan_angle});
+		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * z_ratio});
 	}
 	if (fabs(pa->axis.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, pa->transform_axis);
@@ -76,14 +86,12 @@ static int	hit_paraboloid_cap(t_paraboloid *pa, t_hit_ctx *ctx)
 {
 	double				v_len;
 	t_vec3				v_hit_cap;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
 
 	return (0);
 	v_len = (ctx->oc.z > 0) * pa->height - (ctx->oc.z < 0) * pa->depth;
 	if (ctx->oc.z < pa->height && ctx->oc.z > -pa->depth)
-		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > fabs(ctx->oc.z
-				* pa->tan_angle) + 1e-3
-			|| (ctx->oc.z > 0) != (ctx->rd.z > 0))
+		if (get_paraboloid_z_radius(ctx->oc, pa->tan_angle)
+			> fabs(ctx->oc.z) + 1e-3 || (ctx->oc.z > 0) != (ctx->rd.z > 0))
 			return (0);
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
@@ -93,8 +101,7 @@ static int	hit_paraboloid_cap(t_paraboloid *pa, t_hit_ctx *ctx)
 	if (fabs(v_hit_cap.z - pa->height) > 1e-3
 		&& fabs(v_hit_cap.z + pa->depth) > 1e-3)
 		return (0);
-	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > fabs(v_hit_cap.z)
-		* pa->tan_angle)
+	if (get_paraboloid_z_radius(v_hit_cap, pa->tan_angle) > fabs(v_hit_cap.z))
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/30 22:52:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/02 18:49:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,30 @@
 #include "hit.h"
 #include "veclib.h"
 
+static double	get_hyperboloid_z_radius(t_vec3 point, double tan_angle)
+{
+	point.z = 0;
+	return (sqrt(vec3_dot(point, point) - 1) / tan_angle);
+}
+
 static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
 	t_hyperboloid	*hy;
-	t_vec3	normal;
-	double	z_cap;
+	t_vec3			normal;
+	double			z_cap;
+	double			z_ratio;
 
 	hy = (t_hyperboloid *)obj->object;
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
+	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, hy->tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
 	if (ctx.render_hit.z < hy->height - 1e-3
 		&& ctx.render_hit.z > -hy->depth + 1e-3)
 	{
 		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
 				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap});
+		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * z_ratio});
 	}
 	if (fabs(hy->axis.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, hy->transform_axis);
@@ -74,14 +82,11 @@ static int	hit_hyperboloid_cap(t_hyperboloid *hy, t_hit_ctx *ctx)
 {
 	double				v_len;
 	t_vec3				v_hit_cap;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
 
-	return (0);
 	v_len = (ctx->oc.z > 0) * hy->height - (ctx->oc.z < 0) * hy->depth;
 	if (ctx->oc.z < hy->height && ctx->oc.z > -hy->depth)
-		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > fabs(ctx->oc.z
-			* hy->tan_angle) - 1 + 1e-3
-			|| (ctx->oc.z > 0) != (ctx->rd.z > 0))
+		if (get_hyperboloid_z_radius(ctx->oc, hy->tan_angle)
+			> fabs(ctx->oc.z) + 1e-3 || (ctx->oc.z > 0) != (ctx->rd.z > 0))
 			return (0);
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
@@ -91,7 +96,7 @@ static int	hit_hyperboloid_cap(t_hyperboloid *hy, t_hit_ctx *ctx)
 	if (fabs(v_hit_cap.z - hy->height) > 1e-3
 		&& fabs(v_hit_cap.z + hy->depth) > 1e-3)
 		return (0);
-	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > fabs(v_hit_cap.z * hy->tan_angle) - 1)
+	if (get_hyperboloid_z_radius(v_hit_cap, hy->tan_angle) > fabs(v_hit_cap.z))
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;
