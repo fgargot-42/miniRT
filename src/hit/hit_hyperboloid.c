@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/02 18:49:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/02 22:34:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 
 	hy = (t_hyperboloid *)obj->object;
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
-	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, hy->tan_angle);
+	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, 1 / hy->tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
 	if (ctx.render_hit.z < hy->height - 1e-3
 		&& ctx.render_hit.z > -hy->depth + 1e-3)
