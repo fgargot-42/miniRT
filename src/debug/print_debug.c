@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:05:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 23:17:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	print_cylinder(t_object *c);
 void	print_cone(t_object *c);
 void	print_hyper(t_object *c);
 void	print_para(t_object *c);
+void	print_triangle(t_object *c);
 
 static void	print_light(t_object *s)
 {
@@ -73,6 +74,8 @@ void	print_obj_list(void *o)
 		print_hyper(obj);
 	if (obj->type == OBJ_PARABOLOID)
 		print_para(obj);
+	if (obj->type == OBJ_TRIANGLE)
+		print_triangle(obj);
 	if (obj->type == OBJ_LIGHT)
 		print_light(obj);
 }

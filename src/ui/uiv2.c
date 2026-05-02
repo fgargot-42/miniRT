@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 00:50:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 23:24:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ static const char	*obj_type_name(int type)
 	[OBJ_CONE] = "CONE",
 	[OBJ_HYPERBOLOID] = "HYPERBOLOID",
 	[OBJ_PARABOLOID] = "PARABOLOID",
+	[OBJ_TRIANGLE] = "TRIANGLE",
 	};
 
 	if (type < 0 || type >= (int)(sizeof(names) / sizeof(*names)))
@@ -210,7 +211,7 @@ void	setup_sliders(t_data *data)
 		radius = &obj->radius;
 		height = &obj->props.height;
 	}
-	else if (obj->type >= OBJ_CONE)
+	else if (obj->type >= OBJ_CONE && obj->type != OBJ_TRIANGLE)
 	{
 		radius = &obj->angle;
 		height = &obj->props.height;

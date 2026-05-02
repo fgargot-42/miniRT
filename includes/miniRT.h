@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 00:50:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 23:03:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ typedef enum e_obj_type
 	OBJ_CYLINDER,
 	OBJ_CONE,
 	OBJ_HYPERBOLOID,
-	OBJ_PARABOLOID
+	OBJ_PARABOLOID,
+	OBJ_TRIANGLE
 }	t_obj_type;
 
 typedef union u_obj_prop
@@ -66,6 +67,12 @@ typedef union u_obj_prop
 		double	fov;
 		double	pitch;
 		double	yaw;
+	};
+	struct
+	{
+		t_vec3	a;
+		t_vec3	b;
+		t_vec3	c;
 	};
 	double	intensity; // light/ambient
 }	t_obj_prop;
@@ -158,6 +165,7 @@ t_object			*parse_cylinder(char **line_split, int line_nb);
 t_object			*parse_cone(char **line_split, int line_nb);
 t_object			*parse_hyperboloid(char **line_split, int line_nb);
 t_object			*parse_paraboloid(char **line_split, int line_nb);
+t_object			*parse_triangle(char **line_split, int line_nb);
 
 void				print_parse_error(char *message, char *element,
 						int line_nb);
@@ -210,6 +218,8 @@ int					hit_cone(t_object *obj, t_ray *ray, double t_max,
 int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);

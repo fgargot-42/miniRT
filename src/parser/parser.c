@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:21:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 22:52:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static int	get_parse_element(char *id)
 {
 	static char	*id_elem[] = {"A", "C", "L", "S", "sp", "pl",
-		"cy", "co", "hy", "pa"};
+		"cy", "co", "hy", "pa", "tr"};
 	int			i;
 	int			size;
 
@@ -37,9 +37,9 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 {
 	char						**line_split;
 	int							i;
-	static const t_parser_func	parse_elem[] = {parse_ambient,
-		parse_camera, parse_light, parse_sky, parse_sphere, parse_plane,
-		parse_cylinder, parse_cone, parse_hyperboloid, parse_paraboloid};
+	static const t_parser_func	parse_elem[] = {parse_ambient, parse_camera, 
+		parse_light, parse_sky, parse_sphere, parse_plane, parse_cylinder,
+		parse_cone, parse_hyperboloid, parse_paraboloid, parse_triangle};
 
 	line_split = ft_split_by_whitespace(line);
 	if (!line_split || !obj)

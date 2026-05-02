@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:47:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 23:35:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray,
 	if (!hc.object)
 		return ;
 	printf("Object type: %d\n", hc.object->type);
-	if (hc.object->type >= OBJ_CYLINDER)
+	if (hc.object->type >= OBJ_CYLINDER && hc.object->type != OBJ_TRIANGLE)
 		print_rotation_info_debug(hc.object);
 	printf("Object hit coordinates: x=%.3f y=%.3f z=%.3f",
 		hc.point.x, hc.point.y, hc.point.z);

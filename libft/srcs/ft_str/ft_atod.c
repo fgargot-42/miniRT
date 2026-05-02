@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 19:18:43 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 20:58:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 23:09:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ double	ft_atod(const char *nptr)
 		i++;
 	}
 	nb = get_nb(&nptr[i], &nb_digits_right);
-	_atoddiv = ft_atod_pow(10, nb_digits_right);
+	div = ft_atod_pow(10, nb_digits_right);
 	if (div != 0)
 		return ((double)sign * (double)nb / (double)div);
 	return ((double)sign * (double)nb);
