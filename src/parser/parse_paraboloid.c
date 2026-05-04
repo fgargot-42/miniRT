@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/30 23:19:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 22:18:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ static int	parse_paraboloid_elements(char **line_split, t_paraboloid *pa, int li
 	p_res &= parse_vector(line_split[2], &(pa->axis), "paraboloid", line_nb);
 	p_res &= parse_double(line_split[3], &(pa->angle), "paraboloid", line_nb);
 	p_res &= parse_double(line_split[4], &(pa->height), "paraboloid", line_nb);
-	p_res &= parse_double(line_split[5], &(pa->depth), "paraboloid", line_nb);
 	p_res &= parse_vector(line_split[6], &(pa->color), "paraboloid", line_nb);
 	pa->specular = 0;
 	pa->shininess = 1;

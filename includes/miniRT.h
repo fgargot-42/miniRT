@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/04 21:04:11 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/04 22:18:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ typedef struct s_paraboloid
 	double	angle;
 	double	tan_angle;
 	double	height;
-	double	depth;
 	t_vec3	color;
 	double	specular;
 	double	shininess;

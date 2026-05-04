@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/04 19:38:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 22:21:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	z_ratio = get_paraboloid_z_radius(ctx.render_hit, pa->tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
-	if (ctx.render_hit.z < pa->height - 1e-3
-		&& ctx.render_hit.z > -pa->depth + 1e-3)
+	if (ctx.render_hit.z < pa->height - 1e-3)
 	{
 		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
 				ctx.render_hit.y, 0});
@@ -69,15 +68,14 @@ static int	get_intersection(t_paraboloid *pa, t_hit_ctx *ctx)
 		return (0);
 	ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, roots_tmp[0]));
 	ctx->render_t = roots_tmp[0];
-	if (roots_tmp[0] < T_MIN || ctx->render_hit.z < -pa->depth
-		|| ctx->render_hit.z > pa->height)
+	if (roots_tmp[0] < T_MIN || ctx->render_hit.z > pa->height)
 	{
 		ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, roots_tmp[1]));
 		ctx->render_t = roots_tmp[1];
 	}
 	if (ctx->render_t < T_MIN || ctx->render_t >= ctx->t_max)
 		return (0);
-	if (ctx->render_hit.z < -pa->depth || ctx->render_hit.z > pa->height)
+	if (ctx->render_hit.z > pa->height)
 		return (0);
 	return (1);
 }
@@ -87,8 +85,8 @@ static int	hit_paraboloid_cap(t_paraboloid *pa, t_hit_ctx *ctx)
 	double				v_len;
 	t_vec3				v_hit_cap;
 
-	v_len = (ctx->oc.z > 0) * pa->height - (ctx->oc.z < 0) * pa->depth;
-	if (ctx->oc.z < pa->height && ctx->oc.z > -pa->depth)
+	v_len = (ctx->oc.z > 0) * pa->height;
+	if (ctx->oc.z < pa->height)
 		if (get_paraboloid_z_radius(ctx->oc, pa->tan_angle)
 			> fabs(ctx->oc.z) + 1e-3 || (ctx->oc.z > 0) != (ctx->rd.z > 0))
 			return (0);
@@ -97,8 +95,7 @@ static int	hit_paraboloid_cap(t_paraboloid *pa, t_hit_ctx *ctx)
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
 	if (v_len < T_MIN)
 		return (0);
-	if (fabs(v_hit_cap.z - pa->height) > 1e-3
-		&& fabs(v_hit_cap.z + pa->depth) > 1e-3)
+	if (fabs(v_hit_cap.z - pa->height) > 1e-3)
 		return (0);
 	if (get_paraboloid_z_radius(v_hit_cap, pa->tan_angle) > fabs(v_hit_cap.z))
 		return (0);

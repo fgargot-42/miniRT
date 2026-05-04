@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/01 00:00:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 22:22:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ void	print_hyper(t_hyperboloid *c)
 void	print_para(t_paraboloid *c)
 {
 	printf("Object type: PARABOLOID\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
-		c->center.x, c->center.y, c->center.z, c->angle, c->height, c->depth);
+	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f)\n",
+		c->center.x, c->center.y, c->center.z, c->angle, c->height);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->axis.x, c->axis.y, c->axis.z);
 	printf("--color: x=%f y=%f z=%f\n", c->color.x, c->color.y, c->color.z);
