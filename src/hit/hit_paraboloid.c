@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/02 18:53:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 19:38:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,6 @@ static int	hit_paraboloid_cap(t_paraboloid *pa, t_hit_ctx *ctx)
 	double				v_len;
 	t_vec3				v_hit_cap;
 
-	return (0);
 	v_len = (ctx->oc.z > 0) * pa->height - (ctx->oc.z < 0) * pa->depth;
 	if (ctx->oc.z < pa->height && ctx->oc.z > -pa->depth)
 		if (get_paraboloid_z_radius(ctx->oc, pa->tan_angle)

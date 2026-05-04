@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/02 22:34:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 19:28:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 static double	get_hyperboloid_z_radius(t_vec3 point, double tan_angle)
 {
 	point.z = 0;
+	if (fabs(tan_angle) < 1e-3)
+		return (0);
 	return (sqrt(vec3_dot(point, point) - 1) / tan_angle);
 }
 
@@ -86,8 +88,10 @@ static int	hit_hyperboloid_cap(t_hyperboloid *hy, t_hit_ctx *ctx)
 	v_len = (ctx->oc.z > 0) * hy->height - (ctx->oc.z < 0) * hy->depth;
 	if (ctx->oc.z < hy->height && ctx->oc.z > -hy->depth)
 		if (get_hyperboloid_z_radius(ctx->oc, hy->tan_angle)
-			> fabs(ctx->oc.z) + 1e-3 || (ctx->oc.z > 0) != (ctx->rd.z > 0))
+			> fabs(ctx->oc.z) + 1e-3)
 			return (0);
+	if (ctx->oc.z > -hy->depth + 1e-3 && ctx->oc.z < hy->height - 1e-3)
+		v_len = (ctx->rd.z > 0) * hy->height - (ctx->rd.z < 0) * hy->depth;
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);

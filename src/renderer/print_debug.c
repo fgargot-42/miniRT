@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 22:48:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 20:46:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,6 @@ static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
 	});
 }
 
-// Dummy function as the real one is buggy.
-/*
-static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
-{
-	(void)rec;
-	(void)light;
-	(void)ray;
-	return ((t_vec3){0, 0, 0});
-}
-*/
 static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 {
 	t_vec3	light_dir;
@@ -127,12 +117,31 @@ static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray, double mouse_x, double mouse_y)
 {
 	t_hit_record	shade_hc;
+	t_vec3			axis;
+	double			**mat;
 
 	shade_hc = hc;
+	mat = NULL;
 	printf("\nObject selected at address %p\n", hc.object);
 	if (!hc.object)
 		return ;
 	printf("Object type: %d\n", hc.object->type);
+	if (hc.object->type >= OBJ_CYLINDER)
+	{
+		axis = ((t_cylinder *)(hc.object->object))->axis;
+		mat = ((t_cylinder *)(hc.object->object))->transform_axis;
+		printf("Object axis: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
+		if (mat)
+			printf(
+		"Object rotation matrix:\n[ %.3f\t%.3f\t%.3f ]\n[ %.3f\t%.3f\t%.3f ]\n[ %.3f\t%.3f\t%.3f ]\n",
+		mat[0][0], mat[0][1], mat[0][2],
+		mat[1][0], mat[1][1], mat[1][2],
+		mat[2][0], mat[2][1], mat[2][2]);
+		axis = vec_apply_rotation_z(axis, mat);
+		printf("\tObject after rotation: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
+		axis = vec_reverse_rotation(axis, mat);
+		printf("\tObject rotation back: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
+	}
 	printf("Object hit coordinates: x=%.3f y=%.3f z=%.3f (d=%.3f) (u=%.3f, v=%.3f)\n",
 		hc.point.x, hc.point.y, hc.point.z, hc.t, mouse_x, mouse_y);		
 	printf("Object normal at hit: x=%.3f y=%.3f z=%.3f (d=%.3f)\n", hc.normal.x,

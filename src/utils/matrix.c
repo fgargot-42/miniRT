@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:12:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 20:55:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static double	**get_empty_matrix(void)
 
 double	**vec_get_matrix_rotation_z(t_vec3 v_from)
 {
-	double	c;
 	double	s;
 	double	kx;
 	double	ky;
@@ -57,19 +56,18 @@ double	**vec_get_matrix_rotation_z(t_vec3 v_from)
 	matrix = get_empty_matrix();
 	if (!matrix)
 		return (NULL);
-	c = v_from.z;
 	s = vec3_length((t_vec3){v_from.x, v_from.y, 0});
 	kx = v_from.y / s;
 	ky = -v_from.x / s;
-	matrix[0][0] = c + kx * kx * (1 - c);
-	matrix[0][1] = kx * ky * (1 - c);
-	matrix[0][2] = -ky * s;
-	matrix[1][0] = kx * ky * (1 - c);
-	matrix[1][1] = c + ky * ky * (1 - c);
-	matrix[1][2] = kx * s;
-	matrix[2][0] = ky * s;
-	matrix[2][1] = -kx * s;
-	matrix[2][2] = c;
+	matrix[0][0] = v_from.z + kx * kx * (1 - v_from.z);
+	matrix[0][1] = kx * ky * (1 - v_from.z);
+	matrix[0][2] = -v_from.x;
+	matrix[1][0] = kx * ky * (1 - v_from.z);
+	matrix[1][1] = v_from.z + ky * ky * (1 - v_from.z);
+	matrix[1][2] = -v_from.y;
+	matrix[2][0] = v_from.x;
+	matrix[2][1] = v_from.y;
+	matrix[2][2] = v_from.z;
 	return (matrix);
 }
 
