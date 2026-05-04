@@ -24,7 +24,7 @@
 #define TITLE_H       22
 #define COL_VALUES_X  (PANEL_X + PANEL_W / 2)
 
-static void	fill_rect(t_data *data, void *win,
+void	fill_rect(t_data *data, void *win,
 					int x, int y, int w, int h, mlx_color col)
 {
 	int	px;
@@ -40,7 +40,7 @@ static void	fill_rect(t_data *data, void *win,
 	}
 }
 
-static void	draw_border(t_data *data, void *win,
+/*static void	draw_border(t_data *data, void *win,
 					int x, int y, int w, int h, mlx_color col)
 {
 	int	i;
@@ -60,7 +60,7 @@ static void	draw_border(t_data *data, void *win,
 		i++;
 	}
 }
-
+*/
 static void	draw_hline(t_data *data, void *win, int y)
 {
 	int	x;
@@ -285,55 +285,68 @@ void	setup_sliders(t_data *data)
     label               [====filled====|----empty----]    value
                                        ^ curseur
 */
-static void	draw_slider(t_data *data, t_slider *s)
+
+
+
+
+static void draw_slider(t_data *data, t_slider *s)
 {
-	double		t;
-	//int			thumb_x;
-	int			filled_w;
-	char		buf[32];
-	mlx_color	dim;
-	if (s->value == NULL)
-		return ;
+	double t;
+	int filled_w;
+	int thumb_x;
+	char buf[32];
 
-	//clear slider
-	fill_rect(data, data->editor,
-    0,
-    s->y - 6,
-    EDITOR_W,
-    SLD_H + 12,
-    COL_BG);
+	if (!s->value || s->max == s->min)
+		return;
 
-	// fond fonce
-	dim = (mlx_color){
+
+//	fill_rect(data, data->editor,
+//		SLD_X - 5, s->y - 6,
+//		SLD_W + 80, SLD_H + 12,
+//		COL_BG);
+
+	t = (*s->value - s->min) / (s->max - s->min);
+
+	if (t < 0.0) t = 0.0;
+	if (t > 1.0) t = 1.0;
+
+	filled_w = (int)(t * SLD_W);
+	thumb_x = SLD_X + filled_w;
+
+	mlx_color dim = (mlx_color){
 		.r = s->col.r / 5,
 		.g = s->col.g / 5,
 		.b = s->col.b / 5,
 		.a = 255
 	};
-	t = (*s->value - s->min) / (s->max - s->min);
-	if (t < 0.0)
-		t = 0.0;
-	if (t > 1.0)
-		t = 1.0;
-	filled_w = (int)(t * SLD_W);
-//	thumb_x  = SLD_X + filled_w;
-	// bg
-	fill_rect(data, data->editor, SLD_X, s->y - 1, SLD_W, SLD_H + 2, dim);
+
+	fill_rect(data, data->editor,
+		SLD_X, s->y - 1,
+		SLD_W, SLD_H + 2,
+		dim);
+
 	if (filled_w > 0)
-		fill_rect(data, data->editor, SLD_X, s->y - 1, filled_w, SLD_H + 2, s->col);
-	// TODO ptit truc blanc
-//	fill_rect(data, data->editor,
-//		thumb_x - 3, s->y - 4, 6, SLD_H + 8, COL_WHITE);
-	// label
-	mlx_set_font_scale(data->mlx, "resources/font.ttf", 12.0f);
+		fill_rect(data, data->editor,
+			SLD_X, s->y - 1,
+			filled_w, SLD_H + 2,
+			s->col);
+
+	fill_rect(data, data->editor,
+		thumb_x - 3, s->y - 4,
+		6, SLD_H + 8,
+		COL_WHITE);
+
 	mlx_string_put(data->mlx, data->editor,
-		PANEL_PAD, s->y, COL_LABEL, (char *)s->label);
-	//value
+		PANEL_PAD, s->y,
+		COL_LABEL, (char *)s->label);
+
 	snprintf(buf, sizeof(buf), "%.2f", *s->value);
-	printf("%s : %.2f\n", (char*)s->label, *s->value);
+
 	mlx_string_put(data->mlx, data->editor,
-		SLD_X + SLD_W + 8, s->y, COL_VALUE, buf);
+		SLD_X + SLD_W + 8, s->y,
+		COL_VALUE, buf);
 }
+
 
 void	draw_editor(t_data *data)
 {
@@ -409,23 +422,23 @@ void	print_hit_info(t_data *data, t_hit_record hit,
 	int	panel_h;
 
 	init_editor(data);
-
 	mlx_clear_window(data->mlx, data->editor, COL_WHITE);
+
 
 	if (!hit.object)
 		return ;
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
-	panel_h = TITLE_H + LINE_H * 10 + 60;
+	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
 	
 
 	// bg + title + border
 	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BG);
 	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, TITLE_H, COL_TITLEBAR);
-	draw_border(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BORDER);
+//draw_border(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BORDER);
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
 	mlx_string_put(data->mlx, data->editor,
-		PANEL_X + PANEL_PAD, PANEL_Y + 16, COL_WHITE, "miniRT INSPECTOR |      ☺");
+		PANEL_X + PANEL_PAD, PANEL_Y + 16, COL_WHITE, "miniRT INSPECTOR |      ;)");
 
 
 	y = PANEL_Y + TITLE_H + 8;

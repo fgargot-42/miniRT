@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 22:38:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 21:04:11 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 # include "libft.h"
 
-# define WIDTH 800
-# define HEIGHT 600
+# define WIDTH 1280
+# define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 
@@ -260,4 +260,7 @@ void		draw_editor(t_data *data);
 void		editor_mouse_down(int event, void *param);
 void		editor_mouse_up(int event, void *param);
 void		editor_loop(void *param);
+
+void	fill_rect(t_data *data, void *win,
+					int x, int y, int w, int h, mlx_color col);
 #endif

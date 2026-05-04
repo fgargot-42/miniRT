@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 22:39:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/04 21:05:51 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	mouse_down_hook(int mouse_event, void *param)
 		{
 			data->scene->selected = hc.object;
 			printf("%d\n", data->scene->selected->type);
+			setup_sliders(data);
 		}
 		print_hit_info(data, hc, mouse_x, mouse_y);
 		print_hit_info_debug(hc, data->scene, &ray, mouse_x, mouse_y);
@@ -92,18 +93,20 @@ void	mouse_wheel_hook(int mouse_event, void *param)
 
 static void	apply_slider_x(t_slider *s, int mx)
 {
-	double	t;
-	double	new_val;
- 
+	double t;
+	double new_val;
+
 	t = (double)(mx - SLD_X) / SLD_W;
-	if (t < 0.0)
-		t = 0.0;
-	if (t > 1.0)
-		t = 1.0;
+
+	if (t < 0.0) t = 0.0;
+	if (t > 1.0) t = 1.0;
+
 	new_val = s->min + t * (s->max - s->min);
 	*s->value = new_val;
 }
  
+#define COL_WHITE     (mlx_color){.rgba = MLX_WHITE}
+
 void	editor_mouse_down(int event, void *param)
 {
 	t_data		*data;
@@ -111,25 +114,29 @@ void	editor_mouse_down(int event, void *param)
 	int			mx;
 	int			my;
 	int			i;
- 
+
 	if (event != 1)
-		return ;
+		return;
+
 	data = (t_data *)param;
+
 	if (data->nb_sliders == 0)
-		return ;
+		return;
+
 	mlx_mouse_get_pos(data->mlx, &mx, &my);
+
 	i = 0;
 	while (i < data->nb_sliders)
 	{
 		s = &data->sliders[i];
+
 		if (mx >= SLD_X && mx <= SLD_X + SLD_W
 			&& my >= s->y - 6 && my <= s->y + SLD_H + 6)
 		{
 			data->dragging_slider = i;
 			apply_slider_x(s, mx);
 			draw_editor(data);
-			draw(data);
-			return ;
+			return;
 		}
 		i++;
 	}
@@ -137,26 +144,22 @@ void	editor_mouse_down(int event, void *param)
  
 void	editor_mouse_up(int event, void *param)
 {
-	t_data	*data;
- 
+	t_data *data;
+
 	if (event != 1)
-		return ;
+		return;
+
 	data = (t_data *)param;
-	if (data->dragging_slider >= 0)
-	{
-		data->dragging_slider = -1;
-		draw(data);
-	}
+	data->dragging_slider = -1;
 }
 
-
+#define COL_WHITE     (mlx_color){.rgba = MLX_WHITE}
 void	editor_loop(void *param)
 {
 	t_data		*data;
 	t_slider	*s;
 	int			mx;
 	int			my;
- 
 	data = (t_data *)param;
 	if (data->dragging_slider < 0
 		|| data->dragging_slider >= data->nb_sliders)
