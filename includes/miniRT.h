@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/04 22:18:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 21:35:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,105 +38,6 @@ typedef struct s_ray
 	t_vec3		direction;
 }	t_ray;
 
-// P(t) = O + t * D
-// t distance sur le ray
-// O origin
-// D direction
-
-typedef struct s_ambient
-{
-	double	intensity;
-	t_vec3	color;
-}	t_ambient;
-
-typedef struct s_light
-{
-	t_vec3	position;
-	double	intensity;
-	t_vec3	color;
-}	t_light;
-
-typedef struct s_sphere
-{
-	t_vec3	center;
-	double	radius;
-	t_vec3	color;
-	double	specular;
-	double	shininess;
-}	t_sphere;
-
-typedef struct s_plane
-{
-	t_vec3	point;
-	t_vec3	normal; // faut normaliser
-	t_vec3	color;
-	int		checker;
-	double	specular;
-	double	shininess;
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	t_vec3	center;
-	t_vec3	axis;
-	double	**transform_axis;
-	double	radius;
-	double	height;
-	t_vec3	color;
-	double	specular;
-	double	shininess;
-}	t_cylinder;
-
-typedef struct s_cone
-{
-	t_vec3	center;
-	t_vec3	axis;
-	double	**transform_axis;
-	double	angle;
-	double	tan_angle;
-	double	height;
-	double	depth;
-	t_vec3	color;
-	double	specular;
-	double	shininess;
-}	t_cone;
-
-typedef struct s_hyperboloid
-{
-	t_vec3	center;
-	t_vec3	axis;
-	double	**transform_axis;
-	double	angle;
-	double	tan_angle;
-	double	height;
-	double	depth;
-	t_vec3	color;
-	double	specular;
-	double	shininess;
-}	t_hyperboloid;
-
-typedef struct s_paraboloid
-{
-	t_vec3	center;
-	t_vec3	axis;
-	double	**transform_axis;
-	double	angle;
-	double	tan_angle;
-	double	height;
-	t_vec3	color;
-	double	specular;
-	double	shininess;
-}	t_paraboloid;
-
-typedef struct s_camera
-{
-	t_vec3	position;
-	t_vec3	direction;
-	double	fov;
-	double	pitch;
-	double	yaw;
-}	t_camera;
-
 typedef enum	e_obj_type
 {
 	OBJ_AMBIENT,
@@ -151,10 +52,42 @@ typedef enum	e_obj_type
 	OBJ_PARABOLOID
 }	t_obj_type;
 
+typedef union	u_obj_prop
+{	
+	// cylinder, cone, hyper/paraboloid
+	struct
+	{
+		double	tan_angle;
+		double	height;
+		double	depth;
+		double	**transform_axis;
+	};
+	// camera
+	struct
+	{
+		double	fov;
+		double	pitch;
+		double	yaw;
+	};
+	double	intensity; // light/ambient
+}	t_obj_prop;
+
 typedef struct	s_object
 {
-	void		*object;
 	t_obj_type	type;
+	t_obj_prop	props;
+	t_vec3		position;
+	t_vec3		direction; // normal for planes, default {0, 0, 0} for spheres
+	t_vec3		scale;
+	t_vec3		color;
+	int			checker;
+	union
+	{
+		double	radius;
+		double	angle;
+	};
+	double		specular;
+	double		shininess;
 }	t_object;
 
 typedef struct s_hit_record
@@ -178,13 +111,13 @@ typedef struct s_scene
 {
 	t_list		*objects;
 	t_list		*lights;
-	t_ambient	*ambient;
-	t_vec3		*sky;
-	t_camera	*cam;
+	t_object	*ambient;
+	t_object	*sky;
+	t_object	*cam;
 	t_object	*selected;
 }	t_scene;
 
-#include "ui.h"
+# include "ui.h"
 typedef struct s_data
 {
 	mlx_context	mlx;
@@ -199,7 +132,6 @@ typedef struct s_data
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
-
 
 	// temp slider -> ui.h
 	t_slider	sliders[MAX_SLIDERS];
@@ -254,7 +186,7 @@ void		mouse_up_hook(int mouse_event, void *param);
 void		mouse_wheel_hook(int mouse_event, void *param);
 
 //src/camera.c
-t_ray		camera_ray(t_camera *cam, int x, int y);
+t_ray		camera_ray(t_object *cam, int x, int y);
 void		mouse_loop(void *param);
 
 //src/hit.c
@@ -262,15 +194,16 @@ t_vec3		face_normal(t_ray *ray, t_vec3 inverted);
 int			hit_scene(t_scene *scene, t_ray *ray, double t_max,
 				t_hit_record *rec);
 
-int			hit_sphere(t_object *sphere, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_plane(t_object *plane, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cylinder(t_object *cyl, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cone(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_hyperboloid(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_paraboloid(t_object *cone, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_sphere(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cylinder(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_cone(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_hyperboloid(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
+int			hit_paraboloid(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
 
 //src/ray.c
 t_vec3		ray_at(t_ray ray, double t);
+t_ray		get_object_relative_ray(t_ray ray, t_object *obj);
 
 //lighting.c
 t_vec3		shade(t_hit_record *rec, t_scene *scene, t_ray *ray);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/28 18:07:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 20:00:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,12 @@
 static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	t_object *obj)
 {
-	t_plane	*plane;
-
-	plane = (t_plane *)obj->object;
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
-	rec->normal = face_normal(ray, plane->normal);
-	//if (DEBUG && vec3_dot(ray->direction, rec->normal) > 0)
-	//	rec->color = (t_vec3){255, 0, 255};
+	rec->normal = face_normal(ray, obj->direction);
 	rec->object = obj;
-	rec->specular = plane->specular;
-	rec->shininess = plane->shininess;
+	rec->specular = obj->specular;
+	rec->shininess = obj->shininess;
 }
 
 static void	apply_checker(t_hit_record *rec)
@@ -46,19 +41,17 @@ int	hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	double	d;
 	double	t;
-	t_plane	*pl;
 
-	pl = (t_plane *)obj->object;
-	d = vec3_dot(ray->direction, pl->normal);
+	d = vec3_dot(ray->direction, obj->direction);
 	if (fabs(d) < 1e-6)
 		return (0);
-	t = vec3_dot(vec3_sub(pl->point, ray->origin), pl->normal) / d;
+	t = vec3_dot(vec3_sub(obj->position, ray->origin), obj->direction) / d;
 	if (t < T_MIN || t > t_max)
 		return (0);
 	update_hit_record(rec, t, ray, obj);
-	if (pl->checker)
+	if (obj->checker)
 		apply_checker(rec);
 	else
-		rec->color = pl->color;
+		rec->color = obj->color;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 20:44:28 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/05 21:41:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	window_hook(int event, void *param)
 static void	move_camera(int scancode, t_data *data)
 {
 	static t_vec3	w_up = (t_vec3){0, 1, 0};
-	t_camera		*cam;
+	t_object		*cam;
 	t_vec3			fwd;
 	t_vec3			right;
 

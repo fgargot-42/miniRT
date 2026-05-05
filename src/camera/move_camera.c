@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 20:36:54 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/29 20:46:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 21:43:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	rotate_camera(t_vec3 *direction, double *yaw, double *pitch,
 	*direction = vec3_normalize(*direction);
 }
 
-static void	translate_camera(t_camera *cam, t_vec2 mouse_delta)
+static void	translate_camera(t_object *cam, t_vec2 mouse_delta)
 {
 	static t_vec3	world_up = (t_vec3){0, 1, 0};
 	t_vec3			cam_up;
@@ -57,8 +57,8 @@ static int	move_camera(t_data *data, t_vec2 mouse_delta)
 	is_moving = (mouse_delta.x || mouse_delta.y);
 	data->render_scale = 1 + (NB_THREADS <= 1 && is_moving) * 7;
 	if (is_moving && data->r_click_hold)
-		rotate_camera(&data->scene->cam->direction, &data->scene->cam->yaw,
-			&data->scene->cam->pitch, mouse_delta);
+		rotate_camera(&data->scene->cam->direction, &data->scene->cam->props.yaw,
+			&data->scene->cam->props.pitch, mouse_delta);
 	if (is_moving && data->w_click_hold)
 		translate_camera(data->scene->cam, mouse_delta);
 	draw(data);

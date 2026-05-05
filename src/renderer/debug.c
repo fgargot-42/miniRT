@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 18:24:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 21:45:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	add_debug(t_data *data)
 		(t_vec3){10, 80, 0});
 	print_vector(data, "DIR", data->scene->cam->direction,
 		(t_vec3){10, 100, 0});
-	sprintf(buf, "YAW: %.2f  PITCH: %.2f", data->scene->cam->yaw,
-		data->scene->cam->pitch);
+	sprintf(buf, "YAW: %.2f  PITCH: %.2f", data->scene->cam->props.yaw,
+		data->scene->cam->props.pitch);
 	mlx_string_put(data->mlx, data->win, 10, 120,
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 }

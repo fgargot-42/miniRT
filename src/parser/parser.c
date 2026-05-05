@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/30 22:23:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 22:20:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 	return (*obj != NULL);
 }
 
-static int	add_specials(void **dst, t_object *obj, char *elem, int line_nb)
+static int	add_specials(t_object **dst, t_object *obj, char *elem, int line_nb)
 {
 	if (*dst)
 	{
 		print_parse_error("Duplicate element detected", elem, line_nb);
 		return (0);
 	}
-	*dst = obj->object;
+	*dst = obj;
 	return (1);
 }
 
@@ -92,13 +92,11 @@ static int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
 			return (1);
 		}
 	if ((*obj)->type == OBJ_AMBIENT)
-		status = add_specials((void **)&scene->ambient, *obj, "ambient", line_nb);
+		status = add_specials(&scene->ambient, *obj, "ambient", line_nb);
 	if ((*obj)->type == OBJ_CAMERA)
-		status = add_specials((void **)&scene->cam, *obj, "camera", line_nb);
+		status = add_specials(&scene->cam, *obj, "camera", line_nb);
 	if ((*obj)->type == OBJ_SKY)
-		status = add_specials((void **)&scene->sky, *obj, "sky", line_nb);
-	free(*obj);
-	*obj = NULL;
+		status = add_specials(&scene->sky, *obj, "sky", line_nb);
 	return (status);
 }
 

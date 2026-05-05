@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/04 21:05:51 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/05 21:42:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	mouse_up_hook(int mouse_event, void *param)
 void	mouse_wheel_hook(int mouse_event, void *param)
 {
 	t_data		*data;
-	t_camera	*cam;
+	t_object	*cam;
 	t_vec3		fwd;
 
 	data = (t_data *)param;

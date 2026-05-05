@@ -6,59 +6,59 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/24 23:59:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 22:03:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
 
-static int	parse_cylinder_elements(char **line_split, t_cylinder *cy,
+static int	parse_cylinder_elements(char **line_split, t_object *obj,
 	int line_nb)
 {
 	int	p_res;
 
-	p_res = parse_vector(line_split[1], &(cy->center), "cylinder", line_nb);
-	p_res &= parse_vector(line_split[2], &(cy->axis), "cylinder", line_nb);
-	p_res &= parse_double(line_split[3], &(cy->radius), "cylinder", line_nb);
-	p_res &= parse_double(line_split[4], &(cy->height), "cylinder", line_nb);
-	p_res &= parse_vector(line_split[5], &(cy->color), "cylinder", line_nb);
-	cy->specular = 0;
-	cy->shininess = 1;
+	p_res = parse_vector(line_split[1], &(obj->position), "cylinder",
+			line_nb);
+	p_res &= parse_vector(line_split[2], &(obj->direction), "cylinder",
+			line_nb);
+	p_res &= parse_double(line_split[3], &(obj->radius), "cylinder",
+			line_nb);
+	p_res &= parse_double(line_split[4], &(obj->props.height), "cylinder",
+			line_nb);
+	p_res &= parse_vector(line_split[5], &(obj->color), "cylinder", line_nb);
 	if (line_split[6] && line_split[6][0] != '\0')
-		p_res &= parse_double(line_split[6], &(cy->specular), "cylinder",
+		p_res &= parse_double(line_split[6], &(obj->specular), "cylinder",
 				line_nb);
 	if (line_split[6] && line_split[7])
-		p_res &= parse_double(line_split[7], &(cy->shininess), "cylinder",
+		p_res &= parse_double(line_split[7], &(obj->shininess), "cylinder",
 				line_nb);
-	if (p_res)
-	{
-		cy->axis = vec3_normalize(cy->axis);
-		cy->radius /= 2;
-		cy->transform_axis = vec_get_matrix_rotation_z(cy->axis);
-	}
 	return (p_res);
 }
 
 t_object	*parse_cylinder(char **line_split, int line_nb)
 {
 	int			parse_result;
-	t_cylinder	*cy;
 	t_object	*obj;
 
-	obj = NULL;
 	if (check_array_size(line_split, 4, "cylinder", line_nb))
 		return (0);
-	cy = malloc(sizeof(t_cylinder));
-	if (!cy)
+	obj = ft_calloc(1, sizeof(t_object));
+	if (!obj)
 	{
 		print_parse_error("allocation failed", "cylinder", line_nb);
 		return (0);
 	}
-	parse_result = parse_cylinder_elements(line_split, cy, line_nb);
-	if (parse_result)
-		obj = create_object(cy, OBJ_CYLINDER);
-	if (!obj)
-		free(cy);
+	obj->shininess = 1;
+	parse_result = parse_cylinder_elements(line_split, obj, line_nb);
+	if (!parse_result)
+	{
+		free(obj);
+		return (NULL);
+	}
+	obj->direction = vec3_normalize(obj->direction);
+	obj->radius /= 2;
+	obj->props.transform_axis = vec_get_matrix_rotation_z(obj->direction);
+	obj->type = OBJ_CYLINDER;
 	return (obj);
 }

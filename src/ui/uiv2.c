@@ -172,63 +172,24 @@ void	setup_sliders(t_data *data)
 	if (!obj)
 		return ;
 
-	pos = NULL;
-	col = NULL;
-	spec = NULL;
-	shin = NULL;
+	pos = &obj->position;
+	col = &obj->color;
+	spec = &obj->specular;
+	shin = &obj->shininess;
 	radius = NULL;
 	height = NULL;
 
 	if (obj->type == OBJ_SPHERE)
-	{
-		pos = &((t_sphere *)obj->object)->center;
-		col = &((t_sphere *)obj->object)->color;
-		spec = &((t_sphere *)obj->object)->specular;
-		shin = &((t_sphere *)obj->object)->shininess;
-		radius = &((t_sphere *)obj->object)->radius;
-	}
-	else if (obj->type == OBJ_PLANE)
-	{
-		pos = &((t_plane *)obj->object)->point;
-		col = &((t_plane *)obj->object)->color;
-		spec = &((t_plane *)obj->object)->specular;
-		shin = &((t_plane *)obj->object)->shininess;
-	}
+		radius = &obj->radius;
 	else if (obj->type == OBJ_CYLINDER)
 	{
-		pos = &((t_cylinder *)obj->object)->center;
-		col = &((t_cylinder *)obj->object)->color;
-		spec = &((t_cylinder *)obj->object)->specular;
-		shin = &((t_cylinder *)obj->object)->shininess;
-		radius = &((t_cylinder *)obj->object)->radius;
-		height = &((t_cylinder *)obj->object)->height;
+		radius = &obj->radius;
+		height = &obj->props.height;
 	}
-	else if (obj->type == OBJ_CONE)
+	else if (obj->type >= OBJ_CONE)
 	{
-		pos = &((t_cone *)obj->object)->center;
-		col = &((t_cone *)obj->object)->color;
-		spec = &((t_cone *)obj->object)->specular;
-		shin = &((t_cone *)obj->object)->shininess;
-		radius = &((t_cone *)obj->object)->angle;
-		height = &((t_cone *)obj->object)->height;
-	}
-	else if (obj->type == OBJ_HYPERBOLOID)
-	{
-		pos = &((t_hyperboloid *)obj->object)->center;
-		col = &((t_hyperboloid *)obj->object)->color;
-		spec = &((t_hyperboloid *)obj->object)->specular;
-		shin = &((t_hyperboloid *)obj->object)->shininess;
-		radius = &((t_hyperboloid *)obj->object)->angle;
-		height = &((t_hyperboloid *)obj->object)->height;
-	}
-	else if (obj->type == OBJ_PARABOLOID)
-	{
-		pos = &((t_paraboloid *)obj->object)->center;
-		col = &((t_paraboloid *)obj->object)->color;
-		spec = &((t_paraboloid *)obj->object)->specular;
-		shin = &((t_paraboloid *)obj->object)->shininess;
-		radius = &((t_paraboloid *)obj->object)->angle;
-		height = &((t_paraboloid *)obj->object)->height;
+		radius = &obj->angle;
+		height = &obj->props.height;
 	}
 	if (!pos || !col)
 		return ;

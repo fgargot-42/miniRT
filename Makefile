@@ -12,7 +12,6 @@ MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
-		objects/object.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
 		camera/camera.c \

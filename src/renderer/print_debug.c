@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/04 20:46:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 21:48:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
-	t_light *light)
+	t_object *light)
 {
 	t_ray			shadow_ray;
 	t_vec3			to_light;
@@ -49,7 +49,7 @@ static t_vec3	apply_ambient(t_vec3 color, t_vec3 ambient)
 	});
 }
 
-static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
+static t_vec3	apply_diffuse(t_hit_record *rec, t_object *light)
 {
 	t_vec3	light_dir;
 	double	diff;
@@ -57,13 +57,13 @@ static t_vec3	apply_diffuse(t_hit_record *rec, t_light *light)
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
 	diff = fmax(0.0, vec3_dot(rec->normal, light_dir));
 	return ((t_vec3){
-		rec->color.x * light->color.x / 255.0 * diff * light->intensity,
-		rec->color.y * light->color.y / 255.0 * diff * light->intensity,
-		rec->color.z * light->color.z / 255.0 * diff * light->intensity,
+		rec->color.x * light->color.x / 255.0 * diff * light->props.intensity,
+		rec->color.y * light->color.y / 255.0 * diff * light->props.intensity,
+		rec->color.z * light->color.z / 255.0 * diff * light->props.intensity,
 	});
 }
 
-static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
+static t_vec3	apply_specular(t_hit_record *rec, t_object *light, t_ray *ray)
 {
 	t_vec3	light_dir;
 	t_vec3	view_dir;
@@ -78,7 +78,7 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 	dot_ln = vec3_dot(light_dir, rec->normal);
 	reflect_dir = vec3_sub(vec3_scale(rec->normal, 2.0 * dot_ln), light_dir);
 	spec = pow(fmax(0.0, vec3_dot(reflect_dir, view_dir)), rec->shininess);
-	spec *= rec->specular * light->intensity;
+	spec *= rec->specular * light->props.intensity;
 	return (t_vec3){
 		light->color.x * spec,
 		light->color.y * spec,
@@ -87,11 +87,11 @@ static t_vec3	apply_specular(t_hit_record *rec, t_light *light, t_ray *ray)
 }
 static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
-	bool		is_shadow;
+	bool			is_shadow;
 	t_hit_record	tmp;
-	t_vec3		result;
-	t_list		*node;
-	t_light		*light;
+	t_vec3			result;
+	t_list			*node;
+	t_object		*light;
 
 	tmp = *rec;
 	rec->color = apply_ambient(rec->color, scene->ambient->color);
@@ -100,7 +100,7 @@ static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	is_shadow = 1;
 	while (node)
 	{
-		light = ((t_light *)((t_object *)node->content)->object);
+		light = ((t_object *)node->content);
 		if (!in_shadow(rec, tmp, scene, light))
 		{
 			is_shadow = 0;
@@ -128,8 +128,8 @@ void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray, double mo
 	printf("Object type: %d\n", hc.object->type);
 	if (hc.object->type >= OBJ_CYLINDER)
 	{
-		axis = ((t_cylinder *)(hc.object->object))->axis;
-		mat = ((t_cylinder *)(hc.object->object))->transform_axis;
+		axis = hc.object->direction;
+		mat = hc.object->props.transform_axis;
 		printf("Object axis: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
 		if (mat)
 			printf(
