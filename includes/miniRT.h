@@ -6,30 +6,28 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:35:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 00:50:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
 # include "veclib.h"
 # include "mlx.h"
 # include "math.h"
 # include "SDL2/SDL_scancode.h"
-# define T_MIN 0.001
-# define T_MAX 100
-
+# include "ui.h"
 # include "libft.h"
 
+# define T_MIN 0.001
+# define T_MAX 100
 # define WIDTH 1280
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
-
 # define NB_THREADS 16
-
 # define DEBUG 1
-
 # define MLX_WHITE 0xFFFFFFFF
 
 typedef struct s_ray
@@ -38,7 +36,7 @@ typedef struct s_ray
 	t_vec3		direction;
 }	t_ray;
 
-typedef enum	e_obj_type
+typedef enum e_obj_type
 {
 	OBJ_AMBIENT,
 	OBJ_CAMERA,
@@ -52,8 +50,8 @@ typedef enum	e_obj_type
 	OBJ_PARABOLOID
 }	t_obj_type;
 
-typedef union	u_obj_prop
-{	
+typedef union u_obj_prop
+{
 	// cylinder, cone, hyper/paraboloid
 	struct
 	{
@@ -72,7 +70,7 @@ typedef union	u_obj_prop
 	double	intensity; // light/ambient
 }	t_obj_prop;
 
-typedef struct	s_object
+typedef struct s_object
 {
 	t_obj_type	type;
 	t_obj_prop	props;
@@ -103,7 +101,7 @@ typedef struct s_hit_record
 
 typedef struct s_hit_fn
 {
-	t_obj_type 	type;
+	t_obj_type	type;
 	int			(*hit_fn)(t_object *, t_ray *, double, t_hit_record *);
 }	t_hit_fn;
 
@@ -117,7 +115,6 @@ typedef struct s_scene
 	t_object	*selected;
 }	t_scene;
 
-# include "ui.h"
 typedef struct s_data
 {
 	mlx_context	mlx;
@@ -132,7 +129,6 @@ typedef struct s_data
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
-
 	// temp slider -> ui.h
 	t_slider	sliders[MAX_SLIDERS];
 	int			nb_sliders;
@@ -142,6 +138,11 @@ typedef struct s_data
 // OBJECTS
 
 t_object			*create_object(void *object, t_obj_type type);
+
+// DEBUG
+
+void				print_sky(t_object *sky);
+void				print_obj_list(void *o);
 
 // PARSING
 
@@ -158,75 +159,82 @@ t_object			*parse_cone(char **line_split, int line_nb);
 t_object			*parse_hyperboloid(char **line_split, int line_nb);
 t_object			*parse_paraboloid(char **line_split, int line_nb);
 
-void		print_parse_error(char *message, char *element, int line_nb);
-void		clear_gnl(int fd, char *line);
-int			check_array_size(char **array, int expected, char *object,
-				int line_nb);
-int			parse_vector(char *param, t_vec3 *v_res, char *object, int line_nb);
-int			parse_double(char *param, double *res, char *object, int line_nb);
+void				print_parse_error(char *message, char *element,
+						int line_nb);
+void				clear_gnl(int fd, char *line);
+int					check_array_size(char **array, int expected, char *object,
+						int line_nb);
+int					parse_vector(char *param, t_vec3 *v_res, char *object,
+						int line_nb);
+int					parse_double(char *param, double *res, char *object,
+						int line_nb);
 
 // SCENE
-void		init_scene(char *file, t_scene *scene);
-void		free_scene(t_scene *scene);
+void				init_scene(char *file, t_scene *scene);
+void				free_scene(t_scene *scene);
 
 // DRAWER
 
-void		draw(t_data *data);
-void		draw_single(t_data *data);
-void		add_debug(t_data *data);
-void		print_hit_info(t_data *data, t_hit_record hc, double mouse_x, double mouse_y);
-void		print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray, double mouse_x, double mouse_y);
-mlx_color	vec3_to_color(t_vec3 v);
+void				draw(t_data *data);
+void				draw_single(t_data *data);
+void				add_debug(t_data *data);
+void				print_hit_info(t_data *data, t_hit_record hc,
+						double mouse_x, double mouse_y);
+void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
+						t_ray *ray, t_vec2 mouse_pos);
+mlx_color			vec3_to_color(t_vec3 v);
 
 //src/hooks.c
-void		attach_hooks(t_data *data);
+void				attach_hooks(t_data *data);
 
-void		mouse_down_hook(int mouse_event, void *param);
-void		mouse_up_hook(int mouse_event, void *param);
-void		mouse_wheel_hook(int mouse_event, void *param);
+void				mouse_down_hook(int mouse_event, void *param);
+void				mouse_up_hook(int mouse_event, void *param);
+void				mouse_wheel_hook(int mouse_event, void *param);
 
 //src/camera.c
-t_ray		camera_ray(t_object *cam, int x, int y);
-void		mouse_loop(void *param);
+t_ray				camera_ray(t_object *cam, int x, int y);
+void				mouse_loop(void *param);
 
 //src/hit.c
-t_vec3		face_normal(t_ray *ray, t_vec3 inverted);
-int			hit_scene(t_scene *scene, t_ray *ray, double t_max,
-				t_hit_record *rec);
-
-int			hit_sphere(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cylinder(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_cone(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_hyperboloid(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-int			hit_paraboloid(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec);
-
+t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
+int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_plane(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_cylinder(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_cone(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
 //src/ray.c
-t_vec3		ray_at(t_ray ray, double t);
-t_ray		get_object_relative_ray(t_ray ray, t_object *obj);
+t_vec3				ray_at(t_ray ray, double t);
+t_ray				get_object_relative_ray(t_ray ray, t_object *obj);
 
 //lighting.c
-t_vec3		shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
+t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
 // UTILS
 
-int			get_polynom2_roots(double *roots, double a, double b, double c);
-int			open_file_read(char *file);
-void		free_str_array(char **array);
-
+int					get_polynom2_roots(double *roots, double a, double b,
+						double c);
+int					open_file_read(char *file);
+void				free_str_array(char **array);
 
 // ui
+void				init_editor(t_data *data);
 
-void	init_editor(t_data *data);
+void				init_editor(t_data *data);
+void				setup_sliders(t_data *data);
+void				draw_editor(t_data *data);
+void				editor_mouse_down(int event, void *param);
+void				editor_mouse_up(int event, void *param);
+void				editor_loop(void *param);
 
-
-void		init_editor(t_data *data);
-void		setup_sliders(t_data *data);
-void		draw_editor(t_data *data);
-void		editor_mouse_down(int event, void *param);
-void		editor_mouse_up(int event, void *param);
-void		editor_loop(void *param);
-
-void	fill_rect(t_data *data, void *win,
-					int x, int y, int w, int h, mlx_color col);
+void				fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
+						mlx_color col);
 #endif

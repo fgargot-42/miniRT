@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 22:20:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:21:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,16 @@ static int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
 	if (!*obj)
 		return (1);
 	if ((*obj)->type >= OBJ_LIGHT)
-		{
-			new_object = ft_lstnew(*obj);
-			if (!new_object)
-				return (0);
-			if ((*obj)->type == OBJ_LIGHT)
-				ft_lstadd_back(&scene->lights, new_object);
-			else
-				ft_lstadd_back(&scene->objects, new_object);
-			return (1);
-		}
+	{
+		new_object = ft_lstnew(*obj);
+		if (!new_object)
+			return (0);
+		if ((*obj)->type == OBJ_LIGHT)
+			ft_lstadd_back(&scene->lights, new_object);
+		else
+			ft_lstadd_back(&scene->objects, new_object);
+		return (1);
+	}
 	if ((*obj)->type == OBJ_AMBIENT)
 		status = add_specials(&scene->ambient, *obj, "ambient", line_nb);
 	if ((*obj)->type == OBJ_CAMERA)

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:41:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:13:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ void	attach_hooks(t_data *data)
 	mlx_on_event(data->mlx, data->win, MLX_MOUSEWHEEL, mouse_wheel_hook, data);
 	mlx_add_loop_hook(data->mlx, editor_loop, data);
 }
-

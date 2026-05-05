@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:52:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:12:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 
 static int	get_intersection(double height, double tan_angle, t_hit_ctx *ctx)
 {
-	double	roots_tmp[2];
-	int		nb_roots;
+	double				roots_tmp[2];
+	int					nb_roots;
 	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
-	t_vec3	oc_no_z;
-	t_vec3	rd_no_z;
+	t_vec3				oc_no_z;
+	t_vec3				rd_no_z;
 
 	oc_no_z = vec3_multiply(ctx->oc, z_scale);
 	rd_no_z = vec3_multiply(ctx->rd, z_scale);
@@ -109,9 +109,10 @@ int	hit_paraboloid(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 
 	ctx.t_max = t_max;
 	ctx.render_t = t_max;
-	ctx.obj_ray = get_object_relative_ray(*ray, obj); 
+	ctx.obj_ray = get_object_relative_ray(*ray, obj);
 	has_hit = get_intersection(obj->props.height, obj->props.tan_angle, &ctx);
-	has_hit |= hit_paraboloid_cap(obj->props.height, obj->props.tan_angle, &ctx);
+	has_hit |= hit_paraboloid_cap(obj->props.height,
+			obj->props.tan_angle, &ctx);
 	if (!has_hit)
 		return (0);
 	update_hit_record(rec, ray, obj, ctx);

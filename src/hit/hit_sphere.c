@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:51:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:08:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int	get_intersection(double radius, t_hit_ctx *ctx)
 	double	render_hit_tmp;
 
 	nb_roots = get_polynom2_roots(roots,
-		vec3_dot(ctx->rd, ctx->rd),
-		2.0 * vec3_dot(ctx->oc, ctx->rd),
-		vec3_dot(ctx->oc, ctx->oc) - radius * radius);
+			vec3_dot(ctx->rd, ctx->rd),
+			2.0 * vec3_dot(ctx->oc, ctx->rd),
+			vec3_dot(ctx->oc, ctx->oc) - radius * radius);
 	if (nb_roots == 0)
 		return (0);
-	render_hit_tmp = roots[0]; 
+	render_hit_tmp = roots[0];
 	if (roots[0] < T_MIN || roots[0] > ctx->t_max)
 	{
 		if (nb_roots == 1 || roots[1] < T_MIN || roots[1] > ctx->t_max)
@@ -57,7 +57,7 @@ int	hit_sphere(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	t_hit_ctx	ctx;
 
 	ctx.t_max = t_max;
-	ctx.obj_ray = get_object_relative_ray(*ray, obj); 
+	ctx.obj_ray = get_object_relative_ray(*ray, obj);
 	has_hit = get_intersection(obj->radius, &ctx);
 	if (!has_hit)
 		return (0);

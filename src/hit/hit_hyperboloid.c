@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:52:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:11:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	double			z_ratio;
 
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
-	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, 1 / obj->props.tan_angle);
+	z_ratio = get_hyperboloid_z_radius(ctx.render_hit,
+			1 / obj->props.tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
 	if (ctx.render_hit.z < obj->props.height - 1e-3
 		&& ctx.render_hit.z > -obj->props.depth + 1e-3)
@@ -98,7 +99,8 @@ static int	hit_hyperboloid_cap(t_obj_prop props, t_hit_ctx *ctx)
 	if (fabs(v_hit_cap.z - props.height) > 1e-3
 		&& fabs(v_hit_cap.z + props.depth) > 1e-3)
 		return (0);
-	if (get_hyperboloid_z_radius(v_hit_cap, props.tan_angle) > fabs(v_hit_cap.z))
+	if (get_hyperboloid_z_radius(v_hit_cap, props.tan_angle)
+		> fabs(v_hit_cap.z))
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;

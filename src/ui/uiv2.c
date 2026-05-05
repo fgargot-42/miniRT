@@ -1,8 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   uiv2.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
+/*   Updated: 2026/05/06 00:50:02 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 #include "mlx.h"
 #include <stdarg.h>
 #include <stdio.h>
 
+#define COL_BG        	0x1e1e2eff
+#define COL_TITLEBAR  	0x2d4a7aff
+#define COL_BORDER		0x4a6fa5ff
+#define COL_LABEL     	0x708090ff
+#define COL_VALUE     	0xf0d060ff
+#define COL_ADDR      	0x64b4e8ff
+#define COL_TYPE      	0x78e878ff
+#define COL_SECTION   	0x5a8a5aff
+#define COL_SEP       	0x2a4a2aff
+#define COL_FOOTER    	0x405060ff
+#define COL_WHITE     	0xffffffff
+#define COL_TRACK_BG  	0x12121eff
+
+/*
 #define COL_BG        (mlx_color){.r = 30,  .g = 30,  .b = 46,  .a = 255}
 #define COL_TITLEBAR  (mlx_color){.r = 45,  .g = 74,  .b = 122, .a = 255}
 #define COL_BORDER    (mlx_color){.r = 74,  .g = 111, .b = 165, .a = 255}
@@ -13,65 +39,63 @@
 #define COL_SECTION   (mlx_color){.r = 90,  .g = 138, .b = 90,  .a = 255}
 #define COL_SEP       (mlx_color){.r = 42,  .g = 74,  .b = 42,  .a = 255}
 #define COL_FOOTER    (mlx_color){.r = 64,  .g = 80,  .b = 96,  .a = 255}
-#define COL_WHITE     (mlx_color){.rgba = MLX_WHITE}
+#define COL_WHITE     (mlx_color){.rgba = MLX_WHITE}:w
 #define COL_TRACK_BG  (mlx_color){.r = 18,  .g = 18,  .b = 30,  .a = 255}
-
+ */
 #define PANEL_X       0
 #define PANEL_Y       0
 #define PANEL_W       430
 #define PANEL_PAD     10
 #define LINE_H        20
 #define TITLE_H       22
-#define COL_VALUES_X  (PANEL_X + PANEL_W / 2)
 
-void	fill_rect(t_data *data, void *win,
-					int x, int y, int w, int h, mlx_color col)
+void	fill_rect(t_data *data, t_vec2 pos, t_vec2 size, mlx_color col)
 {
 	int	px;
 	int	py;
 
-	py = y;
-	while (py < y + h)
+	py = pos.y;
+	while (py < pos.y + size.y)
 	{
-		px = x;
-		while (px < x + w)
-			mlx_pixel_put(data->mlx, win, px++, py, col);
+		px = pos.x;
+		while (px < pos.x + size.x)
+			mlx_pixel_put(data->mlx, data->editor, px++, py, col);
 		py++;
 	}
 }
 
 /*static void	draw_border(t_data *data, void *win,
-					int x, int y, int w, int h, mlx_color col)
-{
-	int	i;
+  int x, int y, int w, int h, mlx_color col)
+  {
+  int	i;
 
-	i = x;
-	while (i < x + w)
-	{
-		mlx_pixel_put(data->mlx, win, i, y, col);
-		mlx_pixel_put(data->mlx, win, i, y + h - 1, col);
-		i++;
-	}
-	i = y;
-	while (i < y + h)
-	{
-		mlx_pixel_put(data->mlx, win, x, i, col);
-		mlx_pixel_put(data->mlx, win, x + w - 1, i, col);
-		i++;
-	}
-}
-*/
+  i = x;
+  while (i < x + w)
+  {
+  mlx_pixel_put(data->mlx, win, i, y, col);
+  mlx_pixel_put(data->mlx, win, i, y + h - 1, col);
+  i++;
+  }
+  i = y;
+  while (i < y + h)
+  {
+  mlx_pixel_put(data->mlx, win, x, i, col);
+  mlx_pixel_put(data->mlx, win, x + w - 1, i, col);
+  i++;
+  }
+  }
+ */
 static void	draw_hline(t_data *data, void *win, int y)
 {
 	int	x;
 
 	x = PANEL_X + PANEL_PAD;
 	while (x < PANEL_X + PANEL_W - PANEL_PAD)
-		mlx_pixel_put(data->mlx, win, x++, y, COL_SEP);
+		mlx_pixel_put(data->mlx, win, x++, y, (mlx_color){.rgba = COL_SEP});
 }
 
 static void	put_row(t_data *data, void *win, int *y,
-					const char *label, mlx_color val_col, const char *fmt, ...)
+		const char *label, mlx_color val_col, const char *fmt, ...)
 {
 	char	buf[128];
 	va_list	args;
@@ -80,8 +104,9 @@ static void	put_row(t_data *data, void *win, int *y,
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 12.0f);
-	mlx_string_put(data->mlx, win, PANEL_X + PANEL_PAD, *y, COL_LABEL, (char *)label);
-	mlx_string_put(data->mlx, win, COL_VALUES_X, *y, val_col, buf);
+	mlx_string_put(data->mlx, win, PANEL_X + PANEL_PAD, *y,
+		(mlx_color){.rgba = COL_LABEL}, (char *)label);
+	mlx_string_put(data->mlx, win, (PANEL_X + PANEL_W / 2), *y, val_col, buf);
 	*y += LINE_H;
 }
 
@@ -89,7 +114,8 @@ static void	put_section(t_data *data, void *win, int *y, const char *title)
 {
 	*y += 12;
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 12.0f);
-	mlx_string_put(data->mlx, win, PANEL_X + PANEL_PAD, *y, COL_SECTION, (char *)title);
+	mlx_string_put(data->mlx, win, PANEL_X + PANEL_PAD, *y,
+		(mlx_color){.rgba = COL_SECTION}, (char *)title);
 	*y += LINE_H - 6;
 	draw_hline(data, win, *y);
 	*y += 16;
@@ -115,23 +141,22 @@ void	init_editor(t_data *data)
 	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP,
 		editor_mouse_up, data);
 }
+
 static const char	*obj_type_name(int type)
 {
 	static const char	*names[] = {
-		[OBJ_SPHERE]		= "SPHERE",
-		[OBJ_PLANE]			= "PLANE",
-		[OBJ_CYLINDER]		= "CYLINDER",
-		[OBJ_CONE]			= "CONE",
-		[OBJ_HYPERBOLOID]	="HYPERBOLOID",
-		[OBJ_PARABOLOID]	= "PARABOLOID",
+	[OBJ_SPHERE] = "SPHERE",
+	[OBJ_PLANE] = "PLANE",
+	[OBJ_CYLINDER] = "CYLINDER",
+	[OBJ_CONE] = "CONE",
+	[OBJ_HYPERBOLOID] = "HYPERBOLOID",
+	[OBJ_PARABOLOID] = "PARABOLOID",
 	};
+
 	if (type < 0 || type >= (int)(sizeof(names) / sizeof(*names)))
 		return ("UNKNOWN");
 	return (names[type]);
 }
-
-
-
 
 void	setup_sliders(t_data *data)
 {
@@ -147,7 +172,6 @@ void	setup_sliders(t_data *data)
 	static const char *position_labels[3] = {"pos.x", "pos.y", "pos.z"};
 	static const char *color_labels[3] = {"col.r", "col.g", "col.b"};
 	static const char *material_labels[2] = {"specular", "shininess"};
-
 	static const char *properties_labels[2] = {"radius", "height"};
 
 
@@ -238,7 +262,7 @@ void	setup_sliders(t_data *data)
 		.label = material_labels[1],
 		.col   = material_colors[1],
 	};
-	
+
 	data->sliders[8] = (t_slider){
 		.value = radius,
 		.min   = 0.0,
@@ -259,17 +283,11 @@ void	setup_sliders(t_data *data)
 	data->nb_sliders = 10;
 }
 
-
-
 /*
-    PANEL_PAD           SLD_X          SLD_X+SLD_W    SLD_X+SLD_W+50
-    label               [====filled====|----empty----]    value
-                                       ^ curseur
-*/
-
-
-
-
+   PANEL_PAD           SLD_X          SLD_X+SLD_W    SLD_X+SLD_W+50
+   label               [====filled====|----empty----]    value
+   ^ curseur
+ */
 static void draw_slider(t_data *data, t_slider *s)
 {
 	double t;
@@ -279,13 +297,8 @@ static void draw_slider(t_data *data, t_slider *s)
 
 	if (!s->value || s->max == s->min)
 		return;
-
-
-//	fill_rect(data, data->editor,
-//		SLD_X - 5, s->y - 6,
-//		SLD_W + 80, SLD_H + 12,
-//		COL_BG);
-
+	//	fill_rect(data,i (t_vec2){SLD_X - 5, s->y - 6},
+	//		(t_vec2){SLD_W + 80, SLD_H + 12}, COL_BG);
 	t = (*s->value - s->min) / (s->max - s->min);
 
 	if (t < 0.0) t = 0.0;
@@ -301,31 +314,21 @@ static void draw_slider(t_data *data, t_slider *s)
 		.a = 255
 	};
 
-	fill_rect(data, data->editor,
-		SLD_X, s->y - 1,
-		SLD_W, SLD_H + 2,
-		dim);
-
+	fill_rect(data, (t_vec2){SLD_X, s->y - 1}, (t_vec2){SLD_W, SLD_H + 2}, dim);
 	if (filled_w > 0)
-		fill_rect(data, data->editor,
-			SLD_X, s->y - 1,
-			filled_w, SLD_H + 2,
-			s->col);
-
-	fill_rect(data, data->editor,
-		thumb_x - 3, s->y - 4,
-		6, SLD_H + 8,
-		COL_WHITE);
-
+		fill_rect(data, (t_vec2){SLD_X, s->y - 1},
+				(t_vec2){filled_w, SLD_H + 2}, s->col);
+	fill_rect(data, (t_vec2){thumb_x - 3, s->y - 4}, (t_vec2){6, SLD_H + 8},
+			(mlx_color){.rgba = COL_WHITE});
 	mlx_string_put(data->mlx, data->editor,
-		PANEL_PAD, s->y,
-		COL_LABEL, (char *)s->label);
+			PANEL_PAD, s->y,
+			(mlx_color){.rgba = COL_LABEL}, (char *)s->label);
 
 	snprintf(buf, sizeof(buf), "%.2f", *s->value);
 
 	mlx_string_put(data->mlx, data->editor,
-		SLD_X + SLD_W + 8, s->y,
-		COL_VALUE, buf);
+			SLD_X + SLD_W + 8, s->y,
+			(mlx_color){.rgba = COL_VALUE}, buf);
 }
 
 
@@ -337,13 +340,9 @@ void	draw_editor(t_data *data)
 	if (!data->editor || data->nb_sliders == 0)
 		return ;
 
-	fill_rect(data, data->editor,
-		0, SLD_BASE_Y - 44,
-		EDITOR_W, EDITOR_H - (SLD_BASE_Y - 44),
-		COL_BG);
-
+	fill_rect(data, (t_vec2){0, SLD_BASE_Y - 44}, (t_vec2){EDITOR_W, EDITOR_H
+			- (SLD_BASE_Y - 44)}, (mlx_color){.rgba = COL_BG});
 	y = SLD_BASE_Y - 44;
-
 	put_section(data, data->editor, &y, "TRANSFORM -");
 	i = 0;
 	while (i < 3)
@@ -391,59 +390,50 @@ void	draw_editor(t_data *data)
 	draw_hline(data, data->editor, y + 4);
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(data->mlx, data->editor,
-		PANEL_PAD, y + 4,
-		COL_FOOTER,
-		"fgargot && mabarrer | miniRT");
+			PANEL_PAD, y + 4,
+			(mlx_color){.rgba = COL_FOOTER},
+			"fgargot && mabarrer | miniRT");
 }
 
 void	print_hit_info(t_data *data, t_hit_record hit,
-					double mouse_x, double mouse_y)
+		double mouse_x, double mouse_y)
 {
 	int	y;
 	int	panel_h;
 
 	init_editor(data);
-	mlx_clear_window(data->mlx, data->editor, COL_WHITE);
-
-
+	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_WHITE});
 	if (!hit.object)
 		return ;
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
-	
-
 	// bg + title + border
-	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BG);
-	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, TITLE_H, COL_TITLEBAR);
-//draw_border(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BORDER);
+	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y}, (t_vec2){PANEL_W, panel_h},
+			(mlx_color){.rgba = COL_BG});
+	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y}, (t_vec2){PANEL_W, TITLE_H},
+			(mlx_color){.rgba = COL_TITLEBAR});
+	//draw_border(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, (mlx_color){.rgba = COL_BORDER});
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
-	mlx_string_put(data->mlx, data->editor,
-		PANEL_X + PANEL_PAD, PANEL_Y + 16, COL_WHITE, "miniRT INSPECTOR |      ;)");
-
-
+	mlx_string_put(data->mlx, data->editor, PANEL_X + PANEL_PAD, PANEL_Y + 16,
+			(mlx_color){.rgba = COL_WHITE}, "miniRT INSPECTOR |      ;)");
 	y = PANEL_Y + TITLE_H + 8;
-
-
 	// object section
 	put_section(data, data->editor, &y, "OBJECT ----");
-	put_row(data, data->editor, &y, "addr",   COL_ADDR,  "%p",  hit.object);
-	put_row(data, data->editor, &y, "type",   COL_TYPE,  "%s",  obj_type_name(hit.object->type));
-
+	put_row(data, data->editor, &y, "addr",   (mlx_color){.rgba = COL_ADDR},  "%p",  hit.object);
+	put_row(data, data->editor, &y, "type",   (mlx_color){.rgba = COL_TYPE},  "%s",  obj_type_name(hit.object->type));
 	// hit section
 	put_section(data, data->editor, &y, "HIT ------");
-	put_row(data, data->editor, &y, "point",  COL_VALUE, "%.3f  %.3f  %.3f",
-		hit.point.x, hit.point.y, hit.point.z);
-	put_row(data, data->editor, &y, "mouse",  COL_VALUE, "u=%.1f  v=%.1f",
-		mouse_x, mouse_y);
-
+	put_row(data, data->editor, &y, "point",  (mlx_color){.rgba = COL_VALUE}, "%.3f  %.3f  %.3f",
+			hit.point.x, hit.point.y, hit.point.z);
+	put_row(data, data->editor, &y, "mouse",  (mlx_color){.rgba = COL_VALUE}, "u=%.1f  v=%.1f",
+			mouse_x, mouse_y);
 	// surface
 	put_section(data, data->editor, &y, "SURFACE --");
-	put_row(data, data->editor, &y, "normal", COL_VALUE, "%.3f  %.3f  %.3f",
-		hit.normal.x, hit.normal.y, hit.normal.z);
-	put_row(data, data->editor, &y, "color",  COL_VALUE, "%.3f  %.3f  %.3f",
-		hit.color.x, hit.color.y, hit.color.z);
-
+	put_row(data, data->editor, &y, "normal", (mlx_color){.rgba = COL_VALUE}, "%.3f  %.3f  %.3f",
+			hit.normal.x, hit.normal.y, hit.normal.z);
+	put_row(data, data->editor, &y, "color",  (mlx_color){.rgba = COL_VALUE}, "%.3f  %.3f  %.3f",
+			hit.color.x, hit.color.y, hit.color.z);
 	setup_sliders(data);
 	draw_editor(data);
 }

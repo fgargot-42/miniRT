@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:52:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:09:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	{
 		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
 				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * obj->props.tan_angle});
+		normal = vec3_add(normal, (t_vec3){0, 0,
+				-z_cap * obj->props.tan_angle});
 	}
 	if (fabs(obj->direction.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
@@ -103,7 +104,7 @@ int	hit_cone(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 
 	ctx.t_max = t_max;
 	ctx.render_t = t_max;
-	ctx.obj_ray = get_object_relative_ray(*ray, obj); 
+	ctx.obj_ray = get_object_relative_ray(*ray, obj);
 	has_hit = get_intersection(obj->props, &ctx);
 	has_hit |= hit_cone_cap(obj->props, &ctx);
 	if (!has_hit)

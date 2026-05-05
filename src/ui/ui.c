@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ui.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 23:53:53 by fgargot           #+#    #+#             */
+/*   Updated: 2026/05/05 23:56:55 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 #include <stdarg.h>
 
@@ -39,15 +51,15 @@ void	init_editor(t_data *data)
 		exit(1);
 }
 
-
 static const char	*obj_type_name(int type)
 {
 	static const char	*names[] = {
-		[OBJ_SPHERE]   = "SPHERE",
-		[OBJ_PLANE]    = "PLANE",
-		[OBJ_CYLINDER] = "CYLINDER",
-		[OBJ_CONE]     = "CONE",
+	[OBJ_SPHERE] = "SPHERE",
+	[OBJ_PLANE] = "PLANE",
+	[OBJ_CYLINDER] = "CYLINDER",
+	[OBJ_CONE] = "CONE",
 	};
+
 	if (type < 0 || type >= (int)(sizeof(names) / sizeof(*names)))
 		return ("UNKNOWN");
 	return (names[type]);
@@ -132,40 +144,33 @@ void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x, double mouse
 {
 	int	y;
 	int	panel_h;
+
 	init_editor(data);
 	if (!hit.object)
 		return ;
-	// fond +cadre
 	panel_h = TITLE_H + LINE_H * 10 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
-
 	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BG);
 	fill_rect(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, TITLE_H, COL_TITLEBAR);
 	draw_border(data, data->editor, PANEL_X, PANEL_Y, PANEL_W, panel_h, COL_BORDER);
-
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
-
-
 	mlx_string_put(data->mlx, data->editor,
 		PANEL_X + PANEL_PAD, PANEL_Y + 16, COL_WHITE, "INSPECTOR");
-	// content
 	y = PANEL_Y + TITLE_H + 8;
 	put_section(data, data->editor, &y, "OBJECT ----");
-	put_row(data, data->editor, &y, "addr",   COL_ADDR,  "%p",  hit.object);
-	put_row(data, data->editor, &y, "type",   COL_TYPE,  "%s",  obj_type_name(hit.object->type));
+	put_row(data, data->editor, &y, "addr", COL_ADDR, "%p", hit.object);
+	put_row(data, data->editor, &y, "type", COL_TYPE, "%s", obj_type_name(hit.object->type));
 	put_section(data, data->editor, &y, "HIT ------");
-	put_row(data, data->editor, &y, "point",  COL_VALUE, "%.3f  %.3f  %.3f",
+	put_row(data, data->editor, &y, "point", COL_VALUE, "%.3f  %.3f  %.3f",
 		hit.point.x, hit.point.y, hit.point.z);
-	put_row(data, data->editor, &y, "mouse",  COL_VALUE, "u=%.1f  v=%.1f",
+	put_row(data, data->editor, &y, "mouse", COL_VALUE, "u=%.1f  v=%.1f",
 		mouse_x, mouse_y);
 	put_section(data, data->editor, &y, "SURFACE --");
 	put_row(data, data->editor, &y, "normal", COL_VALUE, "%.3f  %.3f  %.3f",
 		hit.normal.x, hit.normal.y, hit.normal.z);
-	put_row(data, data->editor, &y, "color",  COL_VALUE, "%.3f  %.3f  %.3f",
+	put_row(data, data->editor, &y, "color", COL_VALUE, "%.3f  %.3f  %.3f",
 		hit.color.x, hit.color.y, hit.color.z);
-	// credits
 	draw_hline(data, data->editor, y + 4);
-
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(data->mlx, data->editor,
 		PANEL_X + PANEL_PAD, y + 18, COL_FOOTER, "miniRT | fgargot && mabarrer");

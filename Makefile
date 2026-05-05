@@ -12,8 +12,11 @@ MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
+		debug/print_debug.c \
+		debug/print_debug2.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
+		input/mouse_hooks_editor.c \
 		camera/camera.c \
 		camera/move_camera.c \
 		parser/parser.c \
@@ -30,6 +33,7 @@ SRC =	main.c \
 		parser/parse_hyperboloid.c \
 		parser/parse_paraboloid.c \
 		renderer/drawer.c \
+		renderer/drawer_pixel.c \
 		renderer/drawer_utils.c \
 		renderer/debug.c \
 		renderer/print_debug.c \

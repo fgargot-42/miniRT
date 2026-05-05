@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 22:02:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/05 23:20:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	parse_ambient_elements(char **line_split, t_object *obj,
 {
 	int	p_res;
 
-	
 	p_res = parse_vector(line_split[2], &obj->color, "ambient", line_nb);
 	p_res &= parse_double(line_split[1], &obj->props.intensity, "ambient",
 			line_nb);

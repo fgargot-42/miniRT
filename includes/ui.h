@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ui.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
+/*   Updated: 2026/05/05 22:32:48 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UI_H
-#define UI_H
+# define UI_H
 
 # define MAX_SLIDERS    10
 # define EDITOR_W       430
@@ -12,14 +24,15 @@
 # define SLD_BASE_Y     320
 # define SLD_COL_BASE_Y 430
 
-#include "mlx.h"
-typedef struct	s_slider
+# include "mlx.h"
+
+typedef struct s_slider
 {
-	int	y;
-	double	*value;
-	double	min;
-	double	max;
-	const char *label;
-	mlx_color col;
+	int			y;
+	double		*value;
+	double		min;
+	double		max;
+	const char	*label;
+	mlx_color	col;
 }	t_slider;
-#endif
+#endif //UI_H
