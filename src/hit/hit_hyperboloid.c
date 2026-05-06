@@ -6,13 +6,15 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:11:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 17:51:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "hit.h"
 #include "veclib.h"
+
+// Hyperboloid equation: z^2 = x^2 + y^2 - 1
 
 static double	get_hyperboloid_z_radius(t_vec3 point, double tan_angle)
 {
