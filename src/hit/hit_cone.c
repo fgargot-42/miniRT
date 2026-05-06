@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:09:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 20:22:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)
 	int		nb_roots;
 	t_vec3	z_scale;
 
-	z_scale = (t_vec3){1, 1, props.tan_angle * props.tan_angle};
+	z_scale = (t_vec3){1, 1, -props.tan_angle * props.tan_angle};
 	nb_roots = get_polynom2_roots(roots_tmp,
 			vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->rd),
 			2.0 * vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->oc),
@@ -56,7 +56,7 @@ static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)
 		return (0);
 	ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, roots_tmp[0]));
 	ctx->render_t = roots_tmp[0];
-	if (roots_tmp[0] < T_MIN || ctx->render_hit.z < props.depth
+	if (roots_tmp[0] < T_MIN || ctx->render_hit.z < -props.depth
 		|| ctx->render_hit.z > props.height)
 	{
 		ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, roots_tmp[1]));
@@ -64,7 +64,7 @@ static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)
 	}
 	if (ctx->render_t < T_MIN || ctx->render_t >= ctx->t_max)
 		return (0);
-	if (ctx->render_hit.z < props.depth || ctx->render_hit.z > props.height)
+	if (ctx->render_hit.z < -props.depth || ctx->render_hit.z > props.height)
 		return (0);
 	return (1);
 }

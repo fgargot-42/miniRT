@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 17:53:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 19:01:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	normal = (t_vec3){0, 0, 1};
 	if (ctx.render_hit.z < obj->props.height - 1e-3)
 	{
-		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
-				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_ratio});
+		normal = ctx.render_hit;
+		normal.z = 0;
+		normal = vec3_normalize(normal);
+		if (fabs(z_ratio) > 1e-3)
+			normal = vec3_add(vec3_scale(normal, 1 / z_ratio),
+					(t_vec3){0, 0, -1});
 	}
 	if (fabs(obj->direction.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);

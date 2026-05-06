@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 17:51:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 20:09:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,15 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	z_ratio = get_hyperboloid_z_radius(ctx.render_hit,
-			1 / obj->props.tan_angle);
+			obj->props.tan_angle);
 	normal = (t_vec3){0, 0, z_cap};
 	if (ctx.render_hit.z < obj->props.height - 1e-3
 		&& ctx.render_hit.z > -obj->props.depth + 1e-3)
 	{
-		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
-				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0, -z_cap * z_ratio});
+		normal = ctx.render_hit;
+		normal.z = 0;
+		if (fabs(z_ratio) > 1e-3)
+			normal.z = -ctx.render_hit.z / (obj->props.tan_angle * obj->props.tan_angle);
 	}
 	if (fabs(obj->direction.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
