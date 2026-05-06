@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/24 23:26:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/06 20:55:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,8 @@ t_list	*ft_lstfilter(t_list *lst, int (*filter)(void *), void (*del)(void *));
 
 char	*get_next_line(int fd);
 int		ft_printf(const char *s, ...);
+
+// ft_math
+double	ft_pow(double nb, int pow);
 
 #endif

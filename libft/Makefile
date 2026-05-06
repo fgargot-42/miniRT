@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/04/24 23:27:07 by fgargot          ###   ########.fr        #
+#    Updated: 2026/05/06 20:56:20 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_is/ft_isprint.c \
 	ft_is/ft_iswhitespace.c \
 	ft_is/ft_isnumeric.c \
+	ft_math/ft_pow.c \
 	ft_mem/ft_memset.c \
 	ft_mem/ft_bzero.c \
 	ft_mem/ft_memcpy.c \
