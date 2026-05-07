@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:19:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/07 19:11:06 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ static void	apply_slider_x(t_slider *s, int mx)
 		t = 1.0;
 	new_val = s->min + t * (s->max - s->min);
 	*s->value = new_val;
+}
+
+
+static void apply_tan(t_data *data)
+{
+    t_object *obj = data->scene->selected;
+    if (obj && obj->type >= OBJ_CONE && obj->type != OBJ_TRIANGLE)
+        obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
 }
 
 void	editor_mouse_down(int event, void *param)
@@ -47,6 +55,7 @@ void	editor_mouse_down(int event, void *param)
 		{
 			data->dragging_slider = i;
 			apply_slider_x(s, mx);
+			apply_tan(data);
 			draw_editor(data);
 			return ;
 		}
@@ -64,6 +73,9 @@ void	editor_mouse_up(int event, void *param)
 	data->dragging_slider = -1;
 }
 
+
+
+
 void	editor_loop(void *param)
 {
 	t_data		*data;
@@ -78,6 +90,7 @@ void	editor_loop(void *param)
 	mlx_mouse_get_pos(data->mlx, &mx, &my);
 	s = &data->sliders[data->dragging_slider];
 	apply_slider_x(s, mx);
+	apply_tan(data);
 	draw_editor(data);
 	draw(data);
 }

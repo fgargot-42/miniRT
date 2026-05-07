@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:24:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/07 19:11:32 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ static const char	*obj_type_name(int type)
 	return (names[type]);
 }
 
+
 void	setup_sliders(t_data *data)
 {
 	t_object	*obj;
@@ -267,7 +268,7 @@ void	setup_sliders(t_data *data)
 	data->sliders[8] = (t_slider){
 		.value = radius,
 		.min   = 0.0,
-		.max   = 100.0,
+		.max   = 90.0,
 		.label = properties_labels[0],
 		.col   = material_colors[1],
 	};
@@ -275,7 +276,7 @@ void	setup_sliders(t_data *data)
 	data->sliders[9] = (t_slider){
 		.value = height,
 		.min   = 0.0,
-		.max   = 100.0,
+		.max   = 30.0,
 		.label = properties_labels[1],
 		.col   = material_colors[1],
 	};
