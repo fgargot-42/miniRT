@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/05/06 20:56:20 by fgargot          ###   ########.fr        #
+#    Updated: 2026/05/08 00:36:18 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_str/ft_strjoin.c \
 	ft_str/ft_strtrim.c \
 	ft_str/ft_split.c \
+	ft_str/ft_split_keep_empty.c \
 	ft_str/ft_split_by_whitespace.c \
 	ft_str/ft_itoa.c \
 	ft_str/ft_strmapi.c \
@@ -67,6 +68,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_lst/ft_lstmap.c \
 	ft_lst/ft_lstsort.c \
 	ft_lst/ft_lstfilter.c \
+	ft_lst/ft_lstget_index.c \
 	ft_gnl/get_next_line.c \
 	ft_printf/ft_printf.c \
 	ft_printf/ft_convert.c \

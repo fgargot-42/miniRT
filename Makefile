@@ -19,20 +19,25 @@ SRC =	main.c \
 		input/mouse_hooks_editor.c \
 		camera/camera.c \
 		camera/move_camera.c \
-		parser/parser.c \
-		parser/parser_utils.c \
-		parser/parse_number.c \
-		parser/parse_ambient.c \
-		parser/parse_camera.c \
-		parser/parse_sky.c \
-		parser/parse_light.c \
-		parser/parse_sphere.c \
-		parser/parse_plane.c \
-		parser/parse_cylinder.c \
-		parser/parse_cone.c \
-		parser/parse_hyperboloid.c \
-		parser/parse_paraboloid.c \
-		parser/parse_triangle.c \
+		parser/rt_parser/parser.c \
+		parser/rt_parser/parser_utils.c \
+		parser/rt_parser/parse_number.c \
+		parser/rt_parser/parse_ambient.c \
+		parser/rt_parser/parse_camera.c \
+		parser/rt_parser/parse_sky.c \
+		parser/rt_parser/parse_light.c \
+		parser/rt_parser/parse_sphere.c \
+		parser/rt_parser/parse_plane.c \
+		parser/rt_parser/parse_cylinder.c \
+		parser/rt_parser/parse_cone.c \
+		parser/rt_parser/parse_hyperboloid.c \
+		parser/rt_parser/parse_paraboloid.c \
+		parser/rt_parser/parse_triangle.c \
+		parser/obj_parser/obj_parser.c \
+		parser/obj_parser/parse_material.c \
+		parser/obj_parser/parse_material2.c \
+		parser/obj_parser/parse_obj_face.c \
+		parser/obj_parser/parse_obj_model.c \
 		renderer/drawer.c \
 		renderer/drawer_pixel.c \
 		renderer/drawer_utils.c \

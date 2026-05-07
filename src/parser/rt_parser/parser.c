@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 22:52:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/08 00:46:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "object.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -110,7 +111,7 @@ int	parse_scene(char *file, t_scene *scene)
 
 	line_nb = 0;
 	status = 1;
-	fd = open_file_read(file);
+	fd = open_file_read(file, "rt");
 	if (fd == -1)
 		return (0);
 	line = get_next_line(fd);
@@ -119,7 +120,10 @@ int	parse_scene(char *file, t_scene *scene)
 		line_nb++;
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		status = parse_line(line, line_nb, &obj);
+		if (!ft_strncmp(line, "obj", 3))
+			status = parse_obj_file(file, line, scene);
+		else
+			status = parse_line(line, line_nb, &obj);
 		line = get_next_line(fd);
 		if (status == 1)
 			status = add_element_to_scene(scene, &obj, line_nb);

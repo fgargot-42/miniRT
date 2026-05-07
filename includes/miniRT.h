@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:03:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/07 19:29:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 
 int					get_polynom2_roots(double *roots, double a, double b,
 						double c);
-int					open_file_read(char *file);
+int					open_file_read(char *file, char *extension);
 void				free_str_array(char **array);
 
 // ui
