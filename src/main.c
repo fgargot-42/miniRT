@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:01:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/07 19:36:17 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	destroy_all(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_window(data->mlx, data->editor);
 	mlx_destroy_context(data->mlx);
 	free_scene(data->scene);
 }
@@ -84,9 +85,11 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_scene(argv[1], data.scene);
+#if DEBUG
 	ft_lstiter(data.scene->objects, print_obj_list);
 	ft_lstiter(data.scene->lights, print_obj_list);
 	print_sky(data.scene->sky);
+#endif
 	init(&data);
 	draw_single(&data);
 	attach_hooks(&data);

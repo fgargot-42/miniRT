@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:50:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/07 19:35:55 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	free_object(void *object)
 	t_object	*o;
 
 	o = (t_object *)object;
-	if (o->type >= OBJ_CYLINDER)
+	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE)
 		free_matrix(o->props.transform_axis);
 	free(o);
 }
@@ -70,6 +70,7 @@ static void	free_object(void *object)
 void	free_scene(t_scene *scene)
 {
 	ft_lstclear(&scene->objects, free_object);
+	ft_lstclear(&scene->lights, free_object);
 	free(scene->cam);
 	free(scene->ambient);
 	free(scene->sky);
