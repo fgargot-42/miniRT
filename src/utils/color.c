@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/09 18:25:17 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/09 19:03:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/09 21:41:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ t_vec3	linear_to_srgb(t_vec3 linear_rgb)
 	else
 		srgb.x = 1.055 * pow((linear_rgb.x), 1 / 2.4) - 0.055;
 	if (linear_rgb.y <= 0.0031308)
-		srgb.y = srgb.y / 12.92;
+		srgb.y = linear_rgb.y * 12.92;
 	else
 		srgb.y = 1.055 * pow((linear_rgb.y), 1 / 2.4) - 0.055;
 	if (linear_rgb.z <= 0.0031308)
-		srgb.z = srgb.z / 12.92;
+		srgb.z = linear_rgb.z * 12.92;
 	else
 		srgb.z = 1.055 * pow((linear_rgb.z), 1 / 2.4) - 0.055;
 	srgb = vec3_scale(srgb, 255);
