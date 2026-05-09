@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/08 01:45:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/09 19:47:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ static int	parse_material_line(char *line, t_list **mat_list, int line_nb)
 	return (index);
 }
 
+static void	print_materials(void *content)
+{
+	t_material	*mat;
+
+	mat = (t_material *)content;
+	printf("Material: %s\n", mat->name);
+	printf(" --diffuse: %.5f %.5f %.5f\n", mat->diffuse.x, mat->diffuse.y, mat->diffuse.z);
+}
 
 static int	import_materials(char *mtl_file, t_list **mat_list, char *rt_path)
 {
@@ -91,6 +99,7 @@ static int	import_materials(char *mtl_file, t_list **mat_list, char *rt_path)
 	}
 	if (!status)
 		clear_gnl(fd, line);
+	ft_lstiter(*mat_list, print_materials);
 	return (status);
 }
 
@@ -99,8 +108,6 @@ static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 	t_list	*last;
 
 	last = ft_lstlast(scene->objects);
-	printf("%p\n", triangles->content);
-	ft_lstiter(triangles, print_obj_list);
 	if (last)
 		last->next = triangles;
 	else

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/08 00:35:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/09 19:53:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	parse_new_material(char *line, t_list **mat_list, t_material **mat)
 
 	if (!line || !mat_list || !mat)
 		return (0);
-	if (*mat)
-		ft_lstadd_back(mat_list, ft_lstnew(*mat));
 	*mat = ft_calloc(1, sizeof(t_material));
 	if (*mat)
 	{
@@ -36,6 +34,8 @@ int	parse_new_material(char *line, t_list **mat_list, t_material **mat)
 		(*mat)->name = ft_strdup(split[1]);
 		free_str_array(split);
 	}
+	if (*mat)
+		ft_lstadd_back(mat_list, ft_lstnew(*mat));
 	return (*mat != NULL);
 }
 

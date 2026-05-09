@@ -62,6 +62,7 @@ SRC =	main.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/str_utils.c \
+		utils/color.c \
 		ui/uiv2.c
 OBJ = $(SRC:.c=.o)
 

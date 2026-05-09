@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/07 19:29:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/09 20:31:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,9 @@ int					get_polynom2_roots(double *roots, double a, double b,
 						double c);
 int					open_file_read(char *file, char *extension);
 void				free_str_array(char **array);
+
+t_vec3				srgb_to_linear(t_vec3 srgb);
+t_vec3				linear_to_srgb(t_vec3 linear_rgb);
 
 // ui
 void				init_editor(t_data *data);
