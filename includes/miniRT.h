@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/09 20:31:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/11 19:11:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_ray
 {
 	t_vec3		origin;
 	t_vec3		direction;
+	t_vec3		inv_direction;
 }	t_ray;
 
 typedef enum e_obj_type
@@ -48,7 +49,8 @@ typedef enum e_obj_type
 	OBJ_CONE,
 	OBJ_HYPERBOLOID,
 	OBJ_PARABOLOID,
-	OBJ_TRIANGLE
+	OBJ_TRIANGLE,
+	OBJ_BOX
 }	t_obj_type;
 
 typedef union u_obj_prop
@@ -73,6 +75,12 @@ typedef union u_obj_prop
 		t_vec3	a;
 		t_vec3	b;
 		t_vec3	c;
+	};
+	struct
+	{
+		t_list	*triangles; //OBJ_OBJECT
+		t_vec3	min;
+		t_vec3	max;
 	};
 	double	intensity; // light/ambient
 }	t_obj_prop;
@@ -180,6 +188,7 @@ int					parse_double(char *param, double *res, char *object,
 // SCENE
 void				init_scene(char *file, t_scene *scene);
 void				free_scene(t_scene *scene);
+void				free_object(void *object);
 
 // DRAWER
 
@@ -205,6 +214,8 @@ void				mouse_loop(void *param);
 
 //src/hit.c
 t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
+int					hit_list(t_list *obj, t_ray *ray, double *closest,
+						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
@@ -220,6 +231,8 @@ int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
 int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
+						t_hit_record *rec);
+int					hit_box(t_object *object, t_ray *ray, double t_max,
 						t_hit_record *rec);
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);

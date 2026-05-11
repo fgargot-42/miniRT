@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/07 19:35:55 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/11 17:33:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	init_scene(char *file, t_scene *scene)
 	set_default_sky(scene);
 }
 
-static void	free_object(void *object)
+void	free_object(void *object)
 {
 	t_object	*o;
 

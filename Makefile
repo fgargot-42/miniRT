@@ -51,6 +51,7 @@ SRC =	main.c \
 		hit/hit_hyperboloid.c \
 		hit/hit_paraboloid.c \
 		hit/hit_triangle.c \
+		hit/hit_box.c \
 		hit/hit.c \
 		lighting.c \
 		veclib/veclib2_math.c \

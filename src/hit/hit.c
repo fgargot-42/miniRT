@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:22:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/11 19:10:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ t_vec3	face_normal(t_ray *ray, t_vec3 inverted)
 static t_hit_fn	*get_hit_fn(t_obj_type type)
 {
 	int					i;
-	static const int	hit_list_size = 7;
+	static const int	hit_list_size = 8;
 	static t_hit_fn		hit_list[] = {
 	{OBJ_PLANE, hit_plane}, {OBJ_SPHERE, hit_sphere},
 	{OBJ_CYLINDER, hit_cylinder}, {OBJ_CONE, hit_cone},
 	{OBJ_HYPERBOLOID, hit_hyperboloid}, {OBJ_PARABOLOID, hit_paraboloid},
-	{OBJ_TRIANGLE, hit_triangle}};
+	{OBJ_TRIANGLE, hit_triangle}, {OBJ_BOX, hit_box}};
 
 	i = 0;
 	while (i < hit_list_size)
@@ -40,7 +40,7 @@ static t_hit_fn	*get_hit_fn(t_obj_type type)
 	return (NULL);
 }
 
-static int	hit_list(t_list *obj, t_ray *ray, double *closest,
+int	hit_list(t_list *obj, t_ray *ray, double *closest,
 	t_hit_record *rec)
 {
 	t_hit_record	temp;
@@ -75,6 +75,8 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 
 	hit = 0;
 	closest = t_max;
+	ray->inv_direction = (t_vec3){ 1 / ray->direction.x, 1 / ray->direction.y,
+		1 / ray->direction.z};
 	hit = hit_list(scene->objects, ray, &closest, rec);
 	return (hit);
 }

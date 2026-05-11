@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/09 19:47:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/11 19:09:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,61 @@ static int	import_materials(char *mtl_file, t_list **mat_list, char *rt_path)
 	return (status);
 }
 
+static void	update_object_min_max(t_object *obj)
+{
+	t_list		*current;
+	t_object	*content;
+
+	current = obj->props.triangles;
+	if (!current)
+		return ;
+	content = (t_object *)(current)->content;
+	obj->props.min = (t_vec3){
+		fmin(fmin(content->props.a.x, content->props.b.x), content->props.c.x),
+		fmin(fmin(content->props.a.y, content->props.b.y), content->props.c.y),
+		fmin(fmin(content->props.a.z, content->props.b.z), content->props.c.z)};
+	obj->props.max = (t_vec3){
+		fmax(fmax(content->props.a.x, content->props.b.x), content->props.c.x),
+		fmax(fmax(content->props.a.y, content->props.b.y), content->props.c.y),
+		fmax(fmax(content->props.a.z, content->props.b.z), content->props.c.z)};
+	current = current->next;
+	while (current)
+	{
+		obj->props.min = (t_vec3){
+			fmin(fmin(fmin(content->props.a.x, content->props.b.x),
+						content->props.c.x), obj->props.min.x),
+			fmin(fmin(fmin(content->props.a.y, content->props.b.y),
+						content->props.c.y), obj->props.min.y),
+			fmin(fmin(fmin(content->props.a.z, content->props.b.z),
+						content->props.c.z), obj->props.min.z)};
+		obj->props.max = (t_vec3){
+			fmax(fmax(fmax(content->props.a.x, content->props.b.x),
+						content->props.c.x), obj->props.max.x),
+			fmax(fmax(fmax(content->props.a.y, content->props.b.y),
+						content->props.c.y), obj->props.max.y),
+			fmax(fmax(fmax(content->props.a.z, content->props.b.z),
+						content->props.c.z), obj->props.max.z)};
+		current = current->next;
+		if (current)
+			content = (t_object *)(current)->content;
+	}
+}
+
 static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 {
-	t_list	*last;
+	t_object	*obj;
 
-	last = ft_lstlast(scene->objects);
-	if (last)
-		last->next = triangles;
-	else
-		scene->objects = triangles;
+	obj = ft_calloc(1, sizeof(t_object));
+	if (!obj)
+	{
+		ft_lstclear(&triangles, free_object);
+		return ;
+	}
+	obj->scale = (t_vec3){1, 1, 1};
+	obj->type = OBJ_BOX;
+	obj->props.triangles = triangles;
+	update_object_min_max(obj);
+	ft_lstadd_back(&scene->objects, ft_lstnew(obj));
 }
 
 static t_list	*get_material(char *line, t_list *materials)
