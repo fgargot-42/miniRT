@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 21:36:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 00:38:01 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,32 @@ int	hit_box(t_object *object, t_ray *ray, double t_max, t_hit_record *rec)
 		v_max.x = v_max.z;
 	if (v_min.x < t_max && v_max.x > T_MIN)
 		return (hit_list(object->props.triangles, ray, &t_max, rec));
+	return (0);
+}
+
+int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max)
+{
+	const int		sign[3] = {ray->inv_direction.x < 0,
+		ray->inv_direction.y < 0, ray->inv_direction.z < 0};
+	t_vec3			v_min;
+	t_vec3			v_max;
+	const t_vec3	bounds[2] = {bvh->aabb_min, bvh->aabb_max};
+
+	v_min = get_min_bounds(ray, bounds, sign);
+	v_max = get_max_bounds(ray, bounds, sign);
+	if ((v_min.x > v_max.y) || (v_min.y > v_max.x))
+		return (0);
+	if (v_min.y > v_min.x)
+		v_min.x = v_min.y;
+	if (v_max.y < v_max.x)
+		v_max.x = v_max.y;
+	if ((v_min.x > v_max.z) || (v_min.z > v_max.x))
+		return (0);
+	if (v_min.z > v_min.x)
+		v_min.x = v_min.z;
+	if (v_max.z < v_max.x)
+		v_max.x = v_max.z;
+	if (v_min.x < t_max && v_max.x > T_MIN)
+		return (1);
 	return (0);
 }

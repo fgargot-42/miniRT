@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
+CFLAGS = -Wall -Wextra -Werror -g#-O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -12,6 +12,10 @@ MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
 		ray.c \
+		bvh/bvh.c \
+		bvh/bvh_aabb.c \
+		bvh/bvh_aabb2.c \
+		bvh/bvh_utils.c \
 		debug/print_debug.c \
 		debug/print_debug2.c \
 		input/hooks.c \
@@ -60,6 +64,7 @@ SRC =	main.c \
 		veclib/veclib2_math2.c \
 		veclib/veclib3_math.c \
 		veclib/veclib3_math2.c \
+		veclib/veclib3_math3.c \
 		utils/matrix.c \
 		utils/double_utils.c \
 		utils/polynom.c \

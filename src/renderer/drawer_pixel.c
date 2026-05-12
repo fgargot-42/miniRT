@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:50:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/11 20:21:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static mlx_color	apply_selection_rim(t_vec3 shaded,
 	t_vec3				result;
 
 	view_dir = vec3_normalize(vec3_scale(ray->direction, -1.0));
-	rim = 1.0 - fmax(0.0, vec3_dot(hc->normal, view_dir));
+	rim = fmax(.5, 1.0 - fmax(0.0, vec3_dot(hc->normal, view_dir)));
 	rim = rim * rim * rim;
 	result.x = shaded.x + rim_color.x * rim * 2.5;
 	result.y = shaded.y + rim_color.y * rim * 2.5;

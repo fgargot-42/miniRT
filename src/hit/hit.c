@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 21:26:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 00:40:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	hit_list(t_list *obj, t_ray *ray, double *closest,
 		current = (t_object *)obj->content;
 		hit_current = 0;
 		hit_func = get_hit_fn(current->type);
-		if (hit_func)
+		if (current->type == OBJ_PLANE && hit_func)
 			hit_current = hit_func->hit_fn(current, ray, *closest, &temp);
 		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 		{
@@ -68,6 +68,42 @@ int	hit_list(t_list *obj, t_ray *ray, double *closest,
 	return (hit);
 }
 
+static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec)
+{
+	int				i;
+	t_hit_record	temp;
+	t_hit_fn		*hit_func;
+	int				hit;
+	int				hit_current;
+
+	hit = 0;
+	if (!hit_bvh_box(bvh, ray, *closest))
+		return (0);
+	if (!bvh->left && bvh->right)
+	{
+		i = bvh->first_index;
+		while (i < bvh->first_index + bvh->nb_elements)
+		{
+			hit_func = get_hit_fn(bvh->objects[i]->type);
+			if (hit_func)
+				hit_current = hit_func->hit_fn(bvh->objects[i], ray, *closest, &temp);
+			if (hit_current && temp.t >= T_MIN && temp.t < *closest)
+			{
+				hit = 1;
+				*closest = temp.t;
+				*rec = temp;
+			}
+			i++;
+		}
+		return (hit);
+	}
+	if (bvh->left && hit_bvh_box(bvh->left, ray, *closest))
+		hit = hit_bvh(bvh->left, ray, closest, rec);
+	if (bvh->right && hit_bvh_box(bvh->right, ray, *closest))
+		hit = hit_bvh(bvh->right, ray, closest, rec) | hit;
+	return (hit);
+}
+
 int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 {
 	int		hit;
@@ -77,6 +113,7 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 	closest = t_max;
 	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
 		1 / ray->direction.z};
-	hit = hit_list(scene->objects, ray, &closest, rec);
+	hit = hit_bvh(scene->bvh, ray, &closest, rec);
+	hit = hit_list(scene->objects, ray, &closest, rec) | hit;
 	return (hit);
 }

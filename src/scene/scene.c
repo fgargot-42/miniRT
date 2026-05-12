@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 20:46:34 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:58:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	init_scene(char *file, t_scene *scene)
 		free_scene(scene);
 		exit(1);
 	}
+	scene->bvh = build_bvh_tree(scene);
 	set_default_sky(scene);
 }
 

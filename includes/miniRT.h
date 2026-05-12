@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/13 20:02:32 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/14 01:18:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
+# define BVH_DEPTH 4
 # define DEBUG 1
 # define MLX_WHITE 0xFFFFFFFF
 
@@ -117,6 +118,17 @@ typedef struct s_hit_fn
 	int			(*hit_fn)(t_object *, t_ray *, double, t_hit_record *);
 }	t_hit_fn;
 
+typedef struct s_bvh
+{
+	t_vec3			aabb_min;
+	t_vec3			aabb_max;
+	struct s_bvh	*left;
+	struct s_bvh	*right;
+	t_object		**objects;
+	int				first_index;
+	int				nb_elements;
+}	t_bvh;
+
 typedef struct s_scene
 {
 	t_list		*objects;
@@ -125,6 +137,7 @@ typedef struct s_scene
 	t_object	*sky;
 	t_object	*cam;
 	t_object	*selected;
+	t_bvh		*bvh;
 }	t_scene;
 
 typedef struct s_data
@@ -146,6 +159,31 @@ typedef struct s_data
 	int			nb_sliders;
 	int			dragging_slider;
 }	t_data;
+
+// BVH
+
+typedef void	(*t_obj_aabb_fn)(t_object *, t_vec3 *, t_vec3 *);
+
+void				get_sphere_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				get_cylinder_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				get_cone_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				get_triangle_aabb(t_object *obj, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+
+void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
+int					is_bvh_object(void *e);
+void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
+						t_vec3 *aabb_max);
+void				sort_bvh_objects_asc(t_object **array, int min, int max,
+						char axis);
+t_bvh				*build_bvh_tree(t_scene *scene);
 
 // OBJECTS
 
@@ -233,6 +271,8 @@ int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_box(t_object *object, t_ray *ray, double t_max,
 						t_hit_record *rec);
+int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max);
+
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);
 t_ray				get_object_relative_ray(t_ray ray, t_object *obj);
