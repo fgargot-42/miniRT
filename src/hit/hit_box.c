@@ -6,16 +6,16 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 19:10:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 21:36:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static t_vec3	get_min_bounds(t_ray *ray, t_vec3 *bounds, int *sign)
+static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds,
+		int const *sign)
 {
 	t_vec3	result;
-
 
 	result.x = (bounds[sign[0]].x - ray->origin.x) * ray->inv_direction.x;
 	result.y = (bounds[sign[1]].y - ray->origin.y) * ray->inv_direction.y;
@@ -23,29 +23,25 @@ static t_vec3	get_min_bounds(t_ray *ray, t_vec3 *bounds, int *sign)
 	return (result);
 }
 
-static t_vec3	get_max_bounds(t_ray *ray, t_vec3 *bounds, int *sign)
+static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds,
+		int const *sign)
 {
 	t_vec3	result;
 
-
-	result.x = (bounds[1-sign[0]].x - ray->origin.x) * ray->inv_direction.x;
-	result.y = (bounds[1-sign[1]].y - ray->origin.y) * ray->inv_direction.y;
-	result.z = (bounds[1-sign[2]].z - ray->origin.z) * ray->inv_direction.z;
+	result.x = (bounds[1 - sign[0]].x - ray->origin.x) * ray->inv_direction.x;
+	result.y = (bounds[1 - sign[1]].y - ray->origin.y) * ray->inv_direction.y;
+	result.z = (bounds[1 - sign[2]].z - ray->origin.z) * ray->inv_direction.z;
 	return (result);
 }
 
 int	hit_box(t_object *object, t_ray *ray, double t_max, t_hit_record *rec)
 {
-	int		sign[3];
-	t_vec3	v_min;
-	t_vec3	v_max;
-	t_vec3	bounds[2];
+	const int		sign[3] = {ray->inv_direction.x < 0,
+		ray->inv_direction.y < 0, ray->inv_direction.z < 0};
+	t_vec3			v_min;
+	t_vec3			v_max;
+	const t_vec3	bounds[2] = {object->props.min, object->props.max};
 
-	bounds[0] = object->props.min;
-	bounds[1] = object->props.max;
-	sign[0] = ray->inv_direction.x < 0;
-	sign[1] = ray->inv_direction.y < 0;
-	sign[2] = ray->inv_direction.z < 0;
 	v_min = get_min_bounds(ray, bounds, sign);
 	v_max = get_max_bounds(ray, bounds, sign);
 	if ((v_min.x > v_max.y) || (v_min.y > v_max.x))

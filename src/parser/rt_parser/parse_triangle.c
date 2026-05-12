@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:55:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 23:01:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ t_object	*parse_triangle(char **line_split, int line_nb)
 		return (NULL);
 	}
 	obj->position = obj->props.a;
-	obj->direction = vec3_normalize(vec3_cross(vec3_sub(obj->props.c, obj->props.a),
-		vec3_sub(obj->props.b, obj->props.a)));
+	obj->direction = vec3_normalize(vec3_cross(
+				vec3_sub(obj->props.c, obj->props.a),
+				vec3_sub(obj->props.b, obj->props.a)));
 	obj->type = OBJ_TRIANGLE;
 	return (obj);
 }

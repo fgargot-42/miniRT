@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 19:11:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 23:15:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,8 @@ typedef struct s_object
 	t_vec3		scale;
 	t_vec3		color;
 	int			checker;
-	union
-	{
-		double	radius;
-		double	angle;
-	};
+	double		radius;
+	double		angle;
 	double		specular;
 	double		shininess;
 }	t_object;
@@ -175,6 +172,8 @@ t_object			*parse_hyperboloid(char **line_split, int line_nb);
 t_object			*parse_paraboloid(char **line_split, int line_nb);
 t_object			*parse_triangle(char **line_split, int line_nb);
 
+int					add_element_to_scene(t_scene *scene, t_object **obj,
+						int line_nb);
 void				print_parse_error(char *message, char *element,
 						int line_nb);
 void				clear_gnl(int fd, char *line);
@@ -246,6 +245,7 @@ t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 int					get_polynom2_roots(double *roots, double a, double b,
 						double c);
 int					open_file_read(char *file, char *extension);
+char				*get_directory_path(char *filepath);
 void				free_str_array(char **array);
 
 t_vec3				srgb_to_linear(t_vec3 srgb);

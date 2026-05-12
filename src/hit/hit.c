@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 19:10:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 21:26:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 
 	hit = 0;
 	closest = t_max;
-	ray->inv_direction = (t_vec3){ 1 / ray->direction.x, 1 / ray->direction.y,
+	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
 		1 / ray->direction.z};
 	hit = hit_list(scene->objects, ray, &closest, rec);
 	return (hit);

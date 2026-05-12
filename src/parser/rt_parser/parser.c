@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/08 00:46:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 23:18:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 {
 	char						**line_split;
 	int							i;
-	static const t_parser_func	parse_elem[] = {parse_ambient, parse_camera, 
+	static const t_parser_func	parse_elem[] = {parse_ambient, parse_camera,
 		parse_light, parse_sky, parse_sphere, parse_plane, parse_cylinder,
 		parse_cone, parse_hyperboloid, parse_paraboloid, parse_triangle};
 
@@ -58,63 +58,19 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			line_nb);
 	free_str_array(line_split);
-	free(line);
 	return (*obj != NULL);
 }
 
-static int	add_specials(t_object **dst, t_object *obj, char *elem, int line_nb)
+static int	parse_scene_loop(int rt_fd, t_scene *scene, char *file)
 {
-	if (*dst)
-	{
-		print_parse_error("Duplicate element detected", elem, line_nb);
-		return (0);
-	}
-	*dst = obj;
-	return (1);
-}
-
-static int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
-{
-	int		status;
-	t_list	*new_object;
-
-	status = 1;
-	if (!*obj)
-		return (1);
-	if ((*obj)->type >= OBJ_LIGHT)
-	{
-		new_object = ft_lstnew(*obj);
-		if (!new_object)
-			return (0);
-		if ((*obj)->type == OBJ_LIGHT)
-			ft_lstadd_back(&scene->lights, new_object);
-		else
-			ft_lstadd_back(&scene->objects, new_object);
-		return (1);
-	}
-	if ((*obj)->type == OBJ_AMBIENT)
-		status = add_specials(&scene->ambient, *obj, "ambient", line_nb);
-	if ((*obj)->type == OBJ_CAMERA)
-		status = add_specials(&scene->cam, *obj, "camera", line_nb);
-	if ((*obj)->type == OBJ_SKY)
-		status = add_specials(&scene->sky, *obj, "sky", line_nb);
-	return (status);
-}
-
-int	parse_scene(char *file, t_scene *scene)
-{
-	int			fd;
-	t_object	*obj;
 	char		*line;
-	int			line_nb;
 	int			status;
+	int			line_nb;
+	t_object	*obj;
 
+	line = get_next_line(rt_fd);
 	line_nb = 0;
 	status = 1;
-	fd = open_file_read(file, "rt");
-	if (fd == -1)
-		return (0);
-	line = get_next_line(fd);
 	while (line && status)
 	{
 		line_nb++;
@@ -124,10 +80,23 @@ int	parse_scene(char *file, t_scene *scene)
 			status = parse_obj_file(file, line, scene);
 		else
 			status = parse_line(line, line_nb, &obj);
-		line = get_next_line(fd);
+		free(line);
+		line = get_next_line(rt_fd);
 		if (status == 1)
 			status = add_element_to_scene(scene, &obj, line_nb);
 	}
-	clear_gnl(fd, line);
+	clear_gnl(rt_fd, line);
+	return (status);
+}
+
+int	parse_scene(char *file, t_scene *scene)
+{
+	int			fd;
+	int			status;
+
+	fd = open_file_read(file, "rt");
+	if (fd == -1)
+		return (0);
+	status = parse_scene_loop(fd, scene, file);
 	return (status);
 }

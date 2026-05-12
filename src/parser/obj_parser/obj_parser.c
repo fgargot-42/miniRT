@@ -6,142 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 19:09:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/12 23:03:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "object.h"
-
-static int	get_material_element_index(char *mat_elem)
-{
-	unsigned long		i;
-	static const char	*el_mat[] = {"Ns", "Ka", "Kd", "Ks", "Ke", "Ni", "d"};
-
-	i = 0;
-	while (i < sizeof(el_mat) / sizeof(char *))
-	{
-		if (!ft_strncmp(mat_elem, el_mat[i], ft_strlen(el_mat[i])))
-			break ;
-		i++;
-	}
-	if (i >= sizeof(el_mat) / sizeof(char *))
-		return (-1);
-	return (i);
-}
-
-static int	parse_material_line(char *line, t_list **mat_list, int line_nb)
-{
-	int					index;
-	static t_material	*mat;
-	static const t_obj_parser_fc	parse_elem[] = { parse_mat_exponent,
-	parse_mat_ambient, parse_mat_diffuse, parse_mat_specular,
-	parse_mat_emissive, parse_mat_density, parse_mat_opacity };
-
-	if (!line)
-	{
-		if (mat)
-			free(mat);
-		mat = NULL;
-		return (0);
-	}
-	if (!ft_strncmp(line, "newmtl", 6))
-	{
-		index = parse_new_material(line, mat_list, &mat);
-		return (index);
-	}
-	index = get_material_element_index(line);
-	if (index != -1)
-		index = parse_elem[index](line, mat, line_nb);
-	return (index);
-}
-
-static void	print_materials(void *content)
-{
-	t_material	*mat;
-
-	mat = (t_material *)content;
-	printf("Material: %s\n", mat->name);
-	printf(" --diffuse: %.5f %.5f %.5f\n", mat->diffuse.x, mat->diffuse.y, mat->diffuse.z);
-}
-
-static int	import_materials(char *mtl_file, t_list **mat_list, char *rt_path)
-{
-	int			fd;
-	int			line_nb;
-	int			status;
-	char		*line;
-	char		**split;
-	t_material	*current;
-	
-	split = ft_split_by_whitespace(mtl_file);
-	if (!split)
-		return (0);
-	mtl_file = ft_strjoin(rt_path, split[1]);
-	fd = open_file_read(mtl_file, "mtl");
-	free(mtl_file);
-	free_str_array(split);
-	if (fd < 0)
-		return (0);
-	current = NULL;
-	line = get_next_line(fd);
-	line_nb = 1;
-	status = 1;
-	while (line && status)
-	{
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (line[0] && line[0] != '#')
-			status = parse_material_line(line, mat_list, line_nb);
-		free(line);
-		line = get_next_line(fd);
-		line_nb++;
-	}
-	if (!status)
-		clear_gnl(fd, line);
-	ft_lstiter(*mat_list, print_materials);
-	return (status);
-}
-
-static void	update_object_min_max(t_object *obj)
-{
-	t_list		*current;
-	t_object	*content;
-
-	current = obj->props.triangles;
-	if (!current)
-		return ;
-	content = (t_object *)(current)->content;
-	obj->props.min = (t_vec3){
-		fmin(fmin(content->props.a.x, content->props.b.x), content->props.c.x),
-		fmin(fmin(content->props.a.y, content->props.b.y), content->props.c.y),
-		fmin(fmin(content->props.a.z, content->props.b.z), content->props.c.z)};
-	obj->props.max = (t_vec3){
-		fmax(fmax(content->props.a.x, content->props.b.x), content->props.c.x),
-		fmax(fmax(content->props.a.y, content->props.b.y), content->props.c.y),
-		fmax(fmax(content->props.a.z, content->props.b.z), content->props.c.z)};
-	current = current->next;
-	while (current)
-	{
-		obj->props.min = (t_vec3){
-			fmin(fmin(fmin(content->props.a.x, content->props.b.x),
-						content->props.c.x), obj->props.min.x),
-			fmin(fmin(fmin(content->props.a.y, content->props.b.y),
-						content->props.c.y), obj->props.min.y),
-			fmin(fmin(fmin(content->props.a.z, content->props.b.z),
-						content->props.c.z), obj->props.min.z)};
-		obj->props.max = (t_vec3){
-			fmax(fmax(fmax(content->props.a.x, content->props.b.x),
-						content->props.c.x), obj->props.max.x),
-			fmax(fmax(fmax(content->props.a.y, content->props.b.y),
-						content->props.c.y), obj->props.max.y),
-			fmax(fmax(fmax(content->props.a.z, content->props.b.z),
-						content->props.c.z), obj->props.max.z)};
-		current = current->next;
-		if (current)
-			content = (t_object *)(current)->content;
-	}
-}
 
 static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 {
@@ -156,13 +26,13 @@ static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 	obj->scale = (t_vec3){1, 1, 1};
 	obj->type = OBJ_BOX;
 	obj->props.triangles = triangles;
-	update_object_min_max(obj);
+	update_box_min_max(obj);
 	ft_lstadd_back(&scene->objects, ft_lstnew(obj));
 }
 
 static t_list	*get_material(char *line, t_list *materials)
 {
-	char **split;
+	char	**split;
 
 	split = ft_split_by_whitespace(line);
 	if (!split)
@@ -170,11 +40,41 @@ static t_list	*get_material(char *line, t_list *materials)
 	while (materials)
 	{
 		if (!ft_strcmp(((t_material *)materials->content)->name, split[1]))
-			break ; 
+			break ;
 		materials = materials->next;
 	}
 	free_str_array(split);
 	return (materials);
+}
+
+static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
+	int line_nb)
+{
+	int				status;
+	static t_list	*current_mat = NULL;
+
+	status = 1;
+	if (line[ft_strlen(line) - 1] == '\n')
+		line[ft_strlen(line) - 1] = '\0';
+	if (!ft_strncmp(line, "mtllib", 6))
+		status = import_materials(line, &obj->materials, rt_path);
+	else if (!ft_strncmp(line, "usemtl", 6))
+		current_mat = get_material(line, obj->materials);
+	else if (!ft_strncmp(line, "vn", 2))
+		status = parse_normal(line, &obj->normal_list, line_nb);
+	else if (!ft_strncmp(line, "vt", 2))
+		status = parse_texture(line, &obj->texture_list, line_nb);
+	else if (!ft_strncmp(line, "v", 1))
+		status = parse_vertex(line, &obj->vertex_list, line_nb);
+	else if (!ft_strncmp(line, "f", 1))
+	{
+		if (current_mat)
+			status = parse_face(line, obj,
+					(t_material *)current_mat->content, line_nb);
+		else
+			status = parse_face(line, obj, NULL, line_nb);
+	}
+	return (status);
 }
 
 static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
@@ -183,37 +83,16 @@ static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
 	int					line_nb;
 	int					status;
 	char				*line;
-	t_list				*current_mat;
-	
+
 	obj = ft_calloc(1, sizeof(t_object_model));
 	if (!obj)
 		return (0);
 	line = get_next_line(fd);
 	line_nb = 1;
 	status = 1;
-	current_mat = NULL;
 	while (line && status)
-	{	
-		if (line[ft_strlen(line) - 1] == '\n')
-			line[ft_strlen(line) - 1] = '\0';
-		if (!ft_strncmp(line, "mtllib", 6))
-			status = import_materials(line, &obj->materials, rt_path);
-		else if (!ft_strncmp(line, "usemtl", 6))
-			current_mat = get_material(line, obj->materials);
-		else if (!ft_strncmp(line, "vn", 2))
-			status = parse_normal(line, &obj->normal_list, line_nb);
-		else if (!ft_strncmp(line, "vt", 2))
-			status = parse_texture(line, &obj->texture_list, line_nb);
-		else if (!ft_strncmp(line, "v", 1))
-			status = parse_vertex(line, &obj->vertex_list, line_nb);
-		else if (!ft_strncmp(line, "f", 1))
-		{
-			if (current_mat)
-			status = parse_face(line, obj,
-				(t_material *)current_mat->content, line_nb);
-			else
-			status = parse_face(line, obj, NULL, line_nb);
-		}
+	{
+		status = parse_obj_line(obj, line, rt_path, line_nb);
 		if (!status)
 			printf("\t%s\n", line);
 		free(line);
@@ -230,13 +109,9 @@ int	parse_obj_file(char *rt_file, char *file, t_scene *scene)
 	int		fd;
 	int		parse_result;
 	char	*rt_path;
-	char	*rt_path_end;
 	char	**split;
 
-	rt_path = ft_strdup(rt_file);
-	rt_path_end = ft_strrchr(rt_path, '/');
-	if (rt_path_end)
-		*(rt_path_end + 1) = '\0';
+	rt_path = get_directory_path(rt_file);
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
@@ -247,7 +122,6 @@ int	parse_obj_file(char *rt_file, char *file, t_scene *scene)
 	}
 	rt_file = ft_strjoin(rt_path, split[1]);
 	fd = open_file_read(rt_file, "obj");
-	free(rt_file);
 	free_str_array(split);
 	if (fd == -1)
 		return (0);
