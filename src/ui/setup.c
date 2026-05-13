@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/05/13 20:06:33 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:15:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,19 @@ static const char		*g_material_labels[2] = {"specular", "shininess"};
 
 static const char		*g_properties_labels[2] = {"radius", "height"};
 
-static const mlx_color	g_position_colors[3] = {{.r = 100, .g = 200, .b = 255,
-	.a = 255}, {.r = 100, .g = 255, .b = 130, .a = 255}, {.r = 255,
-	.g = 150, .b = 100, .a = 255}};
+static const mlx_color	g_position_colors[3] = {
+{.r = 100, .g = 200, .b = 255, .a = 255},
+{.r = 100, .g = 255, .b = 130, .a = 255},
+{.r = 255, .g = 150, .b = 100, .a = 255}};
 
-static const mlx_color	g_color_colors[3] = {{.r = 255, .g = 80, .b = 80,
-	.a = 255}, {.r = 80, .g = 220, .b = 80, .a = 255}, {.r = 80, .g = 140,
-		.b = 255, .a = 255}};
+static const mlx_color	g_color_colors[3] = {
+{.r = 255, .g = 80, .b = 80, .a = 255},
+{.r = 80, .g = 220, .b = 80, .a = 255},
+{.r = 80, .g = 140, .b = 255, .a = 255}};
 
-static const mlx_color	g_material_colors[2] = {{.r = 180, .g = 180, .b = 255,
-	.a = 255}, {.r = 200, .g = 200, .b = 200, .a = 255}};
+static const mlx_color	g_material_colors[2] = {
+{.r = 180, .g = 180, .b = 255, .a = 255},
+{.r = 200, .g = 200, .b = 200, .a = 255}};
 
 void	setup_transform_sliders(t_data *data, t_object *obj)
 {
