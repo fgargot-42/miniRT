@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:15:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/13 18:34:51 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,4 +263,12 @@ void				editor_loop(void *param);
 
 void				fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
 						mlx_color col);
+
+
+void	draw_hline(t_data *data, void *win, int y);
+
+void	put_row(t_data *data, void *win, int *y,
+		const char *label, mlx_color val_col, const char *fmt, ...);
+
+void	put_section(t_data *data, void *win, int *y, const char *title);
 #endif
