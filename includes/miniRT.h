@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/13 18:34:51 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:02:32 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,4 +271,9 @@ void	put_row(t_data *data, void *win, int *y,
 		const char *label, mlx_color val_col, const char *fmt, ...);
 
 void	put_section(t_data *data, void *win, int *y, const char *title);
+
+void	setup_transform_sliders(t_data *data, t_object *obj);
+void	setup_color_sliders(t_data *data, t_object *obj);
+void	setup_material_sliders(t_data *data, t_object *obj);
+void	setup_property_sliders(t_data *data, t_object *obj);
 #endif

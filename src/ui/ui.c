@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/13 18:41:52 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:05:43 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,129 +31,44 @@ void	init_editor(t_data *data)
 	if (!data->editor)
 		exit(1);
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN, editor_mouse_down,
-			data);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP, editor_mouse_up, data);
+	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN,
+		editor_mouse_down, data);
+	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP,
+		editor_mouse_up, data);
 }
+
+static const char	*g_obj_names[] = {
+	"SPHERE",
+	"PLANE",
+	"CYLINDER",
+	"CONE",
+	"HYPERBOLOID",
+	"PARABOLOID",
+	"TRIANGLE"
+};
 
 static const char	*obj_type_name(int type)
 {
-	static const char	*names[] = {
-		[OBJ_SPHERE] = "SPHERE",
-		[OBJ_PLANE] = "PLANE",
-		[OBJ_CYLINDER] = "CYLINDER",
-		[OBJ_CONE] = "CONE",
-		[OBJ_HYPERBOLOID] = "HYPERBOLOID",
-		[OBJ_PARABOLOID] = "PARABOLOID",
-		[OBJ_TRIANGLE] = "TRIANGLE",
-	};
-	if (type < 0 || type >= (int)(sizeof(names) / sizeof(*names)))
+	int	max;
+
+	max = sizeof(g_obj_names) / sizeof(*g_obj_names);
+	if (type < 0 || type >= max)
 		return ("UNKNOWN");
-	return (names[type]);
+	return (g_obj_names[type]);
 }
 
 void	setup_sliders(t_data *data)
 {
-	t_object				*obj;
-	t_vec3					*pos;
-	t_vec3					*col;
-	double					*spec;
-	double					*shin;
-	double					*radius;
-	double					*height;
-	int						i;
-	static const char		*position_labels[3] = {"pos.x", "pos.y", "pos.z"};
-	static const char		*color_labels[3] = {"col.r", "col.g", "col.b"};
-	static const char		*material_labels[2] = {"specular", "shininess"};
-	static const char		*properties_labels[2] = {"radius", "height"};
-	static const mlx_color	position_colors[3] = {{.r = 100, .g = 200, .b = 255,
-			.a = 255}, {.r = 100, .g = 255, .b = 130, .a = 255}, {.r = 255,
-			.g = 150, .b = 100, .a = 255}};
-	static const mlx_color	color_colors[3] = {{.r = 255, .g = 80, .b = 80,
-			.a = 255}, {.r = 80, .g = 220, .b = 80, .a = 255}, {.r = 80,
-			.g = 140, .b = 255, .a = 255}};
-	static const mlx_color	material_colors[2] = {{.r = 180, .g = 180, .b = 255,
-			.a = 255}, {.r = 200, .g = 200, .b = 200, .a = 255}};
+	t_object	*obj;
 
 	data->nb_sliders = 0;
 	obj = data->scene->selected;
 	if (!obj)
 		return ;
-	pos = &obj->position;
-	col = &obj->color;
-	spec = &obj->specular;
-	shin = &obj->shininess;
-	radius = NULL;
-	height = NULL;
-	if (obj->type == OBJ_SPHERE)
-		radius = &obj->radius;
-	else if (obj->type == OBJ_CYLINDER)
-	{
-		radius = &obj->radius;
-		height = &obj->props.height;
-	}
-	else if (obj->type >= OBJ_CONE && obj->type != OBJ_TRIANGLE)
-	{
-		radius = &obj->angle;
-		height = &obj->props.height;
-	}
-	if (!pos || !col)
-		return ;
-	// POSITION (0–2)
-	i = 0;
-	while (i < 3)
-	{
-		data->sliders[i] = (t_slider){
-			.value = ((double *)pos) + i,
-			.min = -SLD_POS_RANGE,
-			.max = SLD_POS_RANGE,
-			.label = position_labels[i],
-			.col = position_colors[i],
-		};
-		i++;
-	}
-	// COLOR (3–5)
-	i = 0;
-	while (i < 3)
-	{
-		data->sliders[3 + i] = (t_slider){
-			.value = ((double *)col) + i,
-			.min = 0.0,
-			.max = 255.0,
-			.label = color_labels[i],
-			.col = color_colors[i],
-		};
-		i++;
-	}
-	// MATERIAL (6–7)
-	data->sliders[6] = (t_slider){
-		.value = spec,
-		.min = 0.0,
-		.max = 1.0,
-		.label = material_labels[0],
-		.col = material_colors[0],
-	};
-	data->sliders[7] = (t_slider){
-		.value = shin,
-		.min = 1.0,
-		.max = 1000.0,
-		.label = material_labels[1],
-		.col = material_colors[1],
-	};
-	data->sliders[8] = (t_slider){
-		.value = radius,
-		.min = 0.0,
-		.max = 90.0,
-		.label = properties_labels[0],
-		.col = material_colors[1],
-	};
-	data->sliders[9] = (t_slider){
-		.value = height,
-		.min = 0.0,
-		.max = 30.0,
-		.label = properties_labels[1],
-		.col = material_colors[1],
-	};
+	setup_transform_sliders(data, obj);
+	setup_color_sliders(data, obj);
+	setup_material_sliders(data, obj);
+	setup_property_sliders(data, obj);
 	data->nb_sliders = 10;
 }
 
@@ -168,9 +83,10 @@ static void	draw_slider(t_data *data, t_slider *s)
 	int			filled_w;
 	int			thumb_x;
 	char		buf[32];
-	mlx_color	dim = (mlx_color){.r = s->col.r / 5, .g = s->col.g / 5,
-			.b = s->col.b / 5, .a = 255};
+	mlx_color	dim;
 
+	dim = (mlx_color){.r = s->col.r / 5, .g = s->col.g / 5,
+		.b = s->col.b / 5, .a = 255};
 	if (!s->value || s->max == s->min)
 		return ;
 	t = (*s->value - s->min) / (s->max - s->min);
@@ -263,7 +179,6 @@ void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
-	// bg + title + border
 	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y}, (t_vec2){PANEL_W, panel_h},
 		(mlx_color){.rgba = COL_BG});
 	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y}, (t_vec2){PANEL_W, TITLE_H},
@@ -272,19 +187,16 @@ void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_string_put(data->mlx, data->editor, PANEL_X + PANEL_PAD, PANEL_Y + 16,
 		(mlx_color){.rgba = COL_WHITE}, "miniRT INSPECTOR |      ;)");
 	y = PANEL_Y + TITLE_H + 8;
-	// object section
 	put_section(data, data->editor, &y, "OBJECT ----");
 	put_row(data, data->editor, &y, "addr", (mlx_color){.rgba = COL_ADDR}, "%p",
 		hit.object);
 	put_row(data, data->editor, &y, "type", (mlx_color){.rgba = COL_TYPE}, "%s",
 		obj_type_name(hit.object->type));
-	// hit section
 	put_section(data, data->editor, &y, "HIT ------");
 	put_row(data, data->editor, &y, "point", (mlx_color){.rgba = COL_VALUE},
 		"%.3f  %.3f  %.3f", hit.point.x, hit.point.y, hit.point.z);
 	put_row(data, data->editor, &y, "mouse", (mlx_color){.rgba = COL_VALUE},
 		"u=%.1f  v=%.1f", mouse_x, mouse_y);
-	// surface
 	put_section(data, data->editor, &y, "SURFACE --");
 	put_row(data, data->editor, &y, "normal", (mlx_color){.rgba = COL_VALUE},
 		"%.3f  %.3f  %.3f", hit.normal.x, hit.normal.y, hit.normal.z);

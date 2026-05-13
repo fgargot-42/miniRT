@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   helpers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/13 20:07:21 by mabarrer          #+#    #+#             */
+/*   Updated: 2026/05/13 20:07:23 by mabarrer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 #include "ui.h"
+
 void	fill_rect(t_data *data, t_vec2 pos, t_vec2 size, mlx_color col)
 {
 	int	px;
@@ -50,4 +63,3 @@ void	put_section(t_data *data, void *win, int *y, const char *title)
 	draw_hline(data, win, *y);
 	*y += 16;
 }
-
