@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:32:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 20:27:43 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <math.h>
 
-static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
+static int	in_shadow(t_hit_record tmp, t_scene *scene,
 	t_object *light)
 {
 	t_ray			shadow_ray;
@@ -28,11 +28,11 @@ static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
 	shadow_ray.origin = tmp.point;
 	shadow_ray.direction = vec3_normalize(to_light);
 	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp);
-	if (is_hit)
-	{
-		rec->t = tmp.t;
-		rec->point = tmp.point;
-	}
+//	if (is_hit)
+//	{
+//		rec->t = tmp.t;
+//		rec->point = tmp.point;
+//	}
 	return (is_hit);
 }
 
@@ -98,7 +98,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	while (node)
 	{
 		light = node->content;
-		if (!in_shadow(rec, tmp, scene, light))
+		if (!in_shadow(tmp, scene, light))
 		{
 			is_shadow = 0;
 			result = vec3_add(result, apply_diffuse(&tmp, light));

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:17:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 20:30:57 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	print_parse_error(char *message, char *element, int line_nb)
 
 void	clear_gnl(int fd, char *line)
 {
-	close(fd);
 	if (line)
 		free(line);
 	line = get_next_line(fd);
@@ -42,6 +41,7 @@ void	clear_gnl(int fd, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
+	close(fd);
 }
 
 static int	add_specials(t_object **dst, t_object *obj, char *elem, int line_nb)

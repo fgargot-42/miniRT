@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:18:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 20:30:27 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static int	parse_scene_loop(int rt_fd, t_scene *scene, char *file)
 	status = 1;
 	while (line && status)
 	{
+		obj = NULL;
 		line_nb++;
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';

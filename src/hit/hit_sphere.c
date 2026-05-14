@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:08:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 20:31:43 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	get_intersection(double radius, t_hit_ctx *ctx)
 		render_hit_tmp = roots[1];
 	}
 	ctx->render_t = render_hit_tmp;
-	ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, roots[1]));
+	ctx->render_hit = vec3_add(ctx->oc, vec3_scale(ctx->rd, render_hit_tmp));
 	return (1);
 }
 
