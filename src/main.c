@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/07 19:36:17 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/14 20:41:29 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	destroy_all(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_window(data->mlx, data->editor);
+	if (data->editor)
+		mlx_destroy_window(data->mlx, data->editor);
 	mlx_destroy_context(data->mlx);
 	free_scene(data->scene);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 17:33:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/14 20:46:34 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ void	free_object(void *object)
 	t_object	*o;
 
 	o = (t_object *)object;
-	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE)
+	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE
+			&& o->props.transform_axis)
 		free_matrix(o->props.transform_axis);
+	if (o->type == OBJ_BOX)
+			ft_lstclear(&o->props.triangles, free_object);
 	free(o);
 }
 
