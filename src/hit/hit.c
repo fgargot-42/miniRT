@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 00:40:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 22:12:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,14 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec)
 	int				i;
 	t_hit_record	temp;
 	t_hit_fn		*hit_func;
-	int				hit;
+	int				hit[2];
 	int				hit_current;
 
-	hit = 0;
+	hit[0] = 0;
+	hit[1] = 0;
 	if (!hit_bvh_box(bvh, ray, *closest))
 		return (0);
-	if (!bvh->left && bvh->right)
+	if (!bvh->left && !bvh->right)
 	{
 		i = bvh->first_index;
 		while (i < bvh->first_index + bvh->nb_elements)
@@ -89,19 +90,19 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec)
 				hit_current = hit_func->hit_fn(bvh->objects[i], ray, *closest, &temp);
 			if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 			{
-				hit = 1;
+				hit[0] = 1;
 				*closest = temp.t;
 				*rec = temp;
 			}
 			i++;
 		}
-		return (hit);
+		return (hit[0]);
 	}
-	if (bvh->left && hit_bvh_box(bvh->left, ray, *closest))
-		hit = hit_bvh(bvh->left, ray, closest, rec);
-	if (bvh->right && hit_bvh_box(bvh->right, ray, *closest))
-		hit = hit_bvh(bvh->right, ray, closest, rec) | hit;
-	return (hit);
+	if (bvh->left)
+		hit[0] = hit_bvh(bvh->left, ray, closest, rec);
+	if (bvh->right)
+		hit[1] = hit_bvh(bvh->right, ray, closest, rec);
+	return (hit[0] || hit[1]);
 }
 
 int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
@@ -113,7 +114,7 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 	closest = t_max;
 	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
 		1 / ray->direction.z};
-	hit = hit_bvh(scene->bvh, ray, &closest, rec);
-	hit = hit_list(scene->objects, ray, &closest, rec) | hit;
+	hit = hit_list(scene->objects, ray, &closest, rec);
+	hit = hit_bvh(scene->bvh, ray, &closest, rec) | hit;
 	return (hit);
 }

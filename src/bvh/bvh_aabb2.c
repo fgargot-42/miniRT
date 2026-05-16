@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 00:31:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 21:06:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ void	get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 
 	if (!aabb_min || !aabb_max)
 		return ;
-	height[0] = (obj->direction.z < 0) * obj->props.height
-		+ (obj->direction.z > 0) * obj->props.depth;
-	height[1] = (obj->direction.z > 0) * obj->props.height
-		+ (obj->direction.z < 0) * obj->props.depth;
-	i = -1;
-	while (++i < 2)
+	height[0] = obj->props.height;
+	height[1] = obj->props.depth;
+	i = 0;
+	while (i < 2)
 	{
-		r_max = obj->radius * sqrt(1 + pow(height[0]
+		r_max = obj->radius * sqrt(1 + pow(height[i]
 			/ (obj->radius * obj->props.tan_angle), 2));
 		extent[i].x = height[i] * fabs(obj->direction.x) + r_max *
 			sqrt(1 - pow(obj->direction.x, 2));
@@ -37,9 +35,10 @@ void	get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 			sqrt(1 - pow(obj->direction.y, 2));
 		extent[i].z = height[i] * fabs(obj->direction.z) + r_max *
 			sqrt(1 - pow(obj->direction.z, 2));
+		i++;
 	}
-	*aabb_min = vec3_sub(obj->position, extent[0]);
-	*aabb_max = vec3_add(obj->position, extent[1]);
+	*aabb_min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
+	*aabb_max = vec3_add(obj->position, vec3_max(extent[0], extent[1]));
 }
 
 void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)

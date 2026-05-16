@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 20:41:29 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/16 22:04:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_scene(argv[1], data.scene);
-#if DEBUG
+/*#if DEBUG
 	ft_lstiter(data.scene->objects, print_obj_list);
 	ft_lstiter(data.scene->lights, print_obj_list);
 	print_sky(data.scene->sky);
-#endif
+#endif*/
 	init(&data);
 	draw_single(&data);
 	attach_hooks(&data);

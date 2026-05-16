@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:03:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 21:27:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 {
-	t_object	*obj;
+	//t_object	*obj;
 
+/*
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
 	{
@@ -27,7 +28,8 @@ static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
 	obj->type = OBJ_BOX;
 	obj->props.triangles = triangles;
 	update_box_min_max(obj);
-	ft_lstadd_back(&scene->objects, ft_lstnew(obj));
+ */
+	ft_lstadd_back(&scene->objects, triangles);
 }
 
 static t_list	*get_material(char *line, t_list *materials)

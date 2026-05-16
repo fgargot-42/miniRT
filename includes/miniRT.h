@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 01:18:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 21:52:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
-# define BVH_DEPTH 4
+# define BVH_DEPTH 8
 # define DEBUG 1
 # define MLX_WHITE 0xFFFFFFFF
 

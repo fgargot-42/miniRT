@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:17:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 20:04:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,15 @@ static void	print_light(t_object *s)
 
 static void	print_sphere(t_object *s)
 {
+	t_vec3	b_min;
+	t_vec3	b_max;
+
+	get_sphere_aabb(s, &b_min, &b_max);
 	printf("Object type: SPHERE\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n",
 		s->position.x, s->position.y, s->position.z, s->radius);
+	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
+		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
 	printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
 		s->color.z);
 	printf("--specular: %.2f\n", s->specular);
