@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 21:06:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/16 22:37:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	if (!aabb_min || !aabb_max)
 		return ;
 	cap_center = vec3_add(obj->position,
-			vec3_scale(obj->direction, obj->props.tan_angle));
+			vec3_scale(obj->direction, obj->props.height));
 	r_max = obj->props.tan_angle * sqrt(obj->props.height);
 	bulge.x = sqrt(1 - pow(obj->direction.x, 2));
 	bulge.y = sqrt(1 - pow(obj->direction.y, 2));
 	bulge.z = sqrt(1 - pow(obj->direction.z, 2));
 	bulge = vec3_scale(bulge, r_max);
-	*aabb_min = vec3_min(vec3_sub(obj->position, bulge), obj->position);
-	*aabb_max = vec3_max(vec3_add(obj->position, bulge), obj->position);
+	*aabb_min = vec3_min(vec3_sub(cap_center, bulge), obj->position);
+	*aabb_max = vec3_max(vec3_add(cap_center, bulge), obj->position);
 }
 
 void	get_triangle_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
