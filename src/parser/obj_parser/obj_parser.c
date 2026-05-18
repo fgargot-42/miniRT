@@ -6,31 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 21:27:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 18:06:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "object.h"
-
-static void	add_triangles_to_scene(t_scene *scene, t_list *triangles)
-{
-	//t_object	*obj;
-
-/*
-	obj = ft_calloc(1, sizeof(t_object));
-	if (!obj)
-	{
-		ft_lstclear(&triangles, free_object);
-		return ;
-	}
-	obj->scale = (t_vec3){1, 1, 1};
-	obj->type = OBJ_BOX;
-	obj->props.triangles = triangles;
-	update_box_min_max(obj);
- */
-	ft_lstadd_back(&scene->objects, triangles);
-}
 
 static t_list	*get_material(char *line, t_list *materials)
 {
@@ -102,7 +83,7 @@ static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
 		line_nb++;
 	}
 	if (status)
-		add_triangles_to_scene(scene, obj->triangles);
+		ft_lstadd_back(&scene->objects, obj->triangles);
 	return (status);
 }
 

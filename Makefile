@@ -1,6 +1,6 @@
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g#-O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj

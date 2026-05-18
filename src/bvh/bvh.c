@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 21:55:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 18:11:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static t_vec3	get_object_center(t_object *obj)
+t_vec3	get_object_center(t_object *obj)
 {
 	t_vec3	aabb_min;
 	t_vec3	aabb_max;
@@ -108,10 +108,12 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 	bvh = ft_calloc(1, sizeof(t_bvh));
 	if (!bvh)
 		return (NULL);
-	bvh_objects = ft_lstfilter(scene->objects, is_bvh_object, free_object);	
+	bvh_objects = ft_lstfilter(scene->objects, is_bvh_object, free_object);
 	bvh->first_index = 0;
 	bvh->nb_elements = ft_lstsize(bvh_objects);
 	bvh->objects = ft_calloc(sizeof(t_object *), bvh->nb_elements);
+	bvh->aabb_min = (t_vec3){1e30, 1e30, 1e30};
+	bvh->aabb_max = (t_vec3){-1e30, -1e30, -1e30};
 	i = 0;
 	tmp = bvh_objects;
 	while (i < bvh->nb_elements)
@@ -119,8 +121,9 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 		bvh->objects[i] = (t_object *)tmp->content;
 		bvh_grow_to_include(bvh, bvh->objects[i]);
 		i++;
-		tmp =  tmp->next;
+		tmp = tmp->next;
 	}
 	bvh_split(bvh, 0);
+	ft_lstclear(&bvh_objects, NULL);
 	return (bvh);
 }

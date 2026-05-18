@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 17:44:18 by fgargot           #+#    #+#             */
-/*   Updated: 2025/10/22 21:23:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 16:41:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	t_list	*node;
 	t_list	*next;
 
-	if (!lst || !del)
+	if (!lst)
 		return ;
 	node = *lst;
 	while (node)
 	{
 		next = node->next;
-		(*del)(node->content);
+		if (del)
+			del(node->content);
 		free(node);
 		node = next;
 	}

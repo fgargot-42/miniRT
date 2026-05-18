@@ -6,12 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 00:35:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 17:54:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
+
+t_vec3	get_object_center(t_object *obj);
 
 int	is_bvh_object(void *e)
 {
@@ -38,17 +40,8 @@ void	bvh_grow_to_include(t_bvh *bvh, t_object *object)
 	aabb_max = bvh->aabb_max;
 	if (object->type >= OBJ_SPHERE)
 		get_aabb[object->type](object, &aabb_min, &aabb_max);
-	if (bvh->aabb_min.x == 0 && bvh->aabb_min.y == 0 && bvh->aabb_min.z == 0
-		&& bvh->aabb_max.x == 0 && bvh->aabb_max.y == 0 && bvh->aabb_max.z == 0)
-	{
-		bvh->aabb_min = aabb_min;
-		bvh->aabb_max = aabb_max;
-	}
-	else
-	{
-		bvh->aabb_min = vec3_min(bvh->aabb_min, aabb_min);
-		bvh->aabb_max = vec3_max(bvh->aabb_max, aabb_max);
-	}
+	bvh->aabb_min = vec3_min(bvh->aabb_min, aabb_min);
+	bvh->aabb_max = vec3_max(bvh->aabb_max, aabb_max);
 }
 
 void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
@@ -56,6 +49,7 @@ void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
 	int			i;
 	int			j;
 	t_object	*swp;
+	t_vec3		center[2];
 
 	i = min;
 	while (i < max - 1)
@@ -63,9 +57,11 @@ void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
 		j = i + 1;
 		while (j < max)
 		{
-			if ((axis == 'x' && array[i]->position.x > array[j]->position.x)
-				|| (axis == 'y' && array[i]->position.y > array[j]->position.y)
-				|| (axis == 'z' && array[i]->position.z > array[j]->position.z))
+			center[0] = get_object_center(array[i]);
+			center[1] = get_object_center(array[j]);
+			if ((axis == 'x' && center[0].x > center[1].x)
+					|| (axis == 'y' && center[0].y > center[1].y)
+					|| (axis == 'z' && center[0].z > center[1].z))
 			{
 				swp = array[j];
 				array[j] = array[i];
