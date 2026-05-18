@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 21:52:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 19:50:07 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,4 +316,6 @@ void	setup_transform_sliders(t_data *data, t_object *obj);
 void	setup_color_sliders(t_data *data, t_object *obj);
 void	setup_material_sliders(t_data *data, t_object *obj);
 void	setup_property_sliders(t_data *data, t_object *obj);
+
+void	setup_ambient_sliders(t_data *data, t_object *obj);
 #endif

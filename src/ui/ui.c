@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 19:08:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 19:47:49 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	setup_sliders(t_data *data)
 	setup_color_sliders(data, obj);
 	setup_material_sliders(data, obj);
 	setup_property_sliders(data, obj);
-	data->nb_sliders = 10;
+	setup_ambient_sliders(data, obj);
+	data->nb_sliders = 14;
 }
 
 /*
@@ -159,6 +160,16 @@ void	draw_editor(t_data *data)
 	put_section(data, data->editor, &y, "PROPERTIES -----");
 	i = 8;
 	while (i < 10)
+	{
+		data->sliders[i].y = y;
+		draw_slider(data, &data->sliders[i]);
+		y += SLD_SPACING;
+		i++;
+	}
+	y += 12;
+	put_section(data, data->editor, &y, "ambient -----");
+	i = 10;
+	while (i < 14)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);

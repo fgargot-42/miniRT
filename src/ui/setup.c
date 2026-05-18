@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/05/13 20:15:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 19:52:52 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static const char		*g_color_labels[3] = {"col.r", "col.g", "col.b"};
 static const char		*g_material_labels[2] = {"specular", "shininess"};
 
 static const char		*g_properties_labels[2] = {"radius", "height"};
-
 static const mlx_color	g_position_colors[3] = {
 {.r = 100, .g = 200, .b = 255, .a = 255},
 {.r = 100, .g = 255, .b = 130, .a = 255},
@@ -125,4 +124,36 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 		.label = g_properties_labels[1],
 		.col = g_material_colors[1],
 	};
+}
+
+void	setup_ambient_sliders(t_data *data, t_object *obj)
+{
+	int		i;
+	t_vec3	*col;
+
+	(void)obj;
+
+	col = &data->scene->ambient->color;
+	double *intensity; 
+	intensity = &data->scene->ambient->props.intensity;
+	i = 0;
+	while (i < 3)
+	{
+		data->sliders[10 + i] = (t_slider){
+			.value = ((double *)col) + i,
+			.min = 0.0,
+			.max = 255.0,
+			.label = g_color_labels[i],
+			.col = g_color_colors[i],
+		};
+		i++;
+	}
+
+		data->sliders[10 + i] = (t_slider){
+			.value = intensity,
+			.min = 0.0,
+			.max = 1.0,
+			.label = "power",
+			.col = g_material_colors[i],
+		};
 }

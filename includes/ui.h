@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/13 18:35:44 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/18 19:45:45 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define MAX_SLIDERS    10
 # define EDITOR_W       430
-# define EDITOR_H       800
+# define EDITOR_H       1000
 # define SLD_X          100
 # define SLD_W          280
 # define SLD_H          10
