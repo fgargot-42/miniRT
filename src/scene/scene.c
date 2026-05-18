@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 22:02:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 22:32:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	print_bvh_tree(t_bvh *bvh, int depth)
 		printf("    ");
 	if (depth)
 		printf("└───");
-	printf("Box at: [ %.3f %.3f %.3f ], [ %.3f %.3f %.3f ]\n",
+	printf("Box at: [% .3f % .3f % .3f ], [% .3f % .3f % .3f ]\n",
 		bvh->aabb_min.x, bvh->aabb_min.y, bvh->aabb_min.z,
 		bvh->aabb_max.x, bvh->aabb_max.y, bvh->aabb_max.z);
 	i = depth;

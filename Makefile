@@ -15,6 +15,7 @@ SRC =	main.c \
 		bvh/bvh.c \
 		bvh/bvh_aabb.c \
 		bvh/bvh_aabb2.c \
+		bvh/bvh_split.c \
 		bvh/bvh_utils.c \
 		debug/print_debug.c \
 		debug/print_debug2.c \

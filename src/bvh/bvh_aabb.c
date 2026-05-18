@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 18:27:23 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/16 20:53:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/18 22:12:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	get_cylinder_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 
 	if (!aabb_min || !aabb_max)
 		return ;
-	 extent.x = obj->props.height / 2.0 * fabs(obj->direction.x) + obj->radius *
-	 	sqrt(1 - pow(obj->direction.x, 2));
-	 extent.y = obj->props.height / 2.0 * fabs(obj->direction.y) + obj->radius *
-	 	sqrt(1 - pow(obj->direction.y, 2));
-	 extent.z = obj->props.height / 2.0 * fabs(obj->direction.z) + obj->radius *
-	 	sqrt(1 - pow(obj->direction.z, 2));
+	extent.x = obj->props.height / 2.0 * fabs(obj->direction.x) + obj->radius
+		* sqrt(1 - pow(obj->direction.x, 2));
+	extent.y = obj->props.height / 2.0 * fabs(obj->direction.y) + obj->radius
+		* sqrt(1 - pow(obj->direction.y, 2));
+	extent.z = obj->props.height / 2.0 * fabs(obj->direction.z) + obj->radius
+		* sqrt(1 - pow(obj->direction.z, 2));
 	*aabb_min = vec3_sub(obj->position, extent);
 	*aabb_max = vec3_add(obj->position, extent);
 }
@@ -55,12 +55,12 @@ void	get_cone_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	while (i < 2)
 	{
 		r_max = fmax(height[0], height[1]) * obj->props.tan_angle;
-		extent[i].x = height[i] * fabs(obj->direction.x) + r_max *
-			sqrt(1 - pow(obj->direction.x, 2));
-		extent[i].y = height[i] * fabs(obj->direction.y) + r_max *
-			sqrt(1 - pow(obj->direction.y, 2));
-		extent[i].z = height[i] * fabs(obj->direction.z) + r_max *
-			sqrt(1 - pow(obj->direction.z, 2));
+		extent[i].x = height[i] * fabs(obj->direction.x) + r_max
+			* sqrt(1 - pow(obj->direction.x, 2));
+		extent[i].y = height[i] * fabs(obj->direction.y) + r_max
+			* sqrt(1 - pow(obj->direction.y, 2));
+		extent[i].z = height[i] * fabs(obj->direction.z) + r_max
+			* sqrt(1 - pow(obj->direction.z, 2));
 		i++;
 	}
 	*aabb_min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
@@ -90,9 +90,9 @@ void	get_box_aabb(t_list *elements, t_vec3 *aabb_min, t_vec3 *aabb_max)
 		else
 		{
 			*aabb_min = vec3_min(*aabb_min,
-				vec3_sub(obj->position, vec3_scale(unit_vec, obj->radius)));
+					vec3_sub(obj->position, vec3_scale(unit_vec, obj->radius)));
 			*aabb_max = vec3_max(*aabb_min,
-				vec3_add(obj->position, vec3_scale(unit_vec, obj->radius)));
+					vec3_add(obj->position, vec3_scale(unit_vec, obj->radius)));
 		}
 	}
 }

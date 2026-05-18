@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 19:50:07 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/18 22:35:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,9 @@ void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 void				sort_bvh_objects_asc(t_object **array, int min, int max,
 						char axis);
 t_bvh				*build_bvh_tree(t_scene *scene);
+int					bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth);
+t_vec3				get_left_bounds(t_bvh *bvh);
+t_vec3				get_object_center(t_object *obj);
 
 // OBJECTS
 
