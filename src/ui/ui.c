@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 19:47:49 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/18 22:21:00 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	setup_sliders(t_data *data)
 	setup_material_sliders(data, obj);
 	setup_property_sliders(data, obj);
 	setup_ambient_sliders(data, obj);
-	data->nb_sliders = 14;
+	data->nb_sliders = 17;
 }
 
 /*
@@ -117,6 +117,7 @@ static void	draw_slider(t_data *data, t_slider *s)
 		(mlx_color){.rgba = COL_VALUE}, buf);
 }
 
+
 void	draw_editor(t_data *data)
 {
 	int	y;
@@ -129,7 +130,17 @@ void	draw_editor(t_data *data)
 	y = SLD_BASE_Y - 44;
 	put_section(data, data->editor, &y, "TRANSFORM -");
 	i = 0;
-	while (i < 3)
+	while (i < 3)               // sliders 0–2: position
+	{
+		data->sliders[i].y = y;
+		draw_slider(data, &data->sliders[i]);
+		y += SLD_SPACING;
+		i++;
+	}
+	y += 12;
+	put_section(data, data->editor, &y, "ROTATION -");
+	i = 3;
+	while (i < 6)               // sliders 3–5: rotation
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -138,8 +149,8 @@ void	draw_editor(t_data *data)
 	}
 	y += 12;
 	put_section(data, data->editor, &y, "COLOR -----");
-	i = 3;
-	while (i < 6)
+	i = 6;
+	while (i < 9)               // sliders 6–8: color
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -148,8 +159,8 @@ void	draw_editor(t_data *data)
 	}
 	y += 12;
 	put_section(data, data->editor, &y, "MATERIAL -----");
-	i = 6;
-	while (i < 8)
+	i = 9;
+	while (i < 11)              // sliders 9–10: material
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -158,8 +169,8 @@ void	draw_editor(t_data *data)
 	}
 	y += 12;
 	put_section(data, data->editor, &y, "PROPERTIES -----");
-	i = 8;
-	while (i < 10)
+	i = 11;
+	while (i < 13)              // sliders 11–12: properties
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -167,9 +178,9 @@ void	draw_editor(t_data *data)
 		i++;
 	}
 	y += 12;
-	put_section(data, data->editor, &y, "ambient -----");
-	i = 10;
-	while (i < 14)
+	put_section(data, data->editor, &y, "AMBIENT -----");
+	i = 13;
+	while (i < 17)              // sliders 13–16: ambient rgb + intensity
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -181,6 +192,7 @@ void	draw_editor(t_data *data)
 	mlx_string_put(data->mlx, data->editor, PANEL_PAD, y + 4,
 		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
 }
+
 
 void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
 		double mouse_y)
