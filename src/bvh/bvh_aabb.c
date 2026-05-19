@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 18:27:23 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:12:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 00:01:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,34 +65,4 @@ void	get_cone_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	}
 	*aabb_min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
 	*aabb_max = vec3_add(obj->position, vec3_max(extent[0], extent[1]));
-}
-
-void	get_box_aabb(t_list *elements, t_vec3 *aabb_min, t_vec3 *aabb_max)
-{
-	static const t_vec3	unit_vec = (t_vec3){1, 1, 1};
-	t_object			*obj;
-
-	*aabb_min = vec3_scale(unit_vec, -1e30);
-	*aabb_max = vec3_scale(unit_vec, 1e30);
-	while (elements)
-	{
-		obj = (t_object *)elements->content;
-		if (obj->type == OBJ_CYLINDER)
-			get_cylinder_aabb(obj, aabb_min, aabb_max);
-		else if (obj->type == OBJ_CONE)
-			get_cone_aabb(obj, aabb_min, aabb_max);
-		else if (obj->type == OBJ_HYPERBOLOID)
-			get_hyperboloid_aabb(obj, aabb_min, aabb_max);
-		else if (obj->type == OBJ_PARABOLOID)
-			get_paraboloid_aabb(obj, aabb_min, aabb_max);
-		else if (obj->type == OBJ_TRIANGLE)
-			get_triangle_aabb(obj, aabb_min, aabb_max);
-		else
-		{
-			*aabb_min = vec3_min(*aabb_min,
-					vec3_sub(obj->position, vec3_scale(unit_vec, obj->radius)));
-			*aabb_max = vec3_max(*aabb_min,
-					vec3_add(obj->position, vec3_scale(unit_vec, obj->radius)));
-		}
-	}
 }

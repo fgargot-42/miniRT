@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 19:56:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/19 23:29:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@ static void	apply_tan_or_matrix(t_data *data)
 {
 	t_object	*obj;
 	t_vec3		rotation;
+
 	obj = data->scene->selected;
 	if (!obj || obj->type < OBJ_CONE || obj->type == OBJ_TRIANGLE)
 		return ;
 	obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
 	rotation = obj->direction;
-	obj->props.transform_axis = vec_get_matrix_rotation_z(vec3_normalize(rotation));
+	obj->props.transform_axis
+		= vec_get_matrix_rotation_z(vec3_normalize(rotation));
 }
 
 void	editor_mouse_down(int event, void *param)
@@ -92,8 +94,6 @@ void	editor_loop(void *param)
 	s = &data->sliders[data->dragging_slider];
 	apply_slider_x(s, mx);
 	apply_tan_or_matrix(data);
-		
-
 	draw_editor(data);
 	draw(data);
 }

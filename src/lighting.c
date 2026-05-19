@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 20:27:43 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/19 23:24:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ static int	in_shadow(t_hit_record tmp, t_scene *scene,
 	shadow_ray.origin = tmp.point;
 	shadow_ray.direction = vec3_normalize(to_light);
 	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp);
-//	if (is_hit)
-//	{
-//		rec->t = tmp.t;
-//		rec->point = tmp.point;
-//	}
 	return (is_hit);
 }
 

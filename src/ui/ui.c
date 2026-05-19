@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:21:00 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/20 00:32:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ static const char	*g_obj_names[] = {
 	"CONE",
 	"HYPERBOLOID",
 	"PARABOLOID",
-	"TRIANGLE",
-	"BOX"
+	"TRIANGLE"
 };
 
 static const char	*obj_type_name(int type)

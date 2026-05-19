@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 18:01:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 00:12:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef enum e_obj_type
 	OBJ_HYPERBOLOID,
 	OBJ_PARABOLOID,
 	OBJ_TRIANGLE,
-	OBJ_BOX
 }	t_obj_type;
 
 typedef union u_obj_prop
@@ -76,12 +75,6 @@ typedef union u_obj_prop
 		t_vec3	a;
 		t_vec3	b;
 		t_vec3	c;
-	};
-	struct
-	{
-		t_list	*triangles; //OBJ_OBJECT
-		t_vec3	min;
-		t_vec3	max;
 	};
 	double	intensity; // light/ambient
 }	t_obj_prop;
@@ -271,8 +264,6 @@ int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
 int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_box(t_object *object, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max);
 

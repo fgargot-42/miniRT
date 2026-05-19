@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:19:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/19 23:37:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	split_bvh_node(t_bvh *bvh, t_vec3 left_bound)
 		center = vec3_add(get_object_center(bvh->objects[i]), bvh->aabb_min);
 		child = bvh->left;
 		if ((center.x > left_bound.x) || (center.y > left_bound.y)
-				|| (center.z > left_bound.z))
+			|| (center.z > left_bound.z))
 			child = bvh->right;
 		if (child == bvh->left)
 			bvh->right->first_index++;
