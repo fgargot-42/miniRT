@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:09:43 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:45:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
-# define MAX_SLIDERS    14
+# define MAX_SLIDERS    17
 # define EDITOR_W       430
 # define EDITOR_H       1000
 # define SLD_X          100

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 18:29:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/19 19:56:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	editor_mouse_down(int event, void *param)
 	while (i < data->nb_sliders)
 	{
 		s = &data->sliders[i];
-		if (mx >= SLD_X && mx <= SLD_X + SLD_W
+		if (s && s->value && mx >= SLD_X && mx <= SLD_X + SLD_W
 			&& my >= s->y - 6 && my <= s->y + SLD_H + 6)
 		{
 			data->dragging_slider = i;
