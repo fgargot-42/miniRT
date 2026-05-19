@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/05/18 22:28:48 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/20 00:39:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 {
 	int		i;
 	t_vec3	*pos;
-	t_vec3  *rotation;
+	t_vec3	*rotation;
+
 	pos = &obj->position;
 	rotation = &obj->direction;
 	i = 0;
@@ -54,7 +55,6 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 		};
 		i++;
 	}
-
 	i = 0;
 	while (i < 3)
 	{
@@ -146,10 +146,9 @@ void	setup_ambient_sliders(t_data *data, t_object *obj)
 {
 	int		i;
 	t_vec3	*col;
-	double *intensity; 
+	double	*intensity;
 
 	(void)obj;
-
 	col = &data->scene->ambient->color;
 	intensity = &data->scene->ambient->props.intensity;
 	i = 0;
@@ -164,12 +163,11 @@ void	setup_ambient_sliders(t_data *data, t_object *obj)
 		};
 		i++;
 	}
-
-		data->sliders[13 + i] = (t_slider){
-			.value = intensity,
-			.min = 0.0,
-			.max = 1.0,
-			.label = "power",
-			.col = g_material_colors[i],
-		};
+	data->sliders[13 + i] = (t_slider){
+		.value = intensity,
+		.min = 0.0,
+		.max = 1.0,
+		.label = "power",
+		.col = g_material_colors[i],
+	};
 }

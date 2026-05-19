@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:12:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 00:46:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ typedef struct s_data
 
 // BVH
 
-typedef void	(*t_obj_aabb_fn)(t_object *, t_vec3 *, t_vec3 *);
+typedef void		(*t_obj_aabb_fn)(t_object *, t_vec3 *, t_vec3 *);
 
 void				get_sphere_aabb(t_object *obj, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
@@ -298,18 +298,16 @@ void				editor_loop(void *param);
 void				fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
 						mlx_color col);
 
+void				draw_hline(t_data *data, void *win, int y);
 
-void	draw_hline(t_data *data, void *win, int y);
+void				put_row(t_data *data, void *win, int *y,
+						const char *label, mlx_color val_col, const char *fmt, ...);
+void				put_section(t_data *data, void *win, int *y,
+						const char *title);
+void				setup_transform_sliders(t_data *data, t_object *obj);
+void				setup_color_sliders(t_data *data, t_object *obj);
+void				setup_material_sliders(t_data *data, t_object *obj);
+void				setup_property_sliders(t_data *data, t_object *obj);
 
-void	put_row(t_data *data, void *win, int *y,
-		const char *label, mlx_color val_col, const char *fmt, ...);
-
-void	put_section(t_data *data, void *win, int *y, const char *title);
-
-void	setup_transform_sliders(t_data *data, t_object *obj);
-void	setup_color_sliders(t_data *data, t_object *obj);
-void	setup_material_sliders(t_data *data, t_object *obj);
-void	setup_property_sliders(t_data *data, t_object *obj);
-
-void	setup_ambient_sliders(t_data *data, t_object *obj);
+void				setup_ambient_sliders(t_data *data, t_object *obj);
 #endif

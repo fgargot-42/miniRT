@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:08:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 00:35:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ static void	set_default_sky(t_scene *scene)
 
 static void	print_bvh_tree(t_bvh *bvh, int depth)
 {
-	int						i;
-	//static const char const *type = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
-	//"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID", "TRIANGLE"};
+	int	i;
+
 	if (!bvh)
 		return ;
 	i = depth;
@@ -101,7 +100,7 @@ void	free_object(void *object)
 
 	o = (t_object *)object;
 	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE
-			&& o->props.transform_axis)
+		&& o->props.transform_axis)
 		free_matrix(o->props.transform_axis);
 	free(o);
 }
