@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 20:54:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/19 18:01:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	print_plane(t_object *p)
 	printf("--shininess: %.2f\n", p->shininess);
 }
 
-void	print_obj_list(void *o)
+void	print_object(void *o)
 {
 	t_object	*obj;
 
