@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 23:29:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 19:14:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ static void	apply_tan_or_matrix(t_data *data)
 	t_vec3		rotation;
 
 	obj = data->scene->selected;
-	if (!obj || obj->type < OBJ_CONE || obj->type == OBJ_TRIANGLE)
+	if (!obj || obj->type < OBJ_CYLINDER || obj->type == OBJ_TRIANGLE)
 		return ;
-	obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
+	if (obj->type != OBJ_CYLINDER)
+		obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
 	rotation = obj->direction;
 	obj->props.transform_axis
 		= vec_get_matrix_rotation_z(vec3_normalize(rotation));
