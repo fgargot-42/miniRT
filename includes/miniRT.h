@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:46:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 21:05:56 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,14 @@ typedef union u_obj_prop
 	double	intensity; // light/ambient
 }	t_obj_prop;
 
+
+typedef struct s_texture
+{
+    int width;
+    int height;
+    int channels;
+    unsigned char *data;
+} t_texture;
 typedef struct s_object
 {
 	t_obj_type	type;
@@ -92,6 +100,7 @@ typedef struct s_object
 	double		angle;
 	double		specular;
 	double		shininess;
+	t_texture   sphere_tex;
 }	t_object;
 
 typedef struct s_hit_record
@@ -121,6 +130,8 @@ typedef struct s_bvh
 	int				first_index;
 	int				nb_elements;
 }	t_bvh;
+
+
 
 typedef struct s_scene
 {
@@ -310,4 +321,21 @@ void				setup_material_sliders(t_data *data, t_object *obj);
 void				setup_property_sliders(t_data *data, t_object *obj);
 
 void				setup_ambient_sliders(t_data *data, t_object *obj);
+void	put_row(t_data *data, void *win, int *y,
+		const char *label, mlx_color val_col, const char *fmt, ...);
+
+void	put_section(t_data *data, void *win, int *y, const char *title);
+
+void	setup_transform_sliders(t_data *data, t_object *obj);
+void	setup_color_sliders(t_data *data, t_object *obj);
+void	setup_material_sliders(t_data *data, t_object *obj);
+void	setup_property_sliders(t_data *data, t_object *obj);
+
+void	setup_ambient_sliders(t_data *data, t_object *obj);
+
+
+t_texture load_texture(const char *path);
+t_vec3 uv_to_color(t_texture *tex, t_vec2 uv);
+t_vec2 get_uv(t_vec3 vec);
+
 #endif

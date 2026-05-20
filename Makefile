@@ -74,7 +74,8 @@ SRC =	main.c \
 		utils/color.c \
 		ui/ui.c \
 		ui/helpers.c \
-		ui/setup.c
+		ui/setup.c \
+		uv_mapping.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

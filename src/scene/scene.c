@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:35:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 21:06:34 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,23 @@ void	init_scene(char *file, t_scene *scene)
 	print_bvh_tree(scene->bvh, 0);
 #endif // DEBUG
 	set_default_sky(scene);
+	int i ;
+	i = 0;
+	int spherecount;
+	spherecount = 0;
+	while (i < ft_lstsize(scene->objects))
+	{
+		t_object *o;
+		o = (t_object *)ft_lstget_elem_index(scene->objects, i)->content;
+		if (o->type == OBJ_SPHERE)
+		{
+			const char* tex_array[] = {"bricks.png", "diamond_block.png", "emerald_block.png", "oak_planks.png"};
+			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
+			o->sphere_tex = load_texture(path);
+			spherecount++;
+		}
+		i++;
+	}
 }
 
 void	free_object(void *object)

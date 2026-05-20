@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/11 20:21:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 20:58:24 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "veclib.h"
 
 static mlx_color	apply_selection_rim(t_vec3 shaded,
 						t_hit_record *hc, t_ray *ray)
@@ -42,7 +43,20 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			y + render_scale / 2);
 	if (hit_scene(data->scene, &r, T_MAX, &hc))
 	{
-		shaded = shade(&hc, data->scene, &r);
+		if (hc.object->type == OBJ_SPHERE)
+		{
+			// texture mapping
+			//
+			//
+			t_vec2 uv = get_uv(hc.normal);
+			uv.x = uv.x - floor(uv.x);
+			uv.y = uv.y - floor(uv.y);
+			t_vec3 uvcol = uv_to_color(&hc.object->sphere_tex, uv);
+			t_vec3 base = shade(&hc, data->scene, &r);
+			shaded = vec3_multiply(base, uvcol);
+		}
+		else
+			shaded = shade(&hc, data->scene, &r);
 		if (data->scene->selected && hc.object == data->scene->selected)
 			color = apply_selection_rim(shaded, &hc, &r);
 		else
