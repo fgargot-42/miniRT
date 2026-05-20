@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:24:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 19:25:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define NB_THREADS 16
 # define BVH_DEPTH 8
 # define DEBUG 1
+# define BVH_VIEW 0
 # define MLX_WHITE 0xFFFFFFFF
 
 typedef struct s_ray
@@ -128,6 +129,7 @@ typedef struct s_bvh
 	t_object		**objects;
 	int				first_index;
 	int				nb_elements;
+	int				depth;
 }	t_bvh;
 
 typedef struct s_scene
@@ -200,6 +202,7 @@ t_object			*create_object(void *object, t_obj_type type);
 
 void				print_sky(t_object *sky);
 void				print_object(void *o);
+void				print_bvh_tree(t_bvh *bvh, int depth);
 
 // PARSING
 
@@ -276,7 +279,7 @@ int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
-int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max);
+int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point);
 
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);

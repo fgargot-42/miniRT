@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:10:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 19:25:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	set_default_sky(t_scene *scene)
 		free(default_sky);
 }
 
-static void	print_bvh_tree(t_bvh *bvh, int depth)
+void	print_bvh_tree(t_bvh *bvh, int depth)
 {
 	int	i;
 
@@ -62,6 +62,15 @@ static void	print_bvh_tree(t_bvh *bvh, int depth)
 		print_bvh_tree(bvh->left, depth + 1);
 	if (bvh->right)
 		print_bvh_tree(bvh->right, depth + 1);
+	if (depth == 0)
+	{
+		i = 0;
+		while (i < bvh->nb_elements)
+		{
+			print_object(bvh->objects[i]);
+			i++;
+		}
+	}
 }
 
 void	init_scene(char *file, t_data *data)
