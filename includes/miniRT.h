@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:13:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 19:24:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,15 @@ void				get_triangle_aabb(t_object *obj, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 
 void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
+void				bvh_grow_all_to_include(t_bvh *root, t_object *object);
 int					is_bvh_object(void *e);
 void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 void				sort_bvh_objects_asc(t_object **array, int min, int max,
 						char axis);
 t_bvh				*build_bvh_tree(t_scene *scene);
+void				bvh_destroy_tree(t_bvh **bvh);
+void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
 int					bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth);
 t_vec3				get_left_bounds(t_bvh *bvh);
 t_vec3				get_object_center(t_object *obj);

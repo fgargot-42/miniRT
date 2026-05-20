@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 19:14:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 19:17:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	editor_mouse_up(int event, void *param)
 		return ;
 	data = (t_data *)param;
 	data->dragging_slider = -1;
+	rebuild_bvh_tree(&data->scene->bvh, data->scene);
 }
 
 void	editor_loop(void *param)
@@ -96,5 +97,6 @@ void	editor_loop(void *param)
 	apply_slider_x(s, mx);
 	apply_tan_or_matrix(data);
 	draw_editor(data);
+	bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
 	draw(data);
 }
