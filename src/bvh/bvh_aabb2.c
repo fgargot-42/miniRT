@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:16:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 20:16:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 {
 	t_vec3	cap_center;
 	t_vec3	bulge;
+	t_vec3	d2;
 	double	r_max;
 
 	if (!aabb_min || !aabb_max)
@@ -52,10 +53,12 @@ void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	cap_center = vec3_add(obj->position,
 			vec3_scale(obj->direction, obj->props.height));
 	r_max = obj->props.tan_angle * sqrt(obj->props.height);
-	bulge.x = sqrt(1 - pow(obj->direction.x, 2));
-	bulge.y = sqrt(1 - pow(obj->direction.y, 2));
-	bulge.z = sqrt(1 - pow(obj->direction.z, 2));
-	bulge = vec3_scale(bulge, r_max);
+	d2.x = fmin(1.0, pow(obj->direction.x, 2));
+	d2.y = fmin(1.0, pow(obj->direction.y, 2));
+	d2.z = fmin(1.0, pow(obj->direction.z, 2));
+	bulge.x = r_max * sqrt(1 - d2.x);
+	bulge.y = r_max * sqrt(1 - d2.y);
+	bulge.z = r_max * sqrt(1 - d2.z);
 	*aabb_min = vec3_min(vec3_sub(cap_center, bulge), obj->position);
 	*aabb_max = vec3_max(vec3_add(cap_center, bulge), obj->position);
 }

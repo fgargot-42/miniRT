@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 22:20:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/20 17:54:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,6 @@ int	is_bvh_object(void *e)
 	is_bvh |= ((t_object *)e)->type == OBJ_PARABOLOID;
 	is_bvh |= ((t_object *)e)->type == OBJ_TRIANGLE;
 	return (is_bvh);
-}
-
-void	bvh_grow_to_include(t_bvh *bvh, t_object *object)
-{
-	t_vec3						aabb_min;
-	t_vec3						aabb_max;
-	static const t_obj_aabb_fn	get_aabb[] = {NULL, NULL, NULL, NULL, NULL,
-		get_sphere_aabb, get_cylinder_aabb, get_cone_aabb,
-		get_hyperboloid_aabb, get_paraboloid_aabb, get_triangle_aabb};
-
-	aabb_min = bvh->aabb_min;
-	aabb_max = bvh->aabb_max;
-	if (object->type >= OBJ_SPHERE)
-		get_aabb[object->type](object, &aabb_min, &aabb_max);
-	bvh->aabb_min = vec3_min(bvh->aabb_min, aabb_min);
-	bvh->aabb_max = vec3_max(bvh->aabb_max, aabb_max);
 }
 
 void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
