@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:02:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 01:42:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,44 @@ static int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 	}
 	return (hit);
 }
+#if BVH_VIEW
+static int	draw_box_bounds(t_bvh *bvh, t_vec3 point, double dist)
+{
+	static const double	epsilon = 5e-3;
+	t_vec3				dist_to_min;
+	t_vec3				dist_to_max;
+	int					i;
+
+	dist_to_min = vec3_sub(point, bvh->aabb_min);
+	dist_to_max = vec3_sub(point, bvh->aabb_max);
+	i = 0;
+	i = fabs(dist_to_min.x) < epsilon * dist;
+	i += fabs(dist_to_min.y) < epsilon * dist;
+	i += fabs(dist_to_min.z) < epsilon * dist;
+	i += fabs(dist_to_max.x) < epsilon * dist;
+	i += fabs(dist_to_max.y) < epsilon * dist;
+	i += fabs(dist_to_max.z) < epsilon * dist;
+	return (i >= 2);
+}
+#endif
 
 static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec)
 {
 	int				hit[2];
+	double			dist;
+	t_vec3			point;
 
 	hit[0] = 0;
 	hit[1] = 0;
-	if (!hit_bvh_box(bvh, ray, *closest))
+	dist = *closest;
+	point = (t_vec3){0, 0, 0};
+	if (!hit_bvh_box(bvh, ray, &dist, &point))
 		return (0);
+#if BVH_VIEW
+	if (draw_box_bounds(bvh, point, dist))
+		rec->color = (t_vec3){(bvh->depth << 6) & 0xff, 
+		((bvh->depth >> 2) << 6) & 0xff, 64};
+#endif
 	if (!bvh->left && !bvh->right)
 		return (hit_object_in_bvh(bvh, ray, closest, rec));
 	if (bvh->left)

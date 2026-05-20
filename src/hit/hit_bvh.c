@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:13:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 01:18:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds,
 	return (result);
 }
 
-int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max)
+int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
 {
 	const int		sign[3] = {ray->inv_direction.x < 0,
 		ray->inv_direction.y < 0, ray->inv_direction.z < 0};
@@ -56,7 +56,11 @@ int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double t_max)
 		v_min.x = v_min.z;
 	if (v_max.z < v_max.x)
 		v_max.x = v_max.z;
-	if (v_min.x < t_max && v_max.x > T_MIN)
+	if (v_min.x < *dist && v_max.x > T_MIN)
+	{
+		*point = ray_at(*ray, v_min.x);
+		*dist = v_min.x;
 		return (1);
+	}
 	return (0);
 }

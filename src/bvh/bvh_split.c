@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 23:37:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 01:37:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static int	create_bvh_tree_node(t_bvh *bvh)
 	bvh->right->first_index = bvh->first_index;
 	bvh->left->objects = bvh->objects;
 	bvh->right->objects = bvh->objects;
+	bvh->left->depth = bvh->depth + 1;
+	bvh->right->depth = bvh->depth + 1;
 	bvh->left->aabb_min = (t_vec3){1e30, 1e30, 1e30};
 	bvh->left->aabb_max = (t_vec3){-1e30, -1e30, -1e30};
 	bvh->right->aabb_min = (t_vec3){1e30, 1e30, 1e30};
@@ -72,9 +74,11 @@ static int	split_bvh_node(t_bvh *bvh, t_vec3 left_bound)
 	if (!status)
 		return (0);
 	i = bvh->first_index;
+	//left_bound = vec3_add(left_bound, bvh->aabb_min);
 	while (i < bvh->nb_elements + bvh->first_index)
 	{
 		center = vec3_add(get_object_center(bvh->objects[i]), bvh->aabb_min);
+		//center = get_object_center(bvh->objects[i]);
 		child = bvh->left;
 		if ((center.x > left_bound.x) || (center.y > left_bound.y)
 			|| (center.z > left_bound.z))

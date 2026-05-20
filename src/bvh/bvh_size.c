@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 17:54:19 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 18:09:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 00:09:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	bvh_grow_to_include(t_bvh *bvh, t_object *object)
 		get_sphere_aabb, get_cylinder_aabb, get_cone_aabb,
 		get_hyperboloid_aabb, get_paraboloid_aabb, get_triangle_aabb};
 
-	aabb_min = bvh->aabb_min;
-	aabb_max = bvh->aabb_max;
+	aabb_min = (t_vec3){1e30, 1e30, 1e30};
+	aabb_max = (t_vec3){-1e30, -1e30, -1e30};
 	if (object->type >= OBJ_SPHERE)
 		get_aabb[object->type](object, &aabb_min, &aabb_max);
 	bvh->aabb_min = vec3_min(bvh->aabb_min, aabb_min);
