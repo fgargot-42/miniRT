@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 23:39:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:08:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	mouse_down_hook(int mouse_event, void *param)
 		data->scene->selected = NULL;
 		mlx_mouse_get_pos(data->mlx, &mouse_x, &mouse_y);
 		ray = camera_ray(data->scene->cam, mouse_x, mouse_y);
-		if (hit_scene(data->scene, &ray, T_MAX, &hc))
+		if (hit_scene(data->scene, &ray, T_MAX, &hc, data->bvh_display_depth))
 		{
 			data->scene->selected = hc.object;
 			setup_sliders(data);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 01:37:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 22:22:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ static int	split_bvh_node(t_bvh *bvh, t_vec3 left_bound)
 	if (!status)
 		return (0);
 	i = bvh->first_index;
-	//left_bound = vec3_add(left_bound, bvh->aabb_min);
+	left_bound = vec3_add(left_bound, bvh->aabb_min);
 	while (i < bvh->nb_elements + bvh->first_index)
 	{
-		center = vec3_add(get_object_center(bvh->objects[i]), bvh->aabb_min);
-		//center = get_object_center(bvh->objects[i]);
+		//center = vec3_sub(get_object_center(bvh->objects[i]), bvh->aabb_min);
+		center = get_object_center(bvh->objects[i]);
 		child = bvh->left;
 		if ((center.x > left_bound.x) || (center.y > left_bound.y)
 			|| (center.z > left_bound.z))
@@ -92,6 +92,23 @@ static int	split_bvh_node(t_bvh *bvh, t_vec3 left_bound)
 	bvh_remove_empty_children(bvh);
 	sort_bvh_objects(bvh, left_bound);
 	return (1);
+}
+
+static t_vec3	get_split_bound_obj(t_bvh *bvh)
+{
+	t_vec3	obj_center;
+	t_vec3	bvh_center;
+
+	obj_center = get_object_center(
+		bvh->objects[bvh->first_index + bvh->nb_elements / 2]);
+	bvh_center = vec3_scale(vec3_add(bvh->aabb_min, bvh->aabb_max), 1.0 / 2.0);
+	if (bvh_center.x > bvh_center.y && bvh_center.x > bvh_center.z)
+		bvh_center.x = obj_center.x;
+	else if (bvh_center.y >  bvh_center.z)
+		bvh_center.y = obj_center.y;
+	else
+		bvh_center.z = obj_center.z;
+	return (bvh_center);
 }
 
 int	bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth)
@@ -116,8 +133,12 @@ int	bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth)
 	else
 	{
 		left_bound = get_left_bounds(bvh->left);
+		if (bvh->left->nb_elements == bvh->nb_elements)
+			left_bound = get_split_bound_obj(bvh->left);
 		status &= bvh_split(bvh->left, left_bound, depth + 1);
 		left_bound = get_left_bounds(bvh->right);
+		if (bvh->right->nb_elements == bvh->nb_elements)
+			left_bound = get_split_bound_obj(bvh->right);
 		status &= bvh_split(bvh->right, left_bound, depth + 1);
 	}
 	return (status);

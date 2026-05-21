@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:25:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:17:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,8 @@ void	init(t_data *data)
 	mlx_window_create_info	info;
 
 	data->render_scale = 1;
-	data->r_click_hold = 0;
-	data->w_click_hold = 0;
-	data->editor = NULL;
-	data->nb_sliders = 0;
 	data->dragging_slider = -1;
 	data->nb_threads = NB_THREADS;
-	data->th_nb = 0;
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit(1);
@@ -79,6 +74,7 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Error\n1 argument expected\n./miniRT <scene.rt>\n", 2);
 		return (1);
 	}
+	ft_bzero(&data, sizeof(t_data));
 	data.scene = malloc(sizeof(t_scene));
 	if (!data.scene)
 	{

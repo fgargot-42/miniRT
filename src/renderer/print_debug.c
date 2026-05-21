@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:35:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:09:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
 		light->position.x, light->position.y, light->position.z, light_dist);
 	printf("\tRay direction: x=%.3f y=%.3f z=%.3f\n", shadow_ray.direction.x,
 		shadow_ray.direction.y, shadow_ray.direction.z);
-	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp);
+	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp, -1);
 	if (is_hit)
 	{
 		printf("\tObstacle at x=%.3f y=%.3f z=%.3f\n", tmp.point.x,

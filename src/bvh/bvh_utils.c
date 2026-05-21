@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 23:53:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 21:47:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	is_bvh_object(void *e)
 	return (is_bvh);
 }
 
-void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
+void	sort_bvh_objects_asc(t_object **array, int min, int count, char axis)
 {
 	int			i;
 	int			j;
@@ -72,10 +72,10 @@ void	sort_bvh_objects_asc(t_object **array, int min, int max, char axis)
 	t_vec3		center[2];
 
 	i = min;
-	while (i < max - 1)
+	while (i < min + count - 1)
 	{
 		j = i + 1;
-		while (j < max)
+		while (j < min + count)
 		{
 			center[0] = get_object_center(array[i]);
 			center[1] = get_object_center(array[j]);
