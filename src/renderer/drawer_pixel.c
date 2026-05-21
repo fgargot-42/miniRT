@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 20:28:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 23:54:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ static mlx_color	apply_selection_rim(t_vec3 shaded,
 	return (vec3_to_color(vec3_clamp(result, 0.0, 255.0)));
 }
 
+static t_vec3	draw_skybox(t_data *data, t_ray r)
+{
+	t_vec2 uv = get_uv(r.direction);
+	uv.x = uv.x - floor(uv.x);
+	uv.y = uv.y - floor(uv.y);
+	t_vec3 uvcol = uv_to_color(data->scene->skybox, uv, data->mlx);
+	return (uvcol);
+}
+
 static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	int render_scale)
 {
@@ -40,9 +49,11 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	t_vec3			shaded;
 
 	ft_bzero(&hc, sizeof(t_hit_record));
-	color = vec3_to_color(data->scene->sky->color);
 	r = camera_ray(data->scene->cam, x + render_scale / 2,
 			y + render_scale / 2);
+	color = vec3_to_color(data->scene->sky->color);
+	if (data->scene->skybox)
+		color = vec3_to_color(draw_skybox(data, r));
 	if (hit_scene(data->scene, &r, T_MAX, &hc, data->bvh_display_depth))
 	{
 		if (!hc.object)
@@ -57,7 +68,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			uv.y = uv.y - floor(uv.y);
 			t_vec3 uvcol = uv_to_color(&hc.object->sphere_tex, uv, data->mlx);
 			t_vec3 base = shade(&hc, data->scene, &r);
-			shaded = vec3_multiply(base, uvcol);
+			shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
 		else
 			shaded = shade(&hc, data->scene, &r);

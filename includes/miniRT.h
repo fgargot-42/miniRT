@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 22:27:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 23:32:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_scene
 	t_list		*lights;
 	t_object	*ambient;
 	t_object	*sky;
+	t_texture	*skybox;
 	t_object	*cam;
 	t_object	*selected;
 	t_bvh		*bvh;
