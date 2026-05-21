@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 20:58:24 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/21 19:01:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			t_vec2 uv = get_uv(hc.normal);
 			uv.x = uv.x - floor(uv.x);
 			uv.y = uv.y - floor(uv.y);
-			t_vec3 uvcol = uv_to_color(&hc.object->sphere_tex, uv);
+			t_vec3 uvcol = uv_to_color(&hc.object->sphere_tex, uv, data->mlx);
 			t_vec3 base = shade(&hc, data->scene, &r);
 			shaded = vec3_multiply(base, uvcol);
 		}

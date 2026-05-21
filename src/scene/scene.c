@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 21:06:34 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/21 19:10:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,47 +64,47 @@ static void	print_bvh_tree(t_bvh *bvh, int depth)
 		print_bvh_tree(bvh->right, depth + 1);
 }
 
-void	init_scene(char *file, t_scene *scene)
+void	init_scene(char *file, t_data *data)
 {
 	int		parse_status;
 
-	ft_bzero(scene, sizeof(t_scene));
-	parse_status = parse_scene(file, scene);
+	ft_bzero(data->scene, sizeof(t_scene));
+	parse_status = parse_scene(file, data->scene);
 	if (!parse_status)
 	{
-		free_scene(scene);
+		free_scene(data->scene);
 		exit(1);
 	}
-	if (!scene->ambient)
+	if (!data->scene->ambient)
 	{
 		ft_putstr_fd("Error\nmissing object in scene: ambient lighting\n", 2);
-		free_scene(scene);
+		free_scene(data->scene);
 		exit(1);
 	}
-	if (!scene->cam)
+	if (!data->scene->cam)
 	{
 		ft_putstr_fd("Error\nmissing object in scene: camera\n", 2);
-		free_scene(scene);
+		free_scene(data->scene);
 		exit(1);
 	}
-	scene->bvh = build_bvh_tree(scene);
+	data->scene->bvh = build_bvh_tree(data->scene);
 #if DEBUG
-	print_bvh_tree(scene->bvh, 0);
+	print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
-	set_default_sky(scene);
+	set_default_sky(data->scene);
 	int i ;
 	i = 0;
 	int spherecount;
 	spherecount = 0;
-	while (i < ft_lstsize(scene->objects))
+	while (i < ft_lstsize(data->scene->objects))
 	{
 		t_object *o;
-		o = (t_object *)ft_lstget_elem_index(scene->objects, i)->content;
+		o = (t_object *)ft_lstget_elem_index(data->scene->objects, i)->content;
 		if (o->type == OBJ_SPHERE)
 		{
 			const char* tex_array[] = {"bricks.png", "diamond_block.png", "emerald_block.png", "oak_planks.png"};
 			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
-			o->sphere_tex = load_texture(path);
+			o->sphere_tex = load_texture(path, data->mlx);
 			spherecount++;
 		}
 		i++;
