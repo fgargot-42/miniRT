@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:25:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 22:27:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define NB_THREADS 16
 # define BVH_DEPTH 8
 # define DEBUG 1
-# define BVH_VIEW 0
+# define BVH_VIEW 1
 # define MLX_WHITE 0xFFFFFFFF
 
 typedef struct s_ray
@@ -157,6 +157,7 @@ typedef struct s_data
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
+	int			bvh_display_depth;
 	// temp slider -> ui.h
 	t_slider	sliders[MAX_SLIDERS];
 	int			nb_sliders;
@@ -264,7 +265,7 @@ t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
 int					hit_list(t_list *obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
-						t_hit_record *rec);
+						t_hit_record *rec, int display_bvh_depth);
 int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_plane(t_object *obj, t_ray *ray, double t_max,

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:25:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 21:10:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,21 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 	if (!bvh)
 		return ;
 	i = depth;
-	while (--i > 0)
+	while (i-- > 0)
 		printf("    ");
 	printf("BVH\n");
 	i = depth;
-	while (--i > 0)
+	while (i-- > 0)
 		printf("    ");
-	if (depth)
-		printf("│\n");
+	printf("│\n");
 	i = depth;
-	while (--i > 0)
+	while (i-- > 0)
 		printf("    ");
-	if (depth)
-		printf("└───");
+	printf("└───");
 	printf("Box at: [% .3f % .3f % .3f ], [% .3f % .3f % .3f ]\n",
 		bvh->aabb_min.x, bvh->aabb_min.y, bvh->aabb_min.z,
 		bvh->aabb_max.x, bvh->aabb_max.y, bvh->aabb_max.z);
-	i = depth;
+	i = depth + 1;
 	while (i--)
 		printf("    ");
 	printf("starting_index: %d, nb_elements: %d\n", bvh->first_index, bvh->nb_elements);
@@ -111,7 +109,7 @@ void	init_scene(char *file, t_data *data)
 		o = (t_object *)ft_lstget_elem_index(data->scene->objects, i)->content;
 		if (o->type == OBJ_SPHERE)
 		{
-			const char* tex_array[] = {"bricks.png", "diamond_block.png", "emerald_block.png", "oak_planks.png"};
+			const char* tex_array[] = {"8k_earth_daymap.jpg", "2k_moon.jpg", "emerald_block.png", "oak_planks.png"};
 			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
 			o->sphere_tex = load_texture(path, data->mlx);
 			spherecount++;

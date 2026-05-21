@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:13:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:18:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ static void	key_hook(int scancode, void *param)
 		else
 			data->render_scale = 1;
 	}
+	if (scancode == 45 && data->bvh_display_depth > 0)
+		data->bvh_display_depth--;
+	if (scancode == 46 && data->bvh_display_depth < BVH_DEPTH)
+		data->bvh_display_depth++;
 	draw(data);
 }
 

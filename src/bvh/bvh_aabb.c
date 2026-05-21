@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 18:27:23 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:01:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 22:40:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	get_cone_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 {
 	t_vec3	extent[2];
 	double	height[2];
-	int		r_max;
+	double	r_max[2];
 	int		i;
 
 	if (!aabb_min || !aabb_max)
@@ -54,15 +54,16 @@ void	get_cone_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	i = 0;
 	while (i < 2)
 	{
-		r_max = fmax(height[0], height[1]) * obj->props.tan_angle;
-		extent[i].x = height[i] * fabs(obj->direction.x) + r_max
+		r_max[i] = height[i] * obj->props.tan_angle;
+		extent[i].x = height[i] * fabs(obj->direction.x) + r_max[i]
 			* sqrt(1 - pow(obj->direction.x, 2));
-		extent[i].y = height[i] * fabs(obj->direction.y) + r_max
+		extent[i].y = height[i] * fabs(obj->direction.y) + r_max[i]
 			* sqrt(1 - pow(obj->direction.y, 2));
-		extent[i].z = height[i] * fabs(obj->direction.z) + r_max
+		extent[i].z = height[i] * fabs(obj->direction.z) + r_max[i]
 			* sqrt(1 - pow(obj->direction.z, 2));
 		i++;
 	}
-	*aabb_min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
-	*aabb_max = vec3_add(obj->position, vec3_max(extent[0], extent[1]));
+	extent[0] = vec3_max(extent[0], extent[1]);
+	*aabb_min = vec3_sub(obj->position, extent[0]);
+	*aabb_max = vec3_add(obj->position, extent[0]);
 }

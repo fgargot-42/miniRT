@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 19:01:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:28:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,14 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	t_hit_record	hc;
 	t_vec3			shaded;
 
+	ft_bzero(&hc, sizeof(t_hit_record));
+	color = vec3_to_color(data->scene->sky->color);
 	r = camera_ray(data->scene->cam, x + render_scale / 2,
 			y + render_scale / 2);
-	if (hit_scene(data->scene, &r, T_MAX, &hc))
+	if (hit_scene(data->scene, &r, T_MAX, &hc, data->bvh_display_depth))
 	{
+		if (!hc.object)
+			return (vec3_to_color(hc.color));
 		if (hc.object->type == OBJ_SPHERE)
 		{
 			// texture mapping
@@ -62,8 +66,6 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 		else
 			color = vec3_to_color(shaded);
 	}
-	else
-		color = vec3_to_color(data->scene->sky->color);
 	return (color);
 }
 

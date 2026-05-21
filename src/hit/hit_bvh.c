@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 01:18:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 20:53:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "assert.h"
 
 static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds,
 		int const *sign)
