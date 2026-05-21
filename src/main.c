@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 18:01:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/21 19:09:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,13 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Failed to allocate scene\n");
 		return (1);
 	}
-	init_scene(argv[1], data.scene);
+	init(&data);
+	init_scene(argv[1], &data);
 #if DEBUG
 	ft_lstiter(data.scene->objects, print_object);
 	ft_lstiter(data.scene->lights, print_object);
 	print_sky(data.scene->sky);
 #endif
-	init(&data);
 	draw_single(&data);
 	attach_hooks(&data);
 	mlx_add_loop_hook(data.mlx, mouse_loop, &data);
