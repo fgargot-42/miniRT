@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:50:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/08 00:37:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/22 20:05:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static char	*putnextstr(char **arr, int i, const char *str, char c)
 		return (NULL);
 	}
 	ft_strlcpy(arr[i], str, countnext + 1);
+	if (str[countnext] == c)
+		countnext++;
 	return ((char *)&str[countnext]);
 }
 

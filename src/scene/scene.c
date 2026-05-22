@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 21:10:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/23 00:49:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,16 @@ void	init_scene(char *file, t_data *data)
 			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
 			o->sphere_tex = load_texture(path, data->mlx);
 			spherecount++;
+		}
+		if (o->type == OBJ_TRIANGLE)
+		{
+			static t_texture *tri_tex = NULL;
+			if (tri_tex == NULL)
+			{
+				tri_tex = ft_calloc(1, sizeof(t_texture));
+				*tri_tex = load_texture("textures/bricks_test2.png", data->mlx);
+			}
+			o->sphere_tex = *tri_tex;
 		}
 		i++;
 	}
