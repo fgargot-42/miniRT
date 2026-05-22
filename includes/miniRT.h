@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 23:32:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/22 19:40:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,17 @@ typedef union u_obj_prop
 	double	intensity; // light/ambient
 }	t_obj_prop;
 
+typedef union u_obj_tex
+{
+	struct
+	{
+		t_vec2	tex_a;
+		t_vec2	tex_b;
+		t_vec2	tex_c;
+	};
+	t_vec2	origin;
+}	t_obj_tex;
+
 typedef struct s_texture
 {
 	int		width;
@@ -100,6 +111,7 @@ typedef struct s_object
 	double		angle;
 	double		specular;
 	double		shininess;
+	t_obj_tex	texture;
 	t_texture	sphere_tex;
 }	t_object;
 
@@ -329,6 +341,7 @@ void				setup_ambient_sliders(t_data *data, t_object *obj);
 
 t_texture			load_texture(char *path, void *mlx);
 t_vec3				uv_to_color(t_texture *tex, t_vec2 uv, void *mlx);
+t_vec3				triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx);
 t_vec2				get_uv(t_vec3 vec);
 
 #endif

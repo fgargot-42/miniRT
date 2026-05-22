@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:18:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/08 01:10:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/22 19:10:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ int	parse_texture(char *line, t_list **texture_list, int line_nb)
 {
 	char	**split;
 	int		parse_result;
-	t_vec3	*texture;
+	t_vec2	*texture;
 
 	if (!texture_list)
 		return (0);
 	split = ft_split_by_whitespace(line);
 	if (!split)
 		return (0);
-	texture = ft_calloc(1, sizeof(t_vec3));
+	texture = ft_calloc(1, sizeof(t_vec2));
 	if (!texture || check_array_size(split, 2, "vt", line_nb))
 	{
 		if (texture)
@@ -106,8 +106,6 @@ int	parse_texture(char *line, t_list **texture_list, int line_nb)
 	parse_result = parse_double(split[1], &texture->x, "vt", line_nb);
 	if (split[2])
 		parse_result &= parse_double(split[2], &texture->y, "vt", line_nb);
-	if (split[2] && split[3])
-		parse_result &= parse_double(split[3], &texture->z, "vt", line_nb);
 	free_str_array(split);
 	ft_lstadd_back(texture_list, ft_lstnew(texture));
 	return (parse_result);
