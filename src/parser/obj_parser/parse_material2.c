@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 22:59:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:27:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "material.h"
 
 int	parse_mat_emissive(char *line, t_material *mat, int line_nb)

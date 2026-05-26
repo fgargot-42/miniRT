@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/09 19:53:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:27:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "material.h"
 
 int	parse_new_material(char *line, t_list **mat_list, t_material **mat)

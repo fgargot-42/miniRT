@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 20:05:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 23:38:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,34 +218,6 @@ void				print_sky(t_object *sky);
 void				print_object(void *o);
 void				print_bvh_tree(t_bvh *bvh, int depth);
 
-// PARSING
-
-typedef t_object	*(*t_parser_func)(char **, int);
-int					parse_scene(char *file, t_data *data);
-t_object			*parse_ambient(char **line_split, int line_nb);
-t_object			*parse_camera(char **line_split, int line_nb);
-t_object			*parse_sky(char **line_split, int line_nb);
-t_object			*parse_light(char **line_split, int line_nb);
-t_object			*parse_sphere(char **line_split, int line_nb);
-t_object			*parse_plane(char **line_split, int line_nb);
-t_object			*parse_cylinder(char **line_split, int line_nb);
-t_object			*parse_cone(char **line_split, int line_nb);
-t_object			*parse_hyperboloid(char **line_split, int line_nb);
-t_object			*parse_paraboloid(char **line_split, int line_nb);
-t_object			*parse_triangle(char **line_split, int line_nb);
-
-int					add_element_to_scene(t_scene *scene, t_object **obj,
-						int line_nb);
-void				print_parse_error(char *message, char *element,
-						int line_nb);
-void				clear_gnl(int fd, char *line);
-int					check_array_size(char **array, int expected, char *object,
-						int line_nb);
-int					parse_vector(char *param, t_vec3 *v_res, char *object,
-						int line_nb);
-int					parse_double(char *param, double *res, char *object,
-						int line_nb);
-
 // SCENE
 void				init_scene(char *file, t_data *data);
 void				free_scene(t_scene *scene);
@@ -309,6 +281,7 @@ int					get_polynom2_roots(double *roots, double a, double b,
 int					open_file_read(char *file, char *extension);
 char				*get_directory_path(char *filepath);
 void				free_str_array(char **array);
+size_t				get_str_array_length(char **array);
 
 t_vec3				srgb_to_linear(t_vec3 srgb);
 t_vec3				linear_to_srgb(t_vec3 linear_rgb);

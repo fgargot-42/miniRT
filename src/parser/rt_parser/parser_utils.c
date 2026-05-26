@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 20:30:57 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/27 00:21:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -44,41 +45,41 @@ void	clear_gnl(int fd, char *line)
 	close(fd);
 }
 
-static int	add_specials(t_object **dst, t_object *obj, char *elem, int line_nb)
+static int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 {
 	if (*dst)
 	{
-		print_parse_error("Duplicate element detected", elem, line_nb);
+		print_parse_error("Duplicate element detected", elem, ctx->line_nb);
 		return (0);
 	}
-	*dst = obj;
+	*dst = ctx->obj;
 	return (1);
 }
 
-int	add_element_to_scene(t_scene *scene, t_object **obj, int line_nb)
+int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
 {
 	int		status;
 	t_list	*new_object;
 
 	status = 1;
-	if (!*obj)
+	if (!ctx->obj)
 		return (1);
-	if ((*obj)->type >= OBJ_LIGHT)
+	if (ctx->obj->type >= OBJ_LIGHT)
 	{
-		new_object = ft_lstnew(*obj);
+		new_object = ft_lstnew(ctx->obj);
 		if (!new_object)
 			return (0);
-		if ((*obj)->type == OBJ_LIGHT)
+		if (ctx->obj->type == OBJ_LIGHT)
 			ft_lstadd_back(&scene->lights, new_object);
 		else
 			ft_lstadd_back(&scene->objects, new_object);
 		return (1);
 	}
-	if ((*obj)->type == OBJ_AMBIENT)
-		status = add_specials(&scene->ambient, *obj, "ambient", line_nb);
-	if ((*obj)->type == OBJ_CAMERA)
-		status = add_specials(&scene->cam, *obj, "camera", line_nb);
-	if ((*obj)->type == OBJ_SKY)
-		status = add_specials(&scene->sky, *obj, "sky", line_nb);
+	if (ctx->obj->type == OBJ_AMBIENT)
+		status = add_specials(&scene->ambient, ctx, "ambient");
+	if (ctx->obj->type == OBJ_CAMERA)
+		status = add_specials(&scene->cam, ctx, "camera");
+	if (ctx->obj->type == OBJ_SKY)
+		status = add_specials(&scene->sky, ctx, "sky");
 	return (status);
 }

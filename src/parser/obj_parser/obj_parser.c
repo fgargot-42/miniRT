@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 19:49:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:26:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ static int	parse_obj_elements(char **split, char *rt_path, t_scene *scene, t_obj
 	return (status);
 }
 
-static int	parse_texture_file(t_object_model *obj, char *rt_path, char *tex_file, void *mlx)
+static int	parse_obj_texture_file(t_object_model *obj, char *rt_path,
+		char *tex_file, void *mlx)
 {
 	char		*tex_path;
 	t_texture	*tex;
@@ -107,7 +108,7 @@ static int	parse_texture_file(t_object_model *obj, char *rt_path, char *tex_file
 	return (1);
 }
 
-int	parse_obj_file(char *rt_path, char *file, t_data *data, int line_nb)
+int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 {
 	int				parse_result;
 	char			**split;
@@ -117,7 +118,7 @@ int	parse_obj_file(char *rt_path, char *file, t_data *data, int line_nb)
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
-	if (check_array_size(split, 3, "obj", line_nb))
+	if (check_array_size(split, 3, "obj", ctx->line_nb))
 	{
 		free_str_array(split);
 		return (0);
@@ -125,10 +126,11 @@ int	parse_obj_file(char *rt_path, char *file, t_data *data, int line_nb)
 	obj = ft_calloc(1, sizeof(t_object_model));
 	if (obj)
 	{
-		parse_vector(split[1], &obj->position, "obj", line_nb);
+		parse_vector(split[1], &obj->position, "obj", ctx->line_nb);
 		if (split[3])
-			parse_result = parse_texture_file(obj, rt_path, split[3], data->mlx);
-		parse_result &= parse_obj_elements(split, rt_path, data->scene, obj);
+			parse_result = parse_obj_texture_file(obj, ctx->rt_path,
+				split[3], data->mlx);
+		parse_result &= parse_obj_elements(split, ctx->rt_path, data->scene, obj);
 	}
 	free_str_array(split);
 	return (2 * parse_result);

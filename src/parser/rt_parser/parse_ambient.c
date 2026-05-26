@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:20:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 23:07:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "libft.h"
 
 static int	parse_ambient_elements(char **line_split, t_object *obj,
@@ -24,22 +25,23 @@ static int	parse_ambient_elements(char **line_split, t_object *obj,
 	return (p_res);
 }
 
-t_object	*parse_ambient(char **line_split, int line_nb)
+t_object	*parse_ambient(char **line_split, t_parser_ctx *ctx, void *mlx)
 {
 	int			parse_result;
 	t_object	*obj;
 
+	(void)mlx;
 	obj = NULL;
 	parse_result = 1;
-	if (check_array_size(line_split, 3, "ambient", line_nb))
+	if (check_array_size(line_split, 3, "ambient", ctx->line_nb))
 		return (NULL);
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
 	{
-		print_parse_error("allocation failed", "ambient", line_nb);
+		print_parse_error("allocation failed", "ambient", ctx->line_nb);
 		return (NULL);
 	}
-	parse_result = parse_ambient_elements(line_split, obj, line_nb);
+	parse_result = parse_ambient_elements(line_split, obj, ctx->line_nb);
 	if (!parse_result)
 	{
 		free(obj);

@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 19:15:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:53:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
+#include "parser.h"
 #include <unistd.h>
 
 static void	set_default_sky(t_scene *scene)
@@ -99,33 +100,6 @@ void	init_scene(char *file, t_data *data)
 	print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
 	set_default_sky(data->scene);
-	int i ;
-	i = 0;
-	int spherecount;
-	spherecount = 0;
-	while (i < ft_lstsize(data->scene->objects))
-	{
-		t_object *o;
-		o = (t_object *)ft_lstget_elem_index(data->scene->objects, i)->content;
-		if (o->type == OBJ_SPHERE)
-		{
-			const char* tex_array[] = {"8k_earth_daymap.jpg", "2k_moon.jpg", "emerald_block.png", "oak_planks.png"};
-			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
-			o->tex = load_texture(path, data->mlx);
-			spherecount++;
-		}
-		/*if (o->type == OBJ_TRIANGLE)
-		{
-			static t_texture *tri_tex = NULL;
-			if (tri_tex == NULL)
-			{
-				tri_tex = ft_calloc(1, sizeof(t_texture));
-				*tri_tex = load_texture("textures/bricks_test2.png", data->mlx);
-			}
-			o->sphere_tex = *tri_tex;
-		}*/
-		i++;
-	}
 }
 
 void	free_object(void *object)
