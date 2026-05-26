@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 19:48:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 22:27:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,13 @@ static void	init_triangle_props(t_object *triangle, t_material *mat)
 {
 	triangle->type = OBJ_TRIANGLE;
 	triangle->shininess = 1;
+	triangle->position = triangle->props.a;
 	triangle->direction = vec3_normalize(vec3_cross(
 				vec3_sub(triangle->props.c, triangle->props.a),
 				vec3_sub(triangle->props.b, triangle->props.a)));
+	triangle->props.b = vec3_sub(triangle->props.b, triangle->props.a);
+	triangle->props.c = vec3_sub(triangle->props.c, triangle->props.a);
+	triangle->props.a = (t_vec3){0, 0, 0};
 	if (mat)
 		triangle->color = linear_to_srgb(mat->diffuse);
 	else

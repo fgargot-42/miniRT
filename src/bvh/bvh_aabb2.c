@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 20:16:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 22:19:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,6 @@ void	get_triangle_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 {
 	*aabb_min = vec3_min(vec3_min(obj->props.a, obj->props.b), obj->props.c);
 	*aabb_max = vec3_max(vec3_max(obj->props.a, obj->props.b), obj->props.c);
+	*aabb_min = vec3_add(*aabb_min, obj->position);
+	*aabb_max = vec3_add(*aabb_max, obj->position);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 19:16:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 22:11:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,18 @@ t_vec3 uv_to_color(t_texture *tex, t_vec2 uv, void *mlx)
 
 t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx)
 {
-	t_vec3		obj_vec[3];
+	t_vec3		obj_hit;
 	double		dot[2][3];
 	double		det;
 	t_vec2		uv;
 	mlx_color	pixel;
 
-	obj_vec[0] = vec3_sub(obj->props.b, obj->props.a);
-	obj_vec[1] = vec3_sub(obj->props.c, obj->props.a);
-	obj_vec[2] = vec3_sub(hit, obj->props.a);
-	dot[0][0] = vec3_dot(obj_vec[0], obj_vec[0]);
-	dot[0][1] = vec3_dot(obj_vec[0], obj_vec[1]);
-	dot[0][2] = vec3_dot(obj_vec[0], obj_vec[2]);
-	dot[1][1] = vec3_dot(obj_vec[1], obj_vec[1]);
-	dot[1][2] = vec3_dot(obj_vec[1], obj_vec[2]);
+	obj_hit = vec3_sub(hit, obj->position);
+	dot[0][0] = vec3_dot(obj->props.b, obj->props.b);
+	dot[0][1] = vec3_dot(obj->props.b, obj->props.c);
+	dot[0][2] = vec3_dot(obj->props.b, obj_hit);
+	dot[1][1] = vec3_dot(obj->props.c, obj->props.c);
+	dot[1][2] = vec3_dot(obj->props.c, obj_hit);
 	det = dot[0][0] * dot[1][1] - pow(dot[0][1], 2);
 	if (fabs(det) < 1e-10)
 		return (t_vec3){0, 0, 0};
