@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/22 19:40:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 20:05:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_object
 	double		specular;
 	double		shininess;
 	t_obj_tex	texture;
-	t_texture	sphere_tex;
+	t_texture	*tex;
 }	t_object;
 
 typedef struct s_hit_record
@@ -221,7 +221,7 @@ void				print_bvh_tree(t_bvh *bvh, int depth);
 // PARSING
 
 typedef t_object	*(*t_parser_func)(char **, int);
-int					parse_scene(char *file, t_scene *scene);
+int					parse_scene(char *file, t_data *data);
 t_object			*parse_ambient(char **line_split, int line_nb);
 t_object			*parse_camera(char **line_split, int line_nb);
 t_object			*parse_sky(char **line_split, int line_nb);
@@ -339,7 +339,7 @@ void				setup_property_sliders(t_data *data, t_object *obj);
 
 void				setup_ambient_sliders(t_data *data, t_object *obj);
 
-t_texture			load_texture(char *path, void *mlx);
+t_texture			*load_texture(char *path, void *mlx);
 t_vec3				uv_to_color(t_texture *tex, t_vec2 uv, void *mlx);
 t_vec3				triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx);
 t_vec2				get_uv(t_vec3 vec);

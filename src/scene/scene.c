@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/23 00:49:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 19:15:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	init_scene(char *file, t_data *data)
 	int		parse_status;
 
 	ft_bzero(data->scene, sizeof(t_scene));
-	parse_status = parse_scene(file, data->scene);
+	parse_status = parse_scene(file, data);
 	if (!parse_status)
 	{
 		free_scene(data->scene);
@@ -111,10 +111,10 @@ void	init_scene(char *file, t_data *data)
 		{
 			const char* tex_array[] = {"8k_earth_daymap.jpg", "2k_moon.jpg", "emerald_block.png", "oak_planks.png"};
 			char *path = ft_strjoin("textures/", tex_array[spherecount%4]);
-			o->sphere_tex = load_texture(path, data->mlx);
+			o->tex = load_texture(path, data->mlx);
 			spherecount++;
 		}
-		if (o->type == OBJ_TRIANGLE)
+		/*if (o->type == OBJ_TRIANGLE)
 		{
 			static t_texture *tri_tex = NULL;
 			if (tri_tex == NULL)
@@ -123,7 +123,7 @@ void	init_scene(char *file, t_data *data)
 				*tri_tex = load_texture("textures/bricks_test2.png", data->mlx);
 			}
 			o->sphere_tex = *tri_tex;
-		}
+		}*/
 		i++;
 	}
 }
