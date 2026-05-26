@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:01:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 22:12:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ static int	parse_triangle_elements(char **line_split, t_object *obj,
 	if (line_split[6] && line_split[7] && ft_strlen(line_split[7]))
 		parse_result &= parse_double(line_split[7], &(obj->shininess),
 				"triangle", line_nb);
+	obj->position = obj->props.a;
+	obj->direction = vec3_normalize(vec3_cross(
+				vec3_sub(obj->props.c, obj->props.a),
+				vec3_sub(obj->props.b, obj->props.a)));
+	obj->props.b = vec3_sub(obj->props.b, obj->props.a);
+	obj->props.c = vec3_sub(obj->props.c, obj->props.a);
+	obj->props.a = (t_vec3){0, 0, 0};
 	return (parse_result);
 }
 
@@ -57,10 +64,6 @@ t_object	*parse_triangle(char **line_split, int line_nb)
 		free(obj);
 		return (NULL);
 	}
-	obj->position = obj->props.a;
-	obj->direction = vec3_normalize(vec3_cross(
-				vec3_sub(obj->props.c, obj->props.a),
-				vec3_sub(obj->props.b, obj->props.a)));
 	obj->type = OBJ_TRIANGLE;
 	return (obj);
 }
