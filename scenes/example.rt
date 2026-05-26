@@ -1,0 +1,45 @@
+# This is an example .rt file showing how to set up a miniRT scene
+
+# Ambient (Unique)
+# A intensity	color(r,g,b)
+A 0.15	255,255,255
+
+# Camera (Unique)
+# C	pos(x,y,z)		dir(x,y,z normalized)	fov
+C	0.0,2.0,-5.0	0.0,0.0,1.0				80
+
+# Light
+# L	pos(x,y,z)		intensity	color(r,g,b)
+L	4.0,12.0,2.0		0.9			255,240,200
+
+# Sky (Unique)
+# S color(r,g,b)
+S	180,140,255
+
+# Sphere
+# sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess]
+sp		2.0,0.0,6.0		3.0			230,230,230		0.6			32
+
+# Cylinder
+# cy	pos(x,y,z)		dir(x,y,z)		diameter	height	color(r,g,b)	[specular	shininess]
+cy		-2.0,1.0,8.0	0.0,1.0,0.0		4			4		0,153,0			0.6			16
+
+# Plane
+# pl	pos(x,y,z)	normal(x,y,z)	color(r,g,b)	checkered	[specular	shininess]
+pl		2.0,-1.5,0	0.0,1.0,0.0		200,200,200		1			0.4			8
+
+# Cone
+# co	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	depth	color(r,g,b)	[specular	shininess]
+co		2.0,3.0,1.0		0.0,1.0,0.0		60			0		1		255,215,0 		0.4			8
+
+# Hyperboloid
+# hy	pos(x,y,z)		dir(x,y,z)		radius	angle(deg)	height	depth	color(r,g,b)	[specular	shininess]
+hy		2.0,5.0,2.0		0.0,1.0,0.0		.5 		45			2		2		64,192,192		0.6			32
+
+# Paraboloid
+# pa	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	/	color(r,g,b)	[specular	shininess]
+pa		-2.0,2.0,2.0	0.0,1.0,0.0		60			3		0	64,208,176		0.6			32
+
+# Object
+# obj	pos(x,y,z)		filepath(*.obj)		[texture_image_filepath]
+obj		0.0,2.0,10.0	forty_two_brick.obj	../textures/bricks_test2.png
