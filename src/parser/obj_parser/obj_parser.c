@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 17:24:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 19:49:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "object.h"
+#include <unistd.h>
 
 static t_list	*get_material(char *line, t_list *materials)
 {
@@ -46,7 +47,7 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
 	else if (!ft_strncmp(line, "vn", 2))
 		status = parse_normal(line, &obj->normal_list, line_nb);
 	else if (!ft_strncmp(line, "vt", 2))
-		status = parse_texture(line, &obj->texture_list, line_nb);
+		status = parse_texture(line, &obj->texture_uv_list, line_nb);
 	else if (!ft_strncmp(line, "v", 1))
 		status = parse_vertex(line, &obj->vertex_list, line_nb);
 	else if (!ft_strncmp(line, "f", 1))
@@ -60,20 +61,20 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
 	return (status);
 }
 
-static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene, t_vec3 obj_pos)
+static int	parse_obj_elements(char **split, char *rt_path, t_scene *scene, t_object_model *obj)
 {
-	t_object_model		*obj;
-	int					line_nb;
-	int					status;
-	char				*line;
+	int		line_nb;
+	int		status;
+	char	*line;
+	int		fd;
+	char	*obj_file;
 
-	obj = ft_calloc(1, sizeof(t_object_model));
-	if (!obj)
-		return (0);
-	obj->position = obj_pos;
+	obj_file = ft_strjoin(rt_path, split[2]);
+	fd = open_file_read(obj_file, "obj");
+	free(obj_file);
 	line = get_next_line(fd);
 	line_nb = 1;
-	status = 1;
+	status = (fd != -1);
 	while (line && status)
 	{
 		status = parse_obj_line(obj, line, rt_path, line_nb);
@@ -85,18 +86,34 @@ static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene, t_vec3 obj_
 	}
 	if (status)
 		ft_lstadd_back(&scene->objects, obj->triangles);
+	close(fd);
 	return (status);
 }
 
-int	parse_obj_file(char *rt_file, char *file, t_scene *scene, int line_nb)
+static int	parse_texture_file(t_object_model *obj, char *rt_path, char *tex_file, void *mlx)
 {
-	int		fd;
-	int		parse_result;
-	char	*rt_path;
-	char	**split;
-	t_vec3	obj_position;
+	char		*tex_path;
+	t_texture	*tex;
 
-	rt_path = get_directory_path(rt_file);
+	if (!tex_file || tex_file[0] == '\0')
+		return (1);
+	tex_path = ft_strjoin(rt_path, tex_file);
+	if (!tex_path)
+		return (0);
+	tex = load_texture(tex_path, mlx);
+	if (!tex)
+		return (0);
+	obj->tex = tex;
+	return (1);
+}
+
+int	parse_obj_file(char *rt_path, char *file, t_data *data, int line_nb)
+{
+	int				parse_result;
+	char			**split;
+	t_object_model	*obj;
+
+	parse_result = 1;
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
@@ -105,13 +122,14 @@ int	parse_obj_file(char *rt_file, char *file, t_scene *scene, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_vector(split[1], &obj_position, "obj", line_nb);
-	rt_file = ft_strjoin(rt_path, split[2]);
-	fd = open_file_read(rt_file, "obj");
+	obj = ft_calloc(1, sizeof(t_object_model));
+	if (obj)
+	{
+		parse_vector(split[1], &obj->position, "obj", line_nb);
+		if (split[3])
+			parse_result = parse_texture_file(obj, rt_path, split[3], data->mlx);
+		parse_result &= parse_obj_elements(split, rt_path, data->scene, obj);
+	}
 	free_str_array(split);
-	if (fd == -1)
-		return (0);
-	parse_result = parse_obj_elements(fd, rt_path, scene, obj_position);
-	free(rt_path);
 	return (2 * parse_result);
 }

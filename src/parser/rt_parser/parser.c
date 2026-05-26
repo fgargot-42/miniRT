@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 17:14:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 17:58:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	parse_line(char *line, int line_nb, t_object **obj)
 	return (*obj != NULL);
 }
 
-static int	parse_scene_loop(int rt_fd, t_scene *scene, char *file)
+static int	parse_scene_loop(int rt_fd, t_data *data, char *rt_path)
 {
 	char		*line;
 	int			status;
@@ -78,26 +78,29 @@ static int	parse_scene_loop(int rt_fd, t_scene *scene, char *file)
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "obj", 3))
-			status = parse_obj_file(file, line, scene, line_nb);
+			status = parse_obj_file(rt_path, line, data, line_nb);
 		else
 			status = parse_line(line, line_nb, &obj);
 		free(line);
 		line = get_next_line(rt_fd);
 		if (status == 1)
-			status = add_element_to_scene(scene, &obj, line_nb);
+			status = add_element_to_scene(data->scene, &obj, line_nb);
 	}
 	clear_gnl(rt_fd, line);
 	return (status);
 }
 
-int	parse_scene(char *file, t_scene *scene)
+int	parse_scene(char *file, t_data *data)
 {
-	int			fd;
-	int			status;
+	int		fd;
+	int		status;
+	char	*rt_path;
 
 	fd = open_file_read(file, "rt");
 	if (fd == -1)
 		return (0);
-	status = parse_scene_loop(fd, scene, file);
+	rt_path = get_directory_path(file);
+	status = parse_scene_loop(fd, data, rt_path);
+	free(rt_path);
 	return (status);
 }

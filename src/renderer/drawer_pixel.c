@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/22 21:55:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 18:14:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	{
 		if (!hc.object)
 			return (vec3_to_color(hc.color));
-		if (hc.object->type == OBJ_SPHERE)
+		if (hc.object->type == OBJ_SPHERE && hc.object->tex)
 		{
 			// texture mapping
 			//
@@ -66,11 +66,11 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			t_vec2 uv = get_uv(hc.normal);
 			uv.x = uv.x - floor(uv.x);
 			uv.y = uv.y - floor(uv.y);
-			t_vec3 uvcol = uv_to_color(&hc.object->sphere_tex, uv, data->mlx);
+			t_vec3 uvcol = uv_to_color(hc.object->tex, uv, data->mlx);
 			t_vec3 base = shade(&hc, data->scene, &r);
 			shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
-		else if (hc.object->type == OBJ_TRIANGLE)
+		else if (hc.object->type == OBJ_TRIANGLE && hc.object->tex)
 		{
 			t_vec3 uvcol = triangle_uv_to_color(hc.object, hc.point, data->mlx);
 			t_vec3 base = shade(&hc, data->scene, &r);

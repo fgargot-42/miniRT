@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 20:12:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 20:07:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	add_debug(t_data *data)
 		data->scene->cam->props.pitch);
 	mlx_string_put(data->mlx, data->win, 10, 120,
 		(mlx_color){.rgba = MLX_WHITE}, buf);
-	sprintf(buf, "BVH DISPLAY DEPTH: %d", data->bvh_display_depth);
+	sprintf(buf, "BVH DISPLAY LEVEL: %d", data->bvh_display_depth);
 	mlx_string_put(data->mlx, data->win, 10, 140,
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 }
