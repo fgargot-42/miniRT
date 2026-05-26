@@ -39,6 +39,7 @@ SRC =	main.c \
 		parser/rt_parser/parse_hyperboloid.c \
 		parser/rt_parser/parse_paraboloid.c \
 		parser/rt_parser/parse_triangle.c \
+		parser/rt_parser/parse_texture.c \
 		parser/obj_parser/obj_parser.c \
 		parser/obj_parser/mat_parser.c \
 		parser/obj_parser/parse_material.c \

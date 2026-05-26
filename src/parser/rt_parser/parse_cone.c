@@ -6,51 +6,57 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 22:02:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 23:54:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "libft.h"
 
-static int	parse_cone_elements(char **line_split, t_object *obj, int line_nb)
+static int	parse_cone_elements(char **line_split, t_object *obj,
+	t_parser_ctx *ctx, void *mlx)
 {
-	int	parse_result;
+	int	p_res;
+	int	split_len;
 
-	parse_result = parse_vector(line_split[1], &(obj->position), "cone",
-			line_nb);
-	parse_result &= parse_vector(line_split[2], &(obj->direction), "cone",
-			line_nb);
-	parse_result &= parse_double(line_split[3], &(obj->angle), "cone", line_nb);
-	parse_result &= parse_double(line_split[4], &(obj->props.height), "cone",
-			line_nb);
-	parse_result &= parse_double(line_split[5], &(obj->props.depth), "cone",
-			line_nb);
-	parse_result &= parse_vector(line_split[6], &(obj->color), "cone", line_nb);
-	if (line_split[7] && ft_strlen(line_split[7]))
-		parse_result &= parse_double(line_split[7], &(obj->specular), "cone",
-				line_nb);
-	if (line_split[7] && line_split[8] && ft_strlen(line_split[8]))
-		parse_result &= parse_double(line_split[8], &(obj->shininess), "cone",
-				line_nb);
-	return (parse_result);
+	split_len = get_str_array_length(line_split);
+	p_res = parse_vector(line_split[1], &(obj->position), "cone",
+			ctx->line_nb);
+	p_res &= parse_vector(line_split[2], &(obj->direction), "cone",
+			ctx->line_nb);
+	p_res &= parse_double(line_split[3], &(obj->angle), "cone", ctx->line_nb);
+	p_res &= parse_double(line_split[4], &(obj->props.height), "cone",
+			ctx->line_nb);
+	p_res &= parse_double(line_split[5], &(obj->props.depth), "cone",
+			ctx->line_nb);
+	p_res &= parse_vector(line_split[6], &(obj->color), "cone", ctx->line_nb);
+	if (split_len > 7 && ft_strlen(line_split[7]))
+		p_res &= parse_double(line_split[7], &(obj->specular), "cone",
+				ctx->line_nb);
+	if (split_len > 8 && ft_strlen(line_split[8]))
+		p_res &= parse_double(line_split[8], &(obj->shininess), "cone",
+				ctx->line_nb);
+	if (split_len > 9)
+		p_res &= parse_texture_file(line_split[9], obj, ctx, mlx);
+	return (p_res);
 }
 
-t_object	*parse_cone(char **line_split, int line_nb)
+t_object	*parse_cone(char **line_split, t_parser_ctx *ctx, void *mlx)
 {
 	int			parse_result;
 	t_object	*obj;
 
-	if (check_array_size(line_split, 6, "cone", line_nb))
+	if (check_array_size(line_split, 6, "cone", ctx->line_nb))
 		return (NULL);
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
 	{
-		print_parse_error("allocation failed", "cone", line_nb);
+		print_parse_error("allocation failed", "cone", ctx->line_nb);
 		return (NULL);
 	}
 	obj->shininess = 1;
-	parse_result = parse_cone_elements(line_split, obj, line_nb);
+	parse_result = parse_cone_elements(line_split, obj, ctx, mlx);
 	if (!parse_result)
 	{
 		free(obj);

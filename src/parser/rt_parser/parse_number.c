@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 17:39:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/21 23:52:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:22:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "parser.h"
 #include "libft.h"
 
 static void	print_vec_parse_error(int size, char *object, int line_nb)
@@ -47,7 +48,7 @@ int	check_array_size(char **array, int expected, char *object, int line_nb)
 	return (array_size < expected);
 }
 
-static char	**parse_vector_split(char *param, char *object, int line_nb)
+char	**parse_vector_split(char *param, char *object, int line_nb)
 {
 	char	**param_split;
 	int		size;

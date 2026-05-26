@@ -17,28 +17,28 @@ L	4.0,12.0,2.0		0.9			255,240,200
 S	180,140,255
 
 # Sphere
-# sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess]
-sp		2.0,0.0,6.0		3.0			230,230,230		0.6			32
+# sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	texture_file]
+sp		2.0,0.0,6.0		3.0			230,230,230		0.6			32			../textures/8k_earth_daymap.jpg
 
 # Cylinder
-# cy	pos(x,y,z)		dir(x,y,z)		diameter	height	color(r,g,b)	[specular	shininess]
+# cy	pos(x,y,z)		dir(x,y,z)		diameter	height	color(r,g,b)	[specular	shininess	texture_file]
 cy		-2.0,1.0,8.0	0.0,1.0,0.0		4			4		0,153,0			0.6			16
 
 # Plane
-# pl	pos(x,y,z)	normal(x,y,z)	color(r,g,b)	checkered	[specular	shininess]
+# pl	pos(x,y,z)	normal(x,y,z)	color(r,g,b)	checkered	[specular	shininess	texture_file]
 pl		2.0,-1.5,0	0.0,1.0,0.0		200,200,200		1			0.4			8
 
 # Cone
-# co	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	depth	color(r,g,b)	[specular	shininess]
+# co	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	depth	color(r,g,b)	[specular	shininess	texture_file]
 co		2.0,3.0,1.0		0.0,1.0,0.0		60			0		1		255,215,0 		0.4			8
 
 # Hyperboloid
-# hy	pos(x,y,z)		dir(x,y,z)		radius	angle(deg)	height	depth	color(r,g,b)	[specular	shininess]
+# hy	pos(x,y,z)		dir(x,y,z)		radius	angle(deg)	height	depth	color(r,g,b)	[specular	shininess	texture_file]
 hy		2.0,5.0,2.0		0.0,1.0,0.0		.5 		45			2		2		64,192,192		0.6			32
 
 # Paraboloid
-# pa	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	/	color(r,g,b)	[specular	shininess]
-pa		-2.0,2.0,2.0	0.0,1.0,0.0		60			3		0	64,208,176		0.6			32
+# pa	pos(x,y,z)		dir(x,y,z)		angle(deg)	height	color(r,g,b)	[specular	shininess	texture_file]
+pa		-2.0,2.0,2.0	0.0,1.0,0.0		60			3		64,208,176		0.6			32
 
 # Object
 # obj	pos(x,y,z)		filepath(*.obj)		[texture_image_filepath]

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 19:46:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 00:15:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define OBJECT_H
 
 # include "veclib.h"
+# include "parser.h"
 # include "material.h"
 # include "miniRT.h"
 
@@ -28,7 +29,7 @@ typedef struct s_object_model
 	t_texture	*tex;
 }	t_object_model;
 
-int		parse_obj_file(char *rt_file, char *file, t_data *data, int line_nb);
+int		parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx);
 void	update_box_min_max(t_object *obj);
 int		parse_face(char *line, t_object_model *model, t_material *mat,
 			int line_nb);

@@ -1,38 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   str_utils.c                                        :+:      :+:    :+:   */
+/*   parse_texture.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/21 18:35:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 23:38:23 by fgargot          ###   ########.fr       */
+/*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
+/*   Updated: 2026/05/27 00:29:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "miniRT.h"
+#include "parser.h"
 
-size_t	get_str_array_length(char **array)
+int	parse_texture_file(char *param, t_object *obj, t_parser_ctx *ctx, void *mlx)
 {
-	size_t	len;
+	char		*tex_path;
+	t_texture	*tex;
 
-	len =  0;
-	if (!array)
+	if (!param || param[0] == '\0')
+		return (1);
+	tex_path = ft_strjoin(ctx->rt_path, param);
+	if (!tex_path)
 		return (0);
-	while (array[len])
-		len++;
-	return (len);
-}
-
-void	free_str_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	tex = load_texture(tex_path, mlx);
+	if (!tex)
+		return (0);
+	obj->tex = tex;
+	return (1);
 }
