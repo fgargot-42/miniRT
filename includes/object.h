@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:47:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 17:20:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 typedef struct s_object_model
 {
+	t_vec3	position;
 	t_list	*vertex_list;
 	t_list	*normal_list;
 	t_list	*texture_list;
@@ -26,7 +27,7 @@ typedef struct s_object_model
 	t_list	*triangles;
 }	t_object_model;
 
-int		parse_obj_file(char *rt_file, char *file, t_scene *scene);
+int		parse_obj_file(char *rt_file, char *file, t_scene *scene, int line_nb);
 void	update_box_min_max(t_object *obj);
 int		parse_face(char *line, t_object_model *model, t_material *mat,
 			int line_nb);

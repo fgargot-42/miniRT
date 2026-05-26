@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/14 20:30:27 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:14:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	parse_scene_loop(int rt_fd, t_scene *scene, char *file)
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "obj", 3))
-			status = parse_obj_file(file, line, scene);
+			status = parse_obj_file(file, line, scene, line_nb);
 		else
 			status = parse_line(line, line_nb, &obj);
 		free(line);

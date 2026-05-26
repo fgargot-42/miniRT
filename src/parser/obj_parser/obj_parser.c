@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/18 18:06:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 17:24:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
 	return (status);
 }
 
-static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
+static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene, t_vec3 obj_pos)
 {
 	t_object_model		*obj;
 	int					line_nb;
@@ -70,6 +70,7 @@ static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
 	obj = ft_calloc(1, sizeof(t_object_model));
 	if (!obj)
 		return (0);
+	obj->position = obj_pos;
 	line = get_next_line(fd);
 	line_nb = 1;
 	status = 1;
@@ -87,28 +88,30 @@ static int	parse_obj_elements(int fd, char *rt_path, t_scene *scene)
 	return (status);
 }
 
-int	parse_obj_file(char *rt_file, char *file, t_scene *scene)
+int	parse_obj_file(char *rt_file, char *file, t_scene *scene, int line_nb)
 {
 	int		fd;
 	int		parse_result;
 	char	*rt_path;
 	char	**split;
+	t_vec3	obj_position;
 
 	rt_path = get_directory_path(rt_file);
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
-	if (!split[0] || !split[1])
+	if (check_array_size(split, 3, "obj", line_nb))
 	{
 		free_str_array(split);
 		return (0);
 	}
-	rt_file = ft_strjoin(rt_path, split[1]);
+	parse_vector(split[1], &obj_position, "obj", line_nb);
+	rt_file = ft_strjoin(rt_path, split[2]);
 	fd = open_file_read(rt_file, "obj");
 	free_str_array(split);
 	if (fd == -1)
 		return (0);
-	parse_result = parse_obj_elements(fd, rt_path, scene);
+	parse_result = parse_obj_elements(fd, rt_path, scene, obj_position);
 	free(rt_path);
 	return (2 * parse_result);
 }
