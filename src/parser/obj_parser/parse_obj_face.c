@@ -6,14 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/22 19:58:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/26 17:24:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "object.h"
 #include "miniRT.h"
-#include "assert.h"
 
 static int	parse_face_a_values(char *line_split, t_object_model *model,
 	t_object *triangle)
@@ -28,14 +27,11 @@ static int	parse_face_a_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.a = *((t_vec3 *)(lst->content));
+		triangle->props.a = vec3_add(*((t_vec3 *)(lst->content)), model->position);
 	i = 0;
 	if (split_point[1])
 	{
-		printf("%s\n", split_point[1]);
 		i = ft_atoi(split_point[1]);
-		printf("%d\n", i);
-		assert(i);
 		lst = ft_lstget_elem_index(model->texture_list, i - 1);
 		if (lst)
 			triangle->texture.tex_a = *((t_vec2 *)(lst->content));
@@ -58,13 +54,11 @@ static int	parse_face_b_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.b = *((t_vec3 *)(lst->content));
+		triangle->props.b = vec3_add(*((t_vec3 *)(lst->content)), model->position);
 	i = 0;
 	if (split_point[1])
 	{
 		i = ft_atoi(split_point[1]);
-		printf("%d\n", i);
-		assert(i);
 		lst = ft_lstget_elem_index(model->texture_list, i - 1);
 		if (lst)
 			triangle->texture.tex_b = *((t_vec2 *)(lst->content));
@@ -87,13 +81,11 @@ static int	parse_face_c_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.c = *((t_vec3 *)(lst->content));
+		triangle->props.c = vec3_add(*((t_vec3 *)(lst->content)), model->position);
 	i = 0;
 	if (split_point[1])
 	{
 		i = ft_atoi(split_point[1]);
-		printf("%d\n", i);
-		assert(i);
 		lst = ft_lstget_elem_index(model->texture_list, i - 1);
 		if (lst)
 			triangle->texture.tex_c = *((t_vec2 *)(lst->content));
