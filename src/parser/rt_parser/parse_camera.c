@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 23:08:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 19:03:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	parse_camera_elements(char **line_split, t_object *obj, int line_nb)
 	p_res = parse_vector(line_split[1], &(obj->position), "camera", line_nb);
 	p_res &= parse_vector(line_split[2], &(obj->direction), "camera", line_nb);
 	p_res &= parse_double(line_split[3], &(obj->props.fov), "camera", line_nb);
+	obj->direction = vec3_normalize(obj->direction);
 	return (p_res);
 }
 

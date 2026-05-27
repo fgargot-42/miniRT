@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:26:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 19:50:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_list	*get_material(char *line, t_list *materials)
 	return (materials);
 }
 
-static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
+static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	int line_nb)
 {
 	int				status;
@@ -41,7 +41,7 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *rt_path,
 	if (line[ft_strlen(line) - 1] == '\n')
 		line[ft_strlen(line) - 1] = '\0';
 	if (!ft_strncmp(line, "mtllib", 6))
-		status = import_materials(line, &obj->materials, rt_path);
+		status = import_materials(line, &obj->materials, obj_path);
 	else if (!ft_strncmp(line, "usemtl", 6))
 		current_mat = get_material(line, obj->materials);
 	else if (!ft_strncmp(line, "vn", 2))
@@ -71,13 +71,15 @@ static int	parse_obj_elements(char **split, char *rt_path, t_scene *scene, t_obj
 
 	obj_file = ft_strjoin(rt_path, split[2]);
 	fd = open_file_read(obj_file, "obj");
-	free(obj_file);
+	rt_path = ft_strrchr(obj_file, '/');
+	if (rt_path)
+		rt_path[1] = '\0';
 	line = get_next_line(fd);
 	line_nb = 1;
 	status = (fd != -1);
 	while (line && status)
 	{
-		status = parse_obj_line(obj, line, rt_path, line_nb);
+		status = parse_obj_line(obj, line, obj_file, line_nb);
 		if (!status)
 			printf("\t%s\n", line);
 		free(line);
@@ -86,6 +88,7 @@ static int	parse_obj_elements(char **split, char *rt_path, t_scene *scene, t_obj
 	}
 	if (status)
 		ft_lstadd_back(&scene->objects, obj->triangles);
+	free(obj_file);
 	close(fd);
 	return (status);
 }
@@ -132,6 +135,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 				split[3], data->mlx);
 		parse_result &= parse_obj_elements(split, ctx->rt_path, data->scene, obj);
 	}
+	printf("Nb tris: %d\n", ft_lstsize(obj->triangles));
 	free_str_array(split);
 	return (2 * parse_result);
 }
