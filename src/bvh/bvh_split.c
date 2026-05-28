@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 22:22:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/28 20:20:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ int	bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth)
 			left_bound.y /= 2.0;
 		else
 			left_bound.z /= 2.0;
+		left_bound = vec3_sub(bvh->aabb_max, left_bound);
 		status &= bvh_split(bvh->left, left_bound, depth + 1);
 		status &= bvh_split(bvh->right, left_bound, depth + 1);
 	}
@@ -135,10 +136,12 @@ int	bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth)
 		left_bound = get_left_bounds(bvh->left);
 		if (bvh->left->nb_elements == bvh->nb_elements)
 			left_bound = get_split_bound_obj(bvh->left);
+		//left_bound = vec3_sub(bvh->left->aabb_max, left_bound);
 		status &= bvh_split(bvh->left, left_bound, depth + 1);
 		left_bound = get_left_bounds(bvh->right);
 		if (bvh->right->nb_elements == bvh->nb_elements)
 			left_bound = get_split_bound_obj(bvh->right);
+		//left_bound = vec3_sub(bvh->right->aabb_max, left_bound);
 		status &= bvh_split(bvh->right, left_bound, depth + 1);
 	}
 	return (status);

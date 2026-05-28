@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:22:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/28 21:10:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,26 @@ t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx)
 	}
 	obj->type = OBJ_SKY;
 	return (obj);
+}
+
+int parse_skybox(char *line, t_data *data, t_parser_ctx *ctx)
+{
+	char	**line_split;
+	char	*skybox_path;
+
+	if (data->scene->skybox)
+	{
+		print_parse_error("Duplicate element detected", "skybox", ctx->line_nb);
+		return (0);
+	}
+	line_split = ft_split_by_whitespace(line);
+	if (!line_split)
+		return (0);
+	if (check_array_size(line_split, 2, "skybox", ctx->line_nb))
+		return (0);
+	skybox_path = ft_strjoin(ctx->rt_path, line_split[1]);
+	free_str_array(line_split);
+	data->scene->skybox = load_texture(skybox_path, data->mlx);
+	free(skybox_path);
+	return (data->scene->skybox != NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:31:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/28 21:06:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
 			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "obj", 3))
 			status = parse_obj_file(line, data, ctx);
+		else if (!ft_strncmp(line, "SB", 2))
+			status = parse_skybox(line, data, ctx);
 		else
 			status = parse_line(line, ctx, data->mlx);
 		free(line);

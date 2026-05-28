@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 21:47:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/27 21:59:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ t_vec3	get_left_bounds(t_bvh *bvh)
 		bound.y /= 2.0;
 	else
 		bound.z /= 2.0;
-#if DEBUG
+/*#if DEBUG
 	printf("aabb_min: x=% .3f y=% .3f z=% .3f\n",
 		bvh->aabb_min.x, bvh->aabb_min.y, bvh->aabb_min.z);
 	printf("aabb_max: x=% .3f y=% .3f z=% .3f\n",
 		bvh->aabb_max.x, bvh->aabb_max.y, bvh->aabb_max.z);
 	printf("left_bound: x=% .3f y=% .3f z=% .3f\n",
 		bound.x, bound.y, bound.z);
-#endif
+#endif*/
 	return (bound);
 }
 

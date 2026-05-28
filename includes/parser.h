@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:23:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/28 21:07:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_object			*parse_paraboloid(char **line_split, t_parser_ctx *ctx,
 						void *mlx);
 t_object			*parse_triangle(char **line_split, t_parser_ctx *ctx,
 						void *mlx);
+int 				parse_skybox(char *line, t_data *data, t_parser_ctx *ctx);
 
 char				**parse_vector_split(char *param, char *object, int line_nb);
 int					add_element_to_scene(t_scene *scene, t_parser_ctx *ctx);
