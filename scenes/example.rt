@@ -18,6 +18,10 @@ L	3.0,8.0,-5.0		0.55		255,240,200
 # S color(r,g,b)
 S	180,140,255
 
+# Skybox (Unique)
+# SB file_path
+SB	../textures/sky_4k.jpg
+
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	texture_file]
 sp		2.0,0.0,6.0		3.0			230,230,230		0.6			32			../textures/8k_earth_daymap.jpg

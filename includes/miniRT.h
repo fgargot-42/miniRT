@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 21:06:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/28 20:41:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@
 
 # define T_MIN 0.001
 # define T_MAX 100
-# define WIDTH 1280
+# define WIDTH 1200
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
-# define BVH_DEPTH 8
+# define BVH_DEPTH 10
 # define DEBUG 1
-# define BVH_VIEW 1
+# define BVH_VIEW 0
 # define MLX_WHITE 0xFFFFFFFF
 
 typedef struct s_ray
