@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 22:27:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/29 23:59:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	parse_face_a_values(char *line_split, t_object_model *model,
 		i = ft_atoi(split_point[1]);
 		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
 		if (lst)
-			triangle->texture.tex_a = *((t_vec2 *)(lst->content));
+			triangle->uv.tex_a = *((t_vec2 *)(lst->content));
 	}
 	free_str_array(split_point);
 	return (1);
@@ -62,7 +62,7 @@ static int	parse_face_b_values(char *line_split, t_object_model *model,
 		i = ft_atoi(split_point[1]);
 		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
 		if (lst)
-			triangle->texture.tex_b = *((t_vec2 *)(lst->content));
+			triangle->uv.tex_b = *((t_vec2 *)(lst->content));
 	}
 	free_str_array(split_point);
 	return (1);
@@ -89,7 +89,7 @@ static int	parse_face_c_values(char *line_split, t_object_model *model,
 		i = ft_atoi(split_point[1]);
 		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
 		if (lst)
-			triangle->texture.tex_c = *((t_vec2 *)(lst->content));
+			triangle->uv.tex_c = *((t_vec2 *)(lst->content));
 	}
 	free_str_array(split_point);
 	return (1);
@@ -133,7 +133,7 @@ int	parse_face(char *line, t_object_model *model, t_material *mat, int line_nb)
 	parse_result &= parse_face_b_values(split[2], model, triangle);
 	parse_result &= parse_face_c_values(split[3], model, triangle);
 	init_triangle_props(triangle, mat);
-	triangle->tex = model->tex;
+	triangle->material = mat;
 	if (parse_result)
 		ft_lstadd_back(&(model->triangles), ft_lstnew(triangle));
 	free_str_array(split);

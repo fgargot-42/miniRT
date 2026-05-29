@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
+#    Updated: 2026/05/30 00:08:37 by fgargot          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = miniRT
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
@@ -46,6 +58,7 @@ SRC =	main.c \
 		parser/obj_parser/parse_material2.c \
 		parser/obj_parser/parse_obj_face.c \
 		parser/obj_parser/parse_obj_model.c \
+		parser/obj_parser/parser_texture.c \
 		renderer/drawer.c \
 		renderer/drawer_pixel.c \
 		renderer/drawer_utils.c \

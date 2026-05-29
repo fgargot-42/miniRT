@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/28 21:07:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/29 23:54:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 # define PARSER_H
 
 # include "miniRT.h"
-
-typedef struct	s_parser_ctx
-{
-	int			fd;
-	t_object	*obj;
-	int			line_nb;
-	char		*rt_path;
-}	t_parser_ctx;
-
 
 // PARSING
 

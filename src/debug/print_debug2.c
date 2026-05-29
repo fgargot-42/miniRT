@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:49:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/22 20:11:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/29 23:58:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ void	print_triangle(t_object *c)
 	printf("--specular: %.2f\n", c->specular);
 	printf("--shininess: %.2f\n", c->shininess);
 	printf("--uv_a: x=%.2f y=%.2f\n",
-		c->texture.tex_a.x, c->texture.tex_a.y);
+		c->uv.tex_a.x, c->uv.tex_a.y);
 	printf("--uv_b: x=%.2f y=%.2f\n",
-		c->texture.tex_b.x, c->texture.tex_b.y);
+		c->uv.tex_b.x, c->uv.tex_b.y);
 	printf("--uv_c: x=%.2f y=%.2f\n",
-		c->texture.tex_c.x, c->texture.tex_c.y);
+		c->uv.tex_c.x, c->uv.tex_c.y);
 }
