@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 19:50:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/29 23:17:01 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_list	*get_material(char *line, t_list *materials)
 }
 
 static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
-	int line_nb)
+	t_parser_ctx *ctx)
 {
 	int				status;
 	static t_list	*current_mat = NULL;
@@ -41,55 +41,54 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	if (line[ft_strlen(line) - 1] == '\n')
 		line[ft_strlen(line) - 1] = '\0';
 	if (!ft_strncmp(line, "mtllib", 6))
-		status = import_materials(line, &obj->materials, obj_path);
+		status = import_materials(line, &obj->materials, obj_path, ctx->mlx);
 	else if (!ft_strncmp(line, "usemtl", 6))
 		current_mat = get_material(line, obj->materials);
 	else if (!ft_strncmp(line, "vn", 2))
-		status = parse_normal(line, &obj->normal_list, line_nb);
+		status = parse_normal(line, &obj->normal_list, ctx->line_nb);
 	else if (!ft_strncmp(line, "vt", 2))
-		status = parse_texture(line, &obj->texture_uv_list, line_nb);
+		status = parse_texture(line, &obj->texture_uv_list, ctx->line_nb);
 	else if (!ft_strncmp(line, "v", 1))
-		status = parse_vertex(line, &obj->vertex_list, line_nb);
+		status = parse_vertex(line, &obj->vertex_list, ctx->line_nb);
 	else if (!ft_strncmp(line, "f", 1))
 	{
 		if (current_mat)
 			status = parse_face(line, obj,
-					(t_material *)current_mat->content, line_nb);
+					(t_material *)current_mat->content, ctx->line_nb);
 		else
-			status = parse_face(line, obj, NULL, line_nb);
+			status = parse_face(line, obj, NULL, ctx->line_nb);
 	}
 	return (status);
 }
 
-static int	parse_obj_elements(char **split, char *rt_path, t_scene *scene, t_object_model *obj)
+static int	parse_obj_elements(char **split, t_parser_ctx *ctx,
+		t_scene *scene, t_object_model *obj)
 {
-	int		line_nb;
 	int		status;
 	char	*line;
-	int		fd;
 	char	*obj_file;
 
-	obj_file = ft_strjoin(rt_path, split[2]);
-	fd = open_file_read(obj_file, "obj");
-	rt_path = ft_strrchr(obj_file, '/');
-	if (rt_path)
-		rt_path[1] = '\0';
-	line = get_next_line(fd);
-	line_nb = 1;
-	status = (fd != -1);
+	obj_file = ft_strjoin(ctx->rt_path, split[2]);
+	ctx->fd = open_file_read(obj_file, "obj");
+	line = ft_strrchr(obj_file, '/');
+	if (line)
+		line[1] = '\0';
+	line = get_next_line(ctx->fd);
+	ctx->line_nb = 1;
+	status = (ctx->fd != -1);
 	while (line && status)
 	{
-		status = parse_obj_line(obj, line, obj_file, line_nb);
+		status = parse_obj_line(obj, line, obj_file, ctx);
 		if (!status)
 			printf("\t%s\n", line);
 		free(line);
-		line = get_next_line(fd);
-		line_nb++;
+		line = get_next_line(ctx->fd);
+		ctx->line_nb++;
 	}
 	if (status)
 		ft_lstadd_back(&scene->objects, obj->triangles);
 	free(obj_file);
-	close(fd);
+	close(ctx->fd);
 	return (status);
 }
 
@@ -116,8 +115,11 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	int				parse_result;
 	char			**split;
 	t_object_model	*obj;
+	t_parser_ctx	obj_ctx;
 
 	parse_result = 1;
+	obj_ctx.mlx = data->mlx;
+	obj_ctx.rt_path = ctx->rt_path;
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
@@ -133,7 +135,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 		if (split[3])
 			parse_result = parse_obj_texture_file(obj, ctx->rt_path,
 				split[3], data->mlx);
-		parse_result &= parse_obj_elements(split, ctx->rt_path, data->scene, obj);
+		parse_result &= parse_obj_elements(split, &obj_ctx, data->scene, obj);
 	}
 	printf("Nb tris: %d\n", ft_lstsize(obj->triangles));
 	free_str_array(split);

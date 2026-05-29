@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 22:11:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/30 00:08:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx)
 		return (t_vec3){0, 0, 0};
 	uv.x = (dot[1][1] * dot[0][2] - dot[0][1] * dot[1][2]) / det;
 	uv.y = (dot[0][0] * dot[1][2] - dot[0][1] * dot[0][2]) / det;
-	uv = vec2_add(vec2_add(obj->texture.tex_a,
-		vec2_scale(vec2_sub(obj->texture.tex_b, obj->texture.tex_a), uv.x)),
-		vec2_scale(vec2_sub(obj->texture.tex_c, obj->texture.tex_a), uv.y));
-	uv.x = uv.x * obj->tex->width - 1;
-	uv.y = (1 - uv.y) * obj->tex->height - 1;
-	pixel = mlx_get_image_pixel(mlx, obj->tex->data, uv.x, uv.y);
+	uv = vec2_add(vec2_add(obj->uv.tex_a,
+		vec2_scale(vec2_sub(obj->uv.tex_b, obj->uv.tex_a), uv.x)),
+		vec2_scale(vec2_sub(obj->uv.tex_c, obj->uv.tex_a), uv.y));
+	uv.x = uv.x * obj->material->color_tex->width - 1;
+	uv.y = (1 - uv.y) * obj->material->color_tex->height - 1;
+	pixel = mlx_get_image_pixel(mlx, obj->material->color_tex->data, uv.x, uv.y);
 	return ((t_vec3){pixel.r, pixel.g, pixel.b});
 }
 

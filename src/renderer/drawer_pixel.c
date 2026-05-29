@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/28 17:35:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/30 00:09:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,11 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			t_vec3 base = shade(&hc, data->scene, &r);
 			shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
-		else if (hc.object->type == OBJ_TRIANGLE && hc.object->tex)
+		else if (hc.object->type == OBJ_TRIANGLE && hc.object->material->color_tex)
 		{
 			t_vec3 uvcol = triangle_uv_to_color(hc.object, hc.point, data->mlx);
 			hc.color = uvcol;
 			shaded = shade(&hc, data->scene, &r);
-			//t_vec3 base = shade(&hc, data->scene, &r);
-			//shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
 		else
 			shaded = shade(&hc, data->scene, &r);

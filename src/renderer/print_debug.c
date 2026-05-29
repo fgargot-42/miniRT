@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/28 16:53:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/05/29 23:59:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray,
 		hc.color.y, hc.color.z);
 	if (hc.object->type == OBJ_TRIANGLE)
 		printf("--UV data: a=(% .3f, % .3f) b=(% .3f, % .3f) c=(% .3f % .3f)\n",
-		hc.object->texture.tex_a.x, hc.object->texture.tex_a.y,
-		hc.object->texture.tex_b.x, hc.object->texture.tex_b.y,
-		hc.object->texture.tex_c.x, hc.object->texture.tex_c.y);
+		hc.object->uv.tex_a.x, hc.object->uv.tex_a.y,
+		hc.object->uv.tex_b.x, hc.object->uv.tex_b.y,
+		hc.object->uv.tex_c.x, hc.object->uv.tex_c.y);
 	shade_verbose(&shade_hc, scene, ray);
 	printf("Object shade coordinates: x=%.3f y=%.3f z=%.3f (d=%.3f)\n",
 		shade_hc.point.x, shade_hc.point.y, shade_hc.point.z, shade_hc.t);
