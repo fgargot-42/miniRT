@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 21:59:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 19:41:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
-#include "assert.h"
+#include "math.h"
 
 static t_hit_fn	*get_hit_fn(t_obj_type type)
 {
@@ -102,12 +102,14 @@ static int	draw_box_bounds(t_bvh *bvh, t_vec3 point, double dist)
 	i = (fabs(dist_to_min.x) < epsilon * dist) ^ (fabs(dist_to_max.x) < epsilon * dist);
 	i += (fabs(dist_to_min.y) < epsilon * dist) ^ (fabs(dist_to_max.y) < epsilon * dist);
 	i += (fabs(dist_to_min.z) < epsilon * dist) ^ (fabs(dist_to_max.z) < epsilon * dist);
-	return (i >= 2);
+	if (i > 2)
+		i = 2;
+	return (i);
 }
 #endif
 
 static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
-	int	display_bvh_depth)
+		int bvh_display_level)
 {
 	int				hit[3];
 	double			dist;
@@ -121,24 +123,25 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 	if (!hit_bvh_box(bvh, ray, &dist, &point))
 		return (0);
 #if BVH_VIEW
-	if (bvh->depth == display_bvh_depth && draw_box_bounds(bvh, point, dist))
+	int	draw_bounds = draw_box_bounds(bvh, point, dist);
+	if (bvh->depth == bvh_display_level && draw_bounds)
 	{
-		rec->color = (t_vec3){(bvh->depth << 6) & 0xff, 
-		((bvh->depth >> 2) << 6) & 0xff, 64};
+		rec->color = (t_vec3){(bvh->depth << 6 | 0xf | draw_bounds << 4) & 0xff,
+			((bvh->depth >> 2) << 6 | 0xf | draw_bounds << 4) & 0xff,
+			64 * draw_bounds};
 		hit[2] = 1;
 	}
 #endif
 	if (!bvh->left && !bvh->right)
 		return (hit_object_in_bvh(bvh, ray, closest, rec) || hit[2]);
 	if (bvh->left)
-		hit[0] = hit_bvh(bvh->left, ray, closest, rec, display_bvh_depth);
+		hit[0] = hit_bvh(bvh->left, ray, closest, rec, bvh_display_level);
 	if (bvh->right)
-		hit[1] = hit_bvh(bvh->right, ray, closest, rec, display_bvh_depth);
+		hit[1] = hit_bvh(bvh->right, ray, closest, rec, bvh_display_level);
 	return (hit[0] || hit[1] || hit[2]);
 }
 
-int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec,
-	int display_bvh_depth)
+int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec, int bvh_display_level)
 {
 	int		hit;
 	double	closest;
@@ -148,6 +151,6 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec,
 	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
 		1 / ray->direction.z};
 	hit = hit_list(scene->objects, ray, &closest, rec);
-	hit = hit_bvh(scene->bvh, ray, &closest, rec, display_bvh_depth) | hit;
+	hit = hit_bvh(scene->bvh, ray, &closest, rec, bvh_display_level) | hit;
 	return (hit);
 }

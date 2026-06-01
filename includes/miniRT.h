@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:53:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:33:01 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,24 @@ void				get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min,
 void				get_triangle_aabb(t_object *obj, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 
+void				bvh_init(t_bvh *bvh, int nb_objects);
+t_bvh				*build_bvh_tree(t_scene *scene);
+int					create_bvh_tree_node(t_bvh *bvh);
+void				bvh_destroy_tree(t_bvh **bvh);
+void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
+void				bvh_remove_empty_children(t_bvh *bvh);
+
 void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
 void				bvh_grow_all_to_include(t_bvh *root, t_object *object);
 int					is_bvh_object(void *e);
+int					bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth);
 void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
-void				sort_bvh_objects_asc(t_object **array, int min, int max,
-						char axis);
-t_bvh				*build_bvh_tree(t_scene *scene);
-void				bvh_destroy_tree(t_bvh **bvh);
-void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
-int					bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth);
 t_vec3				get_left_bounds(t_bvh *bvh);
 t_vec3				get_object_center(t_object *obj);
+void				sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound);
+void				sort_bvh_objects_asc(t_object **array, int min, int max,
+						char axis);
 
 // OBJECTS
 
@@ -107,7 +112,7 @@ t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
 int					hit_list(t_list *obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
-						t_hit_record *rec, int display_bvh_depth);
+						t_hit_record *rec, int bvh_display_level);
 int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_plane(t_object *obj, t_ray *ray, double t_max,
@@ -122,7 +127,8 @@ int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
-int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point);
+int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist,
+						t_vec3 *point);
 
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);

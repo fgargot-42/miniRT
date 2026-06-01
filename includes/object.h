@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:15:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:05:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ int		parse_normal(char *line, t_list **normal_list, int line_nb);
 int		parse_texture(char *line, t_list **texture_list, int line_nb);
 int		import_materials(char *mtl_file, t_list **mat_list, char *rt_path,
 			void *mlx);
+int		parse_obj_tex_file(t_object_model *obj, char *rt_path,
+			char *tex_file, void *mlx);
 
 #endif  // OBJECT_H

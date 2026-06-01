@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:24:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:12:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ static int	parse_sphere_elements(char **line_split, t_object *obj,
 	int	split_len;
 
 	split_len = get_str_array_length(line_split);
-	p_res = parse_vector(line_split[1], &(obj->position), "sphere", ctx->line_nb);
+	p_res = parse_vector(line_split[1], &(obj->position), "sphere",
+			ctx->line_nb);
 	p_res &= p_res && parse_double(line_split[2], &(obj->radius), "sphere",
 			ctx->line_nb);
 	p_res &= p_res && parse_vector(line_split[3], &(obj->color), "sphere",
 			ctx->line_nb);
 	if (split_len > 4 && ft_strlen(line_split[4]))
-		p_res &= p_res && parse_double(line_split[4], &(obj->specular), "sphere",
-				ctx->line_nb);
+		p_res &= p_res && parse_double(line_split[4], &(obj->specular),
+				"sphere", ctx->line_nb);
 	if (split_len > 5 && ft_strlen(line_split[5]))
 		p_res &= p_res && parse_double(line_split[5], &(obj->shininess),
 				"sphere", ctx->line_nb);

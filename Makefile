@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/05/30 00:08:37 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/01 19:22:26 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC =	main.c \
 		bvh/bvh.c \
 		bvh/bvh_aabb.c \
 		bvh/bvh_aabb2.c \
+		bvh/bvh_init.c \
 		bvh/bvh_split.c \
 		bvh/bvh_size.c \
 		bvh/bvh_utils.c \
@@ -82,7 +83,6 @@ SRC =	main.c \
 		veclib/veclib3_math2.c \
 		veclib/veclib3_math3.c \
 		utils/matrix.c \
-		utils/double_utils.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/str_utils.c \

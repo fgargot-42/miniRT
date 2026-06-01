@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/28 21:10:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:12:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx)
 		print_parse_error("allocation failed", "sky", ctx->line_nb);
 		return (NULL);
 	}
-	parse_result = parse_vector(line_split[1], &(obj->color), "sky", ctx->line_nb);
+	parse_result = parse_vector(line_split[1], &(obj->color), "sky",
+			ctx->line_nb);
 	if (!parse_result)
 	{
 		free(obj);
@@ -39,7 +40,7 @@ t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx)
 	return (obj);
 }
 
-int parse_skybox(char *line, t_data *data, t_parser_ctx *ctx)
+int	parse_skybox(char *line, t_data *data, t_parser_ctx *ctx)
 {
 	char	**line_split;
 	char	*skybox_path;

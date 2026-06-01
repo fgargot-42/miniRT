@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:57:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:34:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_object
 	t_obj_type		type;
 	t_obj_prop		props;
 	t_vec3			position;
-	t_vec3			direction; // normal for planes, default {0, 0, 0} for spheres
+	t_vec3			direction; // normal for planes
 	t_vec3			scale;
 	t_vec3			color;
 	int				checker;
@@ -176,7 +176,7 @@ typedef struct s_data
 	int			dragging_slider;
 }	t_data;
 
-typedef struct	s_parser_ctx
+typedef struct s_parser_ctx
 {
 	int			fd;
 	void		*mlx;

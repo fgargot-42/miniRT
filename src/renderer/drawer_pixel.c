@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/30 00:09:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:14:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,13 @@ static mlx_color	apply_selection_rim(t_vec3 shaded,
 
 static t_vec3	draw_skybox(t_data *data, t_ray r)
 {
-	t_vec2 uv = get_uv(r.direction);
+	t_vec2	uv;
+	t_vec3	uvcol;
+
+	uv = get_uv(r.direction);
 	uv.x = uv.x - floor(uv.x);
 	uv.y = uv.y - floor(uv.y);
-	t_vec3 uvcol = uv_to_color(data->scene->skybox, uv, data->mlx);
+	uvcol = uv_to_color(data->scene->skybox, uv, data->mlx);
 	return (uvcol);
 }
 

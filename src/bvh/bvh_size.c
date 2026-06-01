@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 17:54:19 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 00:09:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 18:41:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,19 @@ void	bvh_grow_all_to_include(t_bvh *root, t_object *object)
 			node = node->right;
 		else
 			node = node->left;
+	}
+}
+
+void	bvh_remove_empty_children(t_bvh *bvh)
+{
+	if (!bvh->left->nb_elements)
+	{
+		free(bvh->left);
+		bvh->left = NULL;
+	}
+	if (!bvh->right->nb_elements)
+	{
+		free(bvh->right);
+		bvh->right = NULL;
 	}
 }

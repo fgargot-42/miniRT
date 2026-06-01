@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 21:58:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 18:03:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ int	main(int argc, char **argv)
 	}
 	init(&data);
 	init_scene(argv[1], &data);
-	//data.scene->skybox = ft_calloc(1, sizeof(t_texture));
-	//data.scene->skybox = load_texture("textures/8k_stars.jpg", data.mlx);
 #if DEBUG
 	//ft_lstiter(data.scene->objects, print_object);
 	//ft_lstiter(data.scene->lights, print_object);

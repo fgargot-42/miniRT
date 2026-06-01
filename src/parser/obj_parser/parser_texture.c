@@ -6,13 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 22:56:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:07:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "miniRT.h"
 #include "parser.h"
+#include "object.h"
 
 int	parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 {
@@ -35,4 +36,22 @@ int	parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 	mat->color_tex = load_texture(path, ctx->mlx);
 	free(path);
 	return (mat->color_tex != NULL);
+}
+
+int	parse_obj_tex_file(t_object_model *obj, char *rt_path,
+		char *tex_file, void *mlx)
+{
+	char		*tex_path;
+	t_texture	*tex;
+
+	if (!tex_file || tex_file[0] == '\0')
+		return (1);
+	tex_path = ft_strjoin(rt_path, tex_file);
+	if (!tex_path)
+		return (0);
+	tex = load_texture(tex_path, mlx);
+	if (!tex)
+		return (0);
+	obj->tex = tex;
+	return (1);
 }

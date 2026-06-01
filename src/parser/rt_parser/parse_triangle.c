@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:25:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:08:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	init_triangle_properties(t_object *obj)
 {
 	obj->position = obj->props.a;
 	obj->direction = vec3_normalize(vec3_cross(
-		vec3_sub(obj->props.c, obj->props.a),
-		vec3_sub(obj->props.b, obj->props.a)));
+				vec3_sub(obj->props.c, obj->props.a),
+				vec3_sub(obj->props.b, obj->props.a)));
 	obj->props.b = vec3_sub(obj->props.b, obj->props.a);
 	obj->props.c = vec3_sub(obj->props.c, obj->props.a);
 	obj->props.a = (t_vec3){0, 0, 0};

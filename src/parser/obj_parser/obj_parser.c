@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:17:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:07:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static int	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	if (line)
 		line[1] = '\0';
 	line = get_next_line(ctx->fd);
-	ctx->line_nb = 1;
 	status = (ctx->fd != -1);
 	while (line && status)
 	{
@@ -92,34 +91,23 @@ static int	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	return (status);
 }
 
-static int	parse_obj_texture_file(t_object_model *obj, char *rt_path,
-		char *tex_file, void *mlx)
+static void	init_ctx(t_parser_ctx *obj_ctx, t_parser_ctx *ctx, t_data *data)
 {
-	char		*tex_path;
-	t_texture	*tex;
-
-	if (!tex_file || tex_file[0] == '\0')
-		return (1);
-	tex_path = ft_strjoin(rt_path, tex_file);
-	if (!tex_path)
-		return (0);
-	tex = load_texture(tex_path, mlx);
-	if (!tex)
-		return (0);
-	obj->tex = tex;
-	return (1);
+	ft_bzero(obj_ctx, sizeof(t_parser_ctx));
+	obj_ctx->mlx = data->mlx;
+	obj_ctx->rt_path = ctx->rt_path;
+	obj_ctx->line_nb = 1;
 }
 
 int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 {
-	int				parse_result;
+	int				status;
 	char			**split;
 	t_object_model	*obj;
 	t_parser_ctx	obj_ctx;
 
-	parse_result = 1;
-	obj_ctx.mlx = data->mlx;
-	obj_ctx.rt_path = ctx->rt_path;
+	status = 1;
+	init_ctx(&obj_ctx, ctx, data);
 	split = ft_split_by_whitespace(file);
 	if (!split)
 		return (0);
@@ -133,11 +121,9 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	{
 		parse_vector(split[1], &obj->position, "obj", ctx->line_nb);
 		if (split[3])
-			parse_result = parse_obj_texture_file(obj, ctx->rt_path,
-				split[3], data->mlx);
-		parse_result &= parse_obj_elements(split, &obj_ctx, data->scene, obj);
+			status = parse_obj_tex_file(obj, ctx->rt_path, split[3], data->mlx);
+		status &= parse_obj_elements(split, &obj_ctx, data->scene, obj);
 	}
-	printf("Nb tris: %d\n", ft_lstsize(obj->triangles));
 	free_str_array(split);
-	return (2 * parse_result);
+	return (2 * status);
 }

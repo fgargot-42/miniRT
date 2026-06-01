@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 18:22:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 20:18:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 	i = depth + 1;
 	while (i--)
 		printf("    ");
-	printf("starting_index: %d, nb_elements: %d\n", bvh->first_index, bvh->nb_elements);
+	printf("starting_index: %d, nb_elements: %d\n",
+		bvh->first_index, bvh->nb_elements);
 	if (bvh->left)
 		print_bvh_tree(bvh->left, depth + 1);
 	if (bvh->right)

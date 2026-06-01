@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:31:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 19:52:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static int	get_material_element_index(char *mat_elem)
 	return (i);
 }
 
-static int	open_material_texture(char *line, t_material *mat, t_parser_ctx *ctx)
+static int	open_material_texture(char *line, t_material *mat,
+	t_parser_ctx *ctx)
 {
 	int		status;
 	char	**split;
@@ -50,7 +51,8 @@ static int	open_material_texture(char *line, t_material *mat, t_parser_ctx *ctx)
 	return (status);
 }
 
-static int	parse_material_line(char *line, t_list **mat_list, t_parser_ctx *ctx)
+static int	parse_material_line(char *line, t_list **mat_list,
+	t_parser_ctx *ctx)
 {
 	int								index;
 	int								status;
@@ -102,7 +104,8 @@ static int	material_parse_loop(t_list **mat_list, t_parser_ctx *ctx)
 	return (status);
 }
 
-int	import_materials(char *mtl_file, t_list **mat_list, char *obj_path, void *mlx)
+int	import_materials(char *mtl_file, t_list **mat_list, char *obj_path,
+	void *mlx)
 {
 	int				status;
 	char			**split;

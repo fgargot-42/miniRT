@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:59:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 19:51:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static int	parse_face_a_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.a = vec3_add(*((t_vec3 *)(lst->content)), model->position);
+		triangle->props.a = vec3_add(*((t_vec3 *)(lst->content)),
+				model->position);
 	i = 0;
 	if (split_point[1])
 	{
@@ -55,7 +56,8 @@ static int	parse_face_b_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.b = vec3_add(*((t_vec3 *)(lst->content)), model->position);
+		triangle->props.b = vec3_add(*((t_vec3 *)(lst->content)),
+				model->position);
 	i = 0;
 	if (split_point[1])
 	{
@@ -82,7 +84,8 @@ static int	parse_face_c_values(char *line_split, t_object_model *model,
 	i = ft_atoi(split_point[0]);
 	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
 	if (lst)
-		triangle->props.c = vec3_add(*((t_vec3 *)(lst->content)), model->position);
+		triangle->props.c = vec3_add(*((t_vec3 *)(lst->content)),
+				model->position);
 	i = 0;
 	if (split_point[1])
 	{
