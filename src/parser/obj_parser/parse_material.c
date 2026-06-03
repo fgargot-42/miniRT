@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:27:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 22:45:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	parse_mat_exponent(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_double(split[1], &mat->shininess, "Ns", line_nb);
+	parse_result = parse_double(split[1], &mat->specular, "Ns", line_nb);
 	free_str_array(split);
 	return (parse_result);
 }
@@ -75,9 +75,9 @@ int	parse_mat_ambient(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_double(split[1], &mat->ambient.x, "Ka", line_nb);
-	parse_result &= parse_double(split[2], &mat->ambient.y, "Ka", line_nb);
-	parse_result &= parse_double(split[3], &mat->ambient.z, "Ka", line_nb);
+	parse_result = parse_double(split[1], &mat->amb_color.x, "Ka", line_nb);
+	parse_result &= parse_double(split[2], &mat->amb_color.y, "Ka", line_nb);
+	parse_result &= parse_double(split[3], &mat->amb_color.z, "Ka", line_nb);
 	free_str_array(split);
 	return (parse_result);
 }
@@ -97,9 +97,9 @@ int	parse_mat_diffuse(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_double(split[1], &mat->diffuse.x, "Kd", line_nb);
-	parse_result &= parse_double(split[2], &mat->diffuse.y, "Kd", line_nb);
-	parse_result &= parse_double(split[3], &mat->diffuse.z, "Kd", line_nb);
+	parse_result = parse_double(split[1], &mat->diff_color.x, "Kd", line_nb);
+	parse_result &= parse_double(split[2], &mat->diff_color.y, "Kd", line_nb);
+	parse_result &= parse_double(split[3], &mat->diff_color.z, "Kd", line_nb);
 	free_str_array(split);
 	return (parse_result);
 }
@@ -119,9 +119,9 @@ int	parse_mat_specular(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_double(split[1], &mat->specular.x, "Ks", line_nb);
-	parse_result &= parse_double(split[2], &mat->specular.y, "Ks", line_nb);
-	parse_result &= parse_double(split[3], &mat->specular.z, "Ks", line_nb);
+	parse_result = parse_double(split[1], &mat->spec_color.x, "Ks", line_nb);
+	parse_result &= parse_double(split[2], &mat->spec_color.y, "Ks", line_nb);
+	parse_result &= parse_double(split[3], &mat->spec_color.z, "Ks", line_nb);
 	free_str_array(split);
 	return (parse_result);
 }

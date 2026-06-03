@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 18:03:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/03 21:02:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	init(t_data *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
+	mlx_set_image_pixel(data->mlx, data->img, 0, 0, vec3_to_color((t_vec3){0, 0, 0}));
 }
 
 static void	destroy_all(t_data *data)
@@ -88,7 +89,7 @@ int	main(int argc, char **argv)
 	//ft_lstiter(data.scene->lights, print_object);
 	//print_sky(data.scene->sky);
 #endif
-	draw_single(&data);
+	draw(&data);
 	attach_hooks(&data);
 	mlx_add_loop_hook(data.mlx, mouse_loop, &data);
 	mlx_loop(data.mlx);

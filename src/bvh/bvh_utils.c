@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 18:11:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/03 14:19:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 	if (bvh->left && bvh->right && left_bound.z < bvh->aabb_max.z)
 		sort_bvh_objects_asc(bvh->objects, bvh->first_index,
 			bvh->nb_elements, 'z');
-}
-
-t_vec3	get_left_bounds(t_bvh *bvh)
-{
-	t_vec3	bound;
-
-	bound = vec3_sub(bvh->aabb_max, bvh->aabb_min);
-	if (bound.x > bound.y && bound.x > bound.z)
-		bound.x /= 2.0;
-	else if (bound.y > bound.z)
-		bound.y /= 2.0;
-	else
-		bound.z /= 2.0;
-	return (bound);
 }
 
 t_vec3	get_object_center(t_object *obj)

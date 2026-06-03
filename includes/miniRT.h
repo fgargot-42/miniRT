@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:33:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/03 20:22:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 # define T_MIN 0.001
 # define T_MAX 100
-# define WIDTH 1200
+# define WIDTH 1280
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
@@ -58,10 +58,12 @@ void				bvh_destroy_tree(t_bvh **bvh);
 void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
 void				bvh_remove_empty_children(t_bvh *bvh);
 
+t_vec3				get_range_from_object_centers(t_bvh *bvh);
+int					count_elements_split_right(t_bvh *bvh, t_vec3 split);
 void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
 void				bvh_grow_all_to_include(t_bvh *root, t_object *object);
 int					is_bvh_object(void *e);
-int					bvh_split(t_bvh *bvh, t_vec3 left_bound, int depth);
+int					bvh_split(t_bvh *bvh);
 void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 t_vec3				get_left_bounds(t_bvh *bvh);

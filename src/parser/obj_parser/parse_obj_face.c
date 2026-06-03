@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 19:51:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/01 22:58:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static void	init_triangle_props(t_object *triangle, t_material *mat)
 	triangle->props.c = vec3_sub(triangle->props.c, triangle->props.a);
 	triangle->props.a = (t_vec3){0, 0, 0};
 	if (mat)
-		triangle->color = linear_to_srgb(mat->diffuse);
+		triangle->color = linear_to_srgb(mat->diff_color);
 	else
 		triangle->color = (t_vec3){255, 0, 255};
 }

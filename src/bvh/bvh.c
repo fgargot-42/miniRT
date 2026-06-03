@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 18:14:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/03 16:45:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 	t_bvh	*bvh;
 	t_list	*bvh_objects;
 	t_list	*tmp;
-	t_vec3	left_bounds;
 	int		i;
 
 	bvh = ft_calloc(1, sizeof(t_bvh));
@@ -59,8 +58,7 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 		i++;
 		tmp = tmp->next;
 	}
-	left_bounds = get_left_bounds(bvh);
-	bvh_split(bvh, left_bounds, 0);
+	bvh_split(bvh);
 	ft_lstclear(&bvh_objects, NULL);
 	return (bvh);
 }
