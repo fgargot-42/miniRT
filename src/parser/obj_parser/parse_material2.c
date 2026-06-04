@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:27:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:51:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,16 @@ int	parse_mat_opacity(char *line, t_material *mat, int line_nb)
 	parse_result = parse_double(split[1], &mat->opacity, "d", line_nb);
 	free_str_array(split);
 	return (parse_result);
+}
+
+void	destroy_material(void *o)
+{
+	t_material	*mat;
+
+	mat = (t_material *)o;
+	if (mat->name)
+		free(mat->name);
+	if (mat->color_tex)
+		mlx_destroy_image(mat->color_tex->mlx, mat->color_tex->data);
+	free(mat);
 }

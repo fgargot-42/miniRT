@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/03 20:22:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:51:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void				print_bvh_tree(t_bvh *bvh, int depth);
 
 // SCENE
 void				init_scene(char *file, t_data *data);
-void				free_scene(t_scene *scene);
+void				free_scene(t_scene *scene, mlx_context mlx);
 void				free_object(void *object);
 
 // DRAWER
@@ -92,6 +92,7 @@ void				free_object(void *object);
 void				draw(t_data *data);
 void				draw_single(t_data *data);
 void				add_debug(t_data *data);
+double				get_time(void);
 void				print_hit_info(t_data *data, t_hit_record hc,
 						double mouse_x, double mouse_y);
 void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
@@ -177,9 +178,10 @@ void				setup_property_sliders(t_data *data, t_object *obj);
 
 void				setup_ambient_sliders(t_data *data, t_object *obj);
 
-t_texture			*load_texture(char *path, void *mlx);
-t_vec3				uv_to_color(t_texture *tex, t_vec2 uv, void *mlx);
-t_vec3				triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx);
+void				destroy_material(void *o);
+t_texture			*load_texture(char *path, mlx_context mlx);
+t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);
+t_vec3				triangle_uv_to_color(t_object *obj, t_vec3 hit);
 t_vec2				get_uv(t_vec3 vec);
 
 #endif

@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 20:53:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:21:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-#include "assert.h"
+
+extern int g_rt_debug;
 
 static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds,
 		int const *sign)
@@ -57,7 +58,12 @@ int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
 		v_min.x = v_min.z;
 	if (v_max.z < v_max.x)
 		v_max.x = v_max.z;
-	if (v_min.x < *dist && v_max.x > T_MIN)
+	if (g_rt_debug > 0)
+	{
+		printf("v_min=% .2f, v_max=% .2f\n", v_min.x, v_max.x);
+		g_rt_debug--;
+	}
+	if (v_max.x > T_MIN)
 	{
 		*point = ray_at(*ray, v_min.x);
 		*dist = v_min.x;

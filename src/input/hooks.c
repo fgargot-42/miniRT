@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 19:29:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:31:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static void	key_hook(int scancode, void *param)
 
 	data = (t_data *)param;
 	if (scancode == SDL_SCANCODE_ESCAPE)
+	{
 		mlx_loop_end(data->mlx);
+		return ;
+	}
 	move_camera(scancode, data);
 	if (scancode == SDL_SCANCODE_TAB)
 	{

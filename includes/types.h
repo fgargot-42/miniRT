@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 22:45:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:35:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ typedef union u_uv_texture
 
 typedef struct s_texture
 {
-	int		width;
-	int		height;
-	void	*data;
+	int			width;
+	int			height;
+	mlx_image	data;
+	mlx_context	mlx;
 }	t_texture;
 
 typedef struct s_material
@@ -152,6 +153,7 @@ typedef struct s_scene
 	t_texture	*skybox;
 	t_object	*cam;
 	t_object	*selected;
+	t_list		*mat;
 	t_bvh		*bvh;
 }	t_scene;
 

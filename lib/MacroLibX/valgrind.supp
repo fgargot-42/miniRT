@@ -56,6 +56,30 @@
 }
 {
    name
+   Memcheck:Cond
+   fun:*
+   ...
+   obj:*nvidia.so*
+   ...
+}
+{
+   name
+   Memcheck:Value8
+   fun:*
+   ...
+   obj:*nvidia.so*
+   ...
+}
+{
+   name
+   Memcheck:Addr4
+   fun:*
+   ...
+   obj:*nvidia.so*
+   ...
+}
+{
+   name
    Memcheck:Leak
    fun:*
    obj:*
@@ -216,8 +240,8 @@
 {
    nvidia_specific_thread_error
    Memcheck:Addr1
-   obj:*libnvidia-glcore.so.550.120*
-   obj:*libnvidia-glcore.so.550.120*
+   obj:*libnvidia-glcore.so.570.211*
+   obj:*libnvidia-glcore.so.570.211*
    fun:start_thread
    fun:clone
 }

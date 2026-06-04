@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 19:41:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 17:53:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 		int bvh_display_level)
 {
 	int				hit[3];
-	double			dist;
+	double			dist; // Used only for debugging purposes
 	t_vec3			point;
 
 	hit[0] = 0;
@@ -133,7 +133,7 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 	}
 #endif
 	if (!bvh->left && !bvh->right)
-		return (hit_object_in_bvh(bvh, ray, closest, rec) || hit[2]);
+		hit[2] = hit_object_in_bvh(bvh, ray, closest, rec) || hit[2];
 	if (bvh->left)
 		hit[0] = hit_bvh(bvh->left, ray, closest, rec, bvh_display_level);
 	if (bvh->right)
@@ -143,14 +143,15 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 
 int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec, int bvh_display_level)
 {
-	int		hit;
+	int		hit[2];
 	double	closest;
 
-	hit = 0;
+	hit[0] = 0;
+	hit[1] = 0;
 	closest = t_max;
 	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
 		1 / ray->direction.z};
-	hit = hit_list(scene->objects, ray, &closest, rec);
-	hit = hit_bvh(scene->bvh, ray, &closest, rec, bvh_display_level) | hit;
-	return (hit);
+	hit[0] = hit_list(scene->objects, ray, &closest, rec);
+	hit[1] = hit_bvh(scene->bvh, ray, &closest, rec, bvh_display_level);
+	return (hit[0] || hit[1]);
 }

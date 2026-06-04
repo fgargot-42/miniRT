@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/03 16:45:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:25:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ static void	bvh_destroy_nodes(t_bvh *bvh)
 
 void	bvh_destroy_tree(t_bvh **bvh)
 {
+	int	i;
+
+	i = 0;
 	if (!*bvh)
 		return ;
+	while (i < (*bvh)->nb_elements)
+	{
+		free_object((*bvh)->objects[i]);
+		i++;
+	}
 	free((*bvh)->objects);
 	bvh_destroy_nodes(*bvh);
 	(*bvh)->objects = NULL;

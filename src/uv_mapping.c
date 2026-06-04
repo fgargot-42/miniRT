@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/03 20:53:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:06:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_vec2	get_uv(t_vec3 vec)
 	return (result);
 }
 
-t_vec3	uv_to_color(t_texture *tex, t_vec2 uv, void *mlx)
+t_vec3	uv_to_color(t_texture *tex, t_vec2 uv)
 {
 	t_vec3		col;
 	mlx_color	pixel;
@@ -35,14 +35,14 @@ t_vec3	uv_to_color(t_texture *tex, t_vec2 uv, void *mlx)
 
 	x = (int)(uv.x * (tex->width - 1));
 	y = (int)(uv.y * (tex->height - 1));
-	pixel = mlx_get_image_pixel(mlx, tex->data, x, y);
+	pixel = mlx_get_image_pixel(tex->mlx, tex->data, x, y);
 	col.x = pixel.r;
 	col.y = pixel.g;
 	col.z = pixel.b;
 	return (col);
 }
 
-t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx)
+t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit)
 {
 	t_vec3		obj_hit;
 	double		dot[2][3];
@@ -66,12 +66,12 @@ t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit, void *mlx)
 			vec2_scale(vec2_sub(obj->uv.tex_c, obj->uv.tex_a), uv.y));
 	uv.x = uv.x * obj->material->color_tex->width - 1;
 	uv.y = (1 - uv.y) * obj->material->color_tex->height - 1;
-	pixel = mlx_get_image_pixel(mlx, obj->material->color_tex->data,
-			uv.x, uv.y);
+	pixel = mlx_get_image_pixel(obj->material->color_tex->mlx,
+			obj->material->color_tex->data, uv.x, uv.y);
 	return ((t_vec3){pixel.r, pixel.g, pixel.b});
 }
 
-t_texture	*load_texture(char *path, void *mlx)
+t_texture	*load_texture(char *path, mlx_context mlx)
 {
 	t_texture	*tex;
 
@@ -85,7 +85,8 @@ t_texture	*load_texture(char *path, void *mlx)
 		free(tex);
 		return (NULL);
 	}
-	mlx_get_image_pixel(mlx, tex->data, 0, 0);
+	tex->mlx = mlx;
+	mlx_get_image_pixel(tex->mlx, tex->data, 0, 0);
 	printf("Image loaded: %s (%i x %i) at address %p\n", path, tex->width, tex->height, tex->data);
 	return (tex);
 }

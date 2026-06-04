@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:07:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:52:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 			status = parse_obj_tex_file(obj, ctx->rt_path, split[3], data->mlx);
 		status &= parse_obj_elements(split, &obj_ctx, data->scene, obj);
 	}
+	data->scene->mat = obj->materials;
 	free_str_array(split);
 	return (2 * status);
 }

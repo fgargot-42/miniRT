@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:14:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:26:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_vec3	draw_skybox(t_data *data, t_ray r)
 	uv = get_uv(r.direction);
 	uv.x = uv.x - floor(uv.x);
 	uv.y = uv.y - floor(uv.y);
-	uvcol = uv_to_color(data->scene->skybox, uv, data->mlx);
+	uvcol = uv_to_color(data->scene->skybox, uv);
 	return (uvcol);
 }
 
@@ -69,13 +69,13 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			t_vec2 uv = get_uv(hc.normal);
 			uv.x = uv.x - floor(uv.x);
 			uv.y = uv.y - floor(uv.y);
-			t_vec3 uvcol = uv_to_color(hc.object->tex, uv, data->mlx);
+			t_vec3 uvcol = uv_to_color(hc.object->tex, uv);
 			t_vec3 base = shade(&hc, data->scene, &r);
 			shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
 		else if (hc.object->type == OBJ_TRIANGLE && hc.object->material->color_tex)
 		{
-			t_vec3 uvcol = triangle_uv_to_color(hc.object, hc.point, data->mlx);
+			t_vec3 uvcol = triangle_uv_to_color(hc.object, hc.point);
 			hc.color = uvcol;
 			shaded = shade(&hc, data->scene, &r);
 		}

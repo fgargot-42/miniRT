@@ -6,13 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:45:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 19:10:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "libft.h"
 #include <pthread.h>
+
 
 void	rt_draw_pixel(int x, int y, t_data *data, int render_scale);
 
@@ -85,8 +86,22 @@ static void	draw_threads_create(t_data *data)
 
 void	draw(t_data *data)
 {
+	static int	frame_count = 0;
+	double time_start;
+	double time_render;
+
+	time_start = get_time();
 	if (NB_THREADS >= 2)
 		draw_threads_create(data);
 	else
 		draw_single(data);
+	time_render = get_time() - time_start;
+	if (time_render < 1e-10)
+		time_render = 1e-10;
+	if (DEBUG)
+	{
+		frame_count++;
+		printf("Frame %d rendered in %fs (%.2f fps)\n", frame_count,
+			time_render, 1 / time_render);
+	}
 }

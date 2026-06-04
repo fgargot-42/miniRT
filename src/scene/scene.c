@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:18:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 20:53:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 #include "parser.h"
 #include <unistd.h>
 
-static void	set_default_sky(t_scene *scene)
+static void	set_default_sky(t_scene *scene, mlx_context mlx)
 {
 	t_object	*default_sky;
 
 	default_sky = ft_calloc(1, sizeof(t_object));
 	if (!default_sky)
 	{
-		free_scene(scene);
+		free_scene(scene, mlx);
 		exit(1);
 	}
 	default_sky->color = (t_vec3){0, 0, 0};
@@ -73,34 +73,46 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 	}
 }
 
+static int	ft_no_bvh_obj(void *e)
+{
+	t_object	*obj;
+	
+	obj = (t_object *)e;
+	return (obj->type <= OBJ_PLANE);
+}
+
 void	init_scene(char *file, t_data *data)
 {
 	int		parse_status;
+	t_list	*obj_lst;
 
 	ft_bzero(data->scene, sizeof(t_scene));
 	parse_status = parse_scene(file, data);
 	if (!parse_status)
 	{
-		free_scene(data->scene);
+		free_scene(data->scene, data->mlx);
 		exit(1);
 	}
 	if (!data->scene->ambient)
 	{
 		ft_putstr_fd("Error\nmissing object in scene: ambient lighting\n", 2);
-		free_scene(data->scene);
+		free_scene(data->scene, data->mlx);
 		exit(1);
 	}
 	if (!data->scene->cam)
 	{
 		ft_putstr_fd("Error\nmissing object in scene: camera\n", 2);
-		free_scene(data->scene);
+		free_scene(data->scene, data->mlx);
 		exit(1);
 	}
 	data->scene->bvh = build_bvh_tree(data->scene);
 #if DEBUG
 	print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
-	set_default_sky(data->scene);
+	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj, free);
+	free(data->scene->objects);
+	data->scene->objects = obj_lst;
+	set_default_sky(data->scene, data->mlx);
 }
 
 void	free_object(void *object)
@@ -111,13 +123,20 @@ void	free_object(void *object)
 	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE
 		&& o->props.transform_axis)
 		free_matrix(o->props.transform_axis);
+	if (o->tex)
+		mlx_destroy_image(o->tex->mlx, o->tex->data);
 	free(o);
 }
 
-void	free_scene(t_scene *scene)
+void	free_scene(t_scene *scene, mlx_context mlx)
 {
 	ft_lstclear(&scene->objects, free_object);
 	ft_lstclear(&scene->lights, free_object);
+	if (scene->skybox)
+		mlx_destroy_image(mlx, scene->skybox->data);
+	bvh_destroy_tree(&scene->bvh);
+	if (scene->mat)
+		ft_lstclear(&scene->mat, destroy_material);
 	free(scene->cam);
 	free(scene->ambient);
 	free(scene->sky);
