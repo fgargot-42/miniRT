@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 20:53:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 22:50:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	init_scene(char *file, t_data *data)
 	print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
 	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj, free);
-	free(data->scene->objects);
+	ft_lstclear(&data->scene->objects, NULL);
 	data->scene->objects = obj_lst;
 	set_default_sky(data->scene, data->mlx);
 }
@@ -124,7 +124,10 @@ void	free_object(void *object)
 		&& o->props.transform_axis)
 		free_matrix(o->props.transform_axis);
 	if (o->tex)
+	{
 		mlx_destroy_image(o->tex->mlx, o->tex->data);
+		free(o->tex);
+	}
 	free(o);
 }
 
@@ -133,7 +136,10 @@ void	free_scene(t_scene *scene, mlx_context mlx)
 	ft_lstclear(&scene->objects, free_object);
 	ft_lstclear(&scene->lights, free_object);
 	if (scene->skybox)
+	{
 		mlx_destroy_image(mlx, scene->skybox->data);
+		free(scene->skybox);
+	}
 	bvh_destroy_tree(&scene->bvh);
 	if (scene->mat)
 		ft_lstclear(&scene->mat, destroy_material);

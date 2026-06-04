@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 20:51:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 21:35:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,9 @@ void	destroy_material(void *o)
 	if (mat->name)
 		free(mat->name);
 	if (mat->color_tex)
+	{
 		mlx_destroy_image(mat->color_tex->mlx, mat->color_tex->data);
+		free(mat->color_tex);
+	}
 	free(mat);
 }

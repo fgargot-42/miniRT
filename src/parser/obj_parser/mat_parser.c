@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 19:52:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/04 22:31:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "object.h"
+#include <unistd.h>
 
 static int	get_material_element_index(char *mat_elem)
 {
@@ -54,8 +55,8 @@ static int	open_material_texture(char *line, t_material *mat,
 static int	parse_material_line(char *line, t_list **mat_list,
 	t_parser_ctx *ctx)
 {
-	int								index;
 	int								status;
+	int								index;
 	static t_material				*mat;
 	static const t_obj_parser_fc	parse_elem[] = {parse_mat_exponent,
 		parse_mat_ambient, parse_mat_diffuse, parse_mat_specular,
@@ -70,8 +71,8 @@ static int	parse_material_line(char *line, t_list **mat_list,
 	}
 	if (!ft_strncmp(line, "newmtl", 6))
 	{
-		index = parse_new_material(line, mat_list, &mat);
-		return (index);
+		status = parse_new_material(line, mat_list, &mat);
+		return (status);
 	}
 	index = get_material_element_index(line);
 	if (index != -1)
@@ -125,5 +126,6 @@ int	import_materials(char *mtl_file, t_list **mat_list, char *obj_path,
 	if (ctx.fd < 0)
 		return (0);
 	status = material_parse_loop(mat_list, &ctx);
+	close(ctx.fd);
 	return (status);
 }
