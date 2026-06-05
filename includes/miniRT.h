@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 15:19:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 21:53:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
-# define BVH_DEPTH 4
+# define BVH_DEPTH 15
 # define DEBUG 1
 # define BVH_VIEW 1
 # define MLX_WHITE 0xFFFFFFFF
@@ -148,6 +148,7 @@ int					open_file_read(char *file, char *extension);
 char				*get_directory_path(char *filepath);
 void				free_str_array(char **array);
 size_t				get_str_array_length(char **array);
+void				free_array(void **array);
 
 t_vec3				srgb_to_linear(t_vec3 srgb);
 t_vec3				linear_to_srgb(t_vec3 linear_rgb);

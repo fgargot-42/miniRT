@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 22:58:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 21:47:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,85 +15,29 @@
 #include "miniRT.h"
 #include <assert.h>
 
-static int	parse_face_a_values(char *line_split, t_object_model *model,
-	t_object *triangle)
+static int	parse_face_values(char *line_split, t_object_model *model,
+	t_vec3 *vertex, t_vec2* uv)
 {
 	char	**split_point;
 	int		i;
-	t_list	*lst;
 
+	if (!model || !vertex || !uv)
+		return (0);
 	split_point = ft_split_keep_empty(line_split, '/');
 	if (!split_point)
 		return (0);
 	i = ft_atoi(split_point[0]);
-	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
-	if (lst)
-		triangle->props.a = vec3_add(*((t_vec3 *)(lst->content)),
-				model->position);
-	i = 0;
-	if (split_point[1])
+	if (i < 1)
 	{
-		i = ft_atoi(split_point[1]);
-		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
-		if (lst)
-			triangle->uv.tex_a = *((t_vec2 *)(lst->content));
-	}
-	free_str_array(split_point);
-	return (1);
-}
-
-static int	parse_face_b_values(char *line_split, t_object_model *model,
-	t_object *triangle)
-{
-	char	**split_point;
-	int		i;
-	t_list	*lst;
-
-	i = -1;
-	split_point = ft_split_keep_empty(line_split, '/');
-	if (!split_point)
+		free_str_array(split_point);
 		return (0);
-	i = ft_atoi(split_point[0]);
-	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
-	if (lst)
-		triangle->props.b = vec3_add(*((t_vec3 *)(lst->content)),
-				model->position);
+	}
+	*vertex = vec3_add(*(model->vertices)[i - 1], model->position);
 	i = 0;
 	if (split_point[1])
-	{
 		i = ft_atoi(split_point[1]);
-		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
-		if (lst)
-			triangle->uv.tex_b = *((t_vec2 *)(lst->content));
-	}
-	free_str_array(split_point);
-	return (1);
-}
-
-static int	parse_face_c_values(char *line_split, t_object_model *model,
-	t_object *triangle)
-{
-	char	**split_point;
-	int		i;
-	t_list	*lst;
-
-	i = -1;
-	split_point = ft_split_keep_empty(line_split, '/');
-	if (!split_point)
-		return (0);
-	i = ft_atoi(split_point[0]);
-	lst = ft_lstget_elem_index(model->vertex_list, i - 1);
-	if (lst)
-		triangle->props.c = vec3_add(*((t_vec3 *)(lst->content)),
-				model->position);
-	i = 0;
-	if (split_point[1])
-	{
-		i = ft_atoi(split_point[1]);
-		lst = ft_lstget_elem_index(model->texture_uv_list, i - 1);
-		if (lst)
-			triangle->uv.tex_c = *((t_vec2 *)(lst->content));
-	}
+	if (i > 0)
+		*uv = *(model->vertex_uv)[i - 1];
 	free_str_array(split_point);
 	return (1);
 }
@@ -118,27 +62,27 @@ static void	init_triangle_props(t_object *triangle, t_material *mat)
 int	parse_face(char *line, t_object_model *model, t_material *mat, int line_nb)
 {
 	char		**split;
-	t_object	*triangle;
-	int			parse_result;
+	t_object	*tri;
+	int			p_res;
 
 	split = ft_split_by_whitespace(line);
 	if (!split)
 		return (0);
-	triangle = ft_calloc(1, sizeof(t_object));
-	if (!triangle || check_array_size(split, 4, "f", line_nb))
+	tri = ft_calloc(1, sizeof(t_object));
+	if (!tri || check_array_size(split, 4, "f", line_nb))
 	{
-		if (triangle)
-			free(triangle);
+		if (tri)
+			free(tri);
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_face_a_values(split[1], model, triangle);
-	parse_result &= parse_face_b_values(split[2], model, triangle);
-	parse_result &= parse_face_c_values(split[3], model, triangle);
-	init_triangle_props(triangle, mat);
-	triangle->material = mat;
-	if (parse_result)
-		ft_lstadd_back(&(model->triangles), ft_lstnew(triangle));
+	p_res = parse_face_values(split[1], model, &tri->props.a, &tri->uv.tex_a);
+	p_res &= parse_face_values(split[2], model, &tri->props.b, &tri->uv.tex_b);
+	p_res &= parse_face_values(split[3], model, &tri->props.c, &tri->uv.tex_c);
+	init_triangle_props(tri, mat);
+	tri->material = mat;
+	if (p_res)
+		ft_lstadd_front(&(model->triangles), ft_lstnew(tri));
 	free_str_array(split);
-	return (parse_result);
+	return (p_res);
 }

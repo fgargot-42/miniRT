@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 21:57:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 21:56:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	else if (!ft_strncmp(line, "usemtl", 6))
 		current_mat = get_material(line, obj->materials);
 	else if (!ft_strncmp(line, "vn", 2))
-		status = parse_normal(line, &obj->normal_list, ctx->line_nb);
+		status = parse_normal(line, &obj->vertex_normals, ctx->line_nb);
 	else if (!ft_strncmp(line, "vt", 2))
-		status = parse_texture(line, &obj->texture_uv_list, ctx->line_nb);
+		status = parse_texture(line, &obj->vertex_uv, ctx->line_nb);
 	else if (!ft_strncmp(line, "v", 1))
-		status = parse_vertex(line, &obj->vertex_list, ctx->line_nb);
+		status = parse_vertex(line, &obj->vertices, ctx->line_nb);
 	else if (!ft_strncmp(line, "f", 1))
 	{
 		if (current_mat)
@@ -125,9 +125,10 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 		status &= parse_obj_elements(split, &obj_ctx, data->scene, obj);
 	}
 	data->scene->mat = obj->materials;
-	ft_lstclear(&obj->vertex_list, free);
-	ft_lstclear(&obj->normal_list, free);
-	ft_lstclear(&obj->texture_uv_list, free);
+	printf("Object parsed: %d tris\n", ft_lstsize(obj->triangles));
+	free_array((void **)obj->vertices);
+	free_array((void **)obj->vertex_uv);
+	free_array((void **)obj->vertex_normals);
 	free(obj);
 	free_str_array(split);
 	return (2 * status);

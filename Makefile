@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/05 15:15:08 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/05 22:03:18 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ SRC =	main.c \
 		utils/matrix.c \
 		utils/polynom.c \
 		utils/file_utils.c \
+		utils/array_utils.c \
 		utils/str_utils.c \
 		utils/color.c \
 		ui/ui.c \

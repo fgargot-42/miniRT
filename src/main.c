@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 19:03:38 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 16:30:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	clear_image(t_data *fdf)
 	}
 }
 
-void	init(t_data *data)
+void	init(char *rt_file, t_data *data)
 {
 	mlx_window_create_info	info;
 
@@ -43,6 +43,7 @@ void	init(t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit(1);
+	init_scene(rt_file, data);
 	info = (mlx_window_create_info){.title = "miniRT", .width = WIDTH,
 		.height = HEIGHT};
 	data->win = mlx_new_window(data->mlx, &info);
@@ -76,14 +77,13 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	ft_bzero(&data, sizeof(t_data));
-	data.scene = malloc(sizeof(t_scene));
+	data.scene = ft_calloc(1, sizeof(t_scene));
 	if (!data.scene)
 	{
 		fprintf(stderr, "Failed to allocate scene\n");
 		return (1);
 	}
-	init(&data);
-	init_scene(argv[1], &data);
+	init(argv[1], &data);
 #if DEBUG
 	//ft_lstiter(data.scene->objects, print_object);
 	//ft_lstiter(data.scene->lights, print_object);
