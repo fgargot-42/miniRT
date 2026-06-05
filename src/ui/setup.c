@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/05/20 00:39:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 14:13:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,6 @@ void	setup_ambient_sliders(t_data *data, t_object *obj)
 		.min = 0.0,
 		.max = 1.0,
 		.label = "power",
-		.col = g_material_colors[i],
+		.col = g_material_colors[1],
 	};
 }

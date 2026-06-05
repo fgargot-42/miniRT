@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 21:22:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 15:00:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,8 @@ static void	bvh_destroy_nodes(t_bvh *bvh)
 
 void	bvh_destroy_tree(t_bvh **bvh)
 {
-	int	i;
-
-	i = 0;
 	if (!*bvh)
 		return ;
-	while (i < (*bvh)->nb_elements)
-	{
-		free_object((*bvh)->objects[i]);
-		i++;
-	}
 	free((*bvh)->objects);
 	(*bvh)->objects = NULL;
 	bvh_destroy_nodes(*bvh);
@@ -48,17 +40,15 @@ void	rebuild_bvh_tree(t_bvh **bvh, t_scene *scene)
 t_bvh	*build_bvh_tree(t_scene *scene)
 {
 	t_bvh	*bvh;
-	t_list	*bvh_objects;
 	t_list	*tmp;
 	int		i;
 
 	bvh = ft_calloc(1, sizeof(t_bvh));
 	if (!bvh)
 		return (NULL);
-	bvh_objects = ft_lstfilter(scene->objects, is_bvh_object, free_object);
-	bvh_init(bvh, ft_lstsize(bvh_objects));
+	bvh_init(bvh, ft_lstsize(scene->bvh_objects));
 	i = 0;
-	tmp = bvh_objects;
+	tmp = scene->bvh_objects;
 	while (i < bvh->nb_elements)
 	{
 		bvh->objects[i] = (t_object *)tmp->content;
@@ -67,6 +57,5 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 		tmp = tmp->next;
 	}
 	bvh_split(bvh);
-	ft_lstclear(&bvh_objects, NULL);
 	return (bvh);
 }

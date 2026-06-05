@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 22:50:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 14:51:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,12 @@ void	init_scene(char *file, t_data *data)
 		free_scene(data->scene, data->mlx);
 		exit(1);
 	}
+	data->scene->bvh_objects = ft_lstfilter(data->scene->objects, is_bvh_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
 #if DEBUG
 	print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
-	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj, free);
+	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj);
 	ft_lstclear(&data->scene->objects, NULL);
 	data->scene->objects = obj_lst;
 	set_default_sky(data->scene, data->mlx);
@@ -134,6 +135,7 @@ void	free_object(void *object)
 void	free_scene(t_scene *scene, mlx_context mlx)
 {
 	ft_lstclear(&scene->objects, free_object);
+	ft_lstclear(&scene->bvh_objects, free_object);
 	ft_lstclear(&scene->lights, free_object);
 	if (scene->skybox)
 	{

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:09:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/05 14:32:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,13 @@ void	mouse_down_hook(int mouse_event, void *param)
 			data->scene->selected = hc.object;
 			setup_sliders(data);
 		}
+		print_hit_info(data, hc, mouse_x, mouse_y);
 #if DEBUG
 		g_rt_debug = BVH_DEPTH;
-		//print_bvh_tree(data->scene->bvh, 0);
-		//print_hit_info(data, hc, mouse_x, mouse_y);
-		//if (hc.object)
-		//	print_object((void *)(hc.object));
-		//print_hit_info_debug(hc, data->scene, &ray, (t_vec2){mouse_x, mouse_y});
+		print_bvh_tree(data->scene->bvh, 0);
+		if (hc.object)
+			print_object((void *)(hc.object));
+		print_hit_info_debug(hc, data->scene, &ray, (t_vec2){mouse_x, mouse_y});
 #endif// DEBUG
 		draw(data);
 	}
