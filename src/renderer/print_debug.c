@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/03 17:29:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:55:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,22 @@ static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	bool			is_shadow;
 	t_hit_record	tmp;
 	t_vec3			result;
-	t_list			*node;
-	t_object		*light;
+	size_t			i;
 
 	tmp = *rec;
+	i = 0;
 	rec->color = apply_ambient(rec->color, scene->ambient->color);
 	result = rec->color;
-	node = scene->lights;
 	is_shadow = 1;
-	while (node)
+	while (i < scene->lights.len)
 	{
-		light = node->content;
-		if (!in_shadow(rec, tmp, scene, light))
+		if (!in_shadow(rec, tmp, scene, scene->lights.array[i]))
 		{
 			is_shadow = 0;
-			result = vec3_add(result, apply_diffuse(&tmp, light));
-			result = vec3_add(result, apply_specular(&tmp, light, ray));
+			result = vec3_add(result, apply_diffuse(&tmp, scene->lights.array[i]));
+			result = vec3_add(result, apply_specular(&tmp, scene->lights.array[i], ray));
 		}
-		node = node->next;
+		i++;
 	}
 	if (!is_shadow)
 		rec->color = vec3_clamp(result, 0.0, 255.0);

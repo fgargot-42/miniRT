@@ -1,4 +1,3 @@
-/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
@@ -6,7 +5,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/06 19:01:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 20:18:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +28,7 @@
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
-# define BVH_DEPTH 15
+# define BVH_DEPTH 18
 # define DEBUG 1
 # define BVH_VIEW 1
 # define MLX_WHITE 0xFFFFFFFF
@@ -51,7 +50,7 @@ void				get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min,
 void				get_triangle_aabb(t_object *obj, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 
-void				bvh_init(t_bvh *bvh, int nb_objects);
+void				bvh_init(t_bvh *bvh, t_array objects);
 t_bvh				*build_bvh_tree(t_scene *scene);
 int					create_bvh_tree_node(t_bvh *bvh);
 void				bvh_destroy_tree(t_bvh **bvh);
@@ -69,7 +68,7 @@ void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 t_vec3				get_left_bounds(t_bvh *bvh);
 t_vec3				get_object_center(t_object *obj);
 void				sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound);
-void				sort_bvh_objects_asc(t_object **array, int min, int max,
+void				sort_bvh_objects_asc(t_array array, int min, int max,
 						char axis);
 
 // OBJECTS
@@ -112,7 +111,7 @@ void				mouse_loop(void *param);
 
 //src/hit.c
 t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
-int					hit_list(t_list *obj, t_ray *ray, double *closest,
+int					hit_list(t_array obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
 						t_hit_record *rec, int bvh_display_level);

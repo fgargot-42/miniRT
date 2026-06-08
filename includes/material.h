@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/29 23:54:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:48:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "libft.h"
 # include "parser.h"
 
-int			parse_new_material(char *line, t_list **mat_list,
+int			parse_new_material(char *line, t_array *materials,
 				t_material **mat);
 typedef int	(*t_obj_parser_fc)(char *, t_material *, int);
 int			parse_mat_exponent(char *line, t_material *mat, int line_nb);

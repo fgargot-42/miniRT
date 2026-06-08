@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/05 22:03:18 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/08 23:20:44 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC =	main.c \
 		parser/obj_parser/parse_obj_face.c \
 		parser/obj_parser/parse_obj_model.c \
 		parser/obj_parser/parser_texture.c \
+		parser/obj_parser/obj_parser_utils.c \
 		renderer/drawer.c \
 		renderer/drawer_pixel.c \
 		renderer/drawer_utils.c \

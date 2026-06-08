@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 22:31:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:40:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ static int	open_material_texture(char *line, t_material *mat,
 	return (status);
 }
 
-static int	parse_material_line(char *line, t_list **mat_list,
+static int	parse_material_line(char *line, t_array *materials,
 	t_parser_ctx *ctx)
 {
 	int								status;
 	int								index;
-	static t_material				*mat;
+	static t_material				*mat = NULL;
 	static const t_obj_parser_fc	parse_elem[] = {parse_mat_exponent,
 		parse_mat_ambient, parse_mat_diffuse, parse_mat_specular,
 		parse_mat_emissive, parse_mat_density, parse_mat_opacity};
@@ -71,7 +71,7 @@ static int	parse_material_line(char *line, t_list **mat_list,
 	}
 	if (!ft_strncmp(line, "newmtl", 6))
 	{
-		status = parse_new_material(line, mat_list, &mat);
+		status = parse_new_material(line, materials, &mat);
 		return (status);
 	}
 	index = get_material_element_index(line);
@@ -82,7 +82,7 @@ static int	parse_material_line(char *line, t_list **mat_list,
 	return (status);
 }
 
-static int	material_parse_loop(t_list **mat_list, t_parser_ctx *ctx)
+static int	material_parse_loop(t_array *materials, t_parser_ctx *ctx)
 {
 	int			status;
 	char		*line;
@@ -95,7 +95,7 @@ static int	material_parse_loop(t_list **mat_list, t_parser_ctx *ctx)
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (line[0] && line[0] != '#')
-			status = parse_material_line(line, mat_list, ctx);
+			status = parse_material_line(line, materials, ctx);
 		free(line);
 		line = get_next_line(ctx->fd);
 		ctx->line_nb++;
@@ -105,8 +105,8 @@ static int	material_parse_loop(t_list **mat_list, t_parser_ctx *ctx)
 	return (status);
 }
 
-int	import_materials(char *mtl_file, t_list **mat_list, char *obj_path,
-	void *mlx)
+int	import_materials(char *mtl_file, t_array *materials, char *obj_path,
+	mlx_context	mlx)
 {
 	int				status;
 	char			**split;
@@ -125,7 +125,7 @@ int	import_materials(char *mtl_file, t_list **mat_list, char *obj_path,
 	free_str_array(split);
 	if (ctx.fd < 0)
 		return (0);
-	status = material_parse_loop(mat_list, &ctx);
+	status = material_parse_loop(materials, &ctx);
 	close(ctx.fd);
 	return (status);
 }

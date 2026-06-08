@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 19:31:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 23:14:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,13 @@ static int	ft_no_bvh_obj(void *e)
 void	init_scene(char *file, t_data *data)
 {
 	int		parse_status;
-	t_list	*obj_lst;
+	t_array	new_obj;
 
 	ft_bzero(data->scene, sizeof(t_scene));
+	data->scene->objects = ft_arraynew();
+	data->scene->bvh_objects = ft_arraynew();
+	data->scene->lights = ft_arraynew();
+	data->scene->mat = ft_arraynew();
 	parse_status = parse_scene(file, data);
 	if (!parse_status)
 	{
@@ -105,14 +109,15 @@ void	init_scene(char *file, t_data *data)
 		free_scene(data->scene, data->mlx);
 		exit(1);
 	}
-	data->scene->bvh_objects = ft_lstfilter(data->scene->objects, is_bvh_object);
+	data->scene->bvh_objects = ft_array_filter(data->scene->objects,
+		is_bvh_object, free_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
 #if DEBUG
 	//print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
-	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj);
-	ft_lstclear(&data->scene->objects, NULL);
-	data->scene->objects = obj_lst;
+	new_obj = ft_array_filter(data->scene->objects, ft_no_bvh_obj, free_object);
+	free(data->scene->objects.array);
+	data->scene->objects = new_obj;
 	set_default_sky(data->scene, data->mlx);
 }
 
@@ -134,12 +139,10 @@ void	free_object(void *object)
 
 void	free_scene(t_scene *scene, mlx_context mlx)
 {
-	if (scene->objects)
-		ft_lstclear(&scene->objects, free_object);
-	if (scene->bvh_objects)
-		ft_lstclear(&scene->bvh_objects, free_object);
-	if (scene->lights)
-		ft_lstclear(&scene->lights, free_object);
+	ft_arrayclear(&scene->objects, free_object);
+	ft_arrayclear(&scene->bvh_objects, free_object);
+	ft_arrayclear(&scene->lights, free_object);
+	ft_arrayclear(&scene->mat, destroy_material);
 	if (scene->skybox)
 	{
 		if (scene->skybox->data)
@@ -148,8 +151,6 @@ void	free_scene(t_scene *scene, mlx_context mlx)
 	}
 	if (scene->bvh)
 		bvh_destroy_tree(&scene->bvh);
-	if (scene->mat)
-		ft_lstclear(&scene->mat, destroy_material);
 	free(scene->cam);
 	free(scene->ambient);
 	free(scene->sky);

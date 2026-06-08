@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 21:47:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:53:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	parse_face(char *line, t_object_model *model, t_material *mat, int line_nb)
 	init_triangle_props(tri, mat);
 	tri->material = mat;
 	if (p_res)
-		ft_lstadd_front(&(model->triangles), ft_lstnew(tri));
+		ft_arrayadd_back(&model->triangles, tri, free_object);
 	free_str_array(split);
 	return (p_res);
 }

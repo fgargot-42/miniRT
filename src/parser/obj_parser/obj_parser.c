@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 19:31:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 23:19:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 #include "object.h"
 #include <unistd.h>
 
-static t_list	*get_material(char *line, t_list *materials)
+static t_material	*get_material(char *line, t_array materials)
 {
 	char	**split;
+	size_t	i;
 
 	split = ft_split_by_whitespace(line);
+	i = 0;
 	if (!split)
 		return (NULL);
-	while (materials)
+	while (i < materials.len)
 	{
-		if (!ft_strcmp(((t_material *)materials->content)->name, split[1]))
+		if (!ft_strcmp(((t_material *)materials.array[i])->name, split[1]))
 			break ;
-		materials = materials->next;
+		i++;
 	}
 	free_str_array(split);
-	return (materials);
+	return (materials.array[i]);
 }
 
 static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	t_parser_ctx *ctx)
 {
-	int				status;
-	static t_list	*current_mat = NULL;
+	int					status;
+	static t_material	*current_mat = NULL;
 
 	status = 1;
 	if (line[ft_strlen(line) - 1] == '\n')
@@ -51,13 +53,7 @@ static int	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	else if (!ft_strncmp(line, "v", 1))
 		status = parse_vertex(line, &obj->vertices, ctx->line_nb);
 	else if (!ft_strncmp(line, "f", 1))
-	{
-		if (current_mat)
-			status = parse_face(line, obj,
-					(t_material *)current_mat->content, ctx->line_nb);
-		else
-			status = parse_face(line, obj, NULL, ctx->line_nb);
-	}
+			status = parse_face(line, obj, current_mat, ctx->line_nb);
 	return (status);
 }
 
@@ -85,7 +81,7 @@ static int	parse_obj_elements(char **split, t_parser_ctx *ctx,
 		ctx->line_nb++;
 	}
 	if (status)
-		ft_lstadd_back(&scene->objects, obj->triangles);
+		add_triangles_to_scene(scene, obj->triangles);
 	free(obj_file);
 	close(ctx->fd);
 	return (status);
@@ -122,6 +118,8 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	obj = ft_calloc(1, sizeof(t_object_model));
 	if (obj)
 	{
+		obj->materials = ft_arraynew();
+		obj->triangles = ft_arraynew();
 		parse_vector(split[1], &obj->position, "obj", ctx->line_nb);
 		if (split[3])
 			status = parse_obj_tex_file(obj, ctx->rt_path, split[3], data->mlx);
@@ -129,7 +127,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	}
 	data->scene->mat = obj->materials;
 	time_end = get_time() - time_start;
-	printf("Object parsed in %.3fs: %d tris\n", time_end, ft_lstsize(obj->triangles));
+	printf("Object parsed in %.3fs: %zu tris\n", time_end, obj->triangles.len);
 	free_array((void **)obj->vertices);
 	free_array((void **)obj->vertex_uv);
 	free_array((void **)obj->vertex_normals);

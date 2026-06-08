@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 14:19:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 19:40:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:27:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	count_elements_split_right(t_bvh *bvh, t_vec3 split)
 	count = 0;
 	while (i < bvh->first_index + bvh->nb_elements)
 	{
-		center = get_object_center(bvh->objects[i]);
+		center = get_object_center(bvh->objects.array[i]);
 		if ((center.x > split.x) || (center.y > split.y)
 			|| (center.z > split.z))
 			count++;
@@ -65,8 +65,8 @@ t_vec3	get_range_from_object_centers(t_bvh *bvh)
 	i = bvh->first_index;
 	while (i < bvh->first_index + bvh->nb_elements)
 	{
-		min = vec3_min(min, get_object_center(bvh->objects[i]));
-		max = vec3_max(max, get_object_center(bvh->objects[i]));
+		min = vec3_min(min, get_object_center(bvh->objects.array[i]));
+		max = vec3_max(max, get_object_center(bvh->objects.array[i]));
 		i++;
 	}
 	range = vec3_sub(max, min);

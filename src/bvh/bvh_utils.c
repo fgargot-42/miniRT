@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/03 14:19:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:28:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 {
+	double	time_start;
+	double	time_end;
+
+	time_start = get_time();
 	if (bvh->left && bvh->right && left_bound.x < bvh->aabb_max.x)
 		sort_bvh_objects_asc(bvh->objects, bvh->first_index,
 			bvh->nb_elements, 'x');
@@ -24,6 +28,8 @@ void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 	if (bvh->left && bvh->right && left_bound.z < bvh->aabb_max.z)
 		sort_bvh_objects_asc(bvh->objects, bvh->first_index,
 			bvh->nb_elements, 'z');
+	time_end = get_time() - time_start;
+	printf("Sorted %i elements in %fs\n", bvh->nb_elements, time_end);
 }
 
 t_vec3	get_object_center(t_object *obj)
@@ -55,7 +61,7 @@ int	is_bvh_object(void *e)
 	return (is_bvh);
 }
 
-void	sort_bvh_objects_asc(t_object **array, int min, int count, char axis)
+void	sort_bvh_objects_asc(t_array array, int min, int count, char axis)
 {
 	int			i;
 	int			j;
@@ -68,15 +74,15 @@ void	sort_bvh_objects_asc(t_object **array, int min, int count, char axis)
 		j = i + 1;
 		while (j < min + count)
 		{
-			center[0] = get_object_center(array[i]);
-			center[1] = get_object_center(array[j]);
+			center[0] = get_object_center(array.array[i]);
+			center[1] = get_object_center(array.array[j]);
 			if ((axis == 'x' && center[0].x > center[1].x)
 				|| (axis == 'y' && center[0].y > center[1].y)
 				|| (axis == 'z' && center[0].z > center[1].z))
 			{
-				swp = array[j];
-				array[j] = array[i];
-				array[i] = swp;
+				swp = array.array[j];
+				array.array[j] = array.array[i];
+				array.array[i] = swp;
 			}
 			j++;
 		}

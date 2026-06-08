@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 18:13:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 18:22:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:22:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	create_bvh_tree_node(t_bvh *bvh)
 	return (1);
 }
 
-void	bvh_init(t_bvh *bvh, int nb_objects)
+void	bvh_init(t_bvh *bvh, t_array objects)
 {
 	bvh->first_index = 0;
-	bvh->nb_elements = nb_objects;
-	bvh->objects = ft_calloc(sizeof(t_object *), nb_objects);
+	bvh->nb_elements = objects.len;
+	bvh->objects = objects;
 	bvh->aabb_min = (t_vec3){1e30, 1e30, 1e30};
 	bvh->aabb_max = (t_vec3){-1e30, -1e30, -1e30};
 }

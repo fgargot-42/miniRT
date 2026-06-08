@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 18:21:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 23:05:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,30 +34,30 @@ static t_hit_fn	*get_hit_fn(t_obj_type type)
 	return (NULL);
 }
 
-int	hit_list(t_list *obj, t_ray *ray, double *closest,
+int	hit_list(t_array obj, t_ray *ray, double *closest,
 	t_hit_record *rec)
 {
-	t_hit_record	temp;
+	size_t			i;
 	int				hit_current;
-	t_object		*current;
-	t_hit_fn		*hit_func;
 	int				hit;
+	t_hit_record	temp;
+	t_hit_fn		*hit_func;
 
 	hit = 0;
-	while (obj)
+	i = 0;
+	while (i < obj.len)
 	{
-		current = (t_object *)obj->content;
 		hit_current = 0;
-		hit_func = get_hit_fn(current->type);
-		if (current->type == OBJ_PLANE && hit_func)
-			hit_current = hit_func->hit_fn(current, ray, *closest, &temp);
+		hit_func = get_hit_fn(((t_object *)obj.array[i])->type);
+		if (((t_object *)obj.array[i])->type == OBJ_PLANE && hit_func)
+			hit_current = hit_func->hit_fn((t_object *)obj.array[i], ray, *closest, &temp);
 		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 		{
 			hit = 1;
 			*closest = temp.t;
 			*rec = temp;
 		}
-		obj = obj->next;
+		i++;
 	}
 	return (hit);
 }
@@ -75,9 +75,10 @@ static int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 	hit = 0;
 	while (i < bvh->first_index + bvh->nb_elements)
 	{
-		hit_func = get_hit_fn(bvh->objects[i]->type);
+		hit_current = 0;
+		hit_func = get_hit_fn(((t_object *)bvh->objects.array[i])->type);
 		if (hit_func)
-			hit_current = hit_func->hit_fn(bvh->objects[i], ray,
+			hit_current = hit_func->hit_fn((t_object *)bvh->objects.array[i], ray,
 					*closest, &temp);
 		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 		{
@@ -89,6 +90,7 @@ static int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 	}
 	return (hit);
 }
+
 #if BVH_VIEW
 static int	draw_box_bounds(t_bvh *bvh, t_vec3 point, double dist)
 {

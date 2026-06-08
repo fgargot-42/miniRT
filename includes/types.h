@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 14:37:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:24:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ typedef struct s_bvh
 	t_vec3			aabb_max;
 	struct s_bvh	*left;
 	struct s_bvh	*right;
-	t_object		**objects;
+	t_array			objects;
 	int				first_index;
 	int				nb_elements;
 	int				depth;
@@ -146,15 +146,15 @@ typedef struct s_bvh
 
 typedef struct s_scene
 {
-	t_list		*objects;
-	t_list		*bvh_objects;
-	t_list		*lights;
+	t_array		objects;
+	t_array		bvh_objects;
+	t_array		lights;
 	t_object	*ambient;
 	t_object	*sky;
 	t_texture	*skybox;
 	t_object	*cam;
 	t_object	*selected;
-	t_list		*mat;
+	t_array		mat;
 	t_bvh		*bvh;
 }	t_scene;
 

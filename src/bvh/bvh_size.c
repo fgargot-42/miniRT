@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 17:54:19 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 18:41:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:27:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	bvh_grow_all_to_include(t_bvh *root, t_object *object)
 	i = 0;
 	while (i < root->nb_elements)
 	{
-		if (root->objects[i] == object)
+		if (root->objects.array[i] == object)
 			break ;
 		i++;
 	}

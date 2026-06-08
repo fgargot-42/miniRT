@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 19:30:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:26:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ void	bvh_destroy_tree(t_bvh **bvh)
 {
 	if (!*bvh)
 		return ;
-	free((*bvh)->objects);
-	(*bvh)->objects = NULL;
 	bvh_destroy_nodes(*bvh);
 	*bvh = NULL;
 }
@@ -42,22 +40,18 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 	double	time_start;
 	double	time_end;
 	t_bvh	*bvh;
-	t_list	*tmp;
 	int		i;
 	
 	time_start = get_time();
 	bvh = ft_calloc(1, sizeof(t_bvh));
 	if (!bvh)
 		return (NULL);
-	bvh_init(bvh, ft_lstsize(scene->bvh_objects));
+	bvh_init(bvh, scene->bvh_objects);
 	i = 0;
-	tmp = scene->bvh_objects;
 	while (i < bvh->nb_elements)
 	{
-		bvh->objects[i] = (t_object *)tmp->content;
-		bvh_grow_to_include(bvh, bvh->objects[i]);
+		bvh_grow_to_include(bvh, bvh->objects.array[i]);
 		i++;
-		tmp = tmp->next;
 	}
 	bvh_split(bvh);
 	time_end = get_time() - time_start;

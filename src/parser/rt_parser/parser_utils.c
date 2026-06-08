@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:21:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 22:30:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,16 @@ static int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
 {
 	int		status;
-	t_list	*new_object;
 
 	status = 1;
 	if (!ctx->obj)
 		return (1);
 	if (ctx->obj->type >= OBJ_LIGHT)
 	{
-		new_object = ft_lstnew(ctx->obj);
-		if (!new_object)
-			return (0);
 		if (ctx->obj->type == OBJ_LIGHT)
-			ft_lstadd_back(&scene->lights, new_object);
+			ft_arrayadd_back(&scene->lights, ctx->obj, free_object);
 		else
-			ft_lstadd_back(&scene->objects, new_object);
+			ft_arrayadd_back(&scene->objects, ctx->obj, free_object);
 		return (1);
 	}
 	if (ctx->obj->type == OBJ_AMBIENT)

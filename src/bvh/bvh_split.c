@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 19:01:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 23:24:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include <pthread.h>
 
 static void	split_bvh_node(t_bvh *bvh)
 {
@@ -25,7 +26,7 @@ static void	split_bvh_node(t_bvh *bvh)
 	sort_bvh_objects(bvh, range);
 	while (i < bvh->nb_elements + bvh->first_index)
 	{
-		center = get_object_center(bvh->objects[i]);
+		center = get_object_center(bvh->objects.array[i]);
 		if ((center.x > range.x) || (center.y > range.y)
 			|| (center.z > range.z))
 			nb_left++;
@@ -36,19 +37,30 @@ static void	split_bvh_node(t_bvh *bvh)
 	bvh->right->nb_elements = bvh->nb_elements - nb_left;
 	i = bvh->first_index;
 	while (i < bvh->first_index + nb_left)
-		bvh_grow_to_include(bvh->left, bvh->objects[i++]);
+		bvh_grow_to_include(bvh->left, bvh->objects.array[i++]);
 	while (i < bvh->first_index + bvh->nb_elements)
-		bvh_grow_to_include(bvh->right, bvh->objects[i++]);
+		bvh_grow_to_include(bvh->right, bvh->objects.array[i++]);
+}
+
+void	*bvh_split_thread(void *data)
+{
+	static int i = 0;
+
+	i++;
+	printf("Thread %i created\n", i);
+	bvh_split((t_bvh*)data);
+	return (NULL);
 }
 
 int	bvh_split(t_bvh *bvh)
 {
-	int		status;
-	int		count;
-	t_vec3	range;
+	int			status;
+	int			count;
+	t_vec3		range;
+	pthread_t	th[2];
 
 	status = 1;
-	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 1)
+	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
 		return (1);
 	range = get_left_bounds(bvh);
 	count = count_elements_split_right(bvh, range);
@@ -57,8 +69,19 @@ int	bvh_split(t_bvh *bvh)
 	status &= create_bvh_tree_node(bvh);
 	if (status)
 		split_bvh_node(bvh);
-	status &= bvh_split(bvh->left);
-	status &= bvh_split(bvh->right);
+	if (bvh->depth < 3)
+	{
+		pthread_create(&th[0], NULL, &bvh_split_thread, (void *)bvh->left);
+		pthread_create(&th[1], NULL, &bvh_split_thread, (void *)bvh->right);
+		pthread_join(th[0], NULL);
+		pthread_join(th[1], NULL);
+	}
+	else
+	{
+		status &= bvh_split(bvh->left);
+		status &= bvh_split(bvh->right);
+	}
+	
 	if (status)
 		bvh_remove_empty_children(bvh);
 	return (status);
