@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 19:57:17 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 15:52:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 16:36:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,21 @@ void	ft_array_sort(t_array arr, int (*cmp)(void*, void*))
 		}
 		i++;
 	}
+}
+
+t_array	ft_array_map(t_array arr, void *(*f)(void *), void (*del)(void *))
+{
+	t_array	new_a;
+	size_t	i;
+
+	new_a = ft_arraynew();
+	if (!new_a.array)
+		return (new_a);
+	i = 0;
+	while (i < arr.len)
+	{
+		ft_arrayadd_back(&new_a, f(arr.array[i]), del);
+		i++;
+	}
+	return (new_a);
 }

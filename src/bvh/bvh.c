@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 15:00:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 19:30:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ void	rebuild_bvh_tree(t_bvh **bvh, t_scene *scene)
 
 t_bvh	*build_bvh_tree(t_scene *scene)
 {
+	double	time_start;
+	double	time_end;
 	t_bvh	*bvh;
 	t_list	*tmp;
 	int		i;
-
+	
+	time_start = get_time();
 	bvh = ft_calloc(1, sizeof(t_bvh));
 	if (!bvh)
 		return (NULL);
@@ -57,5 +60,7 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 		tmp = tmp->next;
 	}
 	bvh_split(bvh);
+	time_end = get_time() - time_start;
+	printf("BVH built in %fs\n", time_end);
 	return (bvh);
 }

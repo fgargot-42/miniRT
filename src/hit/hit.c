@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/06 19:21:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 18:21:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,15 +129,15 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 		rec->color = (t_vec3){(bvh->depth << 6 | 0xf | draw_bounds << 4) & 0xff,
 			((bvh->depth >> 2) << 6 | 0xf | draw_bounds << 4) & 0xff,
 			64 * draw_bounds};
-		hit[2] = 1;
+		hit[0] = 1;
 	}
 #endif
 	if (!bvh->left && !bvh->right)
-		hit[2] = hit_object_in_bvh(bvh, ray, closest, rec) || hit[2];
+		hit[0] = hit_object_in_bvh(bvh, ray, closest, rec) || hit[0];
 	if (bvh->left)
-		hit[0] = hit_bvh(bvh->left, ray, closest, rec, bvh_display_level);
+		hit[1] = hit_bvh(bvh->left, ray, closest, rec, bvh_display_level);
 	if (bvh->right)
-		hit[1] = hit_bvh(bvh->right, ray, closest, rec, bvh_display_level);
+		hit[2] = hit_bvh(bvh->right, ray, closest, rec, bvh_display_level);
 	return (hit[0] || hit[1] || hit[2]);
 }
 

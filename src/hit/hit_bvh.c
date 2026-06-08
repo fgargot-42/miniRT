@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:21:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 19:03:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 extern int g_rt_debug;
 
-static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds,
-		int const *sign)
+static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds)
 {
-	t_vec3	result;
+	t_vec3		result;
+	const int	sign[3] = {ray->inv_direction.x < 0, ray->inv_direction.y < 0,
+		ray->inv_direction.z < 0};
 
 	result.x = (bounds[sign[0]].x - ray->origin.x) * ray->inv_direction.x;
 	result.y = (bounds[sign[1]].y - ray->origin.y) * ray->inv_direction.y;
@@ -25,10 +26,11 @@ static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds,
 	return (result);
 }
 
-static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds,
-		int const *sign)
+static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds)
 {
-	t_vec3	result;
+	t_vec3		result;
+	const int	sign[3] = {ray->inv_direction.x < 0, ray->inv_direction.y < 0,
+		ray->inv_direction.z < 0};
 
 	result.x = (bounds[1 - sign[0]].x - ray->origin.x) * ray->inv_direction.x;
 	result.y = (bounds[1 - sign[1]].y - ray->origin.y) * ray->inv_direction.y;
@@ -38,14 +40,12 @@ static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds,
 
 int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
 {
-	const int		sign[3] = {ray->inv_direction.x < 0,
-		ray->inv_direction.y < 0, ray->inv_direction.z < 0};
 	t_vec3			v_min;
 	t_vec3			v_max;
 	const t_vec3	bounds[2] = {bvh->aabb_min, bvh->aabb_max};
 
-	v_min = get_min_bounds(ray, bounds, sign);
-	v_max = get_max_bounds(ray, bounds, sign);
+	v_min = get_min_bounds(ray, bounds);
+	v_max = get_max_bounds(ray, bounds);
 	if ((v_min.x > v_max.y) || (v_min.y > v_max.x))
 		return (0);
 	if (v_min.y > v_min.x)
@@ -63,7 +63,7 @@ int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
 		printf("v_min=% .2f, v_max=% .2f\n", v_min.x, v_max.x);
 		g_rt_debug--;
 	}
-	if (v_max.x > T_MIN)
+	if (v_max.x > T_MIN && v_min.x < *dist)
 	{
 		*point = ray_at(*ray, v_min.x);
 		*dist = v_min.x;

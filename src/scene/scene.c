@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/06 18:32:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 19:31:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 		print_bvh_tree(bvh->left, depth + 1);
 	if (bvh->right)
 		print_bvh_tree(bvh->right, depth + 1);
-	if (depth == 0)
+	/*if (depth == 0)
 	{
 		i = 0;
 		while (i < bvh->nb_elements)
@@ -70,7 +70,7 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 			print_object(bvh->objects[i]);
 			i++;
 		}
-	}
+	}*/
 }
 
 static int	ft_no_bvh_obj(void *e)
@@ -108,7 +108,7 @@ void	init_scene(char *file, t_data *data)
 	data->scene->bvh_objects = ft_lstfilter(data->scene->objects, is_bvh_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
 #if DEBUG
-	print_bvh_tree(data->scene->bvh, 0);
+	//print_bvh_tree(data->scene->bvh, 0);
 #endif // DEBUG
 	obj_lst = ft_lstfilter(data->scene->objects, ft_no_bvh_obj);
 	ft_lstclear(&data->scene->objects, NULL);

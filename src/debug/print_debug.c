@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/19 18:01:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/08 18:44:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static void	print_sphere(t_object *s)
 		s->position.x, s->position.y, s->position.z, s->radius);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
 		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
-	printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
-		s->color.z);
-	printf("--specular: %.2f\n", s->specular);
-	printf("--shininess: %.2f\n", s->shininess);
+	//printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
+	//	s->color.z);
+	//printf("--specular: %.2f\n", s->specular);
+	//printf("--shininess: %.2f\n", s->shininess);
 }
 
 static void	print_plane(t_object *p)
@@ -53,7 +53,7 @@ static void	print_plane(t_object *p)
 		p->position.x, p->position.y, p->position.z);
 	printf("--normal: x=%.2f y=%.2f z=%.2f\n",
 		p->direction.x, p->direction.y, p->direction.z);
-	printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ",
+	/*printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ",
 		p->color.x, p->color.y, p->color.z);
 	if (p->checker)
 		printf("true)\n");
@@ -61,6 +61,7 @@ static void	print_plane(t_object *p)
 		printf("false)\n");
 	printf("--specular: %.2f\n", p->specular);
 	printf("--shininess: %.2f\n", p->shininess);
+*/
 }
 
 void	print_object(void *o)
