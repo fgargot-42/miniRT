@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:30:56 by fgargot           #+#    #+#             */
-/*   Updated: 2025/10/22 21:30:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/06 20:53:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char const *s, int fd)
 {
 	if (s && fd >= 0)
 		write(fd, s, ft_strlen(s));

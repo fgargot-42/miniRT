@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_array_op.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 15:59:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/06 20:53:03 by fgargot          ###   ########.fr       */
+/*   Created: 2026/06/06 19:57:17 by fgargot           #+#    #+#             */
+/*   Updated: 2026/06/08 15:52:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
+#include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	ft_array_sort(t_array arr, int (*cmp)(void*, void*))
 {
 	size_t	i;
-	char	*d;
+	size_t	j;
+	void	*tmp;
 
-	d = (char *)s;
 	i = 0;
-	while (i < n)
+	while (i < arr.len - 1)
 	{
-		d[i] = '\0';
+		j = i + 1;
+		while (j < arr.len)
+		{
+			if (cmp(arr.array[i], arr.array[j]) > 0)
+			{
+				tmp = arr.array[i];
+				arr.array[i] = arr.array[j];
+				arr.array[j] = tmp;
+			}
+			j++;
+		}
 		i++;
 	}
 }

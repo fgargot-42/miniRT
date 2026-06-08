@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 14:49:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/07 00:31:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct s_array
+{
+	void	**array;
+	size_t	len;
+	size_t	size;
+}	t_array;
+
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -34,7 +41,7 @@ int		ft_iswhitespace(int c);
 int		is_numeric(char *nstr);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);
-void	*ft_bzero(void *s, size_t n);
+void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 size_t	ft_strlcat(char *dest, const char *src, size_t size);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
@@ -62,8 +69,8 @@ char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
+void	ft_putstr_fd(char const *s, int fd);
+void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
 t_list	*ft_lstnew(void *content);
@@ -84,5 +91,13 @@ int		ft_printf(const char *s, ...);
 
 // ft_math
 double	ft_pow(double nb, int pow);
+
+// ft_array
+
+t_array	ft_arraynew(void);
+void	ft_array_sort(t_array arr, int (*cmp)(void*, void*));
+void	ft_arrayclear(t_array *arr, void (*del)(void*));
+void	ft_arrayadd_back(t_array *arr, void *new, void (*del)(void *));
+ssize_t	ft_arrayget_index(t_array arr, void *elem);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 17:53:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/06 19:21:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 		int bvh_display_level)
 {
 	int				hit[3];
-	double			dist; // Used only for debugging purposes
+	double			dist;
 	t_vec3			point;
 
 	hit[0] = 0;
