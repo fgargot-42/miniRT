@@ -10,20 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "miniRT.h"
+#include <stdio.h>
 
-void	print_cylinder(t_object *c);
-void	print_cone(t_object *c);
-void	print_hyper(t_object *c);
-void	print_para(t_object *c);
-void	print_triangle(t_object *c);
+void		print_cylinder(t_object *c);
+void		print_cone(t_object *c);
+void		print_hyper(t_object *c);
+void		print_para(t_object *c);
+void		print_triangle(t_object *c);
 
 static void	print_light(t_object *s)
 {
 	printf("Object type: LIGHT\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f\n",
-		s->position.x, s->position.y, s->position.z);
+	printf("--position: x=%.2f y=%.2f z=%.2f\n", s->position.x, s->position.y,
+		s->position.z);
 	printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
 		s->color.z);
 	printf("--intensity: %.2f\n", s->props.intensity);
@@ -36,23 +36,23 @@ static void	print_sphere(t_object *s)
 
 	get_sphere_aabb(s, &b_min, &b_max);
 	printf("Object type: SPHERE\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n",
-		s->position.x, s->position.y, s->position.z, s->radius);
-	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
-	//printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
+	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n", s->position.x,
+		s->position.y, s->position.z, s->radius);
+	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n", b_min.x,
+		b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+	// printf("--color: x=%.2f y=%.2f z=%.2f\n", s->color.x, s->color.y,
 	//	s->color.z);
-	//printf("--specular: %.2f\n", s->specular);
-	//printf("--shininess: %.2f\n", s->shininess);
+	// printf("--specular: %.2f\n", s->specular);
+	// printf("--shininess: %.2f\n", s->shininess);
 }
 
 static void	print_plane(t_object *p)
 {
 	printf("Object type: PLANE\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f\n",
-		p->position.x, p->position.y, p->position.z);
-	printf("--normal: x=%.2f y=%.2f z=%.2f\n",
-		p->direction.x, p->direction.y, p->direction.z);
+	printf("--position: x=%.2f y=%.2f z=%.2f\n", p->position.x, p->position.y,
+		p->position.z);
+	printf("--normal: x=%.2f y=%.2f z=%.2f\n", p->direction.x, p->direction.y,
+		p->direction.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ",
 		p->color.x, p->color.y, p->color.z);
 	if (p->checker)
@@ -89,6 +89,6 @@ void	print_object(void *o)
 
 void	print_sky(t_object *sky)
 {
-	printf("Object type: SKY\n--color: x=%.2f y=%.2f z=%.2f\n",
-		sky->color.x, sky->color.y, sky->color.z);
+	printf("Object type: SKY\n--color: x=%.2f y=%.2f z=%.2f\n", sky->color.x,
+		sky->color.y, sky->color.z);
 }

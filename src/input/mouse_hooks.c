@@ -12,8 +12,7 @@
 
 #include "miniRT.h"
 
-int	g_rt_debug;
-
+int			g_rt_debug;
 
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 {
@@ -50,12 +49,12 @@ void	mouse_down_hook(int mouse_event, void *param)
 		}
 		print_hit_info(data, hc, mouse_x, mouse_y);
 #if DEBUG
-		//g_rt_debug = BVH_DEPTH;
-		//print_bvh_tree(data->scene->bvh, 0);
-		//if (hc.object)
+		// g_rt_debug = BVH_DEPTH;
+		// print_bvh_tree(data->scene->bvh, 0);
+		// if (hc.object)
 		//	print_object((void *)(hc.object));
 		print_hit_info_debug(hc, data->scene, &ray, (t_vec2){mouse_x, mouse_y});
-#endif// DEBUG
+#endif // DEBUG
 		draw(data);
 	}
 	mouse_enable_move_mode(data, mouse_event);

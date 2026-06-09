@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "miniRT.h"
 #include <mlx.h>
 #include <stdlib.h>
-#include "miniRT.h"
 
 void	clear_image(t_data *fdf)
 {
@@ -54,7 +54,8 @@ void	init(char *rt_file, t_data *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
-	mlx_set_image_pixel(data->mlx, data->img, 0, 0, vec3_to_color((t_vec3){0, 0, 0}));
+	mlx_set_image_pixel(data->mlx, data->img, 0, 0, vec3_to_color((t_vec3){0, 0,
+			0}));
 }
 
 static void	destroy_all(t_data *data)
@@ -85,9 +86,9 @@ int	main(int argc, char **argv)
 	}
 	init(argv[1], &data);
 #if DEBUG
-	//ft_lstiter(data.scene->objects, print_object);
-	//ft_lstiter(data.scene->lights, print_object);
-	//print_sky(data.scene->sky);
+	// ft_lstiter(data.scene->objects, print_object);
+	// ft_lstiter(data.scene->lights, print_object);
+	// print_sky(data.scene->sky);
 #endif
 	draw(&data);
 	attach_hooks(&data);

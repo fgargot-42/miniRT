@@ -37,18 +37,16 @@ void	draw_hline(t_data *data, void *win, int y)
 		mlx_pixel_put(data->mlx, win, x++, y, (mlx_color){.rgba = COL_SEP});
 }
 
-
 void	put_row(t_data *data, void *win, t_row_info info, const char *fmt, ...)
 {
-	char	buf[128];
-	va_list	args;
-	int *y;
-	const char *label = info.label;
-	mlx_color val_col;
+	char		buf[128];
+	va_list		args;
+	int			*y;
+	const char	*label = info.label;
+	mlx_color	val_col;
 
 	y = info.y;
 	val_col = info.val_col;
-
 	va_start(args, fmt);
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
