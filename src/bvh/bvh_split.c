@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 23:24:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/09 16:50:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	bvh_split(t_bvh *bvh)
 	status &= create_bvh_tree_node(bvh);
 	if (status)
 		split_bvh_node(bvh);
-	if (bvh->depth < 3)
+	if (bvh->depth < 3 && bvh->nb_elements >= 16)
 	{
 		pthread_create(&th[0], NULL, &bvh_split_thread, (void *)bvh->left);
 		pthread_create(&th[1], NULL, &bvh_split_thread, (void *)bvh->right);

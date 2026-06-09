@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 20:48:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 00:00:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ double	ft_pow(double nb, int pow);
 // ft_array
 
 t_array	ft_arraynew(void);
-void	ft_array_sort(t_array arr, int (*cmp)(void*, void*));
+void	ft_array_sort(t_array arr, int (*cmp)(void*, void*),
+			void (*del)(void*));
 void	ft_arrayclear(t_array *arr, void (*del)(void*));
 void	ft_arrayadd_back(t_array *arr, void *new, void (*del)(void *));
 ssize_t	ft_arrayget_index(t_array arr, void *elem);

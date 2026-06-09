@@ -6,12 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:28:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/09 19:27:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
+
+void array_merge_sort(t_array obj, int start, int count, char axis);
 
 void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 {
@@ -63,29 +65,5 @@ int	is_bvh_object(void *e)
 
 void	sort_bvh_objects_asc(t_array array, int min, int count, char axis)
 {
-	int			i;
-	int			j;
-	t_object	*swp;
-	t_vec3		center[2];
-
-	i = min;
-	while (i < min + count - 1)
-	{
-		j = i + 1;
-		while (j < min + count)
-		{
-			center[0] = get_object_center(array.array[i]);
-			center[1] = get_object_center(array.array[j]);
-			if ((axis == 'x' && center[0].x > center[1].x)
-				|| (axis == 'y' && center[0].y > center[1].y)
-				|| (axis == 'z' && center[0].z > center[1].z))
-			{
-				swp = array.array[j];
-				array.array[j] = array.array[i];
-				array.array[i] = swp;
-			}
-			j++;
-		}
-		i++;
-	}
+	array_merge_sort(array, min, count, axis);
 }

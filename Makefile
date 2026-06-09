@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/08 23:20:44 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/09 23:34:30 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC =	main.c \
 		bvh/bvh_split.c \
 		bvh/bvh_split2.c \
 		bvh/bvh_size.c \
+		bvh/bvh_sort.c \
 		bvh/bvh_utils.c \
 		debug/print_debug.c \
 		debug/print_debug2.c \
