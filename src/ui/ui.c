@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 00:40:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/09 18:20:54 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,14 @@ void	init_editor(t_data *data)
 	if (!data->editor)
 		exit(1);
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN,
-		editor_mouse_down, data);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP,
-		editor_mouse_up, data);
+	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN, editor_mouse_down,
+		data);
+	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP, editor_mouse_up, data);
 }
 
-static const char	*g_obj_names[] = {
-	"AMBIENT",
-	"CAMERA",
-	"SKY",
-	"LIGHT",
-	"PLANE",
-	"SPHERE",
-	"CYLINDER",
-	"CONE",
-	"HYPERBOLOID",
-	"PARABOLOID",
-	"TRIANGLE"
-};
+static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
+	"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
+	"TRIANGLE"};
 
 static const char	*obj_type_name(int type)
 {
@@ -90,8 +79,8 @@ static void	draw_slider(t_data *data, t_slider *s)
 	char		buf[32];
 	mlx_color	dim;
 
-	dim = (mlx_color){.r = s->col.r / 5, .g = s->col.g / 5,
-		.b = s->col.b / 5, .a = 255};
+	dim = (mlx_color){.r = s->col.r / 5, .g = s->col.g / 5, .b = s->col.b / 5,
+		.a = 255};
 	if (!s->value || s->max == s->min)
 		return ;
 	t = (*s->value - s->min) / (s->max - s->min);
@@ -128,7 +117,7 @@ void	draw_editor(t_data *data)
 	y = SLD_BASE_Y - 44;
 	put_section(data, data->editor, &y, "TRANSFORM -");
 	i = 0;
-	while (i < 3)               // sliders 0–2: position
+	while (i < 3)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -138,7 +127,7 @@ void	draw_editor(t_data *data)
 	y += 12;
 	put_section(data, data->editor, &y, "ROTATION -");
 	i = 3;
-	while (i < 6)               // sliders 3–5: rotation
+	while (i < 6)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -148,7 +137,7 @@ void	draw_editor(t_data *data)
 	y += 12;
 	put_section(data, data->editor, &y, "COLOR -----");
 	i = 6;
-	while (i < 9)               // sliders 6–8: color
+	while (i < 9)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -158,7 +147,7 @@ void	draw_editor(t_data *data)
 	y += 12;
 	put_section(data, data->editor, &y, "MATERIAL -----");
 	i = 9;
-	while (i < 11)              // sliders 9–10: material
+	while (i < 11)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -168,7 +157,7 @@ void	draw_editor(t_data *data)
 	y += 12;
 	put_section(data, data->editor, &y, "PROPERTIES -----");
 	i = 11;
-	while (i < 13)              // sliders 11–12: properties
+	while (i < 13)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
@@ -178,7 +167,7 @@ void	draw_editor(t_data *data)
 	y += 12;
 	put_section(data, data->editor, &y, "AMBIENT -----");
 	i = 13;
-	while (i < 17)              // sliders 13–16: ambient rgb + intensity
+	while (i < 17)
 	{
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
