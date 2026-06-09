@@ -13,13 +13,12 @@
 #include "miniRT.h"
 #include <math.h>
 
-static int	in_shadow(t_hit_record tmp, t_scene *scene,
-	t_object *light)
+static int	in_shadow(t_hit_record tmp, t_scene *scene, t_object *light)
 {
-	t_ray			shadow_ray;
-	t_vec3			to_light;
-	double			light_dist;
-	bool			is_hit;
+	t_ray	shadow_ray;
+	t_vec3	to_light;
+	double	light_dist;
+	bool	is_hit;
 
 	to_light = vec3_sub(light->position, tmp.point);
 	if (vec3_dot(to_light, tmp.normal) < 0)
@@ -94,8 +93,10 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 		if (!in_shadow(tmp, scene, scene->lights.array[i]))
 		{
 			is_shadow = 0;
-			result = vec3_add(result, apply_diffuse(&tmp, scene->lights.array[i]));
-			result = vec3_add(result, apply_specular(&tmp, scene->lights.array[i], ray));
+			result = vec3_add(result, apply_diffuse(&tmp,
+						scene->lights.array[i]));
+			result = vec3_add(result, apply_specular(&tmp,
+						scene->lights.array[i], ray));
 		}
 		i++;
 	}

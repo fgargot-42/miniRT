@@ -6,16 +6,16 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 20:26:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/09 19:10:10 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
 #include "libft.h"
+#include "miniRT.h"
 #include "veclib.h"
 
-static mlx_color	apply_selection_rim(t_vec3 shaded,
-						t_hit_record *hc, t_ray *ray)
+static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
+		t_ray *ray)
 {
 	static const t_vec3	rim_color = {80.0, 220.0, 255.0};
 	t_vec3				view_dir;
@@ -44,16 +44,19 @@ static t_vec3	draw_skybox(t_data *data, t_ray r)
 }
 
 static mlx_color	get_pixel_color(int x, int y, t_data *data,
-	int render_scale)
+		int render_scale)
 {
 	mlx_color		color;
 	t_ray			r;
 	t_hit_record	hc;
 	t_vec3			shaded;
+	t_vec2			uv;
+	t_vec3			uvcol;
+	t_vec3			base;
 
 	ft_bzero(&hc, sizeof(t_hit_record));
-	r = camera_ray(data->scene->cam, x + render_scale / 2,
-			y + render_scale / 2);
+	r = camera_ray(data->scene->cam, x + render_scale / 2, y + render_scale
+			/ 2);
 	color = vec3_to_color(data->scene->sky->color);
 	if (data->scene->skybox)
 		color = vec3_to_color(draw_skybox(data, r));
@@ -66,16 +69,17 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			// texture mapping
 			//
 			//
-			t_vec2 uv = get_uv(hc.normal);
+			uv = get_uv(hc.normal);
 			uv.x = uv.x - floor(uv.x);
 			uv.y = uv.y - floor(uv.y);
-			t_vec3 uvcol = uv_to_color(hc.object->tex, uv);
-			t_vec3 base = shade(&hc, data->scene, &r);
+			uvcol = uv_to_color(hc.object->tex, uv);
+			base = shade(&hc, data->scene, &r);
 			shaded = vec3_multiply(base, vec3_scale(uvcol, 1.0 / 255.0));
 		}
-		else if (hc.object->type == OBJ_TRIANGLE && hc.object->material->color_tex)
+		else if (hc.object->type == OBJ_TRIANGLE
+			&& hc.object->material->color_tex)
 		{
-			t_vec3 uvcol = triangle_uv_to_color(hc.object, hc.point);
+			uvcol = triangle_uv_to_color(hc.object, hc.point);
 			hc.color = uvcol;
 			shaded = shade(&hc, data->scene, &r);
 		}
@@ -91,9 +95,9 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 
 void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
 {
-	mlx_color		color;
-	int				i;
-	int				j;
+	mlx_color	color;
+	int			i;
+	int			j;
 
 	color = get_pixel_color(x, y, data, render_scale);
 	i = 0;

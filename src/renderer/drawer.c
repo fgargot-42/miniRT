@@ -10,17 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
 #include "libft.h"
+#include "miniRT.h"
 #include <pthread.h>
 
-
-void	rt_draw_pixel(int x, int y, t_data *data, int render_scale);
+void		rt_draw_pixel(int x, int y, t_data *data, int render_scale);
 
 static void	*draw_thread(void *data)
 {
-	int		x;
-	int		y;
+	int	x;
+	int	y;
 
 	y = ((t_data *)data)->th_nb;
 	while (y < HEIGHT)
@@ -87,8 +86,8 @@ static void	draw_threads_create(t_data *data)
 void	draw(t_data *data)
 {
 	static int	frame_count = 0;
-	double time_start;
-	double time_render;
+	double		time_start;
+	double		time_render;
 
 	time_start = get_time();
 	if (NB_THREADS >= 2)
