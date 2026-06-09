@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 21:52:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 22:03:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/09 19:03:34 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	free_array(void **array)
 	i = 0;
 	if (!array)
 		return ;
-	while(array[i])
+	while (array[i])
 	{
 		free(array[i]);
 		i++;

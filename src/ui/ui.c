@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/09 18:20:54 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/09 19:01:33 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	init_editor(t_data *data)
 }
 
 static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
-	"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
-	"TRIANGLE"};
+		"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
+		"TRIANGLE"};
 
 static const char	*obj_type_name(int type)
 {
@@ -202,20 +202,25 @@ void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
 		(mlx_color){.rgba = COL_WHITE}, "miniRT INSPECTOR |      ;)");
 	y = PANEL_Y + TITLE_H + 8;
 	put_section(data, data->editor, &y, "OBJECT ----");
-	put_row(data, data->editor, &y, "addr", (mlx_color){.rgba = COL_ADDR}, "%p",
-		hit.object);
-	put_row(data, data->editor, &y, "type", (mlx_color){.rgba = COL_TYPE}, "%s",
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "addr",
+		.val_col = (mlx_color){.rgba = COL_ADDR}}, "%p", hit.object);
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "type",
+		.val_col = (mlx_color){.rgba = COL_TYPE}}, "%s",
 		obj_type_name(hit.object->type));
 	put_section(data, data->editor, &y, "HIT ------");
-	put_row(data, data->editor, &y, "point", (mlx_color){.rgba = COL_VALUE},
-		"%.3f  %.3f  %.3f", hit.point.x, hit.point.y, hit.point.z);
-	put_row(data, data->editor, &y, "mouse", (mlx_color){.rgba = COL_VALUE},
-		"u=%.1f  v=%.1f", mouse_x, mouse_y);
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "point",
+		.val_col = (mlx_color){.rgba = COL_VALUE}}, "%.3f  %.3f  %.3f",
+		hit.point.x, hit.point.y, hit.point.z);
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "mouse",
+		.val_col = (mlx_color){.rgba = COL_VALUE}}, "u=%.1f  v=%.1f", mouse_x,
+		mouse_y);
 	put_section(data, data->editor, &y, "SURFACE --");
-	put_row(data, data->editor, &y, "normal", (mlx_color){.rgba = COL_VALUE},
-		"%.3f  %.3f  %.3f", hit.normal.x, hit.normal.y, hit.normal.z);
-	put_row(data, data->editor, &y, "color", (mlx_color){.rgba = COL_VALUE},
-		"%.3f  %.3f  %.3f", hit.color.x, hit.color.y, hit.color.z);
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "normal",
+		.val_col = (mlx_color){.rgba = COL_VALUE}}, "%.3f  %.3f  %.3f",
+		hit.normal.x, hit.normal.y, hit.normal.z);
+	put_row(data, data->editor, (t_row_info){.y = &y, .label = "color",
+		.val_col = (mlx_color){.rgba = COL_VALUE}}, "%.3f  %.3f  %.3f",
+		hit.color.x, hit.color.y, hit.color.z);
 	setup_sliders(data);
 	draw_editor(data);
 }
