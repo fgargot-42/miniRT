@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 18:56:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/09 23:44:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 21:42:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static void	merge(t_array a, t_array b, int *range, char axis)
 	int		j;
 	int		k;
 
-    middle = (range[0] + range[1]) / 2;
+	middle = (range[0] + range[1]) / 2;
 	i = range[0];
 	j = middle;
 	k = i;
-    while (k < range[1])
+	while (k < range[1])
 	{
 		if (i < middle && (j >= range[1] || cmp_center(b, i, j, axis)))
 		{
@@ -50,28 +50,31 @@ static void	merge(t_array a, t_array b, int *range, char axis)
 		a.array[k] = b.array[j];
 		j++;
 		k++;
-    }
+	}
 }
 
-static void split_merge(t_array a, int begin, int end, t_array b, char axis)
+static void	split_merge(t_array a, int *range, t_array b, char axis)
 {
 	int	middle;
-	int	range[2];
+	int	srange[2];
 
-    if (end - begin <= 1) 
-        return;
-    middle = (begin + end) / 2;
-    split_merge(b, begin, middle, a, axis);
-    split_merge(b, middle, end, a, axis);
-	range[0] = begin;
-	range[1] = end;
+	if (range[1] - range[0] <= 1)
+		return ;
+	middle = (range[0] + range[1]) / 2;
+	srange[0] = range[0];
+	srange[1] = middle;
+	split_merge(b, srange, a, axis);
+	srange[0] = middle;
+	srange[1] = range[1];
+	split_merge(b, srange, a, axis);
 	merge(a, b, range, axis);
 }
 
-void array_merge_sort(t_array obj, int start, int count, char axis)
+void	array_merge_sort(t_array obj, int start, int count, char axis)
 {
 	int		i;
 	t_array	b;
+	int		range[2];
 
 	i = 0;
 	b = ft_arraynew();
@@ -80,6 +83,8 @@ void array_merge_sort(t_array obj, int start, int count, char axis)
 		ft_arrayadd_back(&b, obj.array[i], free_object);
 		i++;
 	}
-    split_merge(obj, start, start + count, b, axis);
+	range[0] = start;
+	range[1] = start + count;
+	split_merge(obj, range, b, axis);
 	free(b.array);
 }

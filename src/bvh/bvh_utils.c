@@ -6,21 +6,17 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/09 19:27:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 21:47:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 
-void array_merge_sort(t_array obj, int start, int count, char axis);
+void	array_merge_sort(t_array obj, int start, int count, char axis);
 
 void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 {
-	double	time_start;
-	double	time_end;
-
-	time_start = get_time();
 	if (bvh->left && bvh->right && left_bound.x < bvh->aabb_max.x)
 		sort_bvh_objects_asc(bvh->objects, bvh->first_index,
 			bvh->nb_elements, 'x');
@@ -30,8 +26,6 @@ void	sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound)
 	if (bvh->left && bvh->right && left_bound.z < bvh->aabb_max.z)
 		sort_bvh_objects_asc(bvh->objects, bvh->first_index,
 			bvh->nb_elements, 'z');
-	time_end = get_time() - time_start;
-	printf("Sorted %i elements in %fs\n", bvh->nb_elements, time_end);
 }
 
 t_vec3	get_object_center(t_object *obj)

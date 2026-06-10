@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/09 16:50:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 21:37:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,16 @@ static void	split_bvh_node(t_bvh *bvh)
 
 void	*bvh_split_thread(void *data)
 {
-	static int i = 0;
-
-	i++;
-	printf("Thread %i created\n", i);
-	bvh_split((t_bvh*)data);
+	bvh_split((t_bvh *)data);
 	return (NULL);
 }
 
-int	bvh_split(t_bvh *bvh)
+int	bvh_split_down(t_bvh *bvh)
 {
-	int			status;
-	int			count;
-	t_vec3		range;
 	pthread_t	th[2];
+	int			status;
 
 	status = 1;
-	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
-		return (1);
-	range = get_left_bounds(bvh);
-	count = count_elements_split_right(bvh, range);
-	if (count == 0 || count == bvh->nb_elements)
-		return (status);
-	status &= create_bvh_tree_node(bvh);
-	if (status)
-		split_bvh_node(bvh);
 	if (bvh->depth < 3 && bvh->nb_elements >= 16)
 	{
 		pthread_create(&th[0], NULL, &bvh_split_thread, (void *)bvh->left);
@@ -81,7 +66,26 @@ int	bvh_split(t_bvh *bvh)
 		status &= bvh_split(bvh->left);
 		status &= bvh_split(bvh->right);
 	}
-	
+	return (status);
+}
+
+int	bvh_split(t_bvh *bvh)
+{
+	int			status;
+	int			count;
+	t_vec3		range;
+
+	status = 1;
+	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
+		return (1);
+	range = get_left_bounds(bvh);
+	count = count_elements_split_right(bvh, range);
+	if (count == 0 || count == bvh->nb_elements)
+		return (status);
+	status &= create_bvh_tree_node(bvh);
+	if (status)
+		split_bvh_node(bvh);
+	status = bvh_split_down(bvh);
 	if (status)
 		bvh_remove_empty_children(bvh);
 	return (status);

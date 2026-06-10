@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 23:05:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 21:30:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ int	hit_list(t_array obj, t_ray *ray, double *closest,
 		hit_current = 0;
 		hit_func = get_hit_fn(((t_object *)obj.array[i])->type);
 		if (((t_object *)obj.array[i])->type == OBJ_PLANE && hit_func)
-			hit_current = hit_func->hit_fn((t_object *)obj.array[i], ray, *closest, &temp);
+			hit_current = hit_func->hit_fn((t_object *)obj.array[i],
+					ray, *closest, &temp);
 		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 		{
 			hit = 1;
@@ -78,8 +79,8 @@ static int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 		hit_current = 0;
 		hit_func = get_hit_fn(((t_object *)bvh->objects.array[i])->type);
 		if (hit_func)
-			hit_current = hit_func->hit_fn((t_object *)bvh->objects.array[i], ray,
-					*closest, &temp);
+			hit_current = hit_func->hit_fn((t_object *)bvh->objects.array[i],
+					ray, *closest, &temp);
 		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
 		{
 			hit = 1;

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:26:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 21:43:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 	double	time_end;
 	t_bvh	*bvh;
 	int		i;
-	
+
 	time_start = get_time();
 	bvh = ft_calloc(1, sizeof(t_bvh));
 	if (!bvh)
