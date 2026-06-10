@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 23:14:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/10 20:38:58 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	init_scene(char *file, t_data *data)
 
 	ft_bzero(data->scene, sizeof(t_scene));
 	data->scene->objects = ft_arraynew();
-	data->scene->bvh_objects = ft_arraynew();
+//	data->scene->bvh_objects = ft_arraynew();
 	data->scene->lights = ft_arraynew();
 	data->scene->mat = ft_arraynew();
 	parse_status = parse_scene(file, data);
