@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:51:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:03:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
 	double				z_cap;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
+	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	z_cap = 2 * (int)(ctx.render_hit.z > 0) - 1;
 	if (fabs(fabs(ctx.render_hit.z) - obj->props.height / 2.0) < 1e-3)
-		rec->normal = vec3_normalize((t_vec3){0, 0, z_cap});
+		rec->normal = vec3_normalize((t_vec3){{0, 0, z_cap}});
 	else
 		rec->normal = vec3_normalize(vec3_multiply(ctx.render_hit, z_scale));
 	if (fabs(obj->direction.z - 1) > 1e-3)
@@ -41,7 +41,7 @@ static int	get_intersection(double radius, double height, t_hit_ctx *ctx)
 {
 	double				roots[2];
 	int					nb_roots;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
+	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	nb_roots = get_polynom2_roots(roots,
 			vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->rd),
@@ -68,7 +68,7 @@ static int	hit_cylinder_cap(double radius, double height, t_hit_ctx *ctx)
 {
 	double				v_len;
 	t_vec3				v_hit_cap;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
+	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	v_len = height / 2.0;
 	if (ctx->oc.z < 0)

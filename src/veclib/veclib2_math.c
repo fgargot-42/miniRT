@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 19:48:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/04/22 19:07:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:08:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 t_vec2	vec2_add(t_vec2 a, t_vec2 b)
 {
-	return ((t_vec2){a.x + b.x, a.y + b.y});
+	return ((t_vec2){{a.x + b.x, a.y + b.y}});
 }
 
 t_vec2	vec2_sub(t_vec2 a, t_vec2 b)
 {
-	return ((t_vec2){a.x - b.x, a.y - b.y});
+	return ((t_vec2){{a.x - b.x, a.y - b.y}});
 }
 
 t_vec2	vec2_scale(t_vec2 v, double k)
 {
-	return ((t_vec2){v.x * k, v.y * k});
+	return ((t_vec2){{v.x * k, v.y * k}});
 }
 
 double	vec2_dot(t_vec2 a, t_vec2 b)

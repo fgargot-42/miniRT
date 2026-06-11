@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 21:23:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:05:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, obj->props.tan_angle,
 			obj->radius);
-	normal = (t_vec3){0, 0, z_cap};
+	normal = (t_vec3){{0, 0, z_cap}};
 	if (ctx.render_hit.z < obj->props.height - 1e-6
 		&& ctx.render_hit.z > -obj->props.depth + 1e-6)
 	{
@@ -62,8 +62,8 @@ static int	get_intersection(t_obj_prop props, double radius, t_hit_ctx *ctx)
 	int		nb_roots;
 	t_vec3	z_scale;
 
-	z_scale = (t_vec3){1 / pow(radius, 2), 1 / pow(radius, 2),
-		-pow(props.tan_angle, 2)};
+	z_scale = (t_vec3){{1 / pow(radius, 2), 1 / pow(radius, 2),
+		-pow(props.tan_angle, 2)}};
 	nb_roots = get_polynom2_roots(roots_tmp,
 			vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->rd),
 			2.0 * vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->oc),

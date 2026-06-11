@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 21:22:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:06:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	double			z_ratio;
 
 	z_ratio = get_paraboloid_z_radius(ctx.render_hit, obj->props.tan_angle);
-	normal = (t_vec3){0, 0, 1};
+	normal = (t_vec3){{0, 0, 1}};
 	if (ctx.render_hit.z < obj->props.height - 1e-3)
 	{
 		normal = ctx.render_hit;
@@ -52,7 +52,7 @@ static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)
 {
 	double				roots_tmp[2];
 	int					nb_roots;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
+	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 	t_vec3				oc_no_z;
 	t_vec3				rd_no_z;
 

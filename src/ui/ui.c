@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/15 19:28:39 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/19 01:26:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ static void	draw_slider(t_data *data, t_slider *s)
 	thumb_x = SLD_X + filled_w;
 	dim = (mlx_color){.r = s->col.r / 5, .g = s->col.g / 5, .b = s->col.b / 5,
 		.a = 255};
-	fill_rect(data, (t_vec2){SLD_X, s->y - 1}, (t_vec2){SLD_W, SLD_H + 2}, dim);
+	fill_rect(data, (t_vec2){{SLD_X, s->y - 1}}, (t_vec2){{SLD_W, SLD_H + 2}}, dim);
 	if (filled_w > 0)
-		fill_rect(data, (t_vec2){SLD_X, s->y - 1}, (t_vec2){filled_w, SLD_H
-			+ 2}, s->col);
-	fill_rect(data, (t_vec2){thumb_x - 3, s->y - 4}, (t_vec2){6, SLD_H + 8},
+		fill_rect(data, (t_vec2){{SLD_X, s->y - 1}}, (t_vec2){{filled_w, SLD_H
+			+ 2}}, s->col);
+	fill_rect(data, (t_vec2){{thumb_x - 3, s->y - 4}}, (t_vec2){{6, SLD_H + 8}},
 		(mlx_color){.rgba = COL_WHITE});
 	mlx_string_put(data->mlx, data->editor, PANEL_PAD, s->y,
 		(mlx_color){.rgba = COL_LABEL}, (char *)s->label);
@@ -112,8 +112,8 @@ void	draw_editor(t_data *data)
 
 	if (!data->editor || data->nb_sliders == 0)
 		return ;
-	fill_rect(data, (t_vec2){0, SLD_BASE_Y - 44}, (t_vec2){EDITOR_W, EDITOR_H
-		- (SLD_BASE_Y - 44)}, (mlx_color){.rgba = COL_BG});
+	fill_rect(data, (t_vec2){{0, SLD_BASE_Y - 44}}, (t_vec2){{EDITOR_W, EDITOR_H
+		- (SLD_BASE_Y - 44)}}, (mlx_color){.rgba = COL_BG});
 	y = SLD_BASE_Y - 44;
 	put_section(data, data->editor, &y, "TRANSFORM -");
 	i = 0;
@@ -194,11 +194,9 @@ void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
-	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y},
-		(t_vec2){PANEL_W, panel_h},
+	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, panel_h}},
 		(mlx_color){.rgba = COL_BG});
-	fill_rect(data, (t_vec2){PANEL_X, PANEL_Y},
-		(t_vec2){PANEL_W, TITLE_H},
+	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, TITLE_H}},
 		(mlx_color){.rgba = COL_TITLEBAR});
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
 	mlx_string_put(data->mlx, data->editor,

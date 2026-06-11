@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/09 19:10:10 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/11 20:01:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 		t_ray *ray)
 {
-	static const t_vec3	rim_color = {80.0, 220.0, 255.0};
+	static const t_vec3	rim_color = {{80.0, 220.0, 255.0}};
 	t_vec3				view_dir;
 	double				rim;
 	t_vec3				result;

@@ -5,8 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2026/06/15 19:29:40 by mabarrer          #+#    #+#             */
 /*   Updated: 2026/06/15 19:29:58 by mabarrer         ###   ########.fr       */
+=======
+/*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
+/*   Updated: 2026/06/11 20:02:41 by fgargot          ###   ########.fr       */
+>>>>>>> 246dc3e (Added: BVH building with SAH + changed t_vec structs to union to access them as arrays)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +30,7 @@ static void	set_default_sky(t_scene *scene, mlx_context mlx)
 		free_scene(scene, mlx);
 		exit(1);
 	}
-	default_sky->color = (t_vec3){0, 0, 0};
+	default_sky->color = (t_vec3){{0, 0, 0}};
 	if (!scene->sky)
 		scene->sky = default_sky;
 	else
@@ -51,8 +56,8 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 		printf("    ");
 	printf("└───");
 	printf("Box at: [% .3f % .3f % .3f ], [% .3f % .3f % .3f ]\n",
-		bvh->aabb_min.x, bvh->aabb_min.y, bvh->aabb_min.z,
-		bvh->aabb_max.x, bvh->aabb_max.y, bvh->aabb_max.z);
+		bvh->aabb.min.x, bvh->aabb.min.y, bvh->aabb.min.z,
+		bvh->aabb.max.x, bvh->aabb.max.y, bvh->aabb.max.z);
 	i = depth + 1;
 	while (i--)
 		printf("    ");

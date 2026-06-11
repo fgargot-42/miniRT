@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:12:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:00:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_object	*parse_sphere(char **line_split, t_parser_ctx *ctx, void *mlx)
 		return (NULL);
 	}
 	obj->radius /= 2;
-	obj->direction = (t_vec3){0, 0, 1};
+	obj->direction = (t_vec3){{0, 0, 1}};
 	obj->type = OBJ_SPHERE;
 	return (obj);
 }

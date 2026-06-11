@@ -58,7 +58,7 @@ void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
 void				bvh_remove_empty_children(t_bvh *bvh);
 
 t_vec3				get_range_from_object_centers(t_bvh *bvh);
-int					count_elements_split_right(t_bvh *bvh, t_vec3 split);
+void				count_elements_split_right(t_bvh *bvh, t_sah *sah);
 void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
 void				bvh_grow_all_to_include(t_bvh *root, t_object *object);
 int					is_bvh_object(void *e);
@@ -67,9 +67,10 @@ void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 t_vec3				get_left_bounds(t_bvh *bvh);
 t_vec3				get_object_center(t_object *obj);
-void				sort_bvh_objects(t_bvh *bvh, t_vec3 left_bound);
+void				sort_bvh_objects(t_bvh *bvh, int axis);
 void				sort_bvh_objects_asc(t_array array, int min, int max,
 						char axis);
+t_sah				get_sah_split(t_bvh *node);
 
 // OBJECTS
 

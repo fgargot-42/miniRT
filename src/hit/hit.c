@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/10 21:30:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:07:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ static int	draw_box_bounds(t_bvh *bvh, t_vec3 point, double dist)
 	t_vec3				dist_to_max;
 	int					i;
 
-	dist_to_min = vec3_sub(point, bvh->aabb_min);
-	dist_to_max = vec3_sub(point, bvh->aabb_max);
+	dist_to_min = vec3_sub(point, bvh->aabb.min);
+	dist_to_max = vec3_sub(point, bvh->aabb.max);
 	i = (fabs(dist_to_min.x) < epsilon * dist) ^ (fabs(dist_to_max.x) < epsilon * dist);
 	i += (fabs(dist_to_min.y) < epsilon * dist) ^ (fabs(dist_to_max.y) < epsilon * dist);
 	i += (fabs(dist_to_min.z) < epsilon * dist) ^ (fabs(dist_to_max.z) < epsilon * dist);
@@ -122,16 +122,16 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 	hit[1] = 0;
 	hit[2] = 0;
 	dist = *closest;
-	point = (t_vec3){0, 0, 0};
+	point = (t_vec3){{0, 0, 0}};
 	if (!hit_bvh_box(bvh, ray, &dist, &point))
 		return (0);
 #if BVH_VIEW
 	int	draw_bounds = draw_box_bounds(bvh, point, dist);
 	if (bvh->depth == bvh_display_level && draw_bounds)
 	{
-		rec->color = (t_vec3){(bvh->depth << 6 | 0xf | draw_bounds << 4) & 0xff,
+		rec->color = (t_vec3){{(bvh->depth << 6 | 0xf | draw_bounds << 4) & 0xff,
 			((bvh->depth >> 2) << 6 | 0xf | draw_bounds << 4) & 0xff,
-			64 * draw_bounds};
+			64 * draw_bounds}};
 		hit[0] = 1;
 	}
 #endif
@@ -152,8 +152,8 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec, int b
 	hit[0] = 0;
 	hit[1] = 0;
 	closest = t_max;
-	ray->inv_direction = (t_vec3){1 / ray->direction.x, 1 / ray->direction.y,
-		1 / ray->direction.z};
+	ray->inv_direction = (t_vec3){{1 / ray->direction.x, 1 / ray->direction.y,
+		1 / ray->direction.z}};
 	hit[0] = hit_list(scene->objects, ray, &closest, rec);
 	hit[1] = hit_bvh(scene->bvh, ray, &closest, rec, bvh_display_level);
 	return (hit[0] || hit[1]);

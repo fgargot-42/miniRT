@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/05 16:30:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 19:46:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	init(char *rt_file, t_data *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	if (!data->img)
 		exit(1);
-	mlx_set_image_pixel(data->mlx, data->img, 0, 0, vec3_to_color((t_vec3){0, 0,
-			0}));
+	mlx_set_image_pixel(data->mlx, data->img, 0, 0, vec3_to_color((t_vec3){{.x=0, .y=0,
+			.z=0}}));
 }
 
 static void	destroy_all(t_data *data)

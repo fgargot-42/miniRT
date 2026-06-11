@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:58:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 22:24:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:06:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static void	apply_checker(t_hit_record *rec)
 	x = (int)floor(rec->point.x);
 	z = (int)floor(rec->point.z);
 	if ((x + z) % 2 == 0)
-		rec->color = (t_vec3){255, 255, 255};
+		rec->color = (t_vec3){{255, 255, 255}};
 	else
-		rec->color = (t_vec3){30, 30, 30};
+		rec->color = (t_vec3){{30, 30, 30}};
 }
 
 static int	intersect_triangle_area(t_object *obj, t_vec3 point)

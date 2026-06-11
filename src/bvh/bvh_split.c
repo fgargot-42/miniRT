@@ -6,37 +6,24 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/10 21:37:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:52:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <pthread.h>
 
-static void	split_bvh_node(t_bvh *bvh)
+static void	split_bvh_node(t_bvh *bvh, t_sah sah)
 {
 	int		i;
-	int		nb_left;
-	t_vec3	center;
-	t_vec3	range;
 
 	i = bvh->first_index;
-	nb_left = 0;
-	range = vec3_add(get_left_bounds(bvh), bvh->aabb_min);
-	sort_bvh_objects(bvh, range);
-	while (i < bvh->nb_elements + bvh->first_index)
-	{
-		center = get_object_center(bvh->objects.array[i]);
-		if ((center.x > range.x) || (center.y > range.y)
-			|| (center.z > range.z))
-			nb_left++;
-		i++;
-	}
-	bvh->left->nb_elements = nb_left;
-	bvh->right->first_index = bvh->first_index + nb_left;
-	bvh->right->nb_elements = bvh->nb_elements - nb_left;
+	sort_bvh_objects(bvh, sah.axis);
+	bvh->left->nb_elements = sah.count_l;
+	bvh->right->first_index = bvh->first_index + sah.count_l;
+	bvh->right->nb_elements = sah.count_r;
 	i = bvh->first_index;
-	while (i < bvh->first_index + nb_left)
+	while (i < bvh->first_index + sah.count_l)
 		bvh_grow_to_include(bvh->left, bvh->objects.array[i++]);
 	while (i < bvh->first_index + bvh->nb_elements)
 		bvh_grow_to_include(bvh->right, bvh->objects.array[i++]);
@@ -73,18 +60,20 @@ int	bvh_split(t_bvh *bvh)
 {
 	int			status;
 	int			count;
-	t_vec3		range;
+	t_sah		sah;
 
 	status = 1;
+	count = 0;
 	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
 		return (1);
-	range = get_left_bounds(bvh);
-	count = count_elements_split_right(bvh, range);
-	if (count == 0 || count == bvh->nb_elements)
+	sah = get_sah_split(bvh);
+	if (sah.axis != -1)
+		count_elements_split_right(bvh, &sah);
+	if (sah.count_r == 0 || sah.count_r == bvh->nb_elements)
 		return (status);
 	status &= create_bvh_tree_node(bvh);
 	if (status)
-		split_bvh_node(bvh);
+		split_bvh_node(bvh, sah);
 	status = bvh_split_down(bvh);
 	if (status)
 		bvh_remove_empty_children(bvh);

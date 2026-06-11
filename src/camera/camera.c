@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 23:07:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 19:59:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static t_vec3	get_ray_direction(t_object *cam, double u, double v)
 {
 	t_vec3			forward;
-	static t_vec3	world_up = (t_vec3){0, 1, 0};
+	static t_vec3	world_up = (t_vec3){{0, 1, 0}};
 	t_vec3			right;
 	t_vec3			up;
 	t_vec3			dir;

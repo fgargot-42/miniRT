@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 18:27:23 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 22:40:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 19:47:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	get_sphere_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 {
 	t_vec3	extent;
 
-	extent = vec3_scale((t_vec3){1, 1, 1}, obj->radius);
+	extent = vec3_scale((t_vec3){{1, 1, 1}}, obj->radius);
 	*aabb_min = vec3_sub(obj->position, extent);
 	*aabb_max = vec3_add(obj->position, extent);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:53:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:00:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static void	init_triangle_props(t_object *triangle, t_material *mat)
 				vec3_sub(triangle->props.b, triangle->props.a)));
 	triangle->props.b = vec3_sub(triangle->props.b, triangle->props.a);
 	triangle->props.c = vec3_sub(triangle->props.c, triangle->props.a);
-	triangle->props.a = (t_vec3){0, 0, 0};
+	triangle->props.a = (t_vec3){{0, 0, 0}};
 	if (mat)
 		triangle->color = linear_to_srgb(mat->diff_color);
 	else
-		triangle->color = (t_vec3){255, 0, 255};
+		triangle->color = (t_vec3){{255, 0, 255}};
 }
 
 int	parse_face(char *line, t_object_model *model, t_material *mat, int line_nb)

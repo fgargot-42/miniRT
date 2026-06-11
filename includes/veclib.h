@@ -6,24 +6,32 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 23:59:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 19:45:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECLIB_H
 # define VECLIB_H
 
-typedef struct s_vec2
+typedef union u_vec2
 {
-	double	x;
-	double	y;
+	struct
+	{
+		double	x;
+		double	y;
+	};
+	double vec[2];
 }	t_vec2;
 
-typedef struct s_vec3
+typedef union u_vec3
 {
-	double	x;
-	double	y;
-	double	z;
+	struct
+	{
+		double	x;
+		double	y;
+		double	z;
+	};
+	double vec[3];
 }	t_vec3;
 
 // T_VEC3 FUNCTIONS

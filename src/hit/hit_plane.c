@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 20:00:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:02:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	apply_checker(t_hit_record *rec)
 	x = (int)floor(rec->point.x);
 	z = (int)floor(rec->point.z);
 	if ((x + z) % 2 == 0)
-		rec->color = (t_vec3){255, 255, 255};
+		rec->color = (t_vec3){{255, 255, 255}};
 	else
-		rec->color = (t_vec3){30, 30, 30};
+		rec->color = (t_vec3){{30, 30, 30}};
 }
 
 int	hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)

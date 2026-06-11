@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:24:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 19:26:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,15 @@ typedef struct s_hit_fn
 	int			(*hit_fn)(t_object *, t_ray *, double, t_hit_record *);
 }	t_hit_fn;
 
+typedef struct s_aabb
+{
+	t_vec3 min;
+	t_vec3 max;
+}	t_aabb;
+
 typedef struct s_bvh
 {
-	t_vec3			aabb_min;
-	t_vec3			aabb_max;
+	t_aabb			aabb;
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 	t_array			objects;
@@ -143,6 +148,15 @@ typedef struct s_bvh
 	int				nb_elements;
 	int				depth;
 }	t_bvh;
+
+typedef struct s_sah
+{
+	double	cost;
+	int		axis;
+	double	pos;
+	int		count_l;
+	int		count_r;
+}	t_sah;
 
 typedef struct s_scene
 {

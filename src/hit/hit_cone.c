@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 20:22:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:04:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	double	z_cap;
 
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
-	normal = (t_vec3){0, 0, z_cap};
+	normal = (t_vec3){{0, 0, z_cap}};
 	if (ctx.render_hit.z < obj->props.height - 1e-3
 		&& ctx.render_hit.z > -obj->props.depth + 1e-3)
 	{
-		normal = vec3_normalize((t_vec3){ctx.render_hit.x,
-				ctx.render_hit.y, 0});
-		normal = vec3_add(normal, (t_vec3){0, 0,
-				-z_cap * obj->props.tan_angle});
+		normal = vec3_normalize((t_vec3){{ctx.render_hit.x,
+				ctx.render_hit.y, 0}});
+		normal = vec3_add(normal, (t_vec3){{0, 0,
+				-z_cap * obj->props.tan_angle}});
 	}
 	if (fabs(obj->direction.z - 1) > 1e-3)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
@@ -47,7 +47,7 @@ static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)
 	int		nb_roots;
 	t_vec3	z_scale;
 
-	z_scale = (t_vec3){1, 1, -props.tan_angle * props.tan_angle};
+	z_scale = (t_vec3){{1, 1, -props.tan_angle * props.tan_angle}};
 	nb_roots = get_polynom2_roots(roots_tmp,
 			vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->rd),
 			2.0 * vec3_dot(vec3_multiply(ctx->rd, z_scale), ctx->oc),
@@ -73,7 +73,7 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 {
 	double				v_len;
 	t_vec3				v_hit_cap;
-	static const t_vec3	z_scale = (t_vec3){1, 1, 0};
+	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	v_len = (ctx->oc.z > 0) * props.height - (ctx->oc.z < 0) * props.depth;
 	if (ctx->oc.z < props.height && ctx->oc.z > -props.depth)

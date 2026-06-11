@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/10 21:29:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/11 20:06:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
 {
 	t_vec3			v_min;
 	t_vec3			v_max;
-	const t_vec3	bounds[2] = {bvh->aabb_min, bvh->aabb_max};
+	const t_vec3	bounds[2] = {bvh->aabb.min, bvh->aabb.max};
 
 	v_min = get_min_bounds(ray, bounds);
 	v_max = get_max_bounds(ray, bounds);
