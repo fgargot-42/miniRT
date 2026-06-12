@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/09 16:51:17 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/12 15:50:53 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,8 @@ SRC=ft_is/ft_isalpha.c \
 	ft_printf/ft_convert2.c \
 	ft_printf/ft_printf_utils.c \
 	ft_array/ft_array.c \
-	ft_array/ft_array_op.c
+	ft_array/ft_array_op.c \
+	ft_swp/ft_swap.c
 OBJ=$(SRC:.c=.o)
 
 all: $(NAME)

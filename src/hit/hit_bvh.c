@@ -6,61 +6,33 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:06:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/12 17:42:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static t_vec3	get_min_bounds(t_ray *ray, t_vec3 const *bounds)
+double	hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist)
 {
-	t_vec3		result;
-	const int	sign[3] = {ray->inv_direction.x < 0, ray->inv_direction.y < 0,
-		ray->inv_direction.z < 0};
+	t_aabb	aabb;
+	double	tmin;
+	double	tmax;
 
-	result.x = (bounds[sign[0]].x - ray->origin.x) * ray->inv_direction.x;
-	result.y = (bounds[sign[1]].y - ray->origin.y) * ray->inv_direction.y;
-	result.z = (bounds[sign[2]].z - ray->origin.z) * ray->inv_direction.z;
-	return (result);
-}
-
-static t_vec3	get_max_bounds(t_ray *ray, t_vec3 const *bounds)
-{
-	t_vec3		result;
-	const int	sign[3] = {ray->inv_direction.x < 0, ray->inv_direction.y < 0,
-		ray->inv_direction.z < 0};
-
-	result.x = (bounds[1 - sign[0]].x - ray->origin.x) * ray->inv_direction.x;
-	result.y = (bounds[1 - sign[1]].y - ray->origin.y) * ray->inv_direction.y;
-	result.z = (bounds[1 - sign[2]].z - ray->origin.z) * ray->inv_direction.z;
-	return (result);
-}
-
-int	hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist, t_vec3 *point)
-{
-	t_vec3			v_min;
-	t_vec3			v_max;
-	const t_vec3	bounds[2] = {bvh->aabb.min, bvh->aabb.max};
-
-	v_min = get_min_bounds(ray, bounds);
-	v_max = get_max_bounds(ray, bounds);
-	if ((v_min.x > v_max.y) || (v_min.y > v_max.x))
-		return (0);
-	if (v_min.y > v_min.x)
-		v_min.x = v_min.y;
-	if (v_max.y < v_max.x)
-		v_max.x = v_max.y;
-	if ((v_min.x > v_max.z) || (v_min.z > v_max.x))
-		return (0);
-	if (v_min.z > v_min.x)
-		v_min.x = v_min.z;
-	if (v_max.z < v_max.x)
-		v_max.x = v_max.z;
-	if (v_max.x > T_MIN && v_min.x < *dist)
-	{
-		*point = ray_at(*ray, v_min.x);
-		*dist = v_min.x;
-		return (1);
-	}
-	return (0);
+	if (!bvh)
+		return (1e30);
+	aabb.min.x = (bvh->aabb.min.x - ray->origin.x) * ray->inv_direction.x;
+	aabb.max.x = (bvh->aabb.max.x - ray->origin.x) * ray->inv_direction.x;
+	tmin = fmin(aabb.min.x, aabb.max.x);
+	tmax = fmax(aabb.min.x, aabb.max.x);
+	aabb.min.y = (bvh->aabb.min.y - ray->origin.y) * ray->inv_direction.y;
+	aabb.max.y = (bvh->aabb.max.y - ray->origin.y) * ray->inv_direction.y;
+	tmin = fmax(tmin, fmin(aabb.min.y, aabb.max.y));
+	tmax = fmin(tmax, fmax(aabb.min.y, aabb.max.y));
+	aabb.min.z = (bvh->aabb.min.z - ray->origin.z) * ray->inv_direction.z;
+	aabb.max.z = (bvh->aabb.max.z - ray->origin.z) * ray->inv_direction.z;
+	tmin = fmax(tmin, fmin(aabb.min.z, aabb.max.z));
+	tmax = fmin(tmax, fmax(aabb.min.z, aabb.max.z));
+	if (tmax >= tmin && tmin < dist && tmax > T_MIN)
+		return (fmax(tmin, T_MIN));
+	return (1e30);
 }

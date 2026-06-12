@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:08:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/12 17:47:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	i = 0;
 	tmp = *rec;
 	rec->color = apply_ambient(rec->color, scene->ambient);
+	//rec->point = vec3_add(rec->point, vec3_scale(rec->normal, 10 * T_MIN));
 	result = rec->color;
 	is_shadow = 1;
 	while (i < scene->lights.len)

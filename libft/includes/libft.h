@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/10 00:00:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/12 15:08:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,13 @@ void	ft_arrayadd_back(t_array *arr, void *new, void (*del)(void *));
 ssize_t	ft_arrayget_index(t_array arr, void *elem);
 t_array	ft_array_map(t_array arr, void *(*f)(void *), void (*del)(void *));
 t_array	ft_array_filter(t_array arr, int (*f)(void *), void (*del)(void *));
+
+// ft_swap
+
+void	ft_cswap(char *a, char *b);
+void	ft_dswap(double *a, double *b);
+void	ft_fswap(float *a, float *b);
+void	ft_iswap(int *a, int *b);
+void	ft_memswap(void *a, void *b, size_t size);
 
 #endif

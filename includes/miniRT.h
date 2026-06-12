@@ -130,8 +130,7 @@ int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
-int					hit_bvh_box(t_bvh *bvh, t_ray *ray, double *dist,
-						t_vec3 *point);
+double				hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist);
 
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);
