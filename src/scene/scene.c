@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/*************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
@@ -62,15 +62,6 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 		print_bvh_tree(bvh->left, depth + 1);
 	if (bvh->right)
 		print_bvh_tree(bvh->right, depth + 1);
-	/*if (depth == 0)
-	{
-		i = 0;
-		while (i < bvh->nb_elements)
-		{
-			print_object(bvh->objects[i]);
-			i++;
-		}
-	}*/
 }
 
 static int	ft_no_bvh_obj(void *e)
@@ -88,7 +79,6 @@ void	init_scene(char *file, t_data *data)
 
 	ft_bzero(data->scene, sizeof(t_scene));
 	data->scene->objects = ft_arraynew();
-//	data->scene->bvh_objects = ft_arraynew();
 	data->scene->lights = ft_arraynew();
 	data->scene->mat = ft_arraynew();
 	parse_status = parse_scene(file, data);
@@ -112,9 +102,6 @@ void	init_scene(char *file, t_data *data)
 	data->scene->bvh_objects = ft_array_filter(data->scene->objects,
 		is_bvh_object, free_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
-#if DEBUG
-	//print_bvh_tree(data->scene->bvh, 0);
-#endif // DEBUG
 	new_obj = ft_array_filter(data->scene->objects, ft_no_bvh_obj, free_object);
 	free(data->scene->objects.array);
 	data->scene->objects = new_obj;
