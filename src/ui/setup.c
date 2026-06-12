@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/05 14:13:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/12 19:47:25 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,25 +107,31 @@ void	setup_material_sliders(t_data *data, t_object *obj)
 	};
 }
 
+static void	get_property_values(t_object *obj,
+	double **radius, double **height)
+{
+	*radius = NULL;
+	*height = NULL;
+	if (obj->type == OBJ_SPHERE)
+		*radius = &obj->radius;
+	else if (obj->type == OBJ_CYLINDER)
+	{
+		*radius = &obj->radius;
+		*height = &obj->props.height;
+	}
+	else if (obj->type >= OBJ_CONE && obj->type != OBJ_TRIANGLE)
+	{
+		*radius = &obj->angle;
+		*height = &obj->props.height;
+	}
+}
+
 void	setup_property_sliders(t_data *data, t_object *obj)
 {
 	double	*radius;
 	double	*height;
 
-	radius = NULL;
-	height = NULL;
-	if (obj->type == OBJ_SPHERE)
-		radius = &obj->radius;
-	else if (obj->type == OBJ_CYLINDER)
-	{
-		radius = &obj->radius;
-		height = &obj->props.height;
-	}
-	else if (obj->type >= OBJ_CONE && obj->type != OBJ_TRIANGLE)
-	{
-		radius = &obj->angle;
-		height = &obj->props.height;
-	}
+	get_property_values(obj, &radius, &height);
 	data->sliders[11] = (t_slider){
 		.value = radius,
 		.min = 0.0,
@@ -142,15 +148,10 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	};
 }
 
-void	setup_ambient_sliders(t_data *data, t_object *obj)
+static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col)
 {
-	int		i;
-	t_vec3	*col;
-	double	*intensity;
+	int	i;
 
-	(void)obj;
-	col = &data->scene->ambient->color;
-	intensity = &data->scene->ambient->props.intensity;
 	i = 0;
 	while (i < 3)
 	{
@@ -163,7 +164,18 @@ void	setup_ambient_sliders(t_data *data, t_object *obj)
 		};
 		i++;
 	}
-	data->sliders[13 + i] = (t_slider){
+}
+
+void	setup_ambient_sliders(t_data *data, t_object *obj)
+{
+	t_vec3	*col;
+	double	*intensity;
+
+	(void)obj;
+	col = &data->scene->ambient->color;
+	intensity = &data->scene->ambient->props.intensity;
+	setup_ambient_color_sliders(data, col);
+	data->sliders[16] = (t_slider){
 		.value = intensity,
 		.min = 0.0,
 		.max = 1.0,
