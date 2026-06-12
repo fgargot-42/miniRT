@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/09 23:34:30 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/12 19:52:48 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,7 @@ SRC =	main.c \
 		ui/ui.c \
 		ui/helpers.c \
 		ui/setup.c \
+		ui/setup2.c \
 		uv_mapping.c
 OBJ = $(SRC:.c=.o)
 

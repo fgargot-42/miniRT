@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/12 19:47:25 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/12 19:57:34 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,42 +144,6 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 		.min = 0.0,
 		.max = 30.0,
 		.label = g_properties_labels[1],
-		.col = g_material_colors[1],
-	};
-}
-
-static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col)
-{
-	int	i;
-
-	i = 0;
-	while (i < 3)
-	{
-		data->sliders[13 + i] = (t_slider){
-			.value = ((double *)col) + i,
-			.min = 0.0,
-			.max = 255.0,
-			.label = g_color_labels[i],
-			.col = g_color_colors[i],
-		};
-		i++;
-	}
-}
-
-void	setup_ambient_sliders(t_data *data, t_object *obj)
-{
-	t_vec3	*col;
-	double	*intensity;
-
-	(void)obj;
-	col = &data->scene->ambient->color;
-	intensity = &data->scene->ambient->props.intensity;
-	setup_ambient_color_sliders(data, col);
-	data->sliders[16] = (t_slider){
-		.value = intensity,
-		.min = 0.0,
-		.max = 1.0,
-		.label = "power",
 		.col = g_material_colors[1],
 	};
 }
