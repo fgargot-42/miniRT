@@ -28,9 +28,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_hit_ctx ctx)
 {
 	t_vec3			normal;
-	double			z_ratio;
 
-	z_ratio = get_paraboloid_z_radius(ctx.render_hit, obj->props.tan_angle);
 	normal = (t_vec3){{0, 0, 1}};
 	if (ctx.render_hit.z < obj->props.height - 1e-3)
 	{

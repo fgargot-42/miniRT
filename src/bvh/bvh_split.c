@@ -59,11 +59,9 @@ int	bvh_split_down(t_bvh *bvh)
 int	bvh_split(t_bvh *bvh)
 {
 	int			status;
-	int			count;
 	t_sah		sah;
 
 	status = 1;
-	count = 0;
 	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
 		return (1);
 	sah = get_sah_split(bvh);
