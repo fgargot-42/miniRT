@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/15 19:24:56 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/15 19:28:39 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	init_editor(t_data *data)
 }
 
 static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
-		"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
-		"TRIANGLE"};
+	"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
+	"TRIANGLE"};
 
 static const char	*obj_type_name(int type)
 {

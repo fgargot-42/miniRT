@@ -6,13 +6,11 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/12 19:57:52 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/15 19:27:50 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-
 
 static const char		*g_color_labels[3] = {"col.r", "col.g", "col.b"};
 

@@ -1,12 +1,12 @@
-/*************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   scene.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/10 20:38:58 by mabarrer         ###   ########.fr       */
+/*   Created: 2026/06/15 19:29:40 by mabarrer          #+#    #+#             */
+/*   Updated: 2026/06/15 19:29:58 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	print_bvh_tree(t_bvh *bvh, int depth)
 static int	ft_no_bvh_obj(void *e)
 {
 	t_object	*obj;
-	
+
 	obj = (t_object *)e;
 	return (obj->type <= OBJ_PLANE);
 }
@@ -100,7 +100,7 @@ void	init_scene(char *file, t_data *data)
 		exit(1);
 	}
 	data->scene->bvh_objects = ft_array_filter(data->scene->objects,
-		is_bvh_object, free_object);
+			is_bvh_object, free_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
 	new_obj = ft_array_filter(data->scene->objects, ft_no_bvh_obj, free_object);
 	free(data->scene->objects.array);
