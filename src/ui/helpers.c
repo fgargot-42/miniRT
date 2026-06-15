@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:07:21 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/09 19:01:35 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/15 19:23:27 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ void	draw_hline(t_data *data, void *win, int y)
 		mlx_pixel_put(data->mlx, win, x++, y, (mlx_color){.rgba = COL_SEP});
 }
 
-void	put_row(t_data *data, void *win, t_row_info info, const char *fmt, ...)
+/*void	put_row(t_data *data, t_row_info info, const char *fmt, ...)
 {
 	char		buf[128];
 	va_list		args;
 	int			*y;
+	const void *win = info.win;
 	const char	*label = info.label;
 	mlx_color	val_col;
 
@@ -55,6 +56,25 @@ void	put_row(t_data *data, void *win, t_row_info info, const char *fmt, ...)
 		(mlx_color){.rgba = COL_LABEL}, (char *)label);
 	mlx_string_put(data->mlx, win, (PANEL_X + PANEL_W / 2), *y, val_col, buf);
 	*y += LINE_H;
+}*/
+
+void	put_row(t_data *data, t_row_info info,
+	const char *fmt, ...)
+{
+	va_list	args;
+	char	buf[256];
+
+	va_start(args, fmt);
+	vsnprintf(buf, sizeof(buf), fmt, args);
+	va_end(args);
+	mlx_string_put(data->mlx, info.win,
+		PANEL_X + PANEL_PAD, *info.y,
+		(mlx_color){.rgba = COL_LABEL},
+		(char*)info.label);
+	mlx_string_put(data->mlx, info.win,
+		PANEL_X + PANEL_W / 2, *info.y,
+		info.val_col, buf);
+	*info.y += LINE_H;
 }
 
 void	put_section(t_data *data, void *win, int *y, const char *title)

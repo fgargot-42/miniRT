@@ -170,12 +170,13 @@ void				draw_hline(t_data *data, void *win, int y);
 
 typedef struct s_row_info
 {
+	mlx_window win;
 	int *y;
 	const char *label;
 	mlx_color val_col;
 } t_row_info;
 
-void				put_row(t_data *data, void *win, t_row_info info, const char *fmt, ...);
+void				put_row(t_data *data, t_row_info info, const char *fmt, ...);
 void				put_section(t_data *data, void *win, int *y,
 						const char *title);
 void				setup_transform_sliders(t_data *data, t_object *obj);
