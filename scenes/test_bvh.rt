@@ -6,7 +6,7 @@ A 0.15	255,255,255
 
 # Camera (Unique)
 # C	pos(x,y,z)		dir(x,y,z normalized)	fov
-C	6.0,6.0,-12.0	0.0,0.0,1.0				80
+C	6.0,6.0,-12.0	0.0,0.0,1.0				70
 
 # Light (multi-light supported with bonus)
 # L	pos(x,y,z)		intensity	color(r,g,b)
@@ -14,7 +14,7 @@ L	-8.0,20.0,2.0		0.9			255,240,200
 
 # Sky (Unique)
 # S color(r,g,b)
-S	180,140,255
+S	140,140,255
 
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	texture_file]

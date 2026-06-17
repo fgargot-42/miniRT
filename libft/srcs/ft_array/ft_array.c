@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 19:27:17 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 16:13:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 16:38:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,24 @@ ssize_t	ft_arrayget_index(t_array arr, void *elem)
 		i++;
 	}
 	return (-1);
+}
+
+t_array	ft_arraydup(t_array src, void (*dup)(void**, void*))
+{
+	t_array	dst;
+	size_t	i;
+
+	ft_bzero(&dst, sizeof(t_array));
+	dst.array = ft_calloc(src.size, sizeof(void *));
+	if (!dst.array)
+		return (dst);
+	dst.size = src.size;
+	dst.len = src.len;
+	i = 0;
+	while (i < dst.len)
+	{
+		dup(&dst.array[i], src.array[i]);
+		i++;
+	}
+	return (dst);
 }

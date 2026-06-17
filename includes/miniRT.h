@@ -35,20 +35,16 @@
 
 // BVH
 
-typedef void		(*t_obj_aabb_fn)(t_object *, t_vec3 *, t_vec3 *);
+typedef void		(*t_obj_aabb_fn)(t_object *, t_aabb *);
 
-void				get_sphere_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-void				get_cylinder_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-void				get_cone_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-void				get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-void				get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-void				get_triangle_aabb(t_object *obj, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
+void				get_sphere_aabb(t_object *obj, t_aabb *aabb);
+void				get_cylinder_aabb(t_object *obj, t_aabb *aabb);
+void				get_cone_aabb(t_object *obj, t_aabb *aabb);
+void				get_hyperboloid_aabb(t_object *obj, t_aabb *aabb);
+void				get_paraboloid_aabb(t_object *obj, t_aabb *aabb);
+void				get_triangle_aabb(t_object *obj, t_aabb *aabb);
+
+void				get_object_aabb(t_object *obj, t_aabb *aabb);
 
 void				bvh_init(t_bvh *bvh, t_array objects);
 t_bvh				*build_bvh_tree(t_scene *scene);

@@ -6,21 +6,21 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 22:19:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 21:30:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 
-void	get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
+void	get_hyperboloid_aabb(t_object *obj, t_aabb *aabb)
 {
 	t_vec3	extent[2];
 	double	height[2];
 	double	r_max;
 	int		i;
 
-	if (!aabb_min || !aabb_max)
+	if (!aabb)
 		return ;
 	height[0] = obj->props.height;
 	height[1] = obj->props.depth;
@@ -37,18 +37,18 @@ void	get_hyperboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 			* sqrt(1 - pow(obj->direction.z, 2));
 		i++;
 	}
-	*aabb_min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
-	*aabb_max = vec3_add(obj->position, vec3_max(extent[0], extent[1]));
+	aabb->min = vec3_sub(obj->position, vec3_min(extent[0], extent[1]));
+	aabb->max = vec3_add(obj->position, vec3_max(extent[0], extent[1]));
 }
 
-void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
+void	get_paraboloid_aabb(t_object *obj, t_aabb *aabb)
 {
 	t_vec3	cap_center;
 	t_vec3	bulge;
 	t_vec3	d2;
 	double	r_max;
 
-	if (!aabb_min || !aabb_max)
+	if (!aabb)
 		return ;
 	cap_center = vec3_add(obj->position,
 			vec3_scale(obj->direction, obj->props.height));
@@ -59,14 +59,14 @@ void	get_paraboloid_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
 	bulge.x = r_max * sqrt(1 - d2.x);
 	bulge.y = r_max * sqrt(1 - d2.y);
 	bulge.z = r_max * sqrt(1 - d2.z);
-	*aabb_min = vec3_min(vec3_sub(cap_center, bulge), obj->position);
-	*aabb_max = vec3_max(vec3_add(cap_center, bulge), obj->position);
+	aabb->min = vec3_min(vec3_sub(cap_center, bulge), obj->position);
+	aabb->max = vec3_max(vec3_add(cap_center, bulge), obj->position);
 }
 
-void	get_triangle_aabb(t_object *obj, t_vec3 *aabb_min, t_vec3 *aabb_max)
+void	get_triangle_aabb(t_object *obj, t_aabb *aabb)
 {
-	*aabb_min = vec3_min(vec3_min(obj->props.a, obj->props.b), obj->props.c);
-	*aabb_max = vec3_max(vec3_max(obj->props.a, obj->props.b), obj->props.c);
-	*aabb_min = vec3_add(*aabb_min, obj->position);
-	*aabb_max = vec3_add(*aabb_max, obj->position);
+	aabb->min = vec3_min(vec3_min(obj->props.a, obj->props.b), obj->props.c);
+	aabb->max = vec3_max(vec3_max(obj->props.a, obj->props.b), obj->props.c);
+	aabb->min = vec3_add(aabb->min, obj->position);
+	aabb->max = vec3_add(aabb->max, obj->position);
 }

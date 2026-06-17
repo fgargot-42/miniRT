@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:49:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 18:45:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 21:40:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 
 void	print_cylinder(t_object *c)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_cylinder_aabb(c, &b_min, &b_max);
+	get_cylinder_aabb(c, &b);
 	printf("Object type: CYLINDER\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f h=%.2f)\n",
 		c->position.x, c->position.y, c->position.z, c->radius,
 		c->props.height);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x,
@@ -35,16 +34,15 @@ void	print_cylinder(t_object *c)
 
 void	print_cone(t_object *c)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_cone_aabb(c, &b_min, &b_max);
+	get_cone_aabb(c, &b);
 	printf("Object type: CONE\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
 		c->position.x, c->position.y, c->position.z, c->angle,
 		c->props.height, c->props.depth);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
@@ -55,16 +53,15 @@ void	print_cone(t_object *c)
 
 void	print_hyper(t_object *c)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_hyperboloid_aabb(c, &b_min, &b_max);
+	get_hyperboloid_aabb(c, &b);
 	printf("Object type: HYPERBOLOID\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f d=%.2f)\n",
 		c->position.x, c->position.y, c->position.z, c->angle,
 		c->props.height, c->props.depth);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
@@ -75,15 +72,14 @@ void	print_hyper(t_object *c)
 
 void	print_para(t_object *c)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_paraboloid_aabb(c, &b_min, &b_max);
+	get_paraboloid_aabb(c, &b);
 	printf("Object type: PARABOLOID\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (a=%.2f h=%.2f)\n",
 		c->position.x, c->position.y, c->position.z, c->angle, c->props.height);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
@@ -94,10 +90,9 @@ void	print_para(t_object *c)
 
 void	print_triangle(t_object *c)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_triangle_aabb(c, &b_min, &b_max);
+	get_triangle_aabb(c, &b);
 	printf("Object type: TRIANGLE\n");
 	printf("--a: x=%.2f y=%.2f z=%.2f\n",
 		c->props.a.x, c->props.a.y, c->props.a.z);
@@ -106,7 +101,7 @@ void	print_triangle(t_object *c)
 	printf("--c: x=%.2f y=%.2f z=%.2f\n",
 		c->props.c.x, c->props.c.y, c->props.c.z);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
-		b_min.x, b_min.y, b_min.z, b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	/*printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ", c->color.x, c->color.y,
 		c->color.z);
 	if (c->checker)

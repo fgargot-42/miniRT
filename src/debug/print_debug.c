@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/15 19:30:39 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/06/19 01:28:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,15 @@ static void	print_light(t_object *s)
 
 static void	print_sphere(t_object *s)
 {
-	t_vec3	b_min;
-	t_vec3	b_max;
+	t_aabb	b;
 
-	get_sphere_aabb(s, &b_min, &b_max);
+	get_sphere_aabb(s, &b);
 	printf("Object type: SPHERE\n");
 	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n",
 		s->position.x, s->position.y, s->position.z, s->radius);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f %.2f ]\n",
-		b_min.x, b_min.y, b_min.z,
-		b_max.x, b_max.y, b_max.z);
+		b.min.x, b.min.y, b.min.z,
+		b.max.x, b.max.y, b.max.z);
 }
 
 static void	print_plane(t_object *p)

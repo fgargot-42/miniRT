@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/12 15:08:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 16:39:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	ft_array_sort(t_array arr, int (*cmp)(void*, void*),
 			void (*del)(void*));
 void	ft_arrayclear(t_array *arr, void (*del)(void*));
 void	ft_arrayadd_back(t_array *arr, void *new, void (*del)(void *));
+t_array	ft_arraydup(t_array src, void (*dup)(void**, void*));
 ssize_t	ft_arrayget_index(t_array arr, void *elem);
 t_array	ft_array_map(t_array arr, void *(*f)(void *), void (*del)(void *));
 t_array	ft_array_filter(t_array arr, int (*f)(void *), void (*del)(void *));

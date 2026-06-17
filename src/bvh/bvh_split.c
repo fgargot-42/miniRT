@@ -6,19 +6,21 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:52:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 23:15:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <pthread.h>
 
+void	sah_partition(t_bvh *node, t_sah sah);
+
 static void	split_bvh_node(t_bvh *bvh, t_sah sah)
 {
 	int		i;
 
 	i = bvh->first_index;
-	sort_bvh_objects(bvh, sah.axis);
+	sah_partition(bvh, sah);
 	bvh->left->nb_elements = sah.count_l;
 	bvh->right->first_index = bvh->first_index + sah.count_l;
 	bvh->right->nb_elements = sah.count_r;
@@ -65,8 +67,6 @@ int	bvh_split(t_bvh *bvh)
 	if (!bvh || bvh->depth == BVH_DEPTH || bvh->nb_elements <= 4)
 		return (1);
 	sah = get_sah_split(bvh);
-	if (sah.axis != -1)
-		count_elements_split_right(bvh, &sah);
 	if (sah.count_r == 0 || sah.count_r == bvh->nb_elements)
 		return (status);
 	status &= create_bvh_tree_node(bvh);
