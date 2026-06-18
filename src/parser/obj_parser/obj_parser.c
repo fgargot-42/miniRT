@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/18 23:53:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 00:47:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	t_parser_ctx *ctx)
 {
 	bool				status;
-	static t_material	*current_mat = NULL;
 
 	status = true;
 	if (line[ft_strlen(line) - 1] == '\n')
@@ -45,7 +44,7 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	if (!ft_strncmp(line, "mtllib", 6))
 		status = import_materials(line, &obj->materials, obj_path, ctx->mlx);
 	else if (!ft_strncmp(line, "usemtl", 6))
-		current_mat = get_material(line, obj->materials);
+		ctx->current_mat = get_material(line, obj->materials);
 	else if (!ft_strncmp(line, "vn", 2))
 		status = parse_normal(line, &obj->vertex_normals, ctx->line_nb);
 	else if (!ft_strncmp(line, "vt", 2))
@@ -53,7 +52,7 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	else if (!ft_strncmp(line, "v", 1))
 		status = parse_vertex(line, &obj->vertices, ctx->line_nb);
 	else if (!ft_strncmp(line, "f", 1))
-			status = parse_face(line, obj, current_mat, ctx->line_nb);
+			status = parse_face(line, obj, ctx->current_mat, ctx->line_nb);
 	return (status);
 }
 

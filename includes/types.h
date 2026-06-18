@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/18 15:46:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 00:43:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,8 @@ typedef struct s_parser_ctx
 	int			fd;
 	void		*mlx;
 	t_object	*obj;
+	t_material	*current_mat;
+	t_material	*mat_parse;
 	int			line_nb;
 	char		*rt_path;
 }	t_parser_ctx;

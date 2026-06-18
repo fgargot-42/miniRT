@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:40:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 00:51:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,22 @@ static int	parse_material_line(char *line, t_array *materials,
 {
 	int								status;
 	int								index;
-	static t_material				*mat = NULL;
 	static const t_obj_parser_fc	parse_elem[] = {parse_mat_exponent,
 		parse_mat_ambient, parse_mat_diffuse, parse_mat_specular,
 		parse_mat_emissive, parse_mat_density, parse_mat_opacity};
 
 	if (!line)
-	{
-		if (mat)
-			free(mat);
-		mat = NULL;
 		return (0);
-	}
 	if (!ft_strncmp(line, "newmtl", 6))
 	{
-		status = parse_new_material(line, materials, &mat);
+		status = parse_new_material(line, materials, &ctx->mat_parse);
 		return (status);
 	}
 	index = get_material_element_index(line);
 	if (index != -1)
-		status = parse_elem[index](line, mat, ctx->line_nb);
+		status = parse_elem[index](line, ctx->mat_parse, ctx->line_nb);
 	else
-		status = open_material_texture(line, mat, ctx);
+		status = open_material_texture(line, ctx->mat_parse, ctx);
 	return (status);
 }
 
@@ -91,7 +85,9 @@ static int	material_parse_loop(t_array *materials, t_parser_ctx *ctx)
 	status = 1;
 	while (line && status)
 	{
+#if DEBUG
 		printf("Parse mtl file: line %d\n", ctx->line_nb);
+#endif
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (line[0] && line[0] != '#')
