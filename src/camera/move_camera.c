@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 20:36:54 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:59:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:38:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	rotate_camera(t_vec3 *direction, double *yaw, double *pitch,
 	double	pitch_rad;
 	double	cos_pitch;
 
-	*yaw -= mouse_delta.x * CAMERA_SENS;
+	*yaw += mouse_delta.x * CAMERA_SENS;
 	*pitch -= mouse_delta.y * CAMERA_SENS;
 	if (fabs(*pitch) > 89.0)
 		*pitch = 89.0 * (2 * (*pitch > 0) - 1);
@@ -42,8 +42,8 @@ static void	translate_camera(t_object *cam, t_vec2 mouse_delta)
 
 	mouse_delta = vec2_scale(mouse_delta, CAMERA_SENS * 0.1);
 	forward = vec3_normalize(cam->direction);
-	right = vec3_normalize(vec3_cross(world_up, forward));
-	cam_up = vec3_normalize(vec3_cross(forward, right));
+	right = vec3_normalize(vec3_cross(forward, world_up));
+	cam_up = vec3_normalize(vec3_cross(right, forward));
 	cam->position = vec3_add(cam->position, vec3_scale(right, mouse_delta.x));
 	cam->position = vec3_add(cam->position, vec3_scale(cam_up, -mouse_delta.y));
 }

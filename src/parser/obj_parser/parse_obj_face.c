@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:00:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 23:56:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static int	parse_face_values(char *line_split, t_object_model *model,
 		free_str_array(split_point);
 		return (0);
 	}
-	*vertex = vec3_add(*(model->vertices)[i - 1], model->position);
+	*vertex = vec3_add(*(t_vec3 *)model->vertices.array[i - 1], model->position);
 	i = 0;
 	if (split_point[1])
 		i = ft_atoi(split_point[1]);
 	if (i > 0)
-		*uv = *(model->vertex_uv)[i - 1];
+		*uv = *(t_vec2 *)model->vertex_uv.array[i - 1];
 	free_str_array(split_point);
 	return (1);
 }

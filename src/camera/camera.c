@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:59:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:34:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_vec3	get_ray_direction(t_object *cam, double u, double v)
 	forward = vec3_normalize(cam->direction);
 	right = vec3_normalize(vec3_cross(forward, world_up));
 	up = vec3_cross(right, forward);
-	dir = vec3_normalize(vec3_add(vec3_add(vec3_scale(right, -u),
+	dir = vec3_normalize(vec3_add(vec3_add(vec3_scale(right, u),
 					vec3_scale(up, -v)), forward));
 	return (dir);
 }

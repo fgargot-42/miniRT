@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:59:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 20:35:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ static void	move_camera(int scancode, t_data *data)
 	else if (scancode == 22)
 		cam->position = vec3_add(cam->position, vec3_scale(fwd, -MOVE_STEP));
 	else if (scancode == 4)
-		cam->position = vec3_add(cam->position, vec3_scale(right, MOVE_STEP));
-	else if (scancode == 7)
 		cam->position = vec3_add(cam->position, vec3_scale(right, -MOVE_STEP));
+	else if (scancode == 7)
+		cam->position = vec3_add(cam->position, vec3_scale(right, MOVE_STEP));
 	else if (scancode == SDL_SCANCODE_E)
 		cam->position = vec3_add(cam->position, vec3_scale(w_up, MOVE_STEP));
 	else if (scancode == SDL_SCANCODE_Q)
