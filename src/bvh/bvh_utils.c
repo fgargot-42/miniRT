@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 22:45:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 23:35:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ t_vec3	get_object_center(t_object *obj)
 {
 	t_aabb	aabb;
 
-	aabb.min = (t_vec3){{-1e30, -1e30, -1e30}};
-	aabb.max = (t_vec3){{1e30, 1e30, 1e30}};
+	aabb.min = (t_vec3){{1e30, 1e30, 1e30}};
+	aabb.max = (t_vec3){{-1e30, -1e30, -1e30}};
 	if (obj->type != OBJ_PARABOLOID && obj->type != OBJ_TRIANGLE)
 		return (obj->position);
 	get_object_aabb(obj, &aabb);

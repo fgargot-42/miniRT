@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 17:04:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 22:29:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/17 23:41:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,20 +59,16 @@ void	sah_partition(t_bvh *node, t_sah sah)
 	if (sah.axis == -1 || !sah.count_l || !sah.count_r)
 		return ;
 	i = node->first_index;
-	j = i + sah.count_l;
-	while (j < node->first_index + node->nb_elements)
+	j = node->first_index + node->nb_elements - 1;
+	while (i <= j)
 	{
-		if (get_object_center(node->objects.array[j]).vec[sah.axis] < sah.pos)
-		{
-			while ((i < node->first_index + sah.count_l) && get_object_center(
-						node->objects.array[i]).vec[sah.axis] < sah.pos)
-				i++;
-			if (i >= node->first_index + sah.count_l)
-				break ;
+		while (i <= j && get_object_center(node->objects.array[i]).vec[sah.axis] < sah.pos)
+			i++;
+		while (i <= j && get_object_center(node->objects.array[j]).vec[sah.axis] >= sah.pos)
+			j--;
+		if (i < j)
 			ft_memswap(&node->objects.array[i], &node->objects.array[j],
 					sizeof(t_object *));
-		}
-		j++;
 	}
 }
 

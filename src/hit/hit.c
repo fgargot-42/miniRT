@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/12 18:49:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 16:36:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,40 @@
 #include "veclib.h"
 #include "math.h"
 
-static t_hit_fn	*get_hit_fn(t_obj_type type)
+static t_hit_fn	get_hit_fn(t_obj_type type)
 {
-	int					i;
-	static const int	hit_list_size = 7;
 	static t_hit_fn		hit_list[] = {
-	{OBJ_PLANE, hit_plane}, {OBJ_SPHERE, hit_sphere},
-	{OBJ_CYLINDER, hit_cylinder}, {OBJ_CONE, hit_cone},
-	{OBJ_HYPERBOLOID, hit_hyperboloid}, {OBJ_PARABOLOID, hit_paraboloid},
-	{OBJ_TRIANGLE, hit_triangle}};
+		[OBJ_PLANE] = hit_plane,
+		[OBJ_SPHERE] = hit_sphere,
+		[OBJ_CYLINDER] = hit_cylinder,
+		[OBJ_CONE] = hit_cone,
+		[OBJ_HYPERBOLOID] = hit_hyperboloid,
+		[OBJ_PARABOLOID] = hit_paraboloid,
+		[OBJ_TRIANGLE] = hit_triangle};
 
-	i = 0;
-	while (i < hit_list_size)
-	{
-		if (type == hit_list[i].type)
-			return (&hit_list[i]);
-		i++;
-	}
-	return (NULL);
+	if (type < OBJ_PLANE || type > OBJ_TRIANGLE)
+		return (NULL);
+	return (hit_list[type]);
 }
 
 int	hit_list(t_array obj, t_ray *ray, double *closest,
 	t_hit_record *rec)
 {
 	size_t			i;
-	int				hit_current;
+	int				hit_curr;
 	int				hit;
 	t_hit_record	temp;
-	t_hit_fn		*hit_func;
+	t_hit_fn		hit_fn;
 
 	hit = 0;
 	i = 0;
 	while (i < obj.len)
 	{
-		hit_current = 0;
-		hit_func = get_hit_fn(((t_object *)obj.array[i])->type);
-		if (hit_func)
-			hit_current = hit_func->hit_fn((t_object *)obj.array[i],
-					ray, *closest, &temp);
-		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
+		hit_curr = 0;
+		hit_fn = get_hit_fn(((t_object *)obj.array[i])->type);
+		if (hit_fn)
+			hit_curr = hit_fn((t_object *)obj.array[i], ray, *closest, &temp);
+		if (hit_curr && temp.t >= T_MIN && temp.t < *closest)
 		{
 			hit = 1;
 			*closest = temp.t;
@@ -66,49 +61,35 @@ int	hit_list(t_array obj, t_ray *ray, double *closest,
 static int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 	t_hit_record *rec)
 {
-	int				i;
-	t_hit_record	temp;
-	t_hit_fn		*hit_func;
-	int				hit;
-	int				hit_current;
+	int		hit;
+	t_array	slice;
 
-	i = bvh->first_index;
-	hit = 0;
-	while (i < bvh->first_index + bvh->nb_elements)
-	{
-		hit_current = 0;
-		hit_func = get_hit_fn(((t_object *)bvh->objects.array[i])->type);
-		if (hit_func)
-			hit_current = hit_func->hit_fn((t_object *)bvh->objects.array[i],
-					ray, *closest, &temp);
-		if (hit_current && temp.t >= T_MIN && temp.t < *closest)
-		{
-			hit = 1;
-			*closest = temp.t;
-			*rec = temp;
-		}
-		i++;
-	}
+	slice = (t_array){
+		.array = &bvh->objects.array[bvh->first_index],
+		.len = bvh->nb_elements,
+		.size = bvh->nb_elements
+	};
+	hit = hit_list(slice, ray, closest, rec);
 	return (hit);
 }
 
 #if BVH_VIEW
-static int	draw_box_bounds(t_bvh *bvh, t_vec3 point, double dist)
+static int	draw_box_bounds(t_bvh *bvh, t_ray *ray, double dist)
 {
 	static const double	epsilon = 5e-3;
 	t_vec3				dist_to_min;
 	t_vec3				dist_to_max;
+	t_vec3				point;
 	int					i;
 
 	if (dist == 1e30)
 		return (0);
+	point = ray_at(*ray, dist);
 	dist_to_min = vec3_sub(point, bvh->aabb.min);
 	dist_to_max = vec3_sub(point, bvh->aabb.max);
 	i = (fabs(dist_to_min.x) < epsilon * dist) ^ (fabs(dist_to_max.x) < epsilon * dist);
 	i += (fabs(dist_to_min.y) < epsilon * dist) ^ (fabs(dist_to_max.y) < epsilon * dist);
 	i += (fabs(dist_to_min.z) < epsilon * dist) ^ (fabs(dist_to_max.z) < epsilon * dist);
-	if (i > 2)
-		i = 2;
 	return (i);
 }
 #endif
@@ -117,10 +98,9 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 		int bvh_display_level)
 {
 	double			dist[2];
-	t_vec3			point;
 	int				depth;
 	int				hit;
-	t_bvh			*stack[BVH_DEPTH];
+	t_bvh			*stack[2 * BVH_DEPTH];
 	t_bvh			*node;
 	t_bvh			*child[2];
 
@@ -128,7 +108,6 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 	dist[1] = 1e30;
 	depth = 0;
 	hit = 0;
-	point = (t_vec3){{0, 0, 0}};
 	node = bvh;
 	dist[0] = hit_bvh_box(node, ray, *closest);
 	if (dist[0] == 1e30)
@@ -145,7 +124,7 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 			continue ;
 		}
 #if BVH_VIEW
-		int	draw_bounds = draw_box_bounds(node, point, dist[0]);
+		int	draw_bounds = draw_box_bounds(node, ray, dist[0]);
 		if (node->depth == bvh_display_level && draw_bounds)
 		{
 			rec->color = (t_vec3){{(node->depth << 6 | 0xf | draw_bounds << 4) & 0xff,
@@ -154,10 +133,14 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 			hit = 1;
 		}
 #endif
+		dist[0] = 1e30;
+		dist[1] = 1e30;
 		child[0] = node->left;
 		child[1] = node->right;
-		dist[0] = hit_bvh_box(child[0], ray, *closest);
-		dist[1] = hit_bvh_box(child[1], ray, *closest);
+		if (child[0])
+			dist[0] = hit_bvh_box(child[0], ray, *closest);
+		if (child[1])
+			dist[1] = hit_bvh_box(child[1], ray, *closest);
 		if (dist[1] < dist[0])
 		{
 			ft_dswap(&dist[0], &dist[1]);
@@ -172,7 +155,7 @@ static int	hit_bvh(t_bvh *bvh, t_ray *ray, double *closest, t_hit_record *rec,
 		else
 		{
 			node = child[0];
-			if (dist[1] != 1e30 && depth < BVH_DEPTH - 1)
+			if (dist[1] != 1e30 && depth < 2 * BVH_DEPTH - 1)
 				stack[depth++] = child[1];
 		}
 	}

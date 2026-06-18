@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:26:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 15:46:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,7 @@ typedef struct s_hit_record
 	double		shininess;
 }	t_hit_record;
 
-typedef struct s_hit_fn
-{
-	t_obj_type	type;
-	int			(*hit_fn)(t_object *, t_ray *, double, t_hit_record *);
-}	t_hit_fn;
+typedef	int	(*t_hit_fn)(t_object *, t_ray *, double, t_hit_record *);
 
 typedef struct s_aabb
 {
