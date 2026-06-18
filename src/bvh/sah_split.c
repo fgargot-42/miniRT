@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 17:04:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 23:41:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 17:16:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,27 @@ static double	get_sah_cost(t_aabb box, int count)
 	return (get_aabb_area(box) * count);
 }
 
-void	sah_partition(t_bvh *node, t_sah sah)
+void	sah_partition(t_bvh *node, t_sah *sah)
 {
 	int			i;
 	int			j;
 
-	if (sah.axis == -1 || !sah.count_l || !sah.count_r)
+	if (sah->axis == -1 || !sah->count_l || !sah->count_r)
 		return ;
 	i = node->first_index;
 	j = node->first_index + node->nb_elements - 1;
 	while (i <= j)
 	{
-		while (i <= j && get_object_center(node->objects.array[i]).vec[sah.axis] < sah.pos)
+		while (i <= j && get_object_center(node->objects.array[i]).vec[sah->axis] < sah->pos)
 			i++;
-		while (i <= j && get_object_center(node->objects.array[j]).vec[sah.axis] >= sah.pos)
+		while (i <= j && get_object_center(node->objects.array[j]).vec[sah->axis] >= sah->pos)
 			j--;
 		if (i < j)
 			ft_memswap(&node->objects.array[i], &node->objects.array[j],
 					sizeof(t_object *));
 	}
+	sah->count_l = i - node->first_index;
+	sah->count_r = node->nb_elements - (i - node->first_index);
 }
 
 // 0 is left, 1 is right
@@ -144,6 +146,13 @@ static t_bin *populate_bins(t_bvh *node, int axis, t_aabb bounds)
 	bins = ft_calloc(BINS, sizeof(t_bin));
 	if (!bins)
 		return (NULL);
+	while (index < BINS)
+	{
+		bins[index].aabb.min = (t_vec3){{1e30, 1e30, 1e30}};
+		bins[index].aabb.max = (t_vec3){{-1e30, -1e30, -1e30}};
+		index++;
+	}
+	index = 0;
 	while (index < node->nb_elements)
 	{
 		obj = node->objects.array[index + node->first_index];

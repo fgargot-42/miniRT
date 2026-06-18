@@ -6,26 +6,25 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 23:15:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/18 17:06:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include <pthread.h>
 
-void	sah_partition(t_bvh *node, t_sah sah);
+void	sah_partition(t_bvh *node, t_sah *sah);
 
-static void	split_bvh_node(t_bvh *bvh, t_sah sah)
+static void	split_bvh_node(t_bvh *bvh, t_sah *sah)
 {
 	int		i;
 
-	i = bvh->first_index;
 	sah_partition(bvh, sah);
-	bvh->left->nb_elements = sah.count_l;
-	bvh->right->first_index = bvh->first_index + sah.count_l;
-	bvh->right->nb_elements = sah.count_r;
+	bvh->left->nb_elements = sah->count_l;
+	bvh->right->first_index = bvh->first_index + sah->count_l;
+	bvh->right->nb_elements = sah->count_r;
 	i = bvh->first_index;
-	while (i < bvh->first_index + sah.count_l)
+	while (i < bvh->first_index + sah->count_l)
 		bvh_grow_to_include(bvh->left, bvh->objects.array[i++]);
 	while (i < bvh->first_index + bvh->nb_elements)
 		bvh_grow_to_include(bvh->right, bvh->objects.array[i++]);
@@ -71,7 +70,7 @@ int	bvh_split(t_bvh *bvh)
 		return (status);
 	status &= create_bvh_tree_node(bvh);
 	if (status)
-		split_bvh_node(bvh, sah);
+		split_bvh_node(bvh, &sah);
 	status = bvh_split_down(bvh);
 	if (status)
 		bvh_remove_empty_children(bvh);
