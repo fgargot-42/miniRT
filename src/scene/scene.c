@@ -5,13 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-<<<<<<< HEAD
-/*   Created: 2026/06/15 19:29:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/15 19:29:58 by mabarrer         ###   ########.fr       */
-=======
-/*   Created: 2026/04/13 22:39:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:02:41 by fgargot          ###   ########.fr       */
->>>>>>> 246dc3e (Added: BVH building with SAH + changed t_vec structs to union to access them as arrays)
+/*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
+/*   Updated: 2026/06/19 01:33:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
