@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 22:30:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 17:58:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,29 @@ void	clear_gnl(int fd, char *line)
 		line = get_next_line(fd);
 	}
 	close(fd);
+}
+
+int	check_array_size(char **array, int expected, char *object, int line_nb)
+{
+	int	array_size;
+	int	i;
+
+	array_size = 0;
+	while (array && array[array_size])
+		(array_size)++;
+	if (array_size < expected)
+	{
+		i = 0;
+		print_parse_error("missing parameter(s)", object, line_nb);
+		while (i < array_size)
+		{
+			ft_putstr_fd("\t", 2);
+			ft_putstr_fd(array[i], 2);
+			i++;
+		}
+		ft_putstr_fd("\n", 2);
+	}
+	return (array_size < expected);
 }
 
 static int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 17:39:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:22:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 17:58:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,29 +23,6 @@ static void	print_vec_parse_error(int size, char *object, int line_nb)
 	ft_putstr_fd(": wrong number of coordinates components (got ", 2);
 	ft_putnbr_fd(size, 2);
 	ft_putstr_fd(", expected 3)\n", 2);
-}
-
-int	check_array_size(char **array, int expected, char *object, int line_nb)
-{
-	int	array_size;
-	int	i;
-
-	array_size = 0;
-	while (array && array[array_size])
-		(array_size)++;
-	if (array_size < expected)
-	{
-		i = 0;
-		print_parse_error("missing parameter(s)", object, line_nb);
-		while (i < array_size)
-		{
-			ft_putstr_fd("\t", 2);
-			ft_putstr_fd(array[i], 2);
-			i++;
-		}
-		ft_putstr_fd("\n", 2);
-	}
-	return (array_size < expected);
 }
 
 char	**parse_vector_split(char *param, char *object, int line_nb)
