@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/19 01:04:56 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/19 22:23:51 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC =	main.c \
 		bvh/bvh_sort.c \
 		bvh/bvh_utils.c \
 		bvh/sah_split.c \
+		bvh/sah_utils.c \
 		debug/print_debug.c \
 		debug/print_debug2.c \
 		input/hooks.c \
@@ -78,6 +79,7 @@ SRC =	main.c \
 		hit/hit_paraboloid.c \
 		hit/hit_triangle.c \
 		hit/hit_bvh.c \
+		hit/hit_bvh_utils.c \
 		hit/hit_utils.c \
 		hit/hit.c \
 		lighting.c \

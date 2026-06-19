@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:45:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 20:48:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef union u_vec2
 		double	x;
 		double	y;
 	};
-	double vec[2];
+	double	vec[2];
 }	t_vec2;
 
 typedef union u_vec3
@@ -31,7 +31,7 @@ typedef union u_vec3
 		double	y;
 		double	z;
 	};
-	double vec[3];
+	double	vec[3];
 }	t_vec3;
 
 // T_VEC3 FUNCTIONS

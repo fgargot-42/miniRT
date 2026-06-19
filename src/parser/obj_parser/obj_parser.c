@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 00:47:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:43:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	else if (!ft_strncmp(line, "v", 1))
 		status = parse_vertex(line, &obj->vertices, ctx->line_nb);
 	else if (!ft_strncmp(line, "f", 1))
-			status = parse_face(line, obj, ctx->current_mat, ctx->line_nb);
+		status = parse_face(line, obj, ctx->current_mat, ctx->line_nb);
 	return (status);
 }
 
@@ -115,6 +115,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 		free_str_array(split);
 		return (0);
 	}
+	printf("Parsing object file: %s\n", split[2]);
 	parse_vector(split[1], &obj.position, "obj", ctx->line_nb);
 	if (split[3])
 		status = parse_obj_tex_file(&obj, ctx->rt_path, split[3], data->mlx);

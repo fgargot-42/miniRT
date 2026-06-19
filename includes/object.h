@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/18 23:51:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 18:49:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	destroy_object_model(t_object_model *obj);
 
 int		parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx);
 void	update_box_min_max(t_object *obj);
-int		parse_face(char *line, t_object_model *model, t_material *mat,
+bool	parse_face(char *line, t_object_model *model, t_material *mat,
 			int line_nb);
 bool	parse_vertex(char *line, t_array *vertices, int line_nb);
 bool	parse_normal(char *line, t_array *normal_array, int line_nb);

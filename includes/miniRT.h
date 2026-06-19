@@ -1,3 +1,4 @@
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
@@ -5,12 +6,25 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/08 20:18:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:38:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# define T_MIN 0.001
+# define T_MAX 100
+# define WIDTH 1280
+# define HEIGHT 720
+# define CAMERA_SENS 0.35
+# define MOVE_STEP 0.5
+# define NB_THREADS 16
+# define BVH_DEPTH 24
+# define DEBUG 1
+# define BVH_VIEW 1
+# define SAH_BINS 64
+# define MLX_WHITE 0xFFFFFFFF
 
 # include "types.h"
 # include "veclib.h"
@@ -20,18 +34,6 @@
 # include "ui.h"
 # include "libft.h"
 # include "material.h"
-
-# define T_MIN 0.001
-# define T_MAX 100
-# define WIDTH 1280
-# define HEIGHT 720
-# define CAMERA_SENS 0.35
-# define MOVE_STEP 0.5
-# define NB_THREADS 16
-# define BVH_DEPTH 30
-# define DEBUG 1
-# define BVH_VIEW 1
-# define MLX_WHITE 0xFFFFFFFF
 
 // BVH
 
@@ -67,6 +69,13 @@ void				sort_bvh_objects(t_bvh *bvh, int axis);
 void				sort_bvh_objects_asc(t_array array, int min, int max,
 						char axis);
 t_sah				get_sah_split(t_bvh *node);
+void				aabb_grow_to_include(t_aabb *aabb, t_object *obj);
+void				aabb_grow_to_include_center(t_aabb *aabb, t_object *obj);
+double				get_aabb_area(t_aabb aabb);
+void				sah_partition(t_bvh *node, t_sah *sah);
+t_bin				*init_bins(int axis, t_aabb bounds);
+
+
 
 // OBJECTS
 
@@ -89,7 +98,7 @@ void				draw(t_data *data);
 void				draw_single(t_data *data);
 void				add_debug(t_data *data);
 double				get_time(void);
-void				print_hit_info(t_data *data, t_hit_record hc,
+void				open_inspector(t_data *data, t_hit_record hc,
 						double mouse_x, double mouse_y);
 void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
 						t_ray *ray, t_vec2 mouse_pos);
@@ -111,7 +120,7 @@ t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
 int					hit_list(t_array obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
-						t_hit_record *rec, int bvh_display_level);
+						t_hit_record *rec);
 int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_plane(t_object *obj, t_ray *ray, double t_max,
@@ -127,6 +136,11 @@ int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
 int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 double				hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist);
+int					hit_bvh(t_scene *scene, t_ray *ray, double *closest,
+						t_hit_record *rec);
+int					hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
+						t_hit_record *rec);
+int					draw_box_bounds(t_bvh_hit_ctx *ctx, t_bvh_state state);
 
 //src/ray.c
 t_vec3				ray_at(t_ray ray, double t);
@@ -163,16 +177,8 @@ void				fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
 
 void				draw_hline(t_data *data, void *win, int y);
 
-
-typedef struct s_row_info
-{
-	mlx_window win;
-	int *y;
-	const char *label;
-	mlx_color val_col;
-} t_row_info;
-
-void				put_row(t_data *data, t_row_info info, const char *fmt, ...);
+void				put_row(t_data *data, t_row_info info,
+						const char *fmt, ...);
 void				put_section(t_data *data, void *win, int *y,
 						const char *title);
 void				setup_transform_sliders(t_data *data, t_object *obj);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 01:26:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:38:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	draw_editor(t_data *data)
 		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
 }
 
-void	print_hit_info(t_data *data, t_hit_record hit, double mouse_x,
+void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 		double mouse_y)
 {
 	int	y;

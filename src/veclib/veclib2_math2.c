@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:41:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:09:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:49:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ t_vec2	vec2_multiply(t_vec2 a, t_vec2 b)
 t_vec2	vec2_clamp(t_vec2 v, double min, double max)
 {
 	return ((t_vec2){{
-		fmax(min, fmin(max, v.x)),
-		fmax(min, fmin(max, v.y))
-	}});
+			fmax(min, fmin(max, v.x)),
+			fmax(min, fmin(max, v.y))
+		}});
 }
 
 double	vec2_distance(t_vec2 a, t_vec2 b)

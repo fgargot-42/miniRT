@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:49:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 21:40:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 21:17:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	print_cylinder(t_object *c)
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
-	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x,
+	printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x,
 		c->color.y, c->color.z);
 	printf("--specular: %.2f\n", c->specular);
-	printf("--shininess: %.2f\n", c->shininess);*/
+	printf("--shininess: %.2f\n", c->shininess);
 }
 
 void	print_cone(t_object *c)
@@ -45,10 +45,10 @@ void	print_cone(t_object *c)
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
-	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
+	printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
 		c->color.z);
 	printf("--specular: %.2f\n", c->specular);
-	printf("--shininess: %.2f\n", c->shininess);*/
+	printf("--shininess: %.2f\n", c->shininess);
 }
 
 void	print_hyper(t_object *c)
@@ -64,10 +64,10 @@ void	print_hyper(t_object *c)
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
-	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
+	printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
 		c->color.z);
 	printf("--specular: %.2f\n", c->specular);
-	printf("--shininess: %.2f\n", c->shininess);*/
+	printf("--shininess: %.2f\n", c->shininess);
 }
 
 void	print_para(t_object *c)
@@ -82,10 +82,10 @@ void	print_para(t_object *c)
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--axis: x=%.2f y=%.2f z=%.2f\n",
 		c->direction.x, c->direction.y, c->direction.z);
-	/*printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
+	printf("--color: x=%.2f y=%.2f z=%.2f\n", c->color.x, c->color.y,
 		c->color.z);
 	printf("--specular: %.2f\n", c->specular);
-	printf("--shininess: %.2f\n", c->shininess);*/
+	printf("--shininess: %.2f\n", c->shininess);
 }
 
 void	print_triangle(t_object *c)
@@ -102,7 +102,7 @@ void	print_triangle(t_object *c)
 		c->props.c.x, c->props.c.y, c->props.c.z);
 	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f, %.2f ]\n",
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
-	/*printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ", c->color.x, c->color.y,
+	printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ", c->color.x, c->color.y,
 		c->color.z);
 	if (c->checker)
 		printf("true)\n");
@@ -110,10 +110,7 @@ void	print_triangle(t_object *c)
 		printf("false)\n");
 	printf("--specular: %.2f\n", c->specular);
 	printf("--shininess: %.2f\n", c->shininess);
-	printf("--uv_a: x=%.2f y=%.2f\n",
-		c->uv.tex_a.x, c->uv.tex_a.y);
-	printf("--uv_b: x=%.2f y=%.2f\n",
-		c->uv.tex_b.x, c->uv.tex_b.y);
-	printf("--uv_c: x=%.2f y=%.2f\n",
-		c->uv.tex_c.x, c->uv.tex_c.y);*/
+	printf("--uv_a: x=%.2f y=%.2f\n", c->uv.tex_a.x, c->uv.tex_a.y);
+	printf("--uv_b: x=%.2f y=%.2f\n", c->uv.tex_b.x, c->uv.tex_b.y);
+	printf("--uv_c: x=%.2f y=%.2f\n", c->uv.tex_c.x, c->uv.tex_c.y);
 }

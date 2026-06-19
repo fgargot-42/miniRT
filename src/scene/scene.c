@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 01:33:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 20:40:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	init_scene(char *file, t_data *data)
 	data->scene->bvh_objects = ft_array_filter(data->scene->objects,
 			is_bvh_object, free_object);
 	data->scene->bvh = build_bvh_tree(data->scene);
+	data->scene->bvh_display_level = -1;
 	new_obj = ft_array_filter(data->scene->objects, ft_no_bvh_obj, free_object);
 	free(data->scene->objects.array);
 	data->scene->objects = new_obj;

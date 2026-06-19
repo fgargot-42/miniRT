@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:01:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 20:43:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	color = vec3_to_color(data->scene->sky->color);
 	if (data->scene->skybox)
 		color = vec3_to_color(draw_skybox(data, r));
-	if (hit_scene(data->scene, &r, T_MAX, &hc, data->bvh_display_depth))
+	if (hit_scene(data->scene, &r, T_MAX, &hc))
 	{
 		if (!hc.object)
 			return (vec3_to_color(hc.color));

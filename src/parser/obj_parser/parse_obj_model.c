@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:18:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 00:25:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:42:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,6 @@ static int	apply_vertex_scale(char *scale_str, t_vec3 *vertex)
 	if (fabs(scale) > 1e-10)
 		*vertex = vec3_scale(*vertex, scale);
 	return (1);
-}
-
-void	init_object_model(t_object_model *obj)
-{
-	ft_bzero(obj, sizeof(obj));
-	obj->materials = ft_arraynew();
-	obj->triangles = ft_arraynew();
-	obj->vertices = ft_arraynew();
-	obj->vertex_normals = ft_arraynew();
-	obj->vertex_uv = ft_arraynew();
-}
-
-void	destroy_object_model(t_object_model *obj)
-{
-	ft_arrayclear(&obj->triangles, NULL);
-	ft_arrayclear(&obj->vertices, free);
-	ft_arrayclear(&obj->vertex_normals, free);
-	ft_arrayclear(&obj->vertex_uv, free);
 }
 
 bool	parse_vertex(char *line, t_array *vertices, int line_nb)

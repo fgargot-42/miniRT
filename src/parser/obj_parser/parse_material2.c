@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 21:35:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 18:45:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	parse_mat_density(char *line, t_material *mat, int line_nb)
 	split = ft_split_by_whitespace(line);
 	if (!split)
 		return (0);
-	if (!split[0] || !split[1] || check_array_size(split, 2, "Ni", line_nb))
+	if (check_array_size(split, 2, "Ni", line_nb))
 	{
 		free_str_array(split);
 		return (0);
@@ -66,7 +66,7 @@ int	parse_mat_opacity(char *line, t_material *mat, int line_nb)
 	split = ft_split_by_whitespace(line);
 	if (!split)
 		return (0);
-	if (!split[0] || !split[1] || check_array_size(split, 2, "d", line_nb))
+	if (check_array_size(split, 2, "d", line_nb))
 	{
 		free_str_array(split);
 		return (0);

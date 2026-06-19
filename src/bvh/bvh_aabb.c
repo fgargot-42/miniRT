@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 18:27:23 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 21:33:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 20:53:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,15 @@ void	get_cone_aabb(t_object *obj, t_aabb *aabb)
 
 void	get_object_aabb(t_object *obj, t_aabb *aabb)
 {
-	t_obj_aabb_fn	aabb_fn[] = {get_sphere_aabb, get_cylinder_aabb, get_cone_aabb,
-		get_hyperboloid_aabb, get_paraboloid_aabb, get_triangle_aabb};
-	
-	if (obj->type >= OBJ_SPHERE)
-		aabb_fn[obj->type - OBJ_SPHERE](obj, aabb);
+	static t_obj_aabb_fn	aabb_fn[] = {
+	[OBJ_SPHERE] = get_sphere_aabb,
+	[OBJ_CYLINDER] = get_cylinder_aabb,
+	[OBJ_CONE] = get_cone_aabb,
+	[OBJ_HYPERBOLOID] = get_hyperboloid_aabb,
+	[OBJ_PARABOLOID] = get_paraboloid_aabb,
+	[OBJ_TRIANGLE] = get_triangle_aabb
+	};
+
+	if (obj->type >= OBJ_SPHERE && obj->type <= OBJ_TRIANGLE)
+		aabb_fn[obj->type](obj, aabb);
 }

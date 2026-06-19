@@ -6,33 +6,89 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/12 17:42:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:28:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-double	hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist)
+static void	sort_bvh_children(t_bvh_state *state)
 {
-	t_aabb	aabb;
-	double	tmin;
-	double	tmax;
+	if (state->dist[1] < state->dist[0])
+	{
+		ft_dswap(&state->dist[0], &state->dist[1]);
+		ft_memswap(&state->child[0], &state->child[1], sizeof(t_bvh *));
+	}
+}
 
-	if (!bvh)
-		return (1e30);
-	aabb.min.x = (bvh->aabb.min.x - ray->origin.x) * ray->inv_direction.x;
-	aabb.max.x = (bvh->aabb.max.x - ray->origin.x) * ray->inv_direction.x;
-	tmin = fmin(aabb.min.x, aabb.max.x);
-	tmax = fmax(aabb.min.x, aabb.max.x);
-	aabb.min.y = (bvh->aabb.min.y - ray->origin.y) * ray->inv_direction.y;
-	aabb.max.y = (bvh->aabb.max.y - ray->origin.y) * ray->inv_direction.y;
-	tmin = fmax(tmin, fmin(aabb.min.y, aabb.max.y));
-	tmax = fmin(tmax, fmax(aabb.min.y, aabb.max.y));
-	aabb.min.z = (bvh->aabb.min.z - ray->origin.z) * ray->inv_direction.z;
-	aabb.max.z = (bvh->aabb.max.z - ray->origin.z) * ray->inv_direction.z;
-	tmin = fmax(tmin, fmin(aabb.min.z, aabb.max.z));
-	tmax = fmin(tmax, fmax(aabb.min.z, aabb.max.z));
-	if (tmax >= tmin && tmin < dist && tmax > T_MIN)
-		return (fmax(tmin, T_MIN));
-	return (1e30);
+static void	get_bvh_children(t_bvh_hit_ctx *ctx, t_bvh_state *state)
+{
+	state->dist[0] = 1e30;
+	state->dist[1] = 1e30;
+	state->child[0] = state->node->left;
+	state->child[1] = state->node->right;
+	if (state->child[0])
+		state->dist[0] = hit_bvh_box(state->child[0], ctx->ray, *ctx->closest);
+	if (state->child[1])
+		state->dist[1] = hit_bvh_box(state->child[1], ctx->ray, *ctx->closest);
+	sort_bvh_children(state);
+}
+
+static int	descend_bvh(t_bvh_state *state)
+{
+	if (state->dist[0] == 1e30)
+	{
+		if (!state->depth)
+			return (0);
+		state->node = state->stack[--state->depth];
+	}
+	else
+	{
+		state->node = state->child[0];
+		if (state->dist[1] != 1e30 && state->depth < 2 * BVH_DEPTH - 1)
+			state->stack[state->depth++] = state->child[1];
+	}
+	return (1);
+}
+
+static int	handle_bvh_leaf(t_bvh_hit_ctx *ctx, t_bvh_state *state, int *hit)
+{
+	if (hit_object_in_bvh(state->node, ctx->ray, ctx->closest, ctx->rec))
+		*hit = 1;
+	if (state->depth == 0)
+		return (0);
+	state->node = state->stack[--state->depth];
+	return (1);
+}
+
+int	hit_bvh(t_scene *scene, t_ray *ray, double *closest, t_hit_record *rec)
+{
+	t_bvh_hit_ctx	ctx;
+	t_bvh_state		state;
+	int				hit;
+
+	ctx = (t_bvh_hit_ctx){scene, ray, closest, rec};
+	state.depth = 0;
+	state.node = scene->bvh;
+	hit = 0;
+	state.dist[0] = hit_bvh_box(state.node, ray, *closest);
+	if (state.dist[0] == 1e30)
+		return (0);
+	while (1)
+	{
+		if (!state.node->left && !state.node->right)
+		{
+			if (!handle_bvh_leaf(&ctx, &state, &hit))
+				break ;
+			continue ;
+		}
+#if BVH_VIEW
+		if (draw_box_bounds(&ctx, state))
+			hit = 1;
+#endif
+		get_bvh_children(&ctx, &state);
+		if (!descend_bvh(&state))
+			break ;
+	}
+	return (hit);
 }

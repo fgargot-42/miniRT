@@ -6,13 +6,11 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:59:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:38:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-int			g_rt_debug;
 
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 {
@@ -42,12 +40,12 @@ void	mouse_down_hook(int mouse_event, void *param)
 		data->scene->selected = NULL;
 		mlx_mouse_get_pos(data->mlx, &mouse_x, &mouse_y);
 		ray = camera_ray(data->scene->cam, mouse_x, mouse_y);
-		if (hit_scene(data->scene, &ray, T_MAX, &hc, data->bvh_display_depth))
+		if (hit_scene(data->scene, &ray, T_MAX, &hc))
 		{
 			data->scene->selected = hc.object;
 			setup_sliders(data);
 		}
-		print_hit_info(data, hc, mouse_x, mouse_y);
+		open_inspector(data, hc, mouse_x, mouse_y);
 #if DEBUG
 		// g_rt_debug = BVH_DEPTH;
 		// print_bvh_tree(data->scene->bvh, 0);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/04 18:34:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 18:31:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
 	{
 		ctx->obj = NULL;
 		ctx->line_nb++;
-		printf("Parsing line %d\n", ctx->line_nb);
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "obj", 3))

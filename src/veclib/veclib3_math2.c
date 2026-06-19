@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:41:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:10:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/19 22:49:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	return ((t_vec3){{
-		a.y * b.z - a.z * b.y,
-		a.z * b.x - a.x * b.z,
-		a.x * b.y - a.y * b.x
-	}});
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x
+		}});
 }
 
 t_vec3	vec3_normalize(t_vec3 v)
@@ -41,10 +41,10 @@ t_vec3	vec3_multiply(t_vec3 a, t_vec3 b)
 t_vec3	vec3_clamp(t_vec3 v, double min, double max)
 {
 	return ((t_vec3){{
-		fmax(min, fmin(max, v.x)),
-		fmax(min, fmin(max, v.y)),
-		fmax(min, fmin(max, v.z))
-	}});
+			fmax(min, fmin(max, v.x)),
+			fmax(min, fmin(max, v.y)),
+			fmax(min, fmin(max, v.z))
+		}});
 }
 
 double	vec3_distance(t_vec3 a, t_vec3 b)
