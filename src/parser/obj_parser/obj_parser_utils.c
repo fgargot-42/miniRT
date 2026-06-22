@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 21:05:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:54:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/22 18:58:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,17 @@ void	destroy_object_model(t_object_model *obj)
 	ft_arrayclear(&obj->vertices, free);
 	ft_arrayclear(&obj->vertex_normals, free);
 	ft_arrayclear(&obj->vertex_uv, free);
+	free(obj->materials.array);
+}
+
+void	add_materials_to_scene(t_scene *scene, t_array materials)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < materials.len)
+	{
+		ft_arrayadd_back(&scene->mat, materials.array[i], destroy_material);
+		i++;
+	}
 }

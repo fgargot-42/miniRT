@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/18 23:52:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/22 18:54:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ int					parse_double(char *param, double *res, char *object,
 int					parse_texture_file(char *param, t_object *obj,
 						t_parser_ctx *ctx, void *mlx);
 void				add_triangles_to_scene(t_scene *scene, t_array triangles);
+void				add_materials_to_scene(t_scene *scene, t_array materials);
 #endif

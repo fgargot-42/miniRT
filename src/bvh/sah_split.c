@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 17:04:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 21:08:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/22 18:42:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ static void	find_best_split_plane(t_bvh *node, t_aabb bounds, int axis,
 		sah->count_l = count_l;
 		sah->count_r = node->nb_elements - count_l;
 	}
+	free(bins);
 }
 
 t_sah	get_sah_split(t_bvh *node)
