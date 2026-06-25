@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_hooks_editor.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/20 19:17:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:06:24 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	editor_mouse_down(int event, void *param)
 			data->dragging_slider = i;
 			apply_slider_x(s, mx);
 			apply_tan_or_matrix(data);
-			draw_editor(data);
+			draw_editor(data, mx, my);
 			return ;
 		}
 		i++;
@@ -96,7 +96,7 @@ void	editor_loop(void *param)
 	s = &data->sliders[data->dragging_slider];
 	apply_slider_x(s, mx);
 	apply_tan_or_matrix(data);
-	draw_editor(data);
+	draw_editor(data, mx, my);
 	bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
 	draw(data);
 }

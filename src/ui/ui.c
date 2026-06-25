@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:38:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/25 19:19:53 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,25 +100,68 @@ static void	draw_slider(t_data *data, t_slider *s)
 		(mlx_color){.rgba = COL_WHITE});
 	mlx_string_put(data->mlx, data->editor, PANEL_PAD, s->y,
 		(mlx_color){.rgba = COL_LABEL}, (char *)s->label);
+	fill_rect(data,
+			(t_vec2){{SLD_X + SLD_W + 8, s->y - 2}},
+			(t_vec2){{70, SLD_H + 4}},
+			(mlx_color){.rgba = COL_BG});
+
 	snprintf(buf, sizeof(buf), "%.2f", *s->value);
-	mlx_string_put(data->mlx, data->editor, SLD_X + SLD_W + 8, s->y,
-		(mlx_color){.rgba = COL_VALUE}, buf);
+	mlx_string_put(data->mlx, data->editor,
+			SLD_X + SLD_W + 8, s->y,
+			(mlx_color){.rgba = COL_VALUE},
+			buf);
+
 }
 
-void	draw_editor(t_data *data)
+void	header(t_data* data, double mouse_x, double mouse_y)
+{
+	int y;
+	t_object o;
+	o = *data->scene->selected;
+		mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
+	mlx_string_put(data->mlx, data->editor,
+		PANEL_X + PANEL_PAD, PANEL_Y + 16,
+		(mlx_color){.rgba = COL_WHITE},
+		"miniRT INSPECTOR |      ;)");
+	y = PANEL_Y + TITLE_H + 8;
+	put_section(data, data->editor, &y, "DATA ----");
+	put_row(data, (t_row_info){.y = &y, .win = data->editor,
+		.label = "addr",
+		.val_col = (mlx_color){.rgba = COL_ADDR}},
+		"%p", o);
+	put_row(data, (t_row_info){.y = &y, .win = data->editor,
+		.label = "type",
+		.val_col = (mlx_color){.rgba = COL_TYPE}},
+		"%s", obj_type_name(o.type));
+	put_row(data, (t_row_info){.y = &y, .win = data->editor,
+		.label = "mouse",
+		.val_col = (mlx_color){.rgba = COL_VALUE}},
+		"u=%.1f  v=%.1f", mouse_x, mouse_y);
+
+
+}
+void	draw_editor(t_data *data, double mouse_x, double mouse_y)
 {
 	int	y;
 	int	i;
 
 	if (!data->editor || data->nb_sliders == 0)
 		return ;
-	fill_rect(data, (t_vec2){{0, SLD_BASE_Y - 44}}, (t_vec2){{EDITOR_W, EDITOR_H
-		- (SLD_BASE_Y - 44)}}, (mlx_color){.rgba = COL_BG});
-	y = SLD_BASE_Y - 44;
-	put_section(data, data->editor, &y, "TRANSFORM -");
-	i = 0;
-	while (i < 3)
-	{
+
+	 mlx_clear_window(data->mlx, data->editor,
+        (mlx_color){.rgba = COL_WHITE});
+//	fill_rect(data, (t_vec2){{0, SLD_BASE_Y - 44}}, (t_vec2){{EDITOR_W, EDITOR_H
+//		- (SLD_BASE_Y - 44)}}, (mlx_color){.rgba = COL_BG});
+	 fill_rect(data,
+			 (t_vec2){{0, 0}},
+			 (t_vec2){{EDITOR_W, EDITOR_H}},
+			 (mlx_color){.rgba = COL_BG});
+	 header(data, mouse_x, mouse_y);
+	 y = SLD_BASE_Y - 130;
+	 put_section(data, data->editor, &y, "TRANSFORM -");
+	 i = 0;
+	 while (i < 3)
+	 {
 		data->sliders[i].y = y;
 		draw_slider(data, &data->sliders[i]);
 		y += SLD_SPACING;
@@ -183,7 +226,6 @@ void	draw_editor(t_data *data)
 void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 		double mouse_y)
 {
-	int	y;
 	int	panel_h;
 
 	init_editor(data);
@@ -194,35 +236,12 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
+
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, panel_h}},
 		(mlx_color){.rgba = COL_BG});
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, TITLE_H}},
 		(mlx_color){.rgba = COL_TITLEBAR});
-	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
-	mlx_string_put(data->mlx, data->editor,
-		PANEL_X + PANEL_PAD, PANEL_Y + 16,
-		(mlx_color){.rgba = COL_WHITE},
-		"miniRT INSPECTOR |      ;)");
-	y = PANEL_Y + TITLE_H + 8;
-	put_section(data, data->editor, &y, "OBJECT ----");
-	put_row(data, (t_row_info){.y = &y, .win = data->editor,
-		.label = "addr",
-		.val_col = (mlx_color){.rgba = COL_ADDR}},
-		"%p", hit.object);
-	put_row(data, (t_row_info){.y = &y, .win = data->editor,
-		.label = "type",
-		.val_col = (mlx_color){.rgba = COL_TYPE}},
-		"%s", obj_type_name(hit.object->type));
-	put_section(data, data->editor, &y, "HIT ------");
-	put_row(data, (t_row_info){.y = &y, .win = data->editor,
-		.label = "point",
-		.val_col = (mlx_color){.rgba = COL_VALUE}},
-		"%.3f  %.3f  %.3f",
-		hit.point.x, hit.point.y, hit.point.z);
-	put_row(data, (t_row_info){.y = &y, .win = data->editor,
-		.label = "mouse",
-		.val_col = (mlx_color){.rgba = COL_VALUE}},
-		"u=%.1f  v=%.1f", mouse_x, mouse_y);
+
 	setup_sliders(data);
-	draw_editor(data);
+	draw_editor(data, mouse_x, mouse_y);
 }
