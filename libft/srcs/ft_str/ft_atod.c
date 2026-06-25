@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 19:18:43 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/06 23:09:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/25 18:03:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static	long	get_nb(const char *nb_str, int *nb_digits_right)
 
 static long	ft_atod_pow(int nb, int e)
 {
-	int	res;
+	long	res;
 
 	res = 1;
 	if (e < 0)
