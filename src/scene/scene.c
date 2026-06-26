@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 20:40:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/29 21:32:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,6 @@ void	free_object(void *object)
 	t_object	*o;
 
 	o = (t_object *)object;
-	if (o->type >= OBJ_CYLINDER && o->type != OBJ_TRIANGLE
-		&& o->props.transform_axis)
-		free_matrix(o->props.transform_axis);
 	if (o->tex)
 	{
 		mlx_destroy_image(o->tex->mlx, o->tex->data);

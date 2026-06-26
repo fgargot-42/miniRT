@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 20:48:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/29 21:29:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ t_vec3	vec3_clamp(t_vec3 v, double min, double max);
 double	vec3_distance(t_vec3 a, t_vec3 b);
 t_vec3	vec3_min(t_vec3 a, t_vec3 b);
 t_vec3	vec3_max(t_vec3 a, t_vec3 b);
-
-void	free_matrix(double **matrix);
-double	**vec_get_matrix_rotation_z(t_vec3 v_from);
-t_vec3	vec_apply_rotation_z(t_vec3 v_from, double **t_matrix);
-t_vec3	vec_reverse_rotation(t_vec3 v_from, double **t_matrix);
 
 // T_VEC2 FUNCTIONS
 

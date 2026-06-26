@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:26:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/29 21:22:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TYPES_H
 
 # include "veclib.h"
+# include "matlib.h"
 # include "libft.h"
 # include "ui.h"
 
@@ -47,7 +48,7 @@ typedef union u_obj_prop
 		double	tan_angle;
 		double	height;
 		double	depth;
-		double	**transform_axis;
+		t_mat3	transform_axis;
 	};
 	// camera
 	struct
@@ -92,6 +93,7 @@ typedef struct s_material
 	t_vec3		spec_color;
 	t_vec3		emissive;
 	t_texture	*color_tex;
+	t_texture	*normal_tex;
 	double		density;
 	double		specular;
 	double		opacity;

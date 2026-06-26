@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/19 22:23:51 by fgargot          ###   ########.fr        #
+#    Updated: 2026/06/29 22:28:51 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,10 @@ SRC =	main.c \
 		veclib/veclib3_math.c \
 		veclib/veclib3_math2.c \
 		veclib/veclib3_math3.c \
-		utils/matrix.c \
+		matlib/matrix.c \
+		matlib/matrix2.c \
+		matlib/matrix3.c \
+		matlib/matrix_utils.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/array_utils.c \

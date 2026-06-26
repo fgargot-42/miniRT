@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 20:45:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/29 21:31:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,16 @@ static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 
 static void	print_rotation_info_debug(t_object *obj)
 {
-	t_vec3			axis;
-	double			**mat;
+	t_vec3	axis;
+	t_mat3	mat;
 
 	axis = obj->direction;
 	mat = obj->props.transform_axis;
 	printf("Object axis: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
-	if (mat)
-	{
-		printf("Object rotation matrix:\n[ %.3f\t%.3f\t%.3f ]\n",
-			mat[0][0], mat[0][1], mat[0][2]);
-		printf("[ %.3f\t%.3f\t%.3f ]\n", mat[1][0], mat[1][1], mat[1][2]);
-		printf("[ %.3f\t%.3f\t%.3f ]\n", mat[2][0], mat[2][1], mat[2][2]);
-	}
+	printf("Object rotation matrix:\n[ %.3f\t%.3f\t%.3f ]\n",
+			mat.mat[0][0], mat.mat[0][1], mat.mat[0][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[1][0], mat.mat[1][1], mat.mat[1][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[2][0], mat.mat[2][1], mat.mat[2][2]);
 	axis = vec_apply_rotation_z(axis, mat);
 	printf("\tObject after rotation: x=%.3f y=%.3f z=%.3f\n",
 		axis.x, axis.y, axis.z);
