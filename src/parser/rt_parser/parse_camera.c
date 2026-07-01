@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/01 23:37:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 23:55:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_object	*parse_camera(char **line_split, t_parser_ctx *ctx, void *mlx)
 		return (NULL);
 	}
 	obj->props.yaw = atan2(obj->direction.z, obj->direction.x) * 180 / M_PI;
-	obj->props.pitch = 90.0 * obj->direction.y;
+	obj->props.pitch = asin(obj->direction.y) * 180 / M_PI;
 	obj->type = OBJ_CAMERA;
 	return (obj);
 }
