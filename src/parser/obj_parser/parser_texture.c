@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/25 20:34:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/06/30 21:14:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_mat_normal_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 {
 	char	**split;
 	char	*path;
+	int		i;
 
 	if (!line || !mat)
 		return (0);
@@ -56,7 +57,10 @@ int	parse_mat_normal_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 		free_str_array(split);
 		return (0);
 	}
-	path = ft_strjoin(ctx->rt_path, split[1]);
+	i = 1;
+	while (split[i + 1])
+		i++;
+	path = ft_strjoin(ctx->rt_path, split[i]);
 	free_str_array(split);
 	mat->normal_tex = load_texture(path, ctx->mlx);
 	free(path);

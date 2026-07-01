@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:58:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/26 17:26:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 19:36:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,8 @@
 static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 		t_object *obj)
 {
-	t_vec3	n_map;
-
-	n_map = (t_vec3){{0, 0, 0}};
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
-	if (obj->material->normal_tex)
-		n_map = vec3_normalize(vec3_sub(vec3_scale(triangle_uv_to_color(obj,
-			rec->point), 127.5), (t_vec3){{1.0, 1.0, 1.0}}));
 	rec->normal = face_normal(ray, obj->direction);
 	rec->object = obj;
 	rec->specular = obj->specular;

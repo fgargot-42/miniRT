@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/26 17:25:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 19:39:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 		if (!hc.object)
 			return (vec3_to_color(hc.color));
 		if (hc.object->type == OBJ_TRIANGLE
-			&& hc.object->material->color_tex)
+			&& hc.object->material && hc.object->material->color_tex)
 		{
 			uvcol = triangle_uv_to_color(hc.object, hc.point);
 			hc.color = uvcol;

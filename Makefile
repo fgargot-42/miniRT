@@ -6,13 +6,13 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/29 22:28:51 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/02 00:03:55 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -funroll-loops -flto -ffast-math -fstrict-aliasing
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj

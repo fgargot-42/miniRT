@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 23:01:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:22:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,8 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 
 	i = 0;
 	tmp = *rec;
-	if (rec->object->material && rec->object->material->normal_tex)
-		tmp.normal = apply_normal_map(rec);
+	//if (rec->object->material && rec->object->material->normal_tex)
+	//	tmp.normal = apply_normal_map(rec);
 	rec->color = apply_ambient(rec->color, scene->ambient);
 	result = rec->color;
 	is_shadow = 1;

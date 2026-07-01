@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:43:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:11:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ bool	parse_face(char *line, t_object_model *model,
 	}
 	i = 2;
 	p_res = 1;
-	while (p_res && split[i] && split[i + 1])
+	while (p_res && split[i] && split[i + 1] && ft_strlen(split[i + 1]))
 	{
 		p_res = parse_triangle_face(split, model, mat, i);
 		i++;

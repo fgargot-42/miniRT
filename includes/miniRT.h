@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 21:46:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/01 20:13:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINIRT_H
 
 # define T_MIN 0.001
-# define T_MAX 500
+# define T_MAX 5000
 # define WIDTH 1280
 # define HEIGHT 720
 # define CAMERA_SENS 0.35

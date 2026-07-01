@@ -6,13 +6,13 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/06/12 15:50:53 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/02 00:04:22 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=libft.a
 CC=cc
-CFLAGS=-Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops
 INCDIR=includes
 SRCDIR=srcs
 OBJDIR=objs
