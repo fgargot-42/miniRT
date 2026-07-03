@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 01:40:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 18:02:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_vec3	apply_diffuse(t_hit_record *rec, t_object *light)
 	double	diff;
 
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
-	diff = fmax(0.0, vec3_dot(rec->normal, light_dir));
+	diff = smoothstep(-0.05, 0.15, vec3_dot(rec->normal, light_dir));
 	diff_color = vec3_scale(vec3_multiply(rec->color, light->color),
 			diff * light->props.intensity);
 	return (diff_color);

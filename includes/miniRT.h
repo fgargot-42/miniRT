@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 02:10:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 18:01:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ t_ray				get_object_relative_ray(t_ray ray, t_object *obj);
 
 //lighting.c
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
+double 				smoothstep(double min, double max, double value);
 
 // UTILS
 
