@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/01 20:13:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 02:10:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,8 @@ void				setup_ambient_sliders(t_data *data, t_object *obj);
 void				destroy_material(void *o);
 t_texture			*load_texture(char *path, mlx_context mlx);
 t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);
-t_vec3				triangle_uv_to_color(t_object *obj, t_vec3 hit);
+t_vec3				triangle_uv_to_color(t_object *obj, t_texture *tex,
+						t_vec3 hit);
 t_vec2				get_uv(t_vec3 vec);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/25 20:32:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 01:49:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static int	open_material_texture(char *line, t_material *mat,
 		status &= parse_mat_color_tex(line, mat, ctx);
 	if (!strncmp(split[0], "map_Bump", 8))
 		status &= parse_mat_normal_tex(line, mat, ctx);
+	if (!strncmp(split[0], "map_Ks", 6))
+		status &= parse_mat_spec_tex(line, mat, ctx);
 	free_str_array(split);
 	return (status);
 }

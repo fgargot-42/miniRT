@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 21:22:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 02:00:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_material
 	t_vec3		emissive;
 	t_texture	*color_tex;
 	t_texture	*normal_tex;
+	t_texture	*spec_tex;
 	double		density;
 	double		specular;
 	double		opacity;

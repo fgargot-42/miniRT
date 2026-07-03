@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/25 20:35:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 01:51:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
 int			parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx);
 int			parse_mat_normal_tex(char *line, t_material *mat,
 				t_parser_ctx *ctx);
+int			parse_mat_spec_tex(char *line, t_material *mat, t_parser_ctx *ctx);
 
 #endif // MATERIAL_H

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/26 17:28:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 02:03:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,12 @@ void	destroy_material(void *o)
 		mlx_destroy_image(mat->normal_tex->mlx, mat->normal_tex->data);
 		free(mat->normal_tex);
 		mat->normal_tex = NULL;
+	}
+	if (mat->spec_tex)
+	{
+		mlx_destroy_image(mat->spec_tex->mlx, mat->spec_tex->data);
+		free(mat->spec_tex);
+		mat->spec_tex = NULL;
 	}
 	free(mat);
 }

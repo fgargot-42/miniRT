@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/01 19:39:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 01:59:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,13 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 		if (hc.object->type == OBJ_TRIANGLE
 			&& hc.object->material && hc.object->material->color_tex)
 		{
-			uvcol = triangle_uv_to_color(hc.object, hc.point);
-			hc.color = uvcol;
+			if (hc.object->material->spec_tex)
+				hc.specular = triangle_uv_to_color(hc.object,
+					hc.object->material->spec_tex, hc.point).x / 255.0;
+			if (hc.object->material->color_tex)
+				hc.color = triangle_uv_to_color(hc.object,
+					hc.object->material->color_tex, hc.point);
 		}
-		shaded = shade(&hc, data->scene, &r);
 		if (hc.object->type == OBJ_SPHERE && hc.object->tex)
 		{
 			// texture mapping
@@ -79,8 +82,9 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 			uv.x = uv.x - floor(uv.x);
 			uv.y = uv.y - floor(uv.y);
 			uvcol = uv_to_color(hc.object->tex, uv);
-			shaded = vec3_multiply(shaded, vec3_scale(uvcol, 1.0 / 255.0));
+			hc.color = uvcol;
 		}
+		shaded = shade(&hc, data->scene, &r);
 		if (data->scene->selected && hc.object == data->scene->selected)
 			color = apply_selection_rim(shaded, &hc, &r);
 		else

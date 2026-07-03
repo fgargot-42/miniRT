@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:35:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:19:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/02 18:54:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	get_str_array_length(char **array)
 	len = 0;
 	if (!array)
 		return (0);
-	while (array[len])
+	while (array[len] && array[len][0])
 		len++;
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 21:29:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/02 20:45:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_vec3	vec3_clamp(t_vec3 v, double min, double max);
 double	vec3_distance(t_vec3 a, t_vec3 b);
 t_vec3	vec3_min(t_vec3 a, t_vec3 b);
 t_vec3	vec3_max(t_vec3 a, t_vec3 b);
+t_vec3	vec3_pow(t_vec3 a, double pow);
 
 // T_VEC2 FUNCTIONS
 

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:13:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 01:56:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,15 @@ static t_vec2	get_triangle_uv_hit(t_object *obj, t_vec3 hit)
 	return (uv);
 }
 
-t_vec3	triangle_uv_to_color(t_object *obj, t_vec3 hit)
+t_vec3	triangle_uv_to_color(t_object *obj, t_texture *tex, t_vec3 hit)
 {
 	t_vec2		uv;
 	mlx_color	pixel;
 
 	uv = get_triangle_uv_hit(obj, hit);
-	uv.x = uv.x * obj->material->color_tex->width - 1;
-	uv.y = (1 - uv.y) * obj->material->color_tex->height - 1;
-	pixel = mlx_get_image_pixel(obj->material->color_tex->mlx,
-			obj->material->color_tex->data, uv.x, uv.y);
+	uv.x = uv.x * tex->width - 1;
+	uv.y = (1 - uv.y) * tex->height - 1;
+	pixel = mlx_get_image_pixel(tex->mlx, tex->data, uv.x, uv.y);
 	return ((t_vec3){{pixel.r, pixel.g, pixel.b}});
 }
 

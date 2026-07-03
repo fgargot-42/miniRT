@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/30 21:14:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/03 01:49:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,34 @@ int	parse_mat_normal_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 	mat->normal_tex = load_texture(path, ctx->mlx);
 	free(path);
 	return (mat->normal_tex != NULL);
+}
+
+int	parse_mat_spec_tex(char *line, t_material *mat, t_parser_ctx *ctx)
+{
+	char	**split;
+	char	*path;
+	int		i;
+
+	if (!line || !mat)
+		return (0);
+	if (mat->spec_tex)
+		return (1);
+	split = ft_split_by_whitespace(line);
+	if (!split)
+		return (0);
+	if (check_array_size(split, 2, "map_Ks", ctx->line_nb))
+	{
+		free_str_array(split);
+		return (0);
+	}
+	i = 1;
+	while (split[i + 1])
+		i++;
+	path = ft_strjoin(ctx->rt_path, split[i]);
+	free_str_array(split);
+	mat->spec_tex = load_texture(path, ctx->mlx);
+	free(path);
+	return (mat->spec_tex != NULL);
 }
 
 int	parse_obj_tex_file(t_object_model *obj, char *rt_path,
