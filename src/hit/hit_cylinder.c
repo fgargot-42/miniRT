@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:03:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/08 16:31:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	hit_cylinder(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	t_hit_ctx	ctx;
 
 	ctx.t_max = t_max;
+	ctx.render_t = t_max;
 	ctx.obj_ray = get_object_relative_ray(*ray, obj);
 	has_hit = get_intersection(obj->radius, obj->props.height, &ctx);
 	has_hit |= hit_cylinder_cap(obj->radius, obj->props.height, &ctx);

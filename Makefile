@@ -6,13 +6,13 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/03 17:56:14 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/11 00:16:07 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -103,7 +103,7 @@ SRC =	main.c \
 		ui/setup.c \
 		ui/setup2.c \
 		uv_mapping.c
-OBJ = $(SRC:.c=.o)
+OBJ = $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 
 all: $(NAME)
 
@@ -113,7 +113,7 @@ $(MLX):
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(NAME): $(MLX) $(addprefix $(OBJDIR)/, $(OBJ)) $(LIBFT) 
+$(NAME): $(MLX) $(OBJ) $(LIBFT) 
 	$(CC) $(CFLAGS) $(CLINK) $(INCLUDE) $^ -o $@ 
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -131,5 +131,7 @@ fclean: clean
 	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+-include $(OBJ:.o=.d)
 
 .PHONY: all clean fclean re

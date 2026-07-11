@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:05:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/11 19:01:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 #include "hit.h"
 #include "veclib.h"
 
-// Hyperboloid equation: z^2 = x^2 + y^2 - 1
+// Hyperboloid equation: z² = x² + y² - 1
 
 static double	get_hyperboloid_z_radius(t_vec3 point, double tan_angle,
 	double radius)
 {
-	point.z = 0;
-	point = vec3_scale(point, 1 / radius);
+	double	z_radius;
+
 	if (fabs(tan_angle) < 1e-6)
 		return (0);
-	return (sqrt(vec3_dot(point, point) - 1) / tan_angle);
+	point.z = 0;
+	point = vec3_scale(point, 1 / radius);
+	z_radius = vec3_dot(point, point) - 1;
+	if (z_radius <= 0)
+		return (0);
+	return (sqrt(z_radius) / tan_angle);
 }
 
 static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
@@ -31,19 +36,14 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 {
 	t_vec3	normal;
 	double	z_cap;
-	double	z_ratio;
 
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
-	z_ratio = get_hyperboloid_z_radius(ctx.render_hit, obj->props.tan_angle,
-			obj->radius);
 	normal = (t_vec3){{0, 0, z_cap}};
 	if (ctx.render_hit.z < obj->props.height - 1e-6
 		&& ctx.render_hit.z > -obj->props.depth + 1e-6)
 	{
-		normal = vec3_scale(ctx.render_hit, 1 / obj->radius);
-		normal.z = 0;
-		if (fabs(z_ratio) > 1e-6)
-			normal.z = -ctx.render_hit.z * obj->props.tan_angle;
+		normal = vec3_scale(ctx.render_hit, 1 / pow(obj->radius, 2));
+		normal.z = -ctx.render_hit.z * pow(obj->props.tan_angle, 2);
 	}
 	if (fabs(obj->direction.z - 1) > 1e-6)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
@@ -87,16 +87,23 @@ static int	get_intersection(t_obj_prop props, double radius, t_hit_ctx *ctx)
 
 static int	hit_hyperboloid_cap(t_obj_prop props, double radius, t_hit_ctx *ctx)
 {
-	double				v_len;
-	t_vec3				v_hit_cap;
+	double	v_len;
+	t_vec3	v_hit_cap;
+	double	z_radius;
 
-	v_len = (ctx->oc.z > 0) * props.height - (ctx->oc.z < 0) * props.depth;
-	if (ctx->oc.z < props.height && ctx->oc.z > -props.depth)
-		if (get_hyperboloid_z_radius(ctx->oc, props.tan_angle, radius)
-			> fabs(ctx->oc.z) + 1e-3)
+	if (ctx->rd.z == 0)
+		return (0);
+	if (ctx->oc.z >= props.height)
+		v_len = props.height;
+	else if (ctx->oc.z <= -props.depth)
+		v_len = -props.depth;
+	else
+	{
+		z_radius = get_hyperboloid_z_radius(ctx->oc, props.tan_angle, radius);
+		if (z_radius > fabs(ctx->oc.z))
 			return (0);
-	if (ctx->oc.z > -props.depth + 1e-3 && ctx->oc.z < props.height - 1e-3)
 		v_len = (ctx->rd.z > 0) * props.height - (ctx->rd.z < 0) * props.depth;
+	}
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
@@ -105,8 +112,8 @@ static int	hit_hyperboloid_cap(t_obj_prop props, double radius, t_hit_ctx *ctx)
 	if (fabs(v_hit_cap.z - props.height) > 1e-3
 		&& fabs(v_hit_cap.z + props.depth) > 1e-3)
 		return (0);
-	if (get_hyperboloid_z_radius(v_hit_cap, props.tan_angle, radius)
-		> fabs(v_hit_cap.z))
+	z_radius = get_hyperboloid_z_radius(v_hit_cap, props.tan_angle, radius);
+	if (z_radius > fabs(v_hit_cap.z) || v_len >= ctx->t_max)
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;

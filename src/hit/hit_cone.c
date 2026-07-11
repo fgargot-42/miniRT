@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:04:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/08 16:31:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 		&& fabs(v_hit_cap.z + props.depth) > 1e-3)
 		return (0);
 	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > fabs(v_hit_cap.z)
-		* props.tan_angle)
+		* props.tan_angle || v_len >= ctx->t_max || v_len >= ctx->render_t)
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;
