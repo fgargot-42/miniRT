@@ -6,13 +6,35 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/01 20:11:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 20:42:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "parser.h"
 #include "libft.h"
+
+static int	parse_hyperboloid_optional_elements(char **line_split,
+	t_object *obj, t_parser_ctx *ctx, void *mlx)
+{
+	int	nb_elements;
+	int	p_res;
+
+	nb_elements = get_str_array_length(line_split);
+	p_res = 1;
+	if (nb_elements > 8)
+		p_res &= parse_double(line_split[8], &(obj->specular), "hyperboloid",
+				ctx->line_nb);
+	if (nb_elements > 9)
+		p_res &= parse_double(line_split[9], &(obj->shininess), "hyperboloid",
+				ctx->line_nb);
+	if (nb_elements > 10)
+		p_res &= parse_vector(line_split[10], &(obj->checker_color),
+				"hyperboloid", ctx->line_nb);
+	if (nb_elements > 11)
+		p_res &= parse_texture_file(line_split[11], obj, ctx, mlx);
+	return (p_res);
+}
 
 static int	parse_hyperboloid_elements(char **split, t_object *obj,
 		t_parser_ctx *ctx, void *mlx)
@@ -33,14 +55,9 @@ static int	parse_hyperboloid_elements(char **split, t_object *obj,
 	p_res &= parse_double(split[6], &(obj->props.depth), "hyperboloid",
 			ctx->line_nb);
 	p_res &= parse_vector(split[7], &(obj->color), "hyperboloid", ctx->line_nb);
-	if (split_len > 8 && ft_strlen(split[8]))
-		p_res &= parse_double(split[8], &(obj->specular), "hyperboloid",
-				ctx->line_nb);
-	if (split_len > 9 && ft_strlen(split[9]))
-		p_res &= parse_double(split[9], &(obj->shininess), "hyperboloid",
-				ctx->line_nb);
-	if (split_len > 10)
-		p_res &= parse_texture_file(split[10], obj, ctx, mlx);
+	if (p_res)
+		obj->checker_color = obj->color;
+	p_res = parse_hyperboloid_optional_elements(split, obj, ctx, mlx);
 	return (p_res);
 }
 

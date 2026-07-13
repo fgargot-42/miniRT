@@ -6,13 +6,14 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/11 00:16:07 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/13 18:30:39 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP
+CFLAGS_DEBUG = $(CFLAGS:-O3=-g)
 CLINK = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
@@ -104,6 +105,7 @@ SRC =	main.c \
 		ui/setup2.c \
 		uv_mapping.c
 OBJ = $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
+OBJ_DEBUG = $(addprefix $(OBJDIR)_debug/,$(SRC:.c=.o))
 
 all: $(NAME)
 
@@ -116,12 +118,19 @@ $(LIBFT):
 $(NAME): $(MLX) $(OBJ) $(LIBFT) 
 	$(CC) $(CFLAGS) $(CLINK) $(INCLUDE) $^ -o $@ 
 
+debug: $(MLX) $(OBJ_DEBUG) $(LIBFT)
+	$(CC) $(CFLAGS_DEBUG) $(CLINK) $(INCLUDE) $^ -o $@
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
+$(OBJDIR)_debug/%.o: $(SRCDIR)/%.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS_DEBUG) $(INCLUDE) -c $< -o $@
+
 clean:
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJDIR) $(OBJDIR)_debug
 	make -C $(MLX_DIR) clean
 	make -C $(LIBFT_DIR) clean
 
@@ -133,5 +142,6 @@ fclean: clean
 re: fclean all
 
 -include $(OBJ:.o=.d)
+-include $(OBJ_DEBUG:.o=.d)
 
 .PHONY: all clean fclean re

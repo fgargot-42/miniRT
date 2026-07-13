@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/11 00:10:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 21:06:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void				mouse_loop(void *param);
 
 //src/hit.c
 t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
+void				apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point);
 int					hit_list(t_array obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,

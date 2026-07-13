@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:22:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/21 21:02:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 21:06:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 {
 	rec->t = ctx.render_t;
 	rec->point = ray_at(*ray, rec->t);
-	rec->normal = face_normal(ray, vec3_normalize(vec3_sub(
-					rec->point, obj->position)));
+	rec->normal = vec3_normalize(vec3_sub(rec->point, obj->position));
 	rec->color = obj->color;
 	rec->object = obj;
 	rec->specular = obj->specular;
@@ -63,5 +62,6 @@ int	hit_sphere(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	if (!has_hit)
 		return (0);
 	update_hit_record(rec, ray, obj, ctx);
+	apply_checker(rec, obj, ctx.render_hit);
 	return (1);
 }

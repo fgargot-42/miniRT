@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:49:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 21:17:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 20:30:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,6 @@ void	print_triangle(t_object *c)
 		b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z);
 	printf("--color: x=%.2f y=%.2f z=%.2f (checkered: ", c->color.x, c->color.y,
 		c->color.z);
-	if (c->checker)
-		printf("true)\n");
-	else
-		printf("false)\n");
 	printf("--specular: %.2f\n", c->specular);
 	printf("--shininess: %.2f\n", c->shininess);
 	printf("--uv_a: x=%.2f y=%.2f\n", c->uv.tex_a.x, c->uv.tex_a.y);

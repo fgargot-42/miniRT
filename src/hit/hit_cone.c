@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/08 16:31:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 21:05:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
 	rec->point = ray_at(*ray, rec->t);
-	rec->normal = face_normal(ray, vec3_normalize(normal));
+	rec->normal = vec3_normalize(normal);
 	rec->color = obj->color;
 	rec->object = obj;
 	rec->specular = obj->specular;
@@ -110,5 +110,6 @@ int	hit_cone(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	if (!has_hit)
 		return (0);
 	update_hit_record(rec, ray, obj, ctx);
+	apply_checker(rec, obj, ctx.render_hit);
 	return (1);
 }

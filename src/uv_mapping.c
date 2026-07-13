@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 01:56:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 19:48:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_vec3	uv_to_color(t_texture *tex, t_vec2 uv)
 	int			x;
 	int			y;
 
-	x = (int)(uv.x * (tex->width - 1));
+	x = (int)((1 - uv.x) * (tex->width - 1));
 	y = (int)(uv.y * (tex->height - 1));
 	pixel = mlx_get_image_pixel(tex->mlx, tex->data, x, y);
 	col.x = pixel.r;

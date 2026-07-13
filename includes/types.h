@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 02:00:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 20:07:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_object
 	t_vec3			direction; // normal for planes
 	t_vec3			scale;
 	t_vec3			color;
-	int				checker;
+	t_vec3			checker_color;
 	double			radius;
 	double			angle;
 	double			specular;

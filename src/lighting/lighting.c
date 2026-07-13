@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 18:02:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/13 18:10:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	tmp = *rec;
 	//if (rec->object->material && rec->object->material->normal_tex)
 	//	tmp.normal = apply_normal_map(rec);
+	tmp.normal = face_normal(ray, rec->normal);
 	linear_color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
 	tmp.color = linear_color;
 	result = apply_ambient(linear_color, scene->ambient);
