@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 21:05:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/15 20:38:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,15 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 {
 	double				v_len;
 	t_vec3				v_hit_cap;
-	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	v_len = (ctx->oc.z > 0) * props.height - (ctx->oc.z < 0) * props.depth;
 	if (ctx->oc.z < props.height && ctx->oc.z > -props.depth)
-		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > fabs(ctx->oc.z
-				* props.tan_angle) + 1e-3
-			|| (ctx->oc.z > 0) != (ctx->rd.z > 0))
+	{
+		if (vec3_length((t_vec3){{ctx->oc.x, ctx->oc.y, 0}}) > fabs(ctx->oc.z
+					* props.tan_angle) + 1e-3)
 			return (0);
+		v_len = (ctx->rd.z > 0) * props.height - (ctx->rd.z < 0) * props.depth;
+	}
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
@@ -89,8 +90,8 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 	if (fabs(v_hit_cap.z - props.height) > 1e-3
 		&& fabs(v_hit_cap.z + props.depth) > 1e-3)
 		return (0);
-	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > fabs(v_hit_cap.z)
-		* props.tan_angle || v_len >= ctx->t_max || v_len >= ctx->render_t)
+	if (vec3_length((t_vec3){{v_hit_cap.x, v_hit_cap.y, 0}}) > fabs(v_hit_cap.z
+				* props.tan_angle) + 1e-3)
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;
