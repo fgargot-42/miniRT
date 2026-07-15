@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/13 18:30:39 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/15 21:42:11 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ MLX_DIR = lib/MacroLibX
 MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	main.c \
-		ray.c \
 		bvh/bvh.c \
 		bvh/bvh_aabb.c \
 		bvh/bvh_aabb2.c \
@@ -83,6 +82,7 @@ SRC =	main.c \
 		hit/hit_bvh_utils.c \
 		hit/hit_utils.c \
 		hit/hit.c \
+		hit/ray.c \
 		lighting/lighting.c \
 		lighting/lighting_utils.c \
 		veclib/veclib2_math.c \
