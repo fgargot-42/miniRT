@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 21:05:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/15 22:19:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	normal = (t_vec3){{0, 0, 1}};
 	if (ctx.render_hit.z < obj->props.height - 1e-3)
 	{
-		normal = ctx.render_hit;
+		normal = vec3_scale(ctx.render_hit, 2);
 		normal.z = -obj->props.tan_angle;
 	}
 	if (fabs(obj->direction.z - 1) > 1e-3)
