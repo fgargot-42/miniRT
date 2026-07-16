@@ -14,7 +14,7 @@ L	-8.0,20.0,2.0		0.9			255,240,200
 
 # Sky (Unique)
 # S color(r,g,b)
-S	140,140,255
+# S	140,140,255
 
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	texture_file]

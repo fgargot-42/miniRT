@@ -5,51 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/05 22:47:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 01:28:43 by fgargot          ###   ########.fr       */
+/*   Created: 2026/07/16 22:40:59 by fgargot           #+#    #+#             */
+/*   Updated: 2026/07/16 22:46:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-#include <stdio.h>
-
-void		print_cylinder(t_object *c);
-void		print_cone(t_object *c);
-void		print_hyper(t_object *c);
-void		print_para(t_object *c);
-void		print_triangle(t_object *c);
-
-static void	print_light(t_object *s)
-{
-	printf("Object type: LIGHT\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f\n",
-		s->position.x, s->position.y, s->position.z);
-	printf("--color: x=%.2f y=%.2f z=%.2f\n",
-		s->color.x, s->color.y, s->color.z);
-	printf("--intensity: %.2f\n", s->props.intensity);
-}
-
-static void	print_sphere(t_object *s)
-{
-	t_aabb	b;
-
-	get_sphere_aabb(s, &b);
-	printf("Object type: SPHERE\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f (r=%.2f)\n",
-		s->position.x, s->position.y, s->position.z, s->radius);
-	printf("--bounding box: [ %.2f %.2f %.2f ] [ %.2f %.2f %.2f ]\n",
-		b.min.x, b.min.y, b.min.z,
-		b.max.x, b.max.y, b.max.z);
-}
-
-static void	print_plane(t_object *p)
-{
-	printf("Object type: PLANE\n");
-	printf("--position: x=%.2f y=%.2f z=%.2f\n",
-		p->position.x, p->position.y, p->position.z);
-	printf("--normal: x=%.2f y=%.2f z=%.2f\n",
-		p->direction.x, p->direction.y, p->direction.z);
-}
+#include "debug.h"
 
 void	print_object(void *o)
 {
@@ -62,20 +24,6 @@ void	print_object(void *o)
 		print_plane(obj);
 	if (obj->type == OBJ_CYLINDER)
 		print_cylinder(obj);
-	if (obj->type == OBJ_CONE)
-		print_cone(obj);
-	if (obj->type == OBJ_HYPERBOLOID)
-		print_hyper(obj);
-	if (obj->type == OBJ_PARABOLOID)
-		print_para(obj);
-	if (obj->type == OBJ_TRIANGLE)
-		print_triangle(obj);
 	if (obj->type == OBJ_LIGHT)
 		print_light(obj);
-}
-
-void	print_sky(t_object *sky)
-{
-	printf("Object type: SKY\n--color: x=%.2f y=%.2f z=%.2f\n", sky->color.x,
-		sky->color.y, sky->color.z);
 }

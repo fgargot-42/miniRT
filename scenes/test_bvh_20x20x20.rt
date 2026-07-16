@@ -10,12 +10,13 @@ C	38.0,38.0,-80.0	0.0,0.0,1.0				70
 
 # Light (multi-light supported with bonus)
 # L	pos(x,y,z)		intensity	color(r,g,b)
-L	-20.0,80.0,10.0		0.9			255,240,200
+L	100.0,100.0,-30.0		0.9			255,240,200
 
 # Sky (Unique)
 # S color(r,g,b)
 S	140,140,255
 
+SB	../textures/sky_4k.jpg
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	texture_file]
 

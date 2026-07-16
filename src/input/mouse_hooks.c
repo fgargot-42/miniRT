@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:38:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:44:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,7 @@ void	mouse_down_hook(int mouse_event, void *param)
 			setup_sliders(data);
 		}
 		open_inspector(data, hc, mouse_x, mouse_y);
-#if DEBUG
-		// g_rt_debug = BVH_DEPTH;
-		// print_bvh_tree(data->scene->bvh, 0);
-		// if (hc.object)
-		//	print_object((void *)(hc.object));
-		print_hit_info_debug(hc, data->scene, &ray, (t_vec2){{mouse_x, mouse_y}});
-#endif // DEBUG
+		print_hit_info_debug(hc, data->scene, (t_vec2){{mouse_x, mouse_y}});
 		draw(data);
 	}
 	mouse_enable_move_mode(data, mouse_event);

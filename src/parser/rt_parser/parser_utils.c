@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 17:58:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/16 21:46:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	check_array_size(char **array, int expected, char *object, int line_nb)
 	return (array_size < expected);
 }
 
-static int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
+int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 {
 	if (*dst)
 	{
@@ -77,28 +77,4 @@ static int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 	}
 	*dst = ctx->obj;
 	return (1);
-}
-
-int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
-{
-	int		status;
-
-	status = 1;
-	if (!ctx->obj)
-		return (1);
-	if (ctx->obj->type >= OBJ_LIGHT)
-	{
-		if (ctx->obj->type == OBJ_LIGHT)
-			ft_arrayadd_back(&scene->lights, ctx->obj, free_object);
-		else
-			ft_arrayadd_back(&scene->objects, ctx->obj, free_object);
-		return (1);
-	}
-	if (ctx->obj->type == OBJ_AMBIENT)
-		status = add_specials(&scene->ambient, ctx, "ambient");
-	if (ctx->obj->type == OBJ_CAMERA)
-		status = add_specials(&scene->cam, ctx, "camera");
-	if (ctx->obj->type == OBJ_SKY)
-		status = add_specials(&scene->sky, ctx, "sky");
-	return (status);
 }

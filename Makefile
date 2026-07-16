@@ -6,85 +6,49 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/15 21:42:11 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/17 20:18:03 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
-CC = cc
 CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP
-CFLAGS_DEBUG = $(CFLAGS:-O3=-g)
-CLINK = -lSDL2 -lm -lpthread
+
+ifeq ($(DEBUG), true)
+	CC = CCC_OVERRIDE_OPTIONS="\# O0 +-g" cc
+else
+	CC = cc
+endif
+
+CLINK = -lSDL2 -lm
+CLINK_BONUS = -lSDL2 -lm -lpthread
 SRCDIR = src
 OBJDIR = obj
-INCDIR=includes
+INCDIR = includes
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX_DIR = lib/MacroLibX
 MLX = $(MLX_DIR)/libmlx.so
 INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
-SRC =	main.c \
-		bvh/bvh.c \
-		bvh/bvh_aabb.c \
-		bvh/bvh_aabb2.c \
+SRC =	bvh/bvh.c \
+		bvh/bvh_aabb_object.c \
 		bvh/bvh_init.c \
-		bvh/bvh_split.c \
 		bvh/bvh_split2.c \
 		bvh/bvh_size.c \
-		bvh/bvh_sort.c \
-		bvh/bvh_utils.c \
 		bvh/sah_split.c \
 		bvh/sah_utils.c \
-		debug/print_debug.c \
-		debug/print_debug2.c \
+		camera/camera.c \
+		hit/hit_bvh.c \
+		hit/hit_bvh_utils.c \
+		hit/ray.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
 		input/mouse_hooks_editor.c \
-		camera/camera.c \
-		camera/move_camera.c \
-		parser/rt_parser/parser.c \
+		lighting/lighting_utils.c \
 		parser/rt_parser/parser_utils.c \
 		parser/rt_parser/parse_number.c \
 		parser/rt_parser/parse_ambient.c \
 		parser/rt_parser/parse_camera.c \
-		parser/rt_parser/parse_sky.c \
-		parser/rt_parser/parse_light.c \
-		parser/rt_parser/parse_sphere.c \
-		parser/rt_parser/parse_plane.c \
-		parser/rt_parser/parse_cylinder.c \
-		parser/rt_parser/parse_cone.c \
-		parser/rt_parser/parse_hyperboloid.c \
-		parser/rt_parser/parse_paraboloid.c \
-		parser/rt_parser/parse_triangle.c \
-		parser/rt_parser/parse_texture.c \
-		parser/obj_parser/obj_parser.c \
-		parser/obj_parser/mat_parser.c \
-		parser/obj_parser/parse_material.c \
-		parser/obj_parser/parse_material2.c \
-		parser/obj_parser/parse_obj_face.c \
-		parser/obj_parser/parse_obj_model.c \
-		parser/obj_parser/parser_texture.c \
-		parser/obj_parser/obj_parser_utils.c \
-		renderer/drawer.c \
-		renderer/drawer_pixel.c \
 		renderer/drawer_utils.c \
-		renderer/debug.c \
-		renderer/print_debug.c \
-		scene/scene.c \
-		hit/hit_sphere.c \
-		hit/hit_plane.c \
-		hit/hit_cylinder.c \
-		hit/hit_cone.c \
-		hit/hit_hyperboloid.c \
-		hit/hit_paraboloid.c \
-		hit/hit_triangle.c \
-		hit/hit_bvh.c \
-		hit/hit_bvh_utils.c \
-		hit/hit_utils.c \
-		hit/hit.c \
-		hit/ray.c \
-		lighting/lighting.c \
-		lighting/lighting_utils.c \
 		veclib/veclib2_math.c \
 		veclib/veclib2_math2.c \
 		veclib/veclib3_math.c \
@@ -98,16 +62,95 @@ SRC =	main.c \
 		utils/file_utils.c \
 		utils/array_utils.c \
 		utils/str_utils.c \
+		utils/time_utils.c \
 		utils/color.c \
-		ui/ui.c \
 		ui/helpers.c \
+		ui/setup2.c
+
+SRC_MANDA = $(SRC) \
+		main.c \
+		bvh/bvh_aabb.c \
+		bvh/bvh_split.c \
+		bvh/bvh_utils.c \
+		camera/move_camera.c \
+		debug/print_debug.c \
+		debug/print_object_debug.c \
+		display/init_display.c \
+		hit/hit.c \
+		hit/hit_sphere.c \
+		hit/hit_plane.c \
+		hit/hit_cylinder.c \
+		hit/hit_utils.c \
+		lighting/lighting.c \
+		parser/rt_parser/parser.c \
+		parser/rt_parser/parse_light.c \
+		parser/rt_parser/parse_sphere.c \
+		parser/rt_parser/parse_plane.c \
+		parser/rt_parser/parse_cylinder.c \
+		renderer/drawer.c \
+		renderer/drawer_pixel.c \
+		renderer/render_debug.c \
+		renderer/print_debug.c \
+		scene/scene.c \
+		scene/scene_utils.c \
 		ui/setup.c \
-		ui/setup2.c \
-		uv_mapping.c
-OBJ = $(addprefix $(OBJDIR)/,$(SRC:.c=.o))
-OBJ_DEBUG = $(addprefix $(OBJDIR)_debug/,$(SRC:.c=.o))
+		ui/ui.c
+SRC_BONUS = $(SRC) \
+		main_bonus.c \
+		bvh/bvh_aabb_bonus.c \
+		bvh/bvh_aabb_object_bonus.c \
+		bvh/bvh_split_bonus.c \
+		bvh/bvh_utils_bonus.c \
+		camera/move_camera_bonus.c \
+		debug/print_debug_bonus.c \
+		debug/print_object_debug_bonus.c \
+		display/init_display_bonus.c \
+		hit/hit_bonus.c \
+		hit/hit_sphere_bonus.c \
+		hit/hit_plane_bonus.c \
+		hit/hit_cylinder_bonus.c \
+		hit/hit_cone_bonus.c \
+		hit/hit_hyperboloid_bonus.c \
+		hit/hit_paraboloid_bonus.c \
+		hit/hit_triangle_bonus.c \
+		hit/hit_utils_bonus.c \
+		lighting/lighting_bonus.c \
+		parser/obj_parser/obj_parser_bonus.c \
+		parser/obj_parser/mat_parser_bonus.c \
+		parser/obj_parser/parse_material_bonus.c \
+		parser/obj_parser/parse_material2_bonus.c \
+		parser/obj_parser/parse_obj_face_bonus.c \
+		parser/obj_parser/parse_obj_model_bonus.c \
+		parser/obj_parser/parser_texture_bonus.c \
+		parser/obj_parser/obj_parser_utils_bonus.c \
+		parser/rt_parser/parser_bonus.c \
+		parser/rt_parser/parse_sky_bonus.c \
+		parser/rt_parser/parse_light_bonus.c \
+		parser/rt_parser/parse_sphere_bonus.c \
+		parser/rt_parser/parse_plane_bonus.c \
+		parser/rt_parser/parse_cylinder_bonus.c \
+		parser/rt_parser/parse_cone_bonus.c \
+		parser/rt_parser/parse_hyperboloid_bonus.c \
+		parser/rt_parser/parse_paraboloid_bonus.c \
+		parser/rt_parser/parse_triangle_bonus.c \
+		parser/rt_parser/parse_texture_bonus.c \
+		renderer/drawer_bonus.c \
+		renderer/drawer_pixel_bonus.c \
+		renderer/render_debug_bonus.c \
+		renderer/print_debug_bonus.c \
+		scene/scene_bonus.c \
+		scene/scene_utils_bonus.c \
+		ui/ui_bonus.c \
+		ui/setup_bonus.c \
+		uv_mapping_bonus.c
+
+OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
+OBJ_BONUS = $(addprefix $(OBJDIR)/,$(SRC_BONUS:.c=.o))
 
 all: $(NAME)
+
+bonus: $(OBJ_BONUS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)
 
 $(MLX):
 	make -j16 -C $(MLX_DIR)
@@ -115,19 +158,12 @@ $(MLX):
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(NAME): $(MLX) $(OBJ) $(LIBFT) 
+$(NAME): $(OBJ_MANDA) $(LIBFT) $(MLX) 
 	$(CC) $(CFLAGS) $(CLINK) $(INCLUDE) $^ -o $@ 
-
-debug: $(MLX) $(OBJ_DEBUG) $(LIBFT)
-	$(CC) $(CFLAGS_DEBUG) $(CLINK) $(INCLUDE) $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
-
-$(OBJDIR)_debug/%.o: $(SRCDIR)/%.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS_DEBUG) $(INCLUDE) -c $< -o $@
 
 clean:
 	rm -rf $(OBJDIR) $(OBJDIR)_debug
@@ -144,4 +180,4 @@ re: fclean all
 -include $(OBJ:.o=.d)
 -include $(OBJ_DEBUG:.o=.d)
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re

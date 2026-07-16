@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/27 00:22:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:48:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser.h"
 #include "libft.h"
 
-int	parse_light_elements(char **line_split, t_object *obj, int line_nb)
+static int	parse_light_elements(char **line_split, t_object *obj, int line_nb)
 {
 	int	parse_result;
 
@@ -22,17 +22,14 @@ int	parse_light_elements(char **line_split, t_object *obj, int line_nb)
 			line_nb);
 	parse_result &= parse_double(line_split[2], &(obj->props.intensity),
 			"light", line_nb);
-	parse_result &= parse_vector(line_split[3], &(obj->color), "light",
-			line_nb);
 	return (parse_result);
 }
 
-t_object	*parse_light(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_light(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
 
-	(void)mlx;
 	if (check_array_size(line_split, 4, "light", ctx->line_nb))
 		return (NULL);
 	obj = ft_calloc(1, sizeof(t_object));

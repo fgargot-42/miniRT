@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 20:28:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:34:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,8 @@
 #include "parser.h"
 #include "libft.h"
 
-static int	parse_sphere_optional_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx, void *mlx)
-{
-	int	nb_elements;
-	int	p_res;
-
-	nb_elements = get_str_array_length(line_split);
-	p_res = 1;
-	if (nb_elements > 4)
-		p_res &= parse_double(line_split[4], &(obj->specular), "sphere",
-				ctx->line_nb);
-	if (nb_elements > 5)
-		p_res &= parse_double(line_split[5], &(obj->shininess), "sphere",
-				ctx->line_nb);
-	if (nb_elements > 6)
-		p_res &= parse_vector(line_split[6], &(obj->checker_color),
-				"sphere", ctx->line_nb);
-	if (nb_elements > 7)
-		p_res &= parse_texture_file(line_split[7], obj, ctx, mlx);
-	return (p_res);
-}
-
 static int	parse_sphere_elements(char **line_split, t_object *obj,
-		t_parser_ctx *ctx, void *mlx)
+		t_parser_ctx *ctx)
 {
 	int	p_res;
 	int	split_len;
@@ -49,13 +27,10 @@ static int	parse_sphere_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	p_res &= p_res && parse_vector(line_split[3], &(obj->color), "sphere",
 			ctx->line_nb);
-	if (p_res)
-		obj->checker_color = obj->color;
-	p_res &= parse_sphere_optional_elements(line_split, obj, ctx, mlx);
 	return (p_res);
 }
 
-t_object	*parse_sphere(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_sphere(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
@@ -68,8 +43,7 @@ t_object	*parse_sphere(char **line_split, t_parser_ctx *ctx, void *mlx)
 		print_parse_error("allocation failed", "sphere", ctx->line_nb);
 		return (0);
 	}
-	obj->shininess = 1;
-	parse_result = parse_sphere_elements(line_split, obj, ctx, mlx);
+	parse_result = parse_sphere_elements(line_split, obj, ctx);
 	if (!parse_result)
 	{
 		free(obj);

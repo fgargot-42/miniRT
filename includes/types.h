@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 20:07:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 01:35:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,10 @@ typedef enum e_obj_type
 {
 	OBJ_AMBIENT,
 	OBJ_CAMERA,
-	OBJ_SKY,
 	OBJ_LIGHT,
 	OBJ_PLANE,
 	OBJ_SPHERE,
 	OBJ_CYLINDER,
-	OBJ_CONE,
-	OBJ_HYPERBOLOID,
-	OBJ_PARABOLOID,
-	OBJ_TRIANGLE,
 }	t_obj_type;
 
 typedef union u_obj_prop
@@ -57,48 +52,9 @@ typedef union u_obj_prop
 		double	pitch;
 		double	yaw;
 	};
-	struct
-	{
-		t_vec3	a;
-		t_vec3	b;
-		t_vec3	c;
-	};
 	double	intensity; // light/ambient
 }	t_obj_prop;
 
-typedef union u_uv_texture
-{
-	struct
-	{
-		t_vec2	tex_a;
-		t_vec2	tex_b;
-		t_vec2	tex_c;
-	};
-	t_vec2	origin;
-}	t_uv_texture;
-
-typedef struct s_texture
-{
-	int			width;
-	int			height;
-	mlx_image	data;
-	mlx_context	mlx;
-}	t_texture;
-
-typedef struct s_material
-{
-	char		*name;
-	t_vec3		amb_color;
-	t_vec3		diff_color;
-	t_vec3		spec_color;
-	t_vec3		emissive;
-	t_texture	*color_tex;
-	t_texture	*normal_tex;
-	t_texture	*spec_tex;
-	double		density;
-	double		specular;
-	double		opacity;
-}	t_material;
 
 typedef struct s_object
 {
@@ -108,14 +64,8 @@ typedef struct s_object
 	t_vec3			direction; // normal for planes
 	t_vec3			scale;
 	t_vec3			color;
-	t_vec3			checker_color;
 	double			radius;
 	double			angle;
-	double			specular;
-	double			shininess;
-	t_uv_texture	uv;
-	t_material		*material;
-	t_texture		*tex;
 }	t_object;
 
 typedef struct s_aabb
@@ -148,15 +98,12 @@ typedef struct s_scene
 {
 	t_array		objects;
 	t_array		bvh_objects;
-	t_array		lights;
 	t_object	*ambient;
-	t_object	*sky;
-	t_texture	*skybox;
 	t_object	*cam;
 	t_object	*selected;
-	t_array		mat;
 	t_bvh		*bvh;
 	int			bvh_display_level;
+	t_object	*light;
 }	t_scene;
 
 typedef struct s_hit_record
@@ -166,8 +113,6 @@ typedef struct s_hit_record
 	t_vec3		normal;
 	t_vec3		color;
 	t_object	*object;
-	double		specular;
-	double		shininess;
 }	t_hit_record;
 
 typedef struct s_bvh_hit_ctx
@@ -201,8 +146,6 @@ typedef struct s_data
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
-	int			th_nb;
-	int			nb_threads;
 	// temp slider -> ui.h
 	t_slider	sliders[MAX_SLIDERS];
 	int			nb_sliders;
@@ -214,8 +157,6 @@ typedef struct s_parser_ctx
 	int			fd;
 	void		*mlx;
 	t_object	*obj;
-	t_material	*current_mat;
-	t_material	*mat_parse;
 	int			line_nb;
 	char		*rt_path;
 }	t_parser_ctx;

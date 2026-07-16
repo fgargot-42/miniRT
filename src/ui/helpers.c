@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:07:21 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/15 19:23:27 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:45:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,6 @@ void	draw_hline(t_data *data, void *win, int y)
 	while (x < PANEL_X + PANEL_W - PANEL_PAD)
 		mlx_pixel_put(data->mlx, win, x++, y, (mlx_color){.rgba = COL_SEP});
 }
-
-/*void	put_row(t_data *data, t_row_info info, const char *fmt, ...)
-{
-	char		buf[128];
-	va_list		args;
-	int			*y;
-	const void *win = info.win;
-	const char	*label = info.label;
-	mlx_color	val_col;
-
-	y = info.y;
-	val_col = info.val_col;
-	va_start(args, fmt);
-	vsnprintf(buf, sizeof(buf), fmt, args);
-	va_end(args);
-	mlx_set_font_scale(data->mlx, "resources/font.ttf", 12.0f);
-	mlx_string_put(data->mlx, win, PANEL_X + PANEL_PAD, *y,
-		(mlx_color){.rgba = COL_LABEL}, (char *)label);
-	mlx_string_put(data->mlx, win, (PANEL_X + PANEL_W / 2), *y, val_col, buf);
-	*y += LINE_H;
-}*/
 
 void	put_row(t_data *data, t_row_info info,
 	const char *fmt, ...)

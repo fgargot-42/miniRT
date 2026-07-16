@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 21:04:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/16 22:56:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	rec->point = ray_at(*ray, rec->t);
 	rec->color = obj->color;
 	rec->object = obj;
-	rec->specular = obj->specular;
-	rec->shininess = obj->shininess;
 }
 
 static int	get_intersection(double radius, double height, t_hit_ctx *ctx)
@@ -104,6 +102,5 @@ int	hit_cylinder(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	if (!has_hit)
 		return (0);
 	update_hit_record(rec, ray, obj, ctx);
-	apply_checker(rec, obj, ctx.render_hit);
 	return (1);
 }

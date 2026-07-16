@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 20:34:33 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:57:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ void	init_editor(t_data *data)
 	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP, editor_mouse_up, data);
 }
 
-static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
-	"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
-	"TRIANGLE"};
+static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "LIGHT",
+	"PLANE", "SPHERE", "CYLINDER"};
 
 static const char	*obj_type_name(int type)
 {
@@ -74,10 +73,9 @@ void	setup_sliders(t_data *data)
 		return ;
 	setup_transform_sliders(data, obj);
 	setup_color_sliders(data, obj);
-	setup_material_sliders(data, obj);
 	setup_property_sliders(data, obj);
-	setup_ambient_sliders(data, obj);
-	data->nb_sliders = 17;
+	setup_ambient_sliders(data, obj, 11);
+	data->nb_sliders = 15;
 }
 
 /*
@@ -188,7 +186,7 @@ static void	draw_group(t_data *d, t_vec2 range, int *y, char *title)
 static void	draw_ambient(t_data *d, int *y)
 {
 	draw_title(d, y, "AMBIENT -----");
-	draw_slider_group(d, 13, 17, y);
+	draw_slider_group(d, 11, 15, y);
 }
 
 void	draw_editor(t_data *d, double mx, double my)
@@ -205,8 +203,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{0, 3}}, &y, "TRANSFORM -");
 	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
 	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
-	draw_group(d, (t_vec2){{9, 11}}, &y, "MATERIAL -----");
-	draw_group(d, (t_vec2){{11, 13}}, &y, "PROPERTIES -----");
+	draw_group(d, (t_vec2){{9, 11}}, &y, "PROPERTIES -----");
 	draw_ambient(d, &y);
 	draw_hline(d, d->editor, y + 4);
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);

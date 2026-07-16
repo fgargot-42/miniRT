@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 21:32:15 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 22:35:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/16 22:55:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
 	return (hit);
 }
 
-#if BVH_VIEW
-
 int	draw_box_bounds(t_bvh_hit_ctx *ctx, t_bvh_state state)
 {
 	static const double	epsilon = 5e-3;
@@ -79,4 +77,3 @@ int	draw_box_bounds(t_bvh_hit_ctx *ctx, t_bvh_state state)
 		((state.node->depth >> 2) << 6 | 0xf | i << 4) & 0xff, i << 6}};
 	return (1);
 }
-#endif

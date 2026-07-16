@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/06/15 19:27:50 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/16 23:53:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,25 +23,21 @@ static const mlx_color	g_material_colors[2] = {
 {.r = 180, .g = 180, .b = 255, .a = 255},
 {.r = 200, .g = 200, .b = 200, .a = 255}};
 
-static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col)
+static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col, int slider_id)
 {
 	int	i;
 
 	i = 0;
 	while (i < 3)
 	{
-		data->sliders[13 + i] = (t_slider){
-			.value = ((double *)col) + i,
-			.min = 0.0,
-			.max = 255.0,
-			.label = g_color_labels[i],
-			.col = g_color_colors[i],
-		};
+		data->sliders[slider_id + i] = (t_slider){.value = ((double *)col) + i,
+			.min = 0.0, .max = 255.0,
+			.label = g_color_labels[i], .col = g_color_colors[i]};
 		i++;
 	}
 }
 
-void	setup_ambient_sliders(t_data *data, t_object *obj)
+void	setup_ambient_sliders(t_data *data, t_object *obj, int slider_id)
 {
 	t_vec3	*col;
 	double	*intensity;
@@ -49,12 +45,8 @@ void	setup_ambient_sliders(t_data *data, t_object *obj)
 	(void)obj;
 	col = &data->scene->ambient->color;
 	intensity = &data->scene->ambient->props.intensity;
-	setup_ambient_color_sliders(data, col);
-	data->sliders[16] = (t_slider){
-		.value = intensity,
-		.min = 0.0,
-		.max = 1.0,
-		.label = "power",
-		.col = g_material_colors[1],
-	};
+	setup_ambient_color_sliders(data, col, slider_id);
+	data->sliders[slider_id + 3] = (t_slider){.value = intensity,
+		.min = 0.0, .max = 1.0,
+		.label = "power", .col = g_material_colors[1]};
 }
