@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 21:31:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:41:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 t_vec3	apply_ambient(t_vec3 color, t_vec3 ambient);
 t_vec3	apply_diffuse(t_hit_record *rec, t_object *light);
-t_vec3	apply_specular(t_hit_record *rec, t_object *light, t_ray *ray);
 
 static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
 	t_object *light)
@@ -45,30 +44,16 @@ static int	in_shadow(t_hit_record *rec, t_hit_record tmp, t_scene *scene,
 	return (is_hit);
 }
 
-static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
+static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene)
 {
-	bool			is_shadow;
 	t_hit_record	tmp;
-	t_vec3			result;
-	size_t			i;
 
 	tmp = *rec;
-	i = 0;
 	rec->color = apply_ambient(rec->color, scene->ambient->color);
-	result = rec->color;
-	is_shadow = 1;
-	while (i < scene->lights.len)
-	{
-		if (!in_shadow(rec, tmp, scene, scene->lights.array[i]))
-		{
-			is_shadow = 0;
-			result = vec3_add(result, apply_diffuse(&tmp, scene->lights.array[i]));
-			result = vec3_add(result, apply_specular(&tmp, scene->lights.array[i], ray));
-		}
-		i++;
-	}
-	if (!is_shadow)
-		rec->color = vec3_clamp(result, 0.0, 255.0);
+	if (in_shadow(rec, tmp, scene, scene->light))
+		return (rec->color);
+	rec->color = vec3_add(rec->color, apply_diffuse(&tmp, scene->light));
+	rec->color = vec3_clamp(rec->color, 0.0, 255.0);
 	return (rec->color);
 }
 
@@ -92,8 +77,7 @@ static void	print_rotation_info_debug(t_object *obj)
 		axis.x, axis.y, axis.z);
 }
 
-void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray,
-	t_vec2 mouse_pos)
+void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_vec2 mouse_pos)
 {
 	t_hit_record	shade_hc;
 
@@ -102,7 +86,7 @@ void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray,
 	if (!hc.object)
 		return ;
 	printf("Object type: %d\n", hc.object->type);
-	if (hc.object->type >= OBJ_CYLINDER && hc.object->type != OBJ_TRIANGLE)
+	if (hc.object->type == OBJ_CYLINDER)
 		print_rotation_info_debug(hc.object);
 	printf("Object hit coordinates: x=%.3f y=%.3f z=%.3f",
 		hc.point.x, hc.point.y, hc.point.z);
@@ -111,18 +95,7 @@ void	print_hit_info_debug(t_hit_record hc, t_scene *scene, t_ray *ray,
 		hc.normal.y, hc.normal.z, vec3_length(hc.normal));
 	printf("Object color at hit: x=%.3f y=%.3f z=%.3f\n", hc.color.x,
 		hc.color.y, hc.color.z);
-	if (hc.object->type == OBJ_TRIANGLE)
-	{
-		printf("--Vertex data: a=(% .3f, % .3f, % .3f) b=(% .3f, % .3f, % .3f) c=(% .3f % .3f, % .3f)\n",
-			hc.object->props.a.x, hc.object->props.a.y, hc.object->props.a.z,
-			hc.object->props.b.x, hc.object->props.b.y, hc.object->props.b.z,
-			hc.object->props.c.x, hc.object->props.c.y, hc.object->props.c.z);
-		printf("--UV data: a=(% .3f, % .3f) b=(% .3f, % .3f) c=(% .3f % .3f)\n",
-			hc.object->uv.tex_a.x, hc.object->uv.tex_a.y,
-			hc.object->uv.tex_b.x, hc.object->uv.tex_b.y,
-			hc.object->uv.tex_c.x, hc.object->uv.tex_c.y);
-	}
-	shade_verbose(&shade_hc, scene, ray);
+	shade_verbose(&shade_hc, scene);
 	printf("Object shade coordinates: x=%.3f y=%.3f z=%.3f (d=%.3f)\n",
 		shade_hc.point.x, shade_hc.point.y, shade_hc.point.z, shade_hc.t);
 	printf("Object color after shade: x=%.3f y=%.3f z=%.3f\n", shade_hc.color.x,

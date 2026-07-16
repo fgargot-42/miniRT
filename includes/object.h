@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/11 00:13:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 01:09:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define OBJECT_H
 
 # include "veclib.h"
-# include "parser.h"
+# include "parser_bonus.h"
 # include "material.h"
-# include "miniRT.h"
+# include "miniRT_bonus.h"
 
 typedef struct s_object_model
 {

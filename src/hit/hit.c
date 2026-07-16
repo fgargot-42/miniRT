@@ -6,29 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 21:32:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 20:09:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 #include "math.h"
-
-static t_hit_fn	get_hit_fn(t_obj_type type)
-{
-	static t_hit_fn		hit_list[] = {
-	[OBJ_PLANE] = hit_plane,
-	[OBJ_SPHERE] = hit_sphere,
-	[OBJ_CYLINDER] = hit_cylinder,
-	[OBJ_CONE] = hit_cone,
-	[OBJ_HYPERBOLOID] = hit_hyperboloid,
-	[OBJ_PARABOLOID] = hit_paraboloid,
-	[OBJ_TRIANGLE] = hit_triangle};
-
-	if (type < OBJ_PLANE || type > OBJ_TRIANGLE)
-		return (NULL);
-	return (hit_list[type]);
-}
 
 int	hit_list(t_array obj, t_ray *ray, double *closest,
 	t_hit_record *rec)

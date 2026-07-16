@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/26 23:07:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:47:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ static int	parse_ambient_elements(char **line_split, t_object *obj,
 	return (p_res);
 }
 
-t_object	*parse_ambient(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_ambient(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
 
-	(void)mlx;
 	obj = NULL;
 	parse_result = 1;
 	if (check_array_size(line_split, 3, "ambient", ctx->line_nb))

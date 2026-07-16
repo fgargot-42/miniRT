@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 20:31:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:37:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,8 @@
 #include "parser.h"
 #include "libft.h"
 
-static int	parse_cylinder_optional_elements(char **line_split, t_object *obj,
-		t_parser_ctx *ctx, void *mlx)
-{
-	int	nb_elements;
-	int	p_res;
-
-	nb_elements = get_str_array_length(line_split);
-	p_res = 1;
-	if (nb_elements > 6)
-		p_res &= parse_double(line_split[6], &(obj->specular), "cylinder",
-				ctx->line_nb);
-	if (nb_elements > 7)
-		p_res &= parse_double(line_split[7], &(obj->shininess), "cylinder",
-				ctx->line_nb);
-	if (nb_elements > 8)
-		p_res &= parse_vector(line_split[8], &(obj->checker_color),
-				"cylinder", ctx->line_nb);
-	if (nb_elements > 9)
-		p_res &= parse_texture_file(line_split[9], obj, ctx, mlx);
-	return (p_res);
-}
-
 static int	parse_cylinder_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx, void *mlx)
+	t_parser_ctx *ctx)
 {
 	int	p_res;
 	int	split_len;
@@ -53,13 +31,10 @@ static int	parse_cylinder_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	p_res &= parse_vector(line_split[5], &(obj->color), "cylinder",
 			ctx->line_nb);
-	if (p_res)
-		obj->checker_color = obj->color;
-	p_res &= parse_cylinder_optional_elements(line_split, obj, ctx, mlx);
 	return (p_res);
 }
 
-t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
@@ -72,8 +47,7 @@ t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx, void *mlx)
 		print_parse_error("allocation failed", "cylinder", ctx->line_nb);
 		return (0);
 	}
-	obj->shininess = 1;
-	parse_result = parse_cylinder_elements(line_split, obj, ctx, mlx);
+	parse_result = parse_cylinder_elements(line_split, obj, ctx);
 	if (!parse_result)
 	{
 		free(obj);

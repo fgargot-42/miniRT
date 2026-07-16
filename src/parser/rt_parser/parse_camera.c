@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/01 23:55:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:47:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ static int	parse_camera_elements(char **line_split, t_object *obj, int line_nb)
 	return (p_res);
 }
 
-t_object	*parse_camera(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_camera(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
 
-	(void)mlx;
 	if (check_array_size(line_split, 4, "camera", ctx->line_nb))
 		return (0);
 	obj = ft_calloc(1, sizeof(t_object));

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 23:39:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 21:11:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/16 22:52:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,14 @@ t_vec3	face_normal(t_ray *ray, t_vec3 inverted)
 	return (inverted);
 }
 
-void	apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point)
+t_hit_fn	get_hit_fn(t_obj_type type)
 {
-	int		x;
-	int		y;
-	int		z;
+	static t_hit_fn		hit_list[] = {
+	[OBJ_PLANE] = hit_plane,
+	[OBJ_SPHERE] = hit_sphere,
+	[OBJ_CYLINDER] = hit_cylinder};
 
-	x = (int)floor(point.x + 1e-8);
-	y = (int)floor(point.y + 1e-8);
-	z = (int)floor(point.z + 1e-8);
-	if ((x + y + z) % 2 == 0)
-		rec->color = obj->checker_color;
-	else
-		rec->color = obj->color;
+	if (type < OBJ_PLANE || type > OBJ_CYLINDER)
+		return (NULL);
+	return (hit_list[type]);
 }

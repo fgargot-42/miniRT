@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/13 21:06:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 18:23:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
-# define NB_THREADS 16
 # define BVH_DEPTH 24
 # define DEBUG 1
 # define BVH_VIEW 1
@@ -29,11 +28,15 @@
 # include "types.h"
 # include "veclib.h"
 # include "mlx.h"
-# include "math.h"
+# include <math.h>
 # include "SDL2/SDL_scancode.h"
 # include "ui.h"
 # include "libft.h"
-# include "material.h"
+
+// DISPLAY
+
+void				init_display(char *rt_file, t_data *data);
+void				destroy_display(t_data *data);
 
 // BVH
 
@@ -41,10 +44,6 @@ typedef void		(*t_obj_aabb_fn)(t_object *, t_aabb *);
 
 void				get_sphere_aabb(t_object *obj, t_aabb *aabb);
 void				get_cylinder_aabb(t_object *obj, t_aabb *aabb);
-void				get_cone_aabb(t_object *obj, t_aabb *aabb);
-void				get_hyperboloid_aabb(t_object *obj, t_aabb *aabb);
-void				get_paraboloid_aabb(t_object *obj, t_aabb *aabb);
-void				get_triangle_aabb(t_object *obj, t_aabb *aabb);
 
 void				get_object_aabb(t_object *obj, t_aabb *aabb);
 
@@ -65,9 +64,6 @@ void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
 						t_vec3 *aabb_max);
 t_vec3				get_left_bounds(t_bvh *bvh);
 t_vec3				get_object_center(t_object *obj);
-void				sort_bvh_objects(t_bvh *bvh, int axis);
-void				sort_bvh_objects_asc(t_array array, int min, int max,
-						char axis);
 t_sah				get_sah_split(t_bvh *node);
 void				aabb_grow_to_include(t_aabb *aabb, t_object *obj);
 void				aabb_grow_to_include_center(t_aabb *aabb, t_object *obj);
@@ -83,25 +79,25 @@ t_object			*create_object(void *object, t_obj_type type);
 
 // DEBUG
 
-void				print_sky(t_object *sky);
 void				print_object(void *o);
 void				print_bvh_tree(t_bvh *bvh, int depth);
 
 // SCENE
 void				init_scene(char *file, t_data *data);
-void				free_scene(t_scene *scene, mlx_context mlx);
+void				free_scene(t_scene *scene);
 void				free_object(void *object);
+void				check_scene_mandatory_object(void *obj, char *obj_str,
+						t_scene *scene);
 
 // DRAWER
 
 void				draw(t_data *data);
 void				draw_single(t_data *data);
 void				add_debug(t_data *data);
-double				get_time(void);
 void				open_inspector(t_data *data, t_hit_record hc,
 						double mouse_x, double mouse_y);
 void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
-						t_ray *ray, t_vec2 mouse_pos);
+						t_vec2 mouse_pos);
 mlx_color			vec3_to_color(t_vec3 v);
 
 //src/hooks.c
@@ -117,7 +113,7 @@ void				mouse_loop(void *param);
 
 //src/hit.c
 t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
-void				apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point);
+t_hit_fn			get_hit_fn(t_obj_type type);
 int					hit_list(t_array obj, t_ray *ray, double *closest,
 						t_hit_record *rec);
 int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
@@ -127,14 +123,6 @@ int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
 int					hit_plane(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 int					hit_cylinder(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_cone(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
 						t_hit_record *rec);
 double				hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist);
 int					hit_bvh(t_scene *scene, t_ray *ray, double *closest,
@@ -164,7 +152,10 @@ void				free_array(void **array);
 t_vec3				srgb_to_linear(t_vec3 srgb);
 t_vec3				linear_to_srgb(t_vec3 linear_rgb);
 
-// ui
+double				get_time(void);
+
+// UI
+
 void				init_editor(t_data *data);
 
 void				init_editor(t_data *data);
@@ -185,16 +176,8 @@ void				put_section(t_data *data, void *win, int *y,
 						const char *title);
 void				setup_transform_sliders(t_data *data, t_object *obj);
 void				setup_color_sliders(t_data *data, t_object *obj);
-void				setup_material_sliders(t_data *data, t_object *obj);
 void				setup_property_sliders(t_data *data, t_object *obj);
 
-void				setup_ambient_sliders(t_data *data, t_object *obj);
+void				setup_ambient_sliders(t_data *data, t_object *obj, int slider_id);
 
-void				destroy_material(void *o);
-t_texture			*load_texture(char *path, mlx_context mlx);
-t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);
-t_vec3				triangle_uv_to_color(t_object *obj, t_texture *tex,
-						t_vec3 hit);
-t_vec2				get_uv(t_vec3 vec);
-
-#endif
+#endif // MINIRT_H

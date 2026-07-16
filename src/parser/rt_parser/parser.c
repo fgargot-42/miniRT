@@ -6,21 +6,19 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 18:31:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:47:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "parser.h"
 #include "libft.h"
-#include "object.h"
 #include <fcntl.h>
 #include <unistd.h>
 
 static int	get_parse_element(char *id)
 {
-	static char	*id_elem[] = {"A", "C", "L", "S", "sp", "pl",
-		"cy", "co", "hy", "pa", "tr"};
+	static char	*id_elem[] = {"A", "C", "L", "sp", "pl", "cy"};
 	int			i;
 	int			size;
 
@@ -35,13 +33,12 @@ static int	get_parse_element(char *id)
 	return (-1);
 }
 
-static int	parse_line(char *line, t_parser_ctx *ctx, void *mlx)
+static int	parse_line(char *line, t_parser_ctx *ctx)
 {
 	char						**line_split;
 	int							i;
 	static const t_parser_func	parse_elem[] = {parse_ambient, parse_camera,
-		parse_light, parse_sky, parse_sphere, parse_plane, parse_cylinder,
-		parse_cone, parse_hyperboloid, parse_paraboloid, parse_triangle};
+		parse_light, parse_sphere, parse_plane, parse_cylinder};
 
 	line_split = ft_split_by_whitespace(line);
 	if (!line_split)
@@ -54,12 +51,33 @@ static int	parse_line(char *line, t_parser_ctx *ctx, void *mlx)
 	i = get_parse_element(line_split[0]);
 	printf("Adding object to scene: %s\t(id=%i)\n", line_split[0], i);
 	if (i != -1)
-		ctx->obj = parse_elem[i](line_split, ctx, mlx);
+		ctx->obj = parse_elem[i](line_split, ctx);
 	else
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			ctx->line_nb);
 	free_str_array(line_split);
 	return (ctx->obj != NULL);
+}
+
+static int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
+{
+	int		status;
+
+	status = 1;
+	if (!ctx->obj)
+		return (1);
+	if (ctx->obj->type > OBJ_LIGHT)
+	{
+		ft_arrayadd_back(&scene->objects, ctx->obj, free_object);
+		return (1);
+	}
+	if (ctx->obj->type == OBJ_AMBIENT)
+		status = add_specials(&scene->ambient, ctx, "ambient");
+	if (ctx->obj->type == OBJ_CAMERA)
+		status = add_specials(&scene->cam, ctx, "camera");
+	if (ctx->obj->type == OBJ_LIGHT)
+		status = add_specials(&scene->light, ctx, "light");
+	return (status);
 }
 
 static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
@@ -75,12 +93,7 @@ static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
 		ctx->line_nb++;
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		if (!ft_strncmp(line, "obj", 3))
-			status = parse_obj_file(line, data, ctx);
-		else if (!ft_strncmp(line, "SB", 2))
-			status = parse_skybox(line, data, ctx);
-		else
-			status = parse_line(line, ctx, data->mlx);
+		status = parse_line(line, ctx);
 		free(line);
 		line = get_next_line(ctx->fd);
 		if (status == 1)

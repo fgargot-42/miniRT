@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 01:59:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/16 23:16:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 	return (vec3_to_color(vec3_clamp(result, 0.0, 255.0)));
 }
 
-static t_vec3	draw_skybox(t_data *data, t_ray r)
-{
-	t_vec2	uv;
-	t_vec3	uvcol;
-
-	uv = get_uv(r.direction);
-	uv.x = uv.x - floor(uv.x);
-	uv.y = uv.y - floor(uv.y);
-	uvcol = uv_to_color(data->scene->skybox, uv);
-	return (uvcol);
-}
-
 static mlx_color	get_pixel_color(int x, int y, t_data *data,
 		int render_scale)
 {
@@ -50,40 +38,15 @@ static mlx_color	get_pixel_color(int x, int y, t_data *data,
 	t_ray			r;
 	t_hit_record	hc;
 	t_vec3			shaded;
-	t_vec2			uv;
-	t_vec3			uvcol;
 
 	ft_bzero(&hc, sizeof(t_hit_record));
 	r = camera_ray(data->scene->cam, x + render_scale / 2, y + render_scale
 			/ 2);
-	color = vec3_to_color(data->scene->sky->color);
-	if (data->scene->skybox)
-		color = vec3_to_color(draw_skybox(data, r));
+	color = vec3_to_color((t_vec3){{30, 30, 30}});
 	if (hit_scene(data->scene, &r, T_MAX, &hc))
 	{
 		if (!hc.object)
 			return (vec3_to_color(hc.color));
-		if (hc.object->type == OBJ_TRIANGLE
-			&& hc.object->material && hc.object->material->color_tex)
-		{
-			if (hc.object->material->spec_tex)
-				hc.specular = triangle_uv_to_color(hc.object,
-					hc.object->material->spec_tex, hc.point).x / 255.0;
-			if (hc.object->material->color_tex)
-				hc.color = triangle_uv_to_color(hc.object,
-					hc.object->material->color_tex, hc.point);
-		}
-		if (hc.object->type == OBJ_SPHERE && hc.object->tex)
-		{
-			// texture mapping
-			//
-			//
-			uv = get_uv(hc.normal);
-			uv.x = uv.x - floor(uv.x);
-			uv.y = uv.y - floor(uv.y);
-			uvcol = uv_to_color(hc.object->tex, uv);
-			hc.color = uvcol;
-		}
 		shaded = shade(&hc, data->scene, &r);
 		if (data->scene->selected && hc.object == data->scene->selected)
 			color = apply_selection_rim(shaded, &hc, &r);

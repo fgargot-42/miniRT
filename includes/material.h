@@ -6,17 +6,17 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 01:51:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 00:26:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-# include "miniRT.h"
+# include "miniRT_bonus.h"
 # include "veclib.h"
 # include "libft.h"
-# include "parser.h"
+# include "parser_bonus.h"
 
 int			parse_new_material(char *line, t_array *materials,
 				t_material **mat);
