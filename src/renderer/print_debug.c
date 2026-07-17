@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:41:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:19:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ static void	print_rotation_info_debug(t_object *obj)
 	mat = obj->props.transform_axis;
 	printf("Object axis: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
 	printf("Object rotation matrix:\n[ %.3f\t%.3f\t%.3f ]\n",
-			mat.mat[0][0], mat.mat[0][1], mat.mat[0][2]);
-	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[1][0], mat.mat[1][1], mat.mat[1][2]);
-	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[2][0], mat.mat[2][1], mat.mat[2][2]);
+		mat.mat[0][0], mat.mat[0][1], mat.mat[0][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n",
+		mat.mat[1][0], mat.mat[1][1], mat.mat[1][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n",
+		mat.mat[2][0], mat.mat[2][1], mat.mat[2][2]);
 	axis = vec_apply_rotation_z(axis, mat);
 	printf("\tObject after rotation: x=%.3f y=%.3f z=%.3f\n",
 		axis.x, axis.y, axis.z);

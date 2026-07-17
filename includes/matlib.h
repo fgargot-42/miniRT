@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 22:15:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:16:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_mat3
 double	det2(t_mat2 mat);
 t_mat2	init_mat2(t_vec2 a, t_vec2 b);
 t_mat2	inv_mat2(t_mat2 mat);
-
 
 // T_MAT3 FUNCTIONS
 double	det3(t_mat3 mat);

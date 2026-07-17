@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 23:28:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:22:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ static t_vec3	shade_verbose(t_hit_record *rec, t_scene *scene, t_ray *ray)
 		if (!in_shadow(rec, tmp, scene, scene->lights.array[i]))
 		{
 			is_shadow = 0;
-			result = vec3_add(result, apply_diffuse(&tmp, scene->lights.array[i]));
-			result = vec3_add(result, apply_specular(&tmp, scene->lights.array[i], ray));
+			result = vec3_add(result, apply_diffuse(&tmp,
+						scene->lights.array[i]));
+			result = vec3_add(result, apply_specular(&tmp,
+						scene->lights.array[i], ray));
 		}
 		i++;
 	}
@@ -81,9 +83,11 @@ static void	print_rotation_info_debug(t_object *obj)
 	mat = obj->props.transform_axis;
 	printf("Object axis: x=%.3f y=%.3f z=%.3f\n", axis.x, axis.y, axis.z);
 	printf("Object rotation matrix:\n[ %.3f\t%.3f\t%.3f ]\n",
-			mat.mat[0][0], mat.mat[0][1], mat.mat[0][2]);
-	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[1][0], mat.mat[1][1], mat.mat[1][2]);
-	printf("[ %.3f\t%.3f\t%.3f ]\n", mat.mat[2][0], mat.mat[2][1], mat.mat[2][2]);
+		mat.mat[0][0], mat.mat[0][1], mat.mat[0][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n",
+		mat.mat[1][0], mat.mat[1][1], mat.mat[1][2]);
+	printf("[ %.3f\t%.3f\t%.3f ]\n",
+		mat.mat[2][0], mat.mat[2][1], mat.mat[2][2]);
 	axis = vec_apply_rotation_z(axis, mat);
 	printf("\tObject after rotation: x=%.3f y=%.3f z=%.3f\n",
 		axis.x, axis.y, axis.z);

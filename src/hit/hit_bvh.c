@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 17:38:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:54:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:54:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ static int	descend_bvh(t_bvh_state *state)
 	return (1);
 }
 
-static int	handle_bvh_leaf(t_bvh_hit_ctx *ctx, t_bvh_state *state, int *hit)
+static int	handle_bvh_leaf(t_bvh_hit_ctx *ctx, t_bvh_state *state)
 {
 	if (hit_object_in_bvh(state->node, ctx->ray, ctx->closest, ctx->rec))
-		*hit = 1;
+		ctx->hit = 1;
 	if (state->depth == 0)
 		return (0);
 	state->node = state->stack[--state->depth];
@@ -65,12 +65,10 @@ int	hit_bvh(t_scene *scene, t_ray *ray, double *closest, t_hit_record *rec)
 {
 	t_bvh_hit_ctx	ctx;
 	t_bvh_state		state;
-	int				hit;
 
-	ctx = (t_bvh_hit_ctx){scene, ray, closest, rec};
+	ctx = (t_bvh_hit_ctx){scene, ray, closest, rec, 0};
 	state.depth = 0;
 	state.node = scene->bvh;
-	hit = 0;
 	state.dist[0] = hit_bvh_box(state.node, ray, *closest);
 	if (state.dist[0] == 1e30)
 		return (0);
@@ -78,15 +76,15 @@ int	hit_bvh(t_scene *scene, t_ray *ray, double *closest, t_hit_record *rec)
 	{
 		if (!state.node->left && !state.node->right)
 		{
-			if (!handle_bvh_leaf(&ctx, &state, &hit))
+			if (!handle_bvh_leaf(&ctx, &state))
 				break ;
 			continue ;
 		}
 		if (draw_box_bounds(&ctx, state))
-			hit = 1;
+			ctx.hit = 1;
 		get_bvh_children(&ctx, &state);
 		if (!descend_bvh(&state))
 			break ;
 	}
-	return (hit);
+	return (ctx.hit);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:55:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:36:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_vec3	apply_ambient(t_vec3 color, t_object *ambient)
 {
 	t_vec3	ambient_color;
 	t_vec3	ambient_linear;
-	
+
 	ambient_linear = vec3_pow(vec3_scale(ambient->color, 1.0 / 255.0), 2.2);
 	ambient_color = vec3_scale(vec3_multiply(color, ambient_linear),
 			ambient->props.intensity);
@@ -56,16 +56,15 @@ t_vec3	apply_diffuse(t_hit_record *rec, t_object *light)
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
 	t_hit_record	tmp;
-	t_vec3			linear_color;
 	t_vec3			result;
 
 	tmp = *rec;
 	tmp.normal = face_normal(ray, rec->normal);
-	linear_color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
-	tmp.color = linear_color;
-	result = apply_ambient(linear_color, scene->ambient);
+	tmp.color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
+	result = apply_ambient(tmp.color, scene->ambient);
 	if (!in_shadow(tmp, scene, scene->light))
 		result = vec3_add(result, apply_diffuse(&tmp, scene->light));
-	rec->color = vec3_scale(vec3_clamp(vec3_pow(result, 1.0 / 2.2), 0.0, 1.0), 255.0);
+	rec->color = vec3_scale(vec3_clamp(vec3_pow(
+					result, 1.0 / 2.2), 0.0, 1.0), 255.0);
 	return (rec->color);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:05:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:11:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,6 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_WHITE});
 	if (!hit.object)
 		return ;
-	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, panel_h}},

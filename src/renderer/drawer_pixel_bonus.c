@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:10:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:19:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	apply_uv(t_hit_record *hc)
 	t_vec3			uvcol;
 
 	if (hc->object->type == OBJ_TRIANGLE
-			&& hc->object->material && hc->object->material->color_tex)
+		&& hc->object->material && hc->object->material->color_tex)
 	{
 		if (hc->object->material->spec_tex)
 			hc->specular = triangle_uv_to_color(hc->object,

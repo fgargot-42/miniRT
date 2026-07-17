@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 23:56:24 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/02 20:49:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:18:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_vec3	vec3_max(t_vec3 a, t_vec3 b)
 t_vec3	vec3_pow(t_vec3 a, double p)
 {
 	t_vec3	res;
-	
+
 	res.x = pow(a.x, p);
 	res.y = pow(a.y, p);
 	res.z = pow(a.z, p);

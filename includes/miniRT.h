@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 18:23:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:15:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ void				aabb_grow_to_include_center(t_aabb *aabb, t_object *obj);
 double				get_aabb_area(t_aabb aabb);
 void				sah_partition(t_bvh *node, t_sah *sah);
 t_bin				*init_bins(int axis, t_aabb bounds);
-
-
 
 // OBJECTS
 
@@ -137,7 +135,7 @@ t_ray				get_object_relative_ray(t_ray ray, t_object *obj);
 
 //lighting.c
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
-double 				smoothstep(double min, double max, double value);
+double				smoothstep(double min, double max, double value);
 
 // UTILS
 
@@ -178,6 +176,7 @@ void				setup_transform_sliders(t_data *data, t_object *obj);
 void				setup_color_sliders(t_data *data, t_object *obj);
 void				setup_property_sliders(t_data *data, t_object *obj);
 
-void				setup_ambient_sliders(t_data *data, t_object *obj, int slider_id);
+void				setup_ambient_sliders(t_data *data, t_object *obj,
+						int slider_id);
 
 #endif // MINIRT_H

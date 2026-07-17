@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/17 22:30:52 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/18 00:26:16 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,6 @@ SRC =	bvh/bvh.c \
 		veclib/veclib3_math.c \
 		veclib/veclib3_math2.c \
 		veclib/veclib3_math3.c \
-		matlib/matrix.c \
 		matlib/matrix2.c \
 		matlib/matrix3.c \
 		matlib/matrix_utils.c \

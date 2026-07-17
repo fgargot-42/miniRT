@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:07:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:23:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,8 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	char			**split;
 	t_object_model	obj;
 	t_parser_ctx	obj_ctx;
-	double			time_start;
-	double			time_end;
 
 	status = 1;
-	time_start = get_time();
 	init_ctx(&obj_ctx, ctx, data);
 	init_object_model(&obj);
 	split = ft_split_by_whitespace(file);
@@ -122,9 +119,6 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 		status = parse_obj_tex_file(&obj, ctx->rt_path, split[3], data->mlx);
 	status &= parse_obj_elements(split, &obj_ctx, data->scene, &obj);
 	add_materials_to_scene(data->scene, obj.materials);
-	time_end = get_time() - time_start;
-	printf("Object parsed in %.3fs: %zu tris (%d lines)\n",
-		time_end, obj.triangles.len, obj_ctx.line_nb);
 	destroy_object_model(&obj);
 	free_str_array(split);
 	return (2 * status);

@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/03 17:56:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 18:00:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:31:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 
-double smoothstep(double min, double max, double value)
+double	smoothstep(double min, double max, double value)
 {
 	double	res;
 

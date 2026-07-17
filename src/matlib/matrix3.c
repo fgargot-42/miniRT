@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/29 22:14:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:27:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_mat3	transpose_mat3(t_mat3 mat)
 {
 	t_mat3	tr;
 
-
 	tr.mat[0][0] = mat.mat[0][0];
 	tr.mat[0][1] = mat.mat[1][0];
 	tr.mat[0][2] = mat.mat[2][0];
@@ -95,8 +94,8 @@ t_vec3	mat3_vec_mult(t_mat3 mat, t_vec3 vec)
 {
 	t_vec3	res;
 
-	res = vec3_scale((t_vec3){{.x = mat.mat[0][0], .y = mat.mat[0][1],
-			.z = mat.mat[0][2]}}, vec.x);
+	res = vec3_scale((t_vec3){{mat.mat[0][0], mat.mat[0][1],
+			mat.mat[0][2]}}, vec.x);
 	res = vec3_add(res, vec3_scale((t_vec3){{.x = mat.mat[1][0],
 				.y = mat.mat[1][1], .z = mat.mat[1][2]}}, vec.y));
 	res = vec3_add(res, vec3_scale((t_vec3){{.x = mat.mat[2][0],

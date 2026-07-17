@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 21:05:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:55:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:24:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	add_materials_to_scene(t_scene *scene, t_array materials)
 	size_t	i;
 
 	i = 0;
-	while(i < materials.len)
+	while (i < materials.len)
 	{
 		ft_arrayadd_back(&scene->mat, materials.array[i], destroy_material);
 		i++;

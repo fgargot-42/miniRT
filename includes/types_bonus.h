@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:36:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:55:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ typedef struct s_bvh_hit_ctx
 	t_ray			*ray;
 	double			*closest;
 	t_hit_record	*rec;
+	int				hit;
 }	t_bvh_hit_ctx;
 
 typedef struct s_bvh_state

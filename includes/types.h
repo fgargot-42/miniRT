@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:35:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:52:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef union u_obj_prop
 	};
 	double	intensity; // light/ambient
 }	t_obj_prop;
-
 
 typedef struct s_object
 {
@@ -121,6 +120,7 @@ typedef struct s_bvh_hit_ctx
 	t_ray			*ray;
 	double			*closest;
 	t_hit_record	*rec;
+	int				hit;
 }	t_bvh_hit_ctx;
 
 typedef struct s_bvh_state

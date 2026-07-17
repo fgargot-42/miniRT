@@ -6,12 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:05:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:17:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#ifndef PARSER_BONUS_H
+# define PARSER_BONUS_H
 
 # include "miniRT_bonus.h"
 
@@ -59,4 +59,4 @@ int					parse_texture_file(char *param, t_object *obj,
 						t_parser_ctx *ctx, void *mlx);
 void				add_triangles_to_scene(t_scene *scene, t_array triangles);
 void				add_materials_to_scene(t_scene *scene, t_array materials);
-#endif
+#endif // PARSER_BONUS_H

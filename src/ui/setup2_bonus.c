@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/17 22:00:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:29:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static const mlx_color	g_material_colors[2] = {
 {.r = 180, .g = 180, .b = 255, .a = 255},
 {.r = 200, .g = 200, .b = 200, .a = 255}};
 
-static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col, int slider_id)
+static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col,
+	int slider_id)
 {
 	int	i;
 
