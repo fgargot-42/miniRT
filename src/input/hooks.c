@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 20:45:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 23:16:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	window_hook(int event, void *param)
 {
 	mlx_context	mlx;
 
-	(void)event;
 	mlx = (mlx_context)param;
 	if (event == 0)
 		mlx_loop_end(mlx);

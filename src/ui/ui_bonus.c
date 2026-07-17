@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 22:07:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 00:04:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,16 @@ static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "SKY", "LIGHT",
 	"PLANE", "SPHERE", "CYLINDER", "CONE", "HYPERBOLOID", "PARABOLOID",
 	"TRIANGLE"};
 
-static const char	*obj_type_name(int type)
+static const char	*obj_type_name(t_object *o)
 {
-	int	max;
+	long	max;
 
-	max = sizeof(g_obj_names) / sizeof(*g_obj_names);
-	if (type < 0 || type >= max)
+	if (!o)
 		return ("UNKNOWN");
-	return (g_obj_names[type]);
+	max = sizeof(g_obj_names) / sizeof(*g_obj_names);
+	if (o->type < 0 || o->type >= max)
+		return ("UNKNOWN");
+	return (g_obj_names[o->type]);
 }
 
 void	setup_sliders(t_data *data)
@@ -142,9 +144,9 @@ static void	draw_slider(t_data *data, t_slider *s)
 void	header(t_data *data, double mouse_x, double mouse_y)
 {
 	int			y;
-	t_object	o;
+	t_object	*o;
 
-	o = *data->scene->selected;
+	o = data->scene->selected;
 	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
 	mlx_string_put(data->mlx, data->editor, PANEL_X + PANEL_PAD, PANEL_Y + 16,
 		(mlx_color){.rgba = COL_WHITE}, "miniRT INSPECTOR |      ;)");
@@ -153,7 +155,7 @@ void	header(t_data *data, double mouse_x, double mouse_y)
 	put_row(data, (t_row_info){.y = &y, .win = data->editor, .label = "addr",
 		.val_col = (mlx_color){.rgba = COL_ADDR}}, "%p", o);
 	put_row(data, (t_row_info){.y = &y, .win = data->editor, .label = "type",
-		.val_col = (mlx_color){.rgba = COL_TYPE}}, "%s", obj_type_name(o.type));
+		.val_col = (mlx_color){.rgba = COL_TYPE}}, "%s", obj_type_name(o));
 	put_row(data, (t_row_info){.y = &y, .win = data->editor, .label = "mouse",
 		.val_col = (mlx_color){.rgba = COL_VALUE}}, "u=%.1f  v=%.1f", mouse_x,
 		mouse_y);
