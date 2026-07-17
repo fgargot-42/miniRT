@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 23:57:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 22:07:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	setup_sliders(t_data *data)
 	setup_color_sliders(data, obj);
 	setup_material_sliders(data, obj);
 	setup_property_sliders(data, obj);
-	setup_ambient_sliders(data, obj);
+	setup_ambient_sliders(data, obj, 13);
 	data->nb_sliders = 17;
 }
 
@@ -118,7 +118,7 @@ static void	draw_slider(t_data *data, t_slider *s)
 	int		thumb_x;
 	char	buf[32];
 
-	if (!data->editor)
+	if (!data->editor || !s->value)
 		return ;
 	t = slider_ratio(s);
 	filled_w = (int)(t * SLD_W);
@@ -200,6 +200,8 @@ void	draw_editor(t_data *d, double mx, double my)
 	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_WHITE});
 	fill_rect(d, (t_vec2){{0, 0}}, (t_vec2){{EDITOR_W, EDITOR_H}},
 		(mlx_color){.rgba = COL_BG});
+	fill_rect(d, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, TITLE_H}},
+		(mlx_color){.rgba = COL_TITLEBAR});
 	header(d, mx, my);
 	y = SLD_BASE_Y - 130;
 	draw_group(d, (t_vec2){{0, 3}}, &y, "TRANSFORM -");
@@ -223,7 +225,6 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_WHITE});
 	if (!hit.object)
 		return ;
-	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	panel_h = TITLE_H + LINE_H * 25 + 60;
 	mlx_set_font(data->mlx, "resources/font.ttf");
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, panel_h}},

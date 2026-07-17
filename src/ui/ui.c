@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 23:57:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/17 21:39:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void	draw_slider(t_data *data, t_slider *s)
 	int		thumb_x;
 	char	buf[32];
 
-	if (!data->editor)
+	if (!data->editor || !s->value)
 		return ;
 	t = slider_ratio(s);
 	filled_w = (int)(t * SLD_W);

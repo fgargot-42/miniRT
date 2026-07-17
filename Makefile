@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/17 20:18:03 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/17 22:30:52 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,6 @@ SRC =	bvh/bvh.c \
 		utils/time_utils.c \
 		utils/color.c \
 		ui/helpers.c \
-		ui/setup2.c
 
 SRC_MANDA = $(SRC) \
 		main.c \
@@ -94,7 +93,8 @@ SRC_MANDA = $(SRC) \
 		scene/scene.c \
 		scene/scene_utils.c \
 		ui/setup.c \
-		ui/ui.c
+		ui/ui.c \
+		ui/setup2.c
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
 		bvh/bvh_aabb_bonus.c \
@@ -142,6 +142,7 @@ SRC_BONUS = $(SRC) \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \
 		ui/setup_bonus.c \
+		ui/setup2_bonus.c \
 		uv_mapping_bonus.c
 
 OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
@@ -153,7 +154,7 @@ bonus: $(OBJ_BONUS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)
 
 $(MLX):
-	make -j16 -C $(MLX_DIR)
+	make -j16 -C $(MLX_DIR) DEBUG=false
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
@@ -177,7 +178,7 @@ fclean: clean
 
 re: fclean all
 
--include $(OBJ:.o=.d)
--include $(OBJ_DEBUG:.o=.d)
+-include $(OBJ_MANDA:.o=.d)
+-include $(OBJ_BONUS:.o=.d)
 
 .PHONY: all bonus clean fclean re
