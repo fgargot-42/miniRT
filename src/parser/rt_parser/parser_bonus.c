@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:45:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 22:22:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ int	parse_scene(char *file, t_data *data)
 	parser_ctx.rt_path = get_directory_path(file);
 	status = parse_scene_loop(data, &parser_ctx);
 	free(parser_ctx.rt_path);
+	printf("Objects in scene: %zu\n", data->scene->objects.len);
 	return (status);
 }

@@ -1,0 +1,30 @@
+# Ambient (Unique)
+# A intensity	color(r,g,b)
+A 0.2	255,255,255
+
+# Camera (Unique)
+# C	pos(x,y,z)		dir(x,y,z normalized)	fov
+C	2.0,3.5,-6.0	-0.2,-0.3,0.9				80
+
+# Light (multi-light supported with bonus)
+# L	pos(x,y,z)		intensity	color(r,g,b)
+L	0.0,12.0,0.0		0.75		255,255,255
+L	15.0,12.0,-20.0		0.35		255,255,255
+
+# Skybox (Unique)
+# SB file_path
+SB	../textures/sky_4k.jpg
+
+# Sphere
+# sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	checkered_color	texture_file]
+sp		0.0,1.5,0.0		2.0			230,230,230		0.6			32			30,30,30
+
+# tr	point_a(x,y,z)	point_b	point_c		color(r,g,b)	[specular	shininess	checkered_color	texture_file]
+
+tr -3,0.5,-3	-3,0.5,3	3,0.5,3		128,128,0
+tr -3,0.5,-3	3,0.5,3		3,0.5,-3	128,128,0
+tr -3,0.5,-3	-3,0.5,3	0,4.5,0		128,0,128
+tr -3,0.5,3		3,0.5,3		0,4.5,0		0,128,0
+tr 	3,0.5,3		3,0.5,-3	0,4.5,0		128,0,0
+
+pl 0,0,0 0,1,0	192,192,192

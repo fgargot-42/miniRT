@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 18:44:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 21:20:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx, void *mlx)
 	t_object	*obj;
 
 	obj = NULL;
-	if (check_array_size(line_split, 6, "triangle", ctx->line_nb))
+	if (check_array_size(line_split, 5, "triangle", ctx->line_nb))
 		return (NULL);
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
