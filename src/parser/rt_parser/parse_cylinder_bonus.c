@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:32:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 18:42:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	parse_cylinder_optional_elements(char **line_split, t_object *obj,
 
 	nb_elements = get_str_array_length(line_split);
 	p_res = 1;
+	obj->checker = (nb_elements > 8);
 	if (nb_elements > 6)
 		p_res &= parse_double(line_split[6], &(obj->specular), "cylinder",
 				ctx->line_nb);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:32:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/18 18:57:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	parse_plane_optional_elements(char **line_split, t_object *obj,
 
 	nb_elements = get_str_array_length(line_split);
 	p_res = 1;
+	obj->checker = (nb_elements > 6);
 	if (nb_elements > 4)
 		p_res &= parse_double(line_split[4], &(obj->specular), "plane",
 				ctx->line_nb);
@@ -61,7 +62,7 @@ t_object	*parse_plane(char **line_split, t_parser_ctx *ctx, void *mlx)
 	t_object	*obj;
 
 	obj = NULL;
-	if (check_array_size(line_split, 5, "plane", ctx->line_nb))
+	if (check_array_size(line_split, 4, "plane", ctx->line_nb))
 		return (NULL);
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
