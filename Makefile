@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/20 23:23:02 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/21 01:07:29 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -157,6 +157,9 @@ OBJ_BONUS = $(addprefix $(OBJDIR)/,$(SRC_BONUS:.c=.o))
 
 all: $(NAME)
 
+manda: $(OBJ_MANDA) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)
+
 bonus: $(OBJ_BONUS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)
 
@@ -188,4 +191,4 @@ re: fclean all
 -include $(OBJ_MANDA:.o=.d)
 -include $(OBJ_BONUS:.o=.d)
 
-.PHONY: all bonus clean fclean re
+.PHONY: all manda bonus clean fclean re
