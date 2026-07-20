@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 20:58:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/19 21:08:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:09:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 #include "libft.h"
 
 void	aabb_grow_to_include(t_aabb *aabb, t_object *obj)

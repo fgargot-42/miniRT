@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/01 18:13:08 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 19:49:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:07:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 
 int	create_bvh_tree_node(t_bvh *bvh)
 {

@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:58:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:06:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:17:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "hit_bonus.h"
 
 static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 		t_object *obj)

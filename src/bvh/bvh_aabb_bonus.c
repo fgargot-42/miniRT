@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:23:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:28:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:06:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "bvh_bonus.h"
 
 void	get_object_aabb(t_object *obj, t_aabb *aabb)
 {

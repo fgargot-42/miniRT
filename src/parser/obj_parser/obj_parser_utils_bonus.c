@@ -6,13 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/08 21:05:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:24:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:29:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "libft.h"
-#include "object.h"
 
 void	add_triangles_to_scene(t_scene *scene, t_array triangles)
 {

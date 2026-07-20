@@ -6,14 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:56:59 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:28:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
-#include "object.h"
 
 int	parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx)
 {

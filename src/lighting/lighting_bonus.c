@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:35:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:17:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "hit_bonus.h"
 #include <math.h>
 
 static int	in_shadow(t_hit_record tmp, t_scene *scene, t_object *light)

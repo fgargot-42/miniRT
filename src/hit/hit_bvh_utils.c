@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 21:32:15 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:55:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:55:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
 
 double	hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist)
 {

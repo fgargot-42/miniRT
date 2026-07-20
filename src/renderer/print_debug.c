@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 18:32:51 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:19:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:56:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
 
 t_vec3	apply_ambient(t_vec3 color, t_vec3 ambient);
 t_vec3	apply_diffuse(t_hit_record *rec, t_object *light);

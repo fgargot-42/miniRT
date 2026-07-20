@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/09 17:04:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/22 18:42:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:09:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 #include "libft.h"
 
 // 0 is left, 1 is right

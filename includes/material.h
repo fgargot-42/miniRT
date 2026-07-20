@@ -6,20 +6,54 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:26:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:24:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-# include "miniRT_bonus.h"
 # include "veclib.h"
+# include "mlx.h"
 # include "libft.h"
 # include "parser_bonus.h"
 
+typedef union u_uv_texture
+{
+	struct
+	{
+		t_vec2	tex_a;
+		t_vec2	tex_b;
+		t_vec2	tex_c;
+	};
+	t_vec2	origin;
+}	t_uv_texture;
+
+typedef struct s_texture
+{
+	int			width;
+	int			height;
+	mlx_image	data;
+	mlx_context	mlx;
+}	t_texture;
+
+typedef struct s_material
+{
+	char		*name;
+	t_vec3		amb_color;
+	t_vec3		diff_color;
+	t_vec3		spec_color;
+	t_vec3		emissive;
+	t_texture	*color_tex;
+	t_texture	*normal_tex;
+	t_texture	*spec_tex;
+	double		density;
+	double		specular;
+	double		opacity;
+}	t_material;
+
 int			parse_new_material(char *line, t_array *materials,
-				t_material **mat);
+				void *mat);
 typedef int	(*t_obj_parser_fc)(char *, t_material *, int);
 int			parse_mat_exponent(char *line, t_material *mat, int line_nb);
 int			parse_mat_ambient(char *line, t_material *mat, int line_nb);

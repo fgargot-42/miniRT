@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:16:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:03:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,60 +26,67 @@
 # define SAH_BINS 64
 # define MLX_WHITE 0xFFFFFFFF
 
-# include "types_bonus.h"
-# include "veclib.h"
+# define MAX_SLIDERS    17
+
 # include "mlx.h"
+# include "veclib.h"
+# include "object_bonus.h"
+# include "bvh_bonus.h"
+# include "ui.h"
 # include <math.h>
 # include "SDL2/SDL_scancode.h"
-# include "ui.h"
 # include "libft.h"
 # include "material.h"
+
+typedef struct s_slider
+{
+	int			y;
+	double		*value;
+	double		min;
+	double		max;
+	const char	*label;
+	mlx_color	col;
+}	t_slider;
+
+typedef struct s_scene
+{
+	t_array		objects;
+	t_array		bvh_objects;
+	t_object	*ambient;
+	t_object	*cam;
+	t_object	*selected;
+	t_bvh		*bvh;
+	int			bvh_display_level;
+	t_array		lights;
+	t_object	*sky;
+	t_texture	*skybox;
+	t_array		mat;
+}	t_scene;
+
+typedef struct s_data
+{
+	mlx_context	mlx;
+	mlx_window	win;
+	mlx_window	editor;
+	mlx_image	img;
+	t_scene		*scene;
+	int			r_click_hold;
+	int			w_click_hold;
+	int			last_mouse_x;
+	int			last_mouse_y;
+	int			render_scale;
+	// temp slider -> ui.h
+	t_slider	sliders[MAX_SLIDERS];
+	int			nb_sliders;
+	int			dragging_slider;
+	int			th_nb;
+	int			nb_threads;
+}	t_data;
 
 // DISPLAY
 
 void				init_display(char *rt_file, t_data *data);
 void				destroy_display(t_data *data);
-
-// BVH
-
-typedef void		(*t_obj_aabb_fn)(t_object *, t_aabb *);
-
-void				get_sphere_aabb(t_object *obj, t_aabb *aabb);
-void				get_cylinder_aabb(t_object *obj, t_aabb *aabb);
-void				get_cone_aabb(t_object *obj, t_aabb *aabb);
-void				get_hyperboloid_aabb(t_object *obj, t_aabb *aabb);
-void				get_paraboloid_aabb(t_object *obj, t_aabb *aabb);
-void				get_triangle_aabb(t_object *obj, t_aabb *aabb);
-
-void				get_object_aabb(t_object *obj, t_aabb *aabb);
-
-void				bvh_init(t_bvh *bvh, t_array objects);
-t_bvh				*build_bvh_tree(t_scene *scene);
-int					create_bvh_tree_node(t_bvh *bvh);
-void				bvh_destroy_tree(t_bvh **bvh);
-void				rebuild_bvh_tree(t_bvh **bvh, t_scene *scene);
-void				bvh_remove_empty_children(t_bvh *bvh);
-
-t_vec3				get_range_from_object_centers(t_bvh *bvh);
-void				count_elements_split_right(t_bvh *bvh, t_sah *sah);
-void				bvh_grow_to_include(t_bvh *bvh, t_object *object);
-void				bvh_grow_all_to_include(t_bvh *root, t_object *object);
-int					is_bvh_object(void *e);
-int					bvh_split(t_bvh *bvh);
-void				get_box_aabb(t_list *elements, t_vec3 *aabb_min,
-						t_vec3 *aabb_max);
-t_vec3				get_left_bounds(t_bvh *bvh);
-t_vec3				get_object_center(t_object *obj);
-t_sah				get_sah_split(t_bvh *node);
-void				aabb_grow_to_include(t_aabb *aabb, t_object *obj);
-void				aabb_grow_to_include_center(t_aabb *aabb, t_object *obj);
-double				get_aabb_area(t_aabb aabb);
-void				sah_partition(t_bvh *node, t_sah *sah);
-t_bin				*init_bins(int axis, t_aabb bounds);
-
-// OBJECTS
-
-t_object			*create_object(void *object, t_obj_type type);
 
 // DEBUG
 
@@ -115,40 +122,6 @@ void				mouse_wheel_hook(int mouse_event, void *param);
 //src/camera.c
 t_ray				camera_ray(t_object *cam, int x, int y);
 void				mouse_loop(void *param);
-
-//src/hit.c
-t_vec3				face_normal(t_ray *ray, t_vec3 inverted);
-t_hit_fn			get_hit_fn(t_obj_type type);
-void				apply_checker(t_hit_record *rec, t_object *obj,
-						t_vec3 point);
-int					hit_list(t_array obj, t_ray *ray, double *closest,
-						t_hit_record *rec);
-int					hit_scene(t_scene *scene, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_sphere(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_plane(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_cylinder(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_cone(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_hyperboloid(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_paraboloid(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-int					hit_triangle(t_object *obj, t_ray *ray, double t_max,
-						t_hit_record *rec);
-double				hit_bvh_box(t_bvh *bvh, t_ray *ray, double dist);
-int					hit_bvh(t_scene *scene, t_ray *ray, double *closest,
-						t_hit_record *rec);
-int					hit_object_in_bvh(t_bvh *bvh, t_ray *ray, double *closest,
-						t_hit_record *rec);
-int					draw_box_bounds(t_bvh_hit_ctx *ctx, t_bvh_state state);
-
-//src/ray.c
-t_vec3				ray_at(t_ray ray, double t);
-t_ray				get_object_relative_ray(t_ray ray, t_object *obj);
 
 //lighting.c
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);

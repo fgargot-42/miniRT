@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 23:22:01 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 01:10:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,52 @@
 # define COL_TRACK_BG  	0x12121eff
 
 # include "mlx.h"
-# include "miniRT.h"
-# include "types.h"
+# include "veclib.h"
+
+typedef struct s_data	t_data;
+typedef struct s_object	t_object;
+typedef struct s_slider	t_slider;
+
+typedef struct s_row_info
+{
+	mlx_window	win;
+	int			*y;
+	const char	*label;
+	mlx_color	val_col;
+}	t_row_info;
+
+
+// UI
+
+void		init_editor(t_data *data);
+
+void		init_editor(t_data *data);
+void		setup_sliders(t_data *data);
+void		draw_editor(t_data *data, double mouse_x, double mouse_y);
+void		editor_mouse_down(int event, void *param);
+void		editor_mouse_up(int event, void *param);
+
+void		fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
+				mlx_color col);
+
+void		draw_hline(t_data *data, void *win, int y);
+
+void		put_row(t_data *data, t_row_info info,
+				const char *fmt, ...);
+void		put_section(t_data *data, void *win, int *y,
+				const char *title);
+void		setup_transform_sliders(t_data *data, t_object *obj);
+void		setup_color_sliders(t_data *data, t_object *obj);
+void		setup_property_sliders(t_data *data, t_object *obj);
+
+void		setup_ambient_sliders(t_data *data, t_object *obj,
+				int slider_id);
 mlx_color	slider_dim(t_slider *s);
-double	slider_ratio(t_slider *s);
-void	header(t_data *data, double mouse_x, double mouse_y);
-void	draw_group(t_data *d, t_vec2 range, int *y, char *title);
-void	draw_ambient(t_data *d, int *y);
-void	draw_slider_group(t_data *d, int start, int end, int *y);
+double		slider_ratio(t_slider *s);
+void		header(t_data *data, double mouse_x, double mouse_y);
+void		draw_group(t_data *d, t_vec2 range, int *y, char *title);
+void		draw_ambient(t_data *d, int *y);
+void		draw_slider_group(t_data *d, int start, int end, int *y);
 const char	*obj_type_name(t_object *o);
 
 #endif //UI_H

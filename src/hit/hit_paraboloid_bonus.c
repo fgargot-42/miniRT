@@ -6,12 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:57:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:16:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
-#include "hit.h"
+#include "hit_bonus.h"
 #include "veclib.h"
 
 // Paraboloid equation: z = x^2 + y^2

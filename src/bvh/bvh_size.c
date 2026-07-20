@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/20 17:54:19 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/17 21:34:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:07:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 #include "veclib.h"
 
 void	bvh_grow_to_include(t_bvh *bvh, t_object *object)

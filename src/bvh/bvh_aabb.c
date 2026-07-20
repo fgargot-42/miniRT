@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:23:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:27:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:06:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 
 void	get_object_aabb(t_object *obj, t_aabb *aabb)
 {

@@ -6,12 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 20:12:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:09:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
-#include <mlx.h>
+#include "mlx.h"
 #include <stdlib.h>
 
 int	main(int argc, char **argv)

@@ -6,12 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/03 01:49:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:23:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
-#include "object.h"
+#include "miniRT_bonus.h"
 #include <unistd.h>
 
 static int	get_material_element_index(char *mat_elem)

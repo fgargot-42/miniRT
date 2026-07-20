@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 18:50:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:55:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
 
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 {

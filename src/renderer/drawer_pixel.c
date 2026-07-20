@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 23:16:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:56:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "miniRT.h"
+#include "hit.h"
 #include "veclib.h"
 
 static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,

@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 01:30:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:07:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "bvh_bonus.h"
 
 static void	bvh_destroy_nodes(t_bvh *bvh)
 {

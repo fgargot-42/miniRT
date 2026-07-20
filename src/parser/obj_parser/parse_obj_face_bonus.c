@@ -6,12 +6,11 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:56:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:27:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "object.h"
 #include "miniRT_bonus.h"
 
 static bool	parse_face_values(char *line_split, t_object_model *model,

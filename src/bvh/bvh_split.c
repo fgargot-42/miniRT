@@ -6,13 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 18:30:13 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:32:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:08:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-void	sah_partition(t_bvh *node, t_sah *sah);
+#include "bvh.h"
 
 static void	split_bvh_node(t_bvh *bvh, t_sah *sah)
 {

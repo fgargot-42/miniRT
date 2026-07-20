@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:49:37 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 18:44:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:17:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "hit_bonus.h"
 #include "veclib.h"
 
 t_vec3	face_normal(t_ray *ray, t_vec3 inverted)

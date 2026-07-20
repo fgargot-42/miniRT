@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/21 01:07:29 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/21 01:09:11 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,13 +57,17 @@ SRC =	bvh/bvh.c \
 		matlib/matrix2.c \
 		matlib/matrix3.c \
 		matlib/matrix_utils.c \
+		ui/helpers.c \
+		ui/ui_draw.c \
+		ui/ui_helpers.c \
+		ui/ui_init.c \
+		ui/ui_slider_header.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/array_utils.c \
 		utils/str_utils.c \
 		utils/time_utils.c \
 		utils/color.c \
-		ui/helpers.c \
 
 SRC_MANDA = $(SRC) \
 		main.c \
@@ -93,10 +97,6 @@ SRC_MANDA = $(SRC) \
 		scene/scene_utils.c \
 		ui/setup.c \
 		ui/ui.c \
-		ui/ui_draw.c \
-		ui/ui_helpers.c \
-		ui/ui_init.c \
-		ui/ui_slider_header.c \
 		ui/setup2.c 
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
@@ -144,10 +144,6 @@ SRC_BONUS = $(SRC) \
 		scene/scene_bonus.c \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \
-		ui/ui_draw_bonus.c \
-		ui/ui_helpers_bonus.c \
-		ui/ui_init_bonus.c \
-		ui/ui_slider_header_bonus.c \
 		ui/setup_bonus.c \
 		ui/setup2_bonus.c \
 		uv_mapping_bonus.c

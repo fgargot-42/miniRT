@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 18:43:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:56:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
 #include "veclib.h"
 
 static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,

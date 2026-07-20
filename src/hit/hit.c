@@ -6,13 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 20:09:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:55:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "veclib.h"
 #include "math.h"
+#include "hit.h"
 
 int	hit_list(t_array obj, t_ray *ray, double *closest,
 	t_hit_record *rec)

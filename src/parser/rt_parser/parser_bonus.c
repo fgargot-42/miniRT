@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 22:22:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:30:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
 #include "libft.h"
-#include "object.h"
+#include "object_bonus.h"
 #include <fcntl.h>
 #include <unistd.h>
 

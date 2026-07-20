@@ -6,18 +6,31 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:36:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 01:03:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "miniRT.h"
+# include "veclib.h"
+
+typedef struct s_scene	t_scene;
+typedef struct s_data	t_data;
+typedef struct s_object	t_object;
+
+typedef struct s_parser_ctx
+{
+	int			fd;
+	void		*mlx;
+	t_object	*obj;
+	int			line_nb;
+	char		*rt_path;
+}	t_parser_ctx;
 
 // PARSING
 
-typedef t_object	*(*t_parser_func)(char **, t_parser_ctx *);
+typedef t_object		*(*t_parser_func)(char **, t_parser_ctx *);
 int					parse_scene(char *file, t_data *data);
 t_object			*parse_ambient(char **line_split, t_parser_ctx *ctx);
 t_object			*parse_camera(char **line_split, t_parser_ctx *ctx);
@@ -38,8 +51,4 @@ int					parse_vector(char *param, t_vec3 *v_res, char *object,
 						int line_nb);
 int					parse_double(char *param, double *res, char *object,
 						int line_nb);
-int					parse_texture_file(char *param, t_object *obj,
-						t_parser_ctx *ctx, void *mlx);
-void				add_triangles_to_scene(t_scene *scene, t_array triangles);
-void				add_materials_to_scene(t_scene *scene, t_array materials);
 #endif

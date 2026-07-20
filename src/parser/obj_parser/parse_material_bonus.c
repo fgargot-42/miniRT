@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:56:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 01:05:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include "parser_bonus.h"
 #include "material.h"
 
-int	parse_new_material(char *line, t_array *materials, t_material **mat)
+int	parse_new_material(char *line, t_array *materials, void *mat_ptr)
 {
-	char	**split;
+	char		**split;
+	t_material	**mat;
 
+	mat = mat_ptr;
 	if (!line || !materials || !mat)
 		return (0);
 	*mat = ft_calloc(1, sizeof(t_material));

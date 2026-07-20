@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:30:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:08:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "bvh_bonus.h"
 #include "veclib.h"
 
 t_vec3	get_object_center(t_object *obj)

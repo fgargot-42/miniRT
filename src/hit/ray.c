@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:28:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/05 21:40:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:55:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
 
 t_vec3	ray_at(t_ray ray, double t)
 {

@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/03 14:19:28 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/11 20:42:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 22:08:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "bvh.h"
 #include "veclib.h"
 
 void	count_elements_split_right(t_bvh *bvh, t_sah *sah)

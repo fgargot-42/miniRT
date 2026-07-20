@@ -6,11 +6,14 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 19:05:31 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 01:13:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+#include "hit.h"
+#include "mlx.h"
+#include "ui.h"
 #include <stdarg.h>
 #include <stdio.h>
 

@@ -6,12 +6,11 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:23:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 00:20:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
-#include "object.h"
 #include "miniRT_bonus.h"
 #include <unistd.h>
 

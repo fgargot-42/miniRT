@@ -12,6 +12,8 @@
 
 #include "mlx.h"
 #include "ui.h"
+#include "object.h"
+#include "miniRT.h"
 #include <stdarg.h>
 
 static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "LIGHT", "PLANE",

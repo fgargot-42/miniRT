@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/18 20:34:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:54:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-#include <mlx.h>
+#include "mlx.h"
+#include "hit.h"
 
 static t_vec3	get_ray_direction(t_object *cam, double u, double v)
 {

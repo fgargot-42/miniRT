@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bvh_utils.c                                        :+:      :+:    :+:   */
+/*   bvh_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/13 21:52:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 22:08:41 by fgargot          ###   ########.fr       */
+/*   Created: 2026/07/20 22:03:29 by fgargot           #+#    #+#             */
+/*   Updated: 2026/07/20 22:05:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
-#include "bvh.h"
-#include "veclib.h"
+#ifndef BVH_BONUS_H
+# define BVH_BONUS_H
 
-t_vec3	get_object_center(t_object *obj)
-{
-	return (obj->position);
-}
+# include "bvh.h"
 
-int	is_bvh_object(void *e)
-{
-	int	is_bvh;
+void	get_cone_aabb(t_object *obj, t_aabb *aabb);
+void	get_hyperboloid_aabb(t_object *obj, t_aabb *aabb);
+void	get_paraboloid_aabb(t_object *obj, t_aabb *aabb);
+void	get_triangle_aabb(t_object *obj, t_aabb *aabb);
 
-	is_bvh = ((t_object *)e)->type == OBJ_SPHERE;
-	is_bvh |= ((t_object *)e)->type == OBJ_CYLINDER;
-	return (is_bvh);
-}
+#endif // BVH_BONUS_H
