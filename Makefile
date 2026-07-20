@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/18 00:26:16 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/20 18:38:10 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ SRC_MANDA = $(SRC) \
 		scene/scene_utils.c \
 		ui/setup.c \
 		ui/ui.c \
-		ui/setup2.c
+		ui/setup2.c 
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
 		bvh/bvh_aabb_bonus.c \

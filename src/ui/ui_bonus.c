@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:04:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 18:12:14 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,6 @@
 #include "ui.h"
 #include <stdarg.h>
 #include <stdio.h>
-
-static void	editor_close_hook(int event, void *param)
-{
-	t_data	*data;
-
-	data = (t_data *)param;
-	if (event == 0 && data->editor)
-	{
-		mlx_destroy_window(data->mlx, data->editor);
-		data->editor = NULL;
-	}
-}
 
 void	init_editor(t_data *data)
 {
@@ -42,8 +30,6 @@ void	init_editor(t_data *data)
 	data->editor = mlx_new_window(data->mlx, &info);
 	if (!data->editor)
 		exit(1);
-	mlx_on_event(data->mlx, data->editor, MLX_WINDOW_EVENT, editor_close_hook,
-		data);
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
 	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN, editor_mouse_down,
 		data);
