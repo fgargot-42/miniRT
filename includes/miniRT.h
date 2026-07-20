@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:15:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:14:21 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
-# define BVH_DEPTH 24
 # define DEBUG 1
 # define BVH_VIEW 1
 # define SAH_BINS 64
 # define MLX_WHITE 0xFFFFFFFF
 
+# define BVH_DEPTH 24
 # include "types.h"
 # include "veclib.h"
 # include "mlx.h"
@@ -32,7 +32,6 @@
 # include "SDL2/SDL_scancode.h"
 # include "ui.h"
 # include "libft.h"
-
 // DISPLAY
 
 void				init_display(char *rt_file, t_data *data);

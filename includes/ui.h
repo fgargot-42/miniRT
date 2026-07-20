@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ui.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/06/25 19:20:25 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/20 23:22:01 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
-# define MAX_SLIDERS    17
 # define EDITOR_W       300
 # define EDITOR_H       667
 # define SLD_X          90
@@ -45,14 +44,14 @@
 # define COL_TRACK_BG  	0x12121eff
 
 # include "mlx.h"
+# include "miniRT.h"
+# include "types.h"
+mlx_color	slider_dim(t_slider *s);
+double	slider_ratio(t_slider *s);
+void	header(t_data *data, double mouse_x, double mouse_y);
+void	draw_group(t_data *d, t_vec2 range, int *y, char *title);
+void	draw_ambient(t_data *d, int *y);
+void	draw_slider_group(t_data *d, int start, int end, int *y);
+const char	*obj_type_name(t_object *o);
 
-typedef struct s_slider
-{
-	int			y;
-	double		*value;
-	double		min;
-	double		max;
-	const char	*label;
-	mlx_color	col;
-}	t_slider;
 #endif //UI_H

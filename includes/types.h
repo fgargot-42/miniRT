@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 23:51:36 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:52:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/20 23:07:22 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,17 @@
 # include "veclib.h"
 # include "matlib.h"
 # include "libft.h"
-# include "ui.h"
+# include "mlx.h"
+
+typedef struct s_slider
+{
+	int			y;
+	double		*value;
+	double		min;
+	double		max;
+	const char	*label;
+	mlx_color	col;
+}	t_slider;
 
 typedef struct s_ray
 {
@@ -133,6 +143,9 @@ typedef struct s_bvh_state
 }	t_bvh_state;
 
 typedef int	(*t_hit_fn)(t_object *, t_ray *, double, t_hit_record *);
+
+
+# define MAX_SLIDERS    17
 
 typedef struct s_data
 {

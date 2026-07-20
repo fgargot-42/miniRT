@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/20 18:38:10 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/20 23:23:02 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,10 @@ SRC_MANDA = $(SRC) \
 		scene/scene_utils.c \
 		ui/setup.c \
 		ui/ui.c \
+		ui/ui_draw.c \
+		ui/ui_helpers.c \
+		ui/ui_init.c \
+		ui/ui_slider_header.c \
 		ui/setup2.c 
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
@@ -140,6 +144,10 @@ SRC_BONUS = $(SRC) \
 		scene/scene_bonus.c \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \
+		ui/ui_draw_bonus.c \
+		ui/ui_helpers_bonus.c \
+		ui/ui_init_bonus.c \
+		ui/ui_slider_header_bonus.c \
 		ui/setup_bonus.c \
 		ui/setup2_bonus.c \
 		uv_mapping_bonus.c
