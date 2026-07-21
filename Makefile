@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/21 19:25:29 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/21 20:54:55 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,6 @@ SRC =	bvh/bvh.c \
 		hit/ray.c \
 		input/hooks.c \
 		input/mouse_hooks.c \
-		input/mouse_hooks_editor.c \
 		lighting/lighting_utils.c \
 		parser/rt_parser/parser_utils.c \
 		parser/rt_parser/parse_number.c \
@@ -60,7 +59,6 @@ SRC =	bvh/bvh.c \
 		ui/helpers.c \
 		ui/ui_draw.c \
 		ui/ui_init.c \
-		ui/ui_slider_header.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/array_utils.c \
@@ -83,6 +81,7 @@ SRC_MANDA = $(SRC) \
 		hit/hit_cylinder.c \
 		hit/hit_utils.c \
 		lighting/lighting.c \
+		input/mouse_hooks_editor.c \
 		parser/rt_parser/parser.c \
 		parser/rt_parser/parse_light.c \
 		parser/rt_parser/parse_sphere.c \
@@ -97,6 +96,7 @@ SRC_MANDA = $(SRC) \
 		ui/setup.c \
 		ui/ui.c \
 		ui/ui_helpers.c \
+		ui/ui_slider_header.c \
 		ui/setup2.c 
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
@@ -108,6 +108,7 @@ SRC_BONUS = $(SRC) \
 		debug/print_debug_bonus.c \
 		debug/print_object_debug_bonus.c \
 		display/init_display_bonus.c \
+		input/mouse_hooks_editor_bonus.c \
 		hit/hit_bonus.c \
 		hit/hit_sphere_bonus.c \
 		hit/hit_plane_bonus.c \
@@ -147,6 +148,7 @@ SRC_BONUS = $(SRC) \
 		ui/setup_bonus.c \
 		ui/setup2_bonus.c \
 		ui/ui_helpers_bonus.c \
+		ui/ui_slider_header_bonus.c \
 		uv_mapping_bonus.c
 
 OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
