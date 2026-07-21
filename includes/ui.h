@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 01:10:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 20:58:01 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_row_info
 	const char	*label;
 	mlx_color	val_col;
 }	t_row_info;
-
 
 // UI
 
