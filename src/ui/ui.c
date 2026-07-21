@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 18:21:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 19:05:32 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "mlx.h"
 #include "ui.h"
 #include <stdarg.h>
-#include <stdio.h>
 
 void	setup_sliders(t_data *data)
 {
@@ -47,7 +46,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
 	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
 	draw_group(d, (t_vec2){{9, 11}}, &y, "PROPERTIES -----");
-	draw_ambient(d, &y);
+	draw_group(d, (t_vec2){{11, 15}}, &y, "AMBIENT ----");
 	draw_hline(d, d->editor, y + 4);
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,

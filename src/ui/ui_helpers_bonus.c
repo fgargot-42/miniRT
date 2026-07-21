@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui_helpers.c                                       :+:      :+:    :+:   */
+/*   ui_helpers_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:03:45 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/21 19:20:16 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 19:20:10 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@
 const char	*obj_type_name(t_object *o)
 {
 	long				max;
-	static const char	*obj_names[] = {"AMBIENT", "CAMERA", "LIGHT", "PLANE",
-		"SPHERE", "CYLINDER"};
+	static const char	*obj_names[] = {"AMBIENT", 
+		"CAMERA", "SKY", "LIGHT", "PLANE", 
+		"SPHERE", "CYLINDER", "CONE", 
+		"HYPERBOLOID", "PARABOLOID", "TRIANGLE"};
 
 	if (!o)
 		return ("UNKNOWN");
