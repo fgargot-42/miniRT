@@ -6,12 +6,12 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/23 21:28:10 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/24 02:10:10 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP
 
 ifeq ($(DEBUG), true)
 	CC = CCC_OVERRIDE_OPTIONS="\# O0 +-g" cc
@@ -87,6 +87,7 @@ SRC_MANDA = $(SRC) \
 		parser/rt_parser/parse_cylinder.c \
 		renderer/drawer.c \
 		renderer/drawer_pixel.c \
+		renderer/render_debug.c \
 		scene/scene.c \
 		scene/scene_utils.c \
 		ui/setup.c \
@@ -134,6 +135,7 @@ SRC_BONUS = $(SRC) \
 		parser/rt_parser/parse_texture_bonus.c \
 		renderer/drawer_bonus.c \
 		renderer/drawer_pixel_bonus.c \
+		renderer/render_debug_bonus.c \
 		scene/scene_bonus.c \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \

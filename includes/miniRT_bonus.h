@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/23 21:19:43 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/24 02:10:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void				open_inspector(t_data *data, t_hit_record hc,
 void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
 						t_ray *ray, t_vec2 mouse_pos);
 mlx_color			vec3_to_color(t_vec3 v);
+void				add_debug(t_data *data);
 
 //src/hooks.c
 void				attach_hooks(t_data *data);
