@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/21 20:54:55 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/21 23:42:34 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,8 +72,6 @@ SRC_MANDA = $(SRC) \
 		bvh/bvh_split.c \
 		bvh/bvh_utils.c \
 		camera/move_camera.c \
-		debug/print_debug.c \
-		debug/print_object_debug.c \
 		display/init_display.c \
 		hit/hit.c \
 		hit/hit_sphere.c \
@@ -89,8 +87,6 @@ SRC_MANDA = $(SRC) \
 		parser/rt_parser/parse_cylinder.c \
 		renderer/drawer.c \
 		renderer/drawer_pixel.c \
-		renderer/render_debug.c \
-		renderer/print_debug.c \
 		scene/scene.c \
 		scene/scene_utils.c \
 		ui/setup.c \
@@ -105,8 +101,6 @@ SRC_BONUS = $(SRC) \
 		bvh/bvh_split_bonus.c \
 		bvh/bvh_utils_bonus.c \
 		camera/move_camera_bonus.c \
-		debug/print_debug_bonus.c \
-		debug/print_object_debug_bonus.c \
 		display/init_display_bonus.c \
 		input/mouse_hooks_editor_bonus.c \
 		hit/hit_bonus.c \
@@ -140,8 +134,6 @@ SRC_BONUS = $(SRC) \
 		parser/rt_parser/parse_texture_bonus.c \
 		renderer/drawer_bonus.c \
 		renderer/drawer_pixel_bonus.c \
-		renderer/render_debug_bonus.c \
-		renderer/print_debug_bonus.c \
 		scene/scene_bonus.c \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \
