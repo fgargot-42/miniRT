@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:16:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:22:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 18:29:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_display(char *rt_file, t_data *data)
 	data->mlx = mlx_init();
 	if (!data->mlx)
 		exit(1);
+	mlx_set_font(data->mlx, "resources/font.ttf");
+	mlx_set_font_scale(data->mlx, "resources/font.ttf", 16.0f);
 	init_scene(rt_file, data);
 	info = (mlx_window_create_info){.title = "miniRT", .width = WIDTH,
 		.height = HEIGHT};
