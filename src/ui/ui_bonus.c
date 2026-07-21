@@ -6,16 +6,15 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 18:14:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 18:48:51 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "hit_bonus.h"
 #include "mlx.h"
 #include "ui.h"
-#include "hit_bonus.h"
 #include <stdarg.h>
-#include <stdio.h>
 
 void	setup_sliders(t_data *data)
 {
