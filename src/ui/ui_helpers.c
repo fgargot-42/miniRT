@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:03:45 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/20 23:21:59 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 18:15:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@
 #include "miniRT.h"
 #include <stdarg.h>
 
-static const char	*g_obj_names[] = {"AMBIENT", "CAMERA", "LIGHT", "PLANE",
-	"SPHERE", "CYLINDER"};
-
 const char	*obj_type_name(t_object *o)
 {
-	long	max;
+	long				max;
+	static const char	*obj_names[] = {"AMBIENT", "CAMERA", "LIGHT", "PLANE",
+		"SPHERE", "CYLINDER"};
 
 	if (!o)
 		return ("UNKNOWN");
-	max = sizeof(g_obj_names) / sizeof(*g_obj_names);
+	max = sizeof(obj_names) / sizeof(*obj_names);
 	if (o->type < 0 || o->type >= max)
 		return ("UNKNOWN");
-	return (g_obj_names[o->type]);
+	return (obj_names[o->type]);
 }
 
 double	slider_ratio(t_slider *s)

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 01:13:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 18:21:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	draw_editor(t_data *d, double mx, double my)
 
 	if (!d->editor || d->nb_sliders == 0)
 		return ;
-	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_WHITE});
+	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_BG});
 	fill_rect(d, (t_vec2){{0, 0}}, (t_vec2){{EDITOR_W, EDITOR_H}},
 		(mlx_color){.rgba = COL_BG});
 	header(d, mx, my);
@@ -60,7 +60,7 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	int	panel_h;
 
 	init_editor(data);
-	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_WHITE});
+	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_BG});
 	if (!hit.object)
 		return ;
 	panel_h = TITLE_H + LINE_H * 25 + 60;

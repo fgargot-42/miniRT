@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:55:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/21 18:14:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
 	draw_group(d, (t_vec2){{9, 11}}, &y, "MATERIAL -----");
 	draw_group(d, (t_vec2){{11, 13}}, &y, "PROPERTIES -----");
-
 	draw_ambient(d, &y);
 	draw_hline(d, d->editor, y + 4);
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
