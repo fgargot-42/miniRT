@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:09:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 01:52:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	parse_light_elements(char **line_split, t_object *obj, int line_nb)
 			line_nb);
 	parse_result &= parse_double(line_split[2], &(obj->props.intensity),
 			"light", line_nb);
-	if (nb_elements > 3 && !is_ignored(line_split[3]))  
+	if (nb_elements > 3 && !is_ignored(line_split[3]))
 		parse_result &= parse_vector(line_split[3], &(obj->color), "light",
 				line_nb);
 	return (parse_result);
