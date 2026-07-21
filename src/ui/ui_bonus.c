@@ -6,12 +6,12 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 18:48:51 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 18:50:35 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
-#include "hit_bonus.h"
+#include "hit.h"
 #include "mlx.h"
 #include "ui.h"
 #include <stdarg.h>
