@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 19:05:32 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/21 19:32:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,
 		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
+	mlx_set_font_scale(d->mlx, "resources/font.ttf", 16.0f);
 }
 
 void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
@@ -63,7 +64,6 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	if (!hit.object)
 		return ;
 	panel_h = TITLE_H + LINE_H * 25 + 60;
-	mlx_set_font(data->mlx, "resources/font.ttf");
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, panel_h}},
 		(mlx_color){.rgba = COL_BG});
 	fill_rect(data, (t_vec2){{PANEL_X, PANEL_Y}}, (t_vec2){{PANEL_W, TITLE_H}},

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/20 20:01:18 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/23 21:21:49 by mabarrer         ###   ########.fr       */
+/*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
+/*   Updated: 2026/07/24 02:06:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	draw_editor(t_data *d, double mx, double my)
  
 	if (!d->editor || d->nb_sliders == 0)
 		return ;
-	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_WHITE});
+	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_BG});
 	fill_rect(d, (t_vec2){{0, 0}}, (t_vec2){{EDITOR_W, EDITOR_H}},
 		(mlx_color){.rgba = COL_BG});
 	header(d, mx, my);
@@ -53,6 +53,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,
 		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
+	mlx_set_font_scale(d->mlx, "resources/font.ttf", 16.0f);
 }
  
 static void	setup_light_pos_sliders(t_data *data, t_vec3 *pos, int slider_id)
@@ -154,7 +155,6 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	(void)hit;
 	init_editor(data);
 	mlx_clear_window(data->mlx, data->editor, (mlx_color){.rgba = COL_WHITE});
-	mlx_set_font(data->mlx, "resources/font.ttf");
 	if (data->scene->selected)
 	{
 		setup_sliders(data);
