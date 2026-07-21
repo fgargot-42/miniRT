@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 01:03:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 01:02:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,6 @@ int					parse_vector(char *param, t_vec3 *v_res, char *object,
 						int line_nb);
 int					parse_double(char *param, double *res, char *object,
 						int line_nb);
+bool				is_ignored(char *param);
+
 #endif
