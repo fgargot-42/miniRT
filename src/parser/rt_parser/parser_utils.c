@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:46:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 01:18:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
+
+bool	is_ignored(char *param)
+{
+	return (param && param[0] == '.' && param[1] == '\0');
+}
 
 void	print_parse_error(char *message, char *element, int line_nb)
 {

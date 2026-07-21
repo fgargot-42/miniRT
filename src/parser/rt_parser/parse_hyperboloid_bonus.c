@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 18:43:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 01:20:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,22 @@ static int	parse_hyperboloid_optional_elements(char **line_split,
 
 	nb_elements = get_str_array_length(line_split);
 	p_res = 1;
-	obj->checker = (nb_elements > 10);
-	if (nb_elements > 8)
+	obj->checker = (nb_elements > 10 && !is_ignored(line_split[10]));
+	if (nb_elements > 8 && !is_ignored(line_split[8]))  
 		p_res &= parse_double(line_split[8], &(obj->specular), "hyperboloid",
 				ctx->line_nb);
-	if (nb_elements > 9)
+	if (nb_elements > 9 && !is_ignored(line_split[9]))  
 		p_res &= parse_double(line_split[9], &(obj->shininess), "hyperboloid",
 				ctx->line_nb);
-	if (nb_elements > 10)
+	if (nb_elements > 10 && !is_ignored(line_split[10]))  
 		p_res &= parse_vector(line_split[10], &(obj->checker_color),
 				"hyperboloid", ctx->line_nb);
-	if (nb_elements > 11)
+	if (nb_elements > 11 && !is_ignored(line_split[11]))  
 		p_res &= parse_texture_file(line_split[11], obj, ctx, mlx);
+	if (nb_elements > 12 && !is_ignored(line_split[12]))  
+		p_res &= parse_spec_texture_file(line_split[12], obj, ctx, mlx);
+	if (nb_elements > 13 && !is_ignored(line_split[13]))  
+		p_res &= parse_bump_texture_file(line_split[13], obj, ctx, mlx);
 	return (p_res);
 }
 
