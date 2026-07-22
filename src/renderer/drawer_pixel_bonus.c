@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:50:09 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 23:15:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ static void	apply_uv(t_hit_record *hc)
 			hc->color = triangle_uv_to_color(hc->object,
 					hc->object->material->color_tex, hc->point);
 	}
-	if (hc->object->type == OBJ_SPHERE && hc->object->tex)
+	if (hc->object->type == OBJ_SPHERE && hc->object->material->color_tex)
 	{
 		uv = get_uv(hc->normal);
 		uv.x = uv.x - floor(uv.x);
 		uv.y = uv.y - floor(uv.y);
-		uvcol = uv_to_color(hc->object->tex, uv);
+		uvcol = uv_to_color(hc->object->material->color_tex, uv);
 		hc->color = uvcol;
 	}
 }

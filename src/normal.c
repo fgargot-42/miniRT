@@ -6,68 +6,62 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 00:42:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/23 01:11:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "hit_bonus.h"
+#include "object_bonus.h"
+#include "material.h"
+#include "normal.h"
 #include "veclib.h"
-#include "matlib.h"
+#include "libft.h"
+#include "mlx.h"
+#include <math.h>
+#include <stdio.h>
 
-//t_vec3	apply_normal_map(t_hit_record *rec)
-//{
-//	t_vec3	new_normal;
-//	t_vec3	normal;
-//	t_vec2	delta_uv[2];
-//	t_vec3	edge[2];
-//	t_vec3	tans[2];
-//	t_mat3	TBN;
-//	double	f;
-//	
-//	normal = triangle_uv_to_color(rec->object, rec->point);
-//	normal = vec3_sub(vec3_scale(normal, 1.0 / 127.5), (t_vec3){{1.0, 1.0, 1.0}});
-//	normal = vec3_normalize(normal);
-//	// 
-//	delta_uv[0] = vec2_sub(rec->object->uv.tex_b, rec->object->uv.tex_a);
-//	delta_uv[1] = vec2_sub(rec->object->uv.tex_c, rec->object->uv.tex_a);
-//	edge[0] = vec3_sub(rec->object->props.b, rec->object->props.a);
-//	edge[1] = vec3_sub(rec->object->props.c, rec->object->props.a);
-//	f = 1.0 / (delta_uv[0].x *delta_uv[1].y - delta_uv[0].y * delta_uv[1].x);
-//	tans[0] = vec3_scale(vec3_sub(vec3_scale(edge[0], delta_uv[1].y),
-//				vec3_scale(edge[1], delta_uv[0].y)), f);
-//	tans[1] = vec3_scale(vec3_sub(vec3_scale(edge[1], delta_uv[0].x),
-//				vec3_scale(edge[0], delta_uv[1].x)), f);
-//	tans[0] = vec3_normalize(vec3_sub(tans[0],
-//				vec3_scale(rec->normal, vec3_dot(rec->normal, tans[0]))));
-//	TBN = init_mat3(tans[0], tans[1], rec->normal);
-//	TBN = transpose_mat3(TBN);
-//	new_normal = vec3_normalize(mat3_vec_mult(TBN, normal));
-//	return (new_normal);
-//}
-
-typedef struct	s_bump
+double	get_bump_from_img(t_vec2 uv, t_object obj)
 {
-	t_object	*obj;
-	t_vec2		uv;
-	t_vec3		normal;
-	double		cos_theta;
-	double		sin_theta;
-	double		cos_phi;
-	double		sin_phi;
-}	t_bump;
+	mlx_color	pixel;
+	double		amplitude;
+	int			x;
+	int			y;
+
+	if (!obj.material || !obj.material->normal_tex)
+		return (0.0);
+	if (obj.type == OBJ_SPHERE)
+		amplitude = obj.radius * 0.02;
+	if (obj.type == OBJ_TRIANGLE)
+		amplitude = 0.02 * fmax(fmax(vec3_distance(obj.props.b, obj.props.c),
+			vec3_length(obj.props.b)), vec3_length(obj.props.a));
+	x = (1 - uv.x) * (obj.material->normal_tex->width - 1);
+	y = uv.y * (obj.material->normal_tex->height - 1);
+	pixel = mlx_get_image_pixel(obj.material->normal_tex->mlx,
+			obj.material->normal_tex->data, x, y);
+	return ((pixel.r - 128.0) / 255.0);
+}
 
 static t_vec3	get_bump_gradient(t_bump bump, t_vec3 pu, t_vec3 pv,
-	double (*height_fn)(t_vec2))
+	double (*height_fn)(t_vec2, t_object))
 {
-	static const double	epsilon = 1e-4;
-	double				b00;
-	double				bu;
-	double				bv;
-	t_vec3				n_prime;
+	double	eps[2];
+	double	b00;
+	double	bu;
+	double	bv;
+	t_vec3	n_prime;
 
-	b00 = height_fn(bump.uv);
-	bu = (height_fn((t_vec2){{uv.x + epsilon, uv.y}}) - b00) / epsilon;
-	bv = (height_fn((t_vec2){{uv.x, uv.y + epsilon}}) - b00) / epsilon;
+	eps[0] = 1e-4;
+	eps[1] = 1e-4;
+	if (bump.obj->material && bump.obj->material->normal_tex)
+	{
+		eps[0] = 1.0 / bump.obj->material->normal_tex->width;
+		eps[1] = 1.0 / bump.obj->material->normal_tex->height;
+	}
+	b00 = height_fn(bump.uv, *bump.obj);
+	bu = (height_fn((t_vec2){{bump.uv.x + eps[0], bump.uv.y}}, *bump.obj)
+			- b00) / eps[0];
+	bv = (height_fn((t_vec2){{bump.uv.x, bump.uv.y + eps[1]}}, *bump.obj)
+			- b00) / eps[1];
 	n_prime = vec3_add(vec3_sub(
 				bump.normal, vec3_scale(vec3_cross(bump.normal, pv), bu)),
 			vec3_scale(vec3_cross(bump.normal, pu), bv));
@@ -75,7 +69,7 @@ static t_vec3	get_bump_gradient(t_bump bump, t_vec3 pu, t_vec3 pv,
 }
 
 t_vec3	bump_normal_sphere(t_hit_record rec, t_vec2 uv,
-	double (*height_fn)(t_vec2))
+	double (*height_fn)(t_vec2, t_object))
 {
 	t_bump	bump;
 	t_vec3	pu;
@@ -86,14 +80,59 @@ t_vec3	bump_normal_sphere(t_hit_record rec, t_vec2 uv,
 	bump.sin_theta = sin(uv.y * M_PI);
 	bump.cos_phi = cos(uv.x * 2.0 *  M_PI);
 	bump.sin_phi = sin(uv.x * M_PI);
-	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object.center));
-	bump.obj = rec.obj;
+	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
+	bump.obj = rec.object;
 	bump.uv = uv;
-	pu = vec3_scale((t_vec3){{-bum.sin_phi, 0, bump.cos_phi}},
-		M_PI * rec.object->props.radius * bump.sin_theta);
+	pu = vec3_scale((t_vec3){{-bump.sin_phi, 0, bump.cos_phi}},
+		M_PI * rec.object->radius * bump.sin_theta);
 	pv =  vec3_scale((t_vec3){{bump.sin_theta * bump.cos_phi,
 			-bump.cos_theta, bump.cos_theta * bump.sin_phi}},
-		M_PI * rec.object->props.radius);
+		M_PI * rec.object->radius);
+	n_prime = get_bump_gradient(bump, pu, pv, height_fn);
+	return (n_prime);
+}
+
+static void	get_triangle_tangent_frame(t_object obj, t_vec3 *pu, t_vec3 *pv)
+{
+	double	du[2];
+	double	dv[2];
+	double	det;
+	double	det_inv;
+	t_vec3	normal;
+
+	du[0] = obj.uv.tex_b.x - obj.uv.tex_a.x;
+	du[1] = obj.uv.tex_c.x - obj.uv.tex_a.x;
+	dv[0] = obj.uv.tex_b.y - obj.uv.tex_a.y;
+	dv[1] = obj.uv.tex_c.y - obj.uv.tex_a.y;
+	det = du[0] * dv[1] - du[1] * dv[0];
+	if (fabs(det) < 1e-8)
+	{
+		normal = vec3_normalize(vec3_cross(obj.props.b, obj.props.c));
+		*pu = vec3_normalize(obj.props.b);
+		*pv = vec3_cross(normal, *pu);
+		return ;
+	}
+	det_inv = 1.0 / det;
+	*pu = vec3_scale(vec3_sub(vec3_scale(obj.props.b, dv[1]),
+				vec3_scale(obj.props.c, dv[0])), det_inv);
+	*pv = vec3_scale(vec3_sub(vec3_scale(obj.props.c, du[0]),
+				vec3_scale(obj.props.b, dv[1])), det_inv);
+}
+
+t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
+	double (*height_fn)(t_vec2, t_object))
+{
+	t_bump	bump;
+	t_vec3	pu;
+	t_vec3	pv;
+	t_vec3	n_prime;
+
+	ft_bzero(&pu, sizeof(t_vec3));
+	ft_bzero(&pv, sizeof(t_vec3));
+	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
+	bump.obj = rec.object;
+	bump.uv = vec2_sub((t_vec2){{1, 1}}, uv);
+	get_triangle_tangent_frame(*rec.object, &pu, &pv);
 	n_prime = get_bump_gradient(bump, pu, pv, height_fn);
 	return (n_prime);
 }

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 00:54:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 23:27:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,6 @@ void	free_object(void *object)
 	t_object	*o;
 
 	o = (t_object *)object;
-	if (o->tex)
-	{
-		mlx_destroy_image(o->tex->mlx, o->tex->data);
-		free(o->tex);
-	}
-	if (o->bump_tex)
-	{
-		mlx_destroy_image(o->bump_tex->mlx, o->bump_tex->data);
-		free(o->bump_tex);
-	}
-	if (o->spec_tex)
-	{
-		mlx_destroy_image(o->spec_tex->mlx, o->spec_tex->data);
-		free(o->spec_tex);
-	}
 	free(o);
 }
 
