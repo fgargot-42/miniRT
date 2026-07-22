@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:17:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 20:02:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "hit_bonus.h"
+#include "normal.h"
 #include <math.h>
 
 static int	in_shadow(t_hit_record tmp, t_scene *scene, t_object *light)
@@ -88,7 +89,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 
 	i = 0;
 	tmp = *rec;
-	tmp.normal = face_normal(ray, rec->normal);
+	apply_normal(ray, &tmp);
 	tmp.color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
 	result = apply_ambient(tmp.color, scene->ambient);
 	while (i < scene->lights.len)

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 00:51:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 23:10:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,6 @@ typedef struct s_object
 	t_vec3			checker_color;
 	t_uv_texture	uv;
 	t_material		*material;
-	t_texture		*tex;
-	t_texture		*bump_tex;
-	t_texture		*spec_tex;
 }	t_object;
 
 t_object	*create_object(void *object, t_obj_type type);

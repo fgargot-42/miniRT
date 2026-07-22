@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:14:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 20:33:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_vec3	uv_to_color(t_texture *tex, t_vec2 uv)
 	return (col);
 }
 
-static t_vec2	get_triangle_uv_hit(t_object *obj, t_vec3 hit)
+t_vec2	get_triangle_uv_hit(t_object *obj, t_vec3 hit)
 {
 	t_vec3		obj_hit;
 	double		dot[2][3];

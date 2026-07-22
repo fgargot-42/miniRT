@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 00:58:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/22 23:14:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	parse_texture_file(char *param, t_object *obj, t_parser_ctx *ctx, void *mlx)
 	free(tex_path);
 	if (!tex)
 		return (0);
-	obj->tex = tex;
+	if (!obj->material)
+		obj->material = ft_calloc(1, sizeof(t_material));
+	obj->material->color_tex = tex;
+
 	return (1);
 }
 
@@ -46,7 +49,9 @@ int	parse_bump_texture_file(char *param, t_object *obj, t_parser_ctx *ctx,
 	free(tex_path);
 	if (!tex)
 		return (0);
-	obj->bump_tex = tex;
+	if (!obj->material)
+		obj->material = ft_calloc(1, sizeof(t_material));
+	obj->material->normal_tex = tex;
 	return (1);
 }
 
@@ -65,6 +70,8 @@ int	parse_spec_texture_file(char *param, t_object *obj, t_parser_ctx *ctx,
 	free(tex_path);
 	if (!tex)
 		return (0);
-	obj->spec_tex = tex;
+	if (!obj->material)
+		obj->material = ft_calloc(1, sizeof(t_material));
+	obj->material->spec_tex = tex;
 	return (1);
 }

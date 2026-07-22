@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 02:10:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 02:12:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef struct s_data
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
-	// temp slider -> ui.h
 	t_slider	sliders[MAX_SLIDERS];
 	int			nb_sliders;
 	int			dragging_slider;
@@ -113,20 +112,21 @@ void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
 mlx_color			vec3_to_color(t_vec3 v);
 void				add_debug(t_data *data);
 
-//src/hooks.c
+// HOOKS
 void				attach_hooks(t_data *data);
 
 void				mouse_down_hook(int mouse_event, void *param);
 void				mouse_up_hook(int mouse_event, void *param);
 void				mouse_wheel_hook(int mouse_event, void *param);
 
-//src/camera.c
+// CAMERA
 t_ray				camera_ray(t_object *cam, int x, int y);
 void				mouse_loop(void *param);
 
-//lighting.c
+// LIGHTING
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 double				smoothstep(double min, double max, double value);
+void 				apply_normal(t_ray *ray, t_hit_record *rec);
 
 // UTILS
 
@@ -143,7 +143,7 @@ t_vec3				linear_to_srgb(t_vec3 linear_rgb);
 
 double				get_time(void);
 
-// ui
+// UI
 void				init_editor(t_data *data);
 
 void				init_editor(t_data *data);
@@ -177,5 +177,6 @@ t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);
 t_vec3				triangle_uv_to_color(t_object *obj, t_texture *tex,
 						t_vec3 hit);
 t_vec2				get_uv(t_vec3 vec);
+t_vec2				get_triangle_uv_hit(t_object *obj, t_vec3 hit);
 
 #endif // NINIRT_BONUS_H
