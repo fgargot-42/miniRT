@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 02:12:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 02:13:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void				mouse_loop(void *param);
 // LIGHTING
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 double				smoothstep(double min, double max, double value);
-void 				apply_normal(t_ray *ray, t_hit_record *rec);
+void				apply_normal(t_ray *ray, t_hit_record *rec);
 
 // UTILS
 

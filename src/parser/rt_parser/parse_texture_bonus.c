@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 23:14:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/23 21:03:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	parse_texture_file(char *param, t_object *obj, t_parser_ctx *ctx, void *mlx)
 	if (!obj->material)
 		obj->material = ft_calloc(1, sizeof(t_material));
 	obj->material->color_tex = tex;
-
 	return (1);
 }
 
