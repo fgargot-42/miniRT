@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:19:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:48:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,20 @@
 # define PARSER_BONUS_H
 
 # include "libft.h"
+# include "parser.h"
 
-typedef struct s_scene	t_scene;
-typedef struct s_data	t_data;
-typedef struct s_object	t_object;
+t_object	*parse_sky(char **line_split, t_parser_ctx *ctx);
+t_object	*parse_cone(char **line_split, t_parser_ctx *ctx);
+t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx);
+t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx);
+t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx);
+int			parse_skybox(char *line, t_parser_ctx *ctx);
 
-typedef struct s_parser_ctx
-{
-	int			fd;
-	void		*mlx;
-	t_object	*obj;
-	int			line_nb;
-	char		*rt_path;
-	void		*current_mat;
-	void		*mat_parse;
-}	t_parser_ctx;
-
-typedef t_object		*(*t_parser_func)(char **, t_parser_ctx *, void *);
-
-int			parse_scene(char *file, t_data *data);
-t_object	*parse_ambient(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_camera(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_light(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_sphere(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_plane(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_cone(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx, void *mlx);
-t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx, void *mlx);
-int			parse_skybox(char *line, t_data *data, t_parser_ctx *ctx);
-
-char		**parse_vector_split(char *param, char *object,
-				int line_nb);
-int			add_specials(t_object **dst, t_parser_ctx *ctx, char *elem);
-void		print_parse_error(char *message, char *element,
-				int line_nb);
-void		clear_gnl(int fd, char *line);
-int			check_array_size(char **array, int expected, char *object,
-				int line_nb);
-int			parse_vector(char *param, t_vec3 *v_res, char *object,
-				int line_nb);
-int			parse_double(char *param, double *res, char *object,
-				int line_nb);
-bool		is_ignored(char *param);
-
-int			parse_texture_file(char *param, t_object *obj,
-				t_parser_ctx *ctx, void *mlx);
+int			parse_texture_file(char *param, t_object *obj, t_parser_ctx *ctx);
 int			parse_spec_texture_file(char *param, t_object *obj,
-				t_parser_ctx *ctx, void *mlx);
+				t_parser_ctx *ctx);
 int			parse_bump_texture_file(char *param, t_object *obj,
-				t_parser_ctx *ctx, void *mlx);
+				t_parser_ctx *ctx);
 void		add_triangles_to_scene(t_scene *scene, t_array triangles);
 void		add_materials_to_scene(t_scene *scene, t_array materials);
 

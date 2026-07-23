@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:50:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:40:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 
 static int	parse_paraboloid_optional_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx, void *mlx)
+	t_parser_ctx *ctx)
 {
 	int	nb_elements;
 	int	p_res;
@@ -33,16 +33,16 @@ static int	parse_paraboloid_optional_elements(char **line_split, t_object *obj,
 		p_res &= parse_vector(line_split[8], &(obj->checker_color),
 				"paraboloid", ctx->line_nb);
 	if (nb_elements > 9 && !is_ignored(line_split[9]))
-		p_res &= parse_texture_file(line_split[9], obj, ctx, mlx);
+		p_res &= parse_texture_file(line_split[9], obj, ctx);
 	if (nb_elements > 10 && !is_ignored(line_split[10]))
-		p_res &= parse_spec_texture_file(line_split[10], obj, ctx, mlx);
+		p_res &= parse_spec_texture_file(line_split[10], obj, ctx);
 	if (nb_elements > 11 && !is_ignored(line_split[11]))
-		p_res &= parse_bump_texture_file(line_split[11], obj, ctx, mlx);
+		p_res &= parse_bump_texture_file(line_split[11], obj, ctx);
 	return (p_res);
 }
 
 static int	parse_paraboloid_elements(char **line_split, t_object *obj,
-		t_parser_ctx *ctx, void *mlx)
+		t_parser_ctx *ctx)
 {
 	int	p_res;
 
@@ -58,11 +58,11 @@ static int	parse_paraboloid_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
-	p_res &= parse_paraboloid_optional_elements(line_split, obj, ctx, mlx);
+	p_res &= parse_paraboloid_optional_elements(line_split, obj, ctx);
 	return (p_res);
 }
 
-t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx)
 {
 	int				parse_result;
 	t_object		*obj;
@@ -76,7 +76,7 @@ t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx, void *mlx)
 		return (NULL);
 	}
 	obj->shininess = 1;
-	parse_result = parse_paraboloid_elements(line_split, obj, ctx, mlx);
+	parse_result = parse_paraboloid_elements(line_split, obj, ctx);
 	if (!parse_result)
 	{
 		free(obj);

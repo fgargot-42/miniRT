@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 16:30:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 01:04:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:00:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct s_ray
 	t_vec3		origin;
 	t_vec3		direction;
 	t_vec3		inv_direction;
+	double		refraction;
 }	t_ray;
 
 typedef struct s_hit_record
@@ -36,6 +37,7 @@ typedef struct s_hit_record
 	t_object	*object;
 	double		specular;
 	double		shininess;
+	int			depth;
 }	t_hit_record;
 
 typedef int				(*t_hit_fn)(t_object *, t_ray *, double,

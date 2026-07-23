@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 20:02:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 01:20:54 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,6 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	}
 	rec->color = vec3_scale(vec3_clamp(
 				vec3_pow(result, 1.0 / 2.2), 0.0, 1.0), 255.0);
+	ray_bounce(scene, rec, ray);
 	return (rec->color);
 }

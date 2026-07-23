@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:51:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:43:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 
 static int	parse_triangle_optional_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx, void *mlx)
+	t_parser_ctx *ctx)
 {
 	int	nb_elements;
 	int	p_res;
@@ -33,16 +33,16 @@ static int	parse_triangle_optional_elements(char **line_split, t_object *obj,
 		p_res &= parse_vector(line_split[9], &(obj->checker_color),
 				"triangle", ctx->line_nb);
 	if (nb_elements > 10 && !is_ignored(line_split[10]))
-		p_res &= parse_texture_file(line_split[10], obj, ctx, mlx);
+		p_res &= parse_texture_file(line_split[10], obj, ctx);
 	if (nb_elements > 11 && !is_ignored(line_split[11]))
-		p_res &= parse_spec_texture_file(line_split[11], obj, ctx, mlx);
+		p_res &= parse_spec_texture_file(line_split[11], obj, ctx);
 	if (nb_elements > 12 && !is_ignored(line_split[12]))
-		p_res &= parse_bump_texture_file(line_split[12], obj, ctx, mlx);
+		p_res &= parse_bump_texture_file(line_split[12], obj, ctx);
 	return (p_res);
 }
 
 static int	parse_triangle_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx, void *mlx)
+	t_parser_ctx *ctx)
 {
 	int	p_res;
 
@@ -56,7 +56,7 @@ static int	parse_triangle_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
-	p_res &= parse_triangle_optional_elements(line_split, obj, ctx, mlx);
+	p_res &= parse_triangle_optional_elements(line_split, obj, ctx);
 	return (p_res);
 }
 
@@ -72,7 +72,7 @@ static void	init_triangle_properties(t_object *obj)
 	obj->type = OBJ_TRIANGLE;
 }
 
-t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx)
 {
 	int			parse_result;
 	t_object	*obj;
@@ -87,7 +87,7 @@ t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx, void *mlx)
 		return (NULL);
 	}
 	obj->shininess = 1;
-	parse_result = parse_triangle_elements(line_split, obj, ctx, mlx);
+	parse_result = parse_triangle_elements(line_split, obj, ctx);
 	if (!parse_result)
 	{
 		free(obj);

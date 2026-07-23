@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:34:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:42:14 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "parser_bonus.h"
 #include "libft.h"
 
-t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_sky(char **line_split, t_parser_ctx *ctx)
 {
 	t_object	*obj;
 	int			parse_result;
 
-	(void)mlx;
 	obj = NULL;
 	if (check_array_size(line_split, 2, "sky", ctx->line_nb))
 		return (NULL);
@@ -40,12 +39,12 @@ t_object	*parse_sky(char **line_split, t_parser_ctx *ctx, void *mlx)
 	return (obj);
 }
 
-int	parse_skybox(char *line, t_data *data, t_parser_ctx *ctx)
+int	parse_skybox(char *line, t_parser_ctx *ctx)
 {
 	char	**line_split;
 	char	*skybox_path;
 
-	if (data->scene->skybox)
+	if (ctx->data->scene->skybox)
 	{
 		print_parse_error("Duplicate element detected", "skybox", ctx->line_nb);
 		return (0);
@@ -57,7 +56,7 @@ int	parse_skybox(char *line, t_data *data, t_parser_ctx *ctx)
 		return (0);
 	skybox_path = ft_strjoin(ctx->rt_path, line_split[1]);
 	free_str_array(line_split);
-	data->scene->skybox = load_texture(skybox_path, data->mlx);
+	ctx->data->scene->skybox = load_texture(skybox_path, ctx->data->mlx);
 	free(skybox_path);
-	return (data->scene->skybox != NULL);
+	return (ctx->data->scene->skybox != NULL);
 }

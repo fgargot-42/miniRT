@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/27 19:07:47 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/27 19:33:27 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,8 +113,10 @@ SRC_BONUS = $(SRC) \
 		hit/hit_paraboloid_bonus.c \
 		hit/hit_triangle_bonus.c \
 		hit/hit_utils_bonus.c \
+		lighting/bounce_bonus.c \
 		lighting/lighting_bonus.c \
 		lighting/lighting_utils_bonus.c \
+		lighting/opacity_bonus.c \
 		parser/obj_parser/obj_parser_bonus.c \
 		parser/obj_parser/mat_parser_bonus.c \
 		parser/obj_parser/parse_material_bonus.c \
@@ -135,6 +137,7 @@ SRC_BONUS = $(SRC) \
 		parser/rt_parser/parse_triangle_bonus.c \
 		parser/rt_parser/parse_texture_bonus.c \
 		renderer/drawer_bonus.c \
+		renderer/drawer_utils_bonus.c \
 		renderer/drawer_pixel_bonus.c \
 		renderer/render_debug_bonus.c \
 		scene/scene_bonus.c \

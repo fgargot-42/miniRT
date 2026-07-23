@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 21:55:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:06:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ int	parse_mat_opacity(char *line, t_material *mat, int line_nb)
 	return (parse_result);
 }
 
+void	destroy_texture(t_texture **t)
+{
+	if (!*t)
+		return ;
+	mlx_destroy_image((*t)->mlx, (*t)->data);
+	free(*t);
+	*t = NULL;
+}
+
 void	destroy_material(void *o)
 {
 	t_material	*mat;
@@ -83,23 +92,8 @@ void	destroy_material(void *o)
 	mat = (t_material *)o;
 	if (mat->name)
 		free(mat->name);
-	if (mat->color_tex)
-	{
-		mlx_destroy_image(mat->color_tex->mlx, mat->color_tex->data);
-		free(mat->color_tex);
-		mat->color_tex = NULL;
-	}
-	if (mat->normal_tex)
-	{
-		mlx_destroy_image(mat->normal_tex->mlx, mat->normal_tex->data);
-		free(mat->normal_tex);
-		mat->normal_tex = NULL;
-	}
-	if (mat->spec_tex)
-	{
-		mlx_destroy_image(mat->spec_tex->mlx, mat->spec_tex->data);
-		free(mat->spec_tex);
-		mat->spec_tex = NULL;
-	}
+	destroy_texture(&mat->color_tex);
+	destroy_texture(&mat->normal_tex);
+	destroy_texture(&mat->spec_tex);
 	free(mat);
 }
