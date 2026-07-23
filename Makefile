@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/24 02:12:41 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/24 02:13:05 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,7 +144,7 @@ SRC_BONUS = $(SRC) \
 		ui/ui_helpers_bonus.c \
 		ui/ui_slider_header_bonus.c \
 		uv_mapping_bonus.c \
-		normal.c
+		bump.c
 OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
 OBJ_BONUS = $(addprefix $(OBJDIR)/,$(SRC_BONUS:.c=.o))
 

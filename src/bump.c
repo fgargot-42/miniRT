@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normal.c                                           :+:      :+:    :+:   */
+/*   bump.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/23 01:11:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/23 20:56:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,28 @@ double	get_bump_from_img(t_vec2 uv, t_object obj)
 {
 	mlx_color	pixel;
 	double		amplitude;
+	double		bump;
 	int			x;
 	int			y;
 
+	amplitude = 0.0;
 	if (!obj.material || !obj.material->normal_tex)
 		return (0.0);
 	if (obj.type == OBJ_SPHERE)
 		amplitude = obj.radius * 0.02;
 	if (obj.type == OBJ_TRIANGLE)
 		amplitude = 0.02 * fmax(fmax(vec3_distance(obj.props.b, obj.props.c),
-			vec3_length(obj.props.b)), vec3_length(obj.props.a));
+					vec3_length(obj.props.b)), vec3_length(obj.props.c));
+	while (uv.x > 1.0)
+		uv.x -= 1.0;
+	while (uv.y > 1.0)
+		uv.y -= 1.0;
 	x = (1 - uv.x) * (obj.material->normal_tex->width - 1);
 	y = uv.y * (obj.material->normal_tex->height - 1);
 	pixel = mlx_get_image_pixel(obj.material->normal_tex->mlx,
 			obj.material->normal_tex->data, x, y);
-	return ((pixel.r - 128.0) / 255.0);
+	bump = amplitude * (((double)pixel.r) / 255.0 - 0.5);
+	return (bump);
 }
 
 static t_vec3	get_bump_gradient(t_bump bump, t_vec3 pu, t_vec3 pv,
@@ -76,18 +83,18 @@ t_vec3	bump_normal_sphere(t_hit_record rec, t_vec2 uv,
 	t_vec3	pv;
 	t_vec3	n_prime;
 
-	bump.cos_theta = cos(uv.y *  M_PI);
+	bump.cos_theta = cos(uv.y * M_PI);
 	bump.sin_theta = sin(uv.y * M_PI);
-	bump.cos_phi = cos(uv.x * 2.0 *  M_PI);
-	bump.sin_phi = sin(uv.x * M_PI);
+	bump.cos_phi = cos(uv.x * 2.0 * M_PI);
+	bump.sin_phi = sin(uv.x * 2.0 * M_PI);
 	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
 	bump.obj = rec.object;
 	bump.uv = uv;
 	pu = vec3_scale((t_vec3){{-bump.sin_phi, 0, bump.cos_phi}},
-		M_PI * rec.object->radius * bump.sin_theta);
-	pv =  vec3_scale((t_vec3){{bump.sin_theta * bump.cos_phi,
-			-bump.cos_theta, bump.cos_theta * bump.sin_phi}},
-		M_PI * rec.object->radius);
+			2 * M_PI * rec.object->radius * bump.sin_theta);
+	pv = vec3_scale((t_vec3){{bump.cos_theta * bump.cos_phi,
+			-bump.sin_theta, bump.cos_theta * bump.sin_phi}},
+			M_PI * rec.object->radius);
 	n_prime = get_bump_gradient(bump, pu, pv, height_fn);
 	return (n_prime);
 }
@@ -116,7 +123,7 @@ static void	get_triangle_tangent_frame(t_object obj, t_vec3 *pu, t_vec3 *pv)
 	*pu = vec3_scale(vec3_sub(vec3_scale(obj.props.b, dv[1]),
 				vec3_scale(obj.props.c, dv[0])), det_inv);
 	*pv = vec3_scale(vec3_sub(vec3_scale(obj.props.c, du[0]),
-				vec3_scale(obj.props.b, dv[1])), det_inv);
+				vec3_scale(obj.props.b, du[1])), det_inv);
 }
 
 t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
