@@ -6,12 +6,12 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/21 23:42:34 by mabarrer         ###   ########.fr        #
+#    Updated: 2026/07/23 21:28:10 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
-CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -O3 -march=native -flto -ffast-math -funroll-loops -MMD -MP -fsanitize=address
 
 ifeq ($(DEBUG), true)
 	CC = CCC_OVERRIDE_OPTIONS="\# O0 +-g" cc

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 00:02:03 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/23 21:19:43 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define T_MIN 0.001
 # define T_MAX 5000
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
@@ -26,7 +26,7 @@
 # define SAH_BINS 64
 # define MLX_WHITE 0xFFFFFFFF
 
-# define MAX_SLIDERS    17
+# define MAX_SLIDERS    32
 
 # include "mlx.h"
 # include "veclib.h"
@@ -148,6 +148,7 @@ void				init_editor(t_data *data);
 void				init_editor(t_data *data);
 void				setup_sliders(t_data *data);
 void				draw_editor(t_data *data, double mouse_x, double mouse_y);
+void				draw_light_editor(t_data *d, double mx, double my);
 void				editor_mouse_down(int event, void *param);
 void				editor_mouse_up(int event, void *param);
 void				editor_loop(void *param);
