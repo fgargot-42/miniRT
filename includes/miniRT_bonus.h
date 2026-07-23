@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:08:23 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:33:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
 						t_ray *ray, t_vec2 mouse_pos);
 mlx_color			vec3_to_color(t_vec3 v);
 void				add_debug(t_data *data);
+t_vec3				draw_skybox(t_scene *scene, t_ray r);
+t_vec3				rt_cast(t_scene *scene, t_ray *r, int depth);
 
 // HOOKS
 void				attach_hooks(t_data *data);
@@ -127,6 +129,7 @@ void				mouse_loop(void *param);
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
 double				smoothstep(double min, double max, double value);
 void				apply_normal(t_ray *ray, t_hit_record *rec);
+void				ray_bounce(t_scene *scene, t_hit_record *rec, t_ray *ray);
 
 // UTILS
 

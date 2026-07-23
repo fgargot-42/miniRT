@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:14:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 01:43:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	hit_list(t_array obj, t_ray *ray, double *closest,
 
 	hit = 0;
 	i = 0;
+	temp.depth = rec->depth;
 	while (i < obj.len)
 	{
 		hit_curr = 0;

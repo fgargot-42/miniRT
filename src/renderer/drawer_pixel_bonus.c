@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 23:15:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 01:49:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "miniRT_bonus.h"
 #include "veclib.h"
 
-static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
+static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 		t_ray *ray)
 {
 	static const t_vec3	rim_color = {{80.0, 220.0, 255.0}};
@@ -29,19 +29,7 @@ static mlx_color	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 	result.x = shaded.x + rim_color.x * rim * 2.5;
 	result.y = shaded.y + rim_color.y * rim * 2.5;
 	result.z = shaded.z + rim_color.z * rim * 2.5;
-	return (vec3_to_color(vec3_clamp(result, 0.0, 255.0)));
-}
-
-static t_vec3	draw_skybox(t_data *data, t_ray r)
-{
-	t_vec2	uv;
-	t_vec3	uvcol;
-
-	uv = get_uv(r.direction);
-	uv.x = uv.x - floor(uv.x);
-	uv.y = uv.y - floor(uv.y);
-	uvcol = uv_to_color(data->scene->skybox, uv);
-	return (uvcol);
+	return (vec3_clamp(result, 0.0, 255.0));
 }
 
 static void	apply_uv(t_hit_record *hc)
@@ -70,32 +58,41 @@ static void	apply_uv(t_hit_record *hc)
 	}
 }
 
-static mlx_color	get_pixel_color(int x, int y, t_data *data,
-		int render_scale)
+t_vec3	rt_cast(t_scene *scene, t_ray *r, int depth)
 {
-	mlx_color		color;
-	t_ray			r;
+	t_vec3			color;
 	t_hit_record	hc;
 	t_vec3			shaded;
 
 	ft_bzero(&hc, sizeof(t_hit_record));
-	r = camera_ray(data->scene->cam, x + render_scale / 2, y + render_scale
-			/ 2);
-	color = vec3_to_color(data->scene->sky->color);
-	if (data->scene->skybox)
-		color = vec3_to_color(draw_skybox(data, r));
-	if (hit_scene(data->scene, &r, T_MAX, &hc))
+	hc.depth = depth;
+	color = scene->sky->color;
+	if (scene->skybox)
+		color = draw_skybox(scene, *r);
+	if (hit_scene(scene, r, T_MAX, &hc))
 	{
 		if (!hc.object)
-			return (vec3_to_color(hc.color));
+			return (hc.color);
 		apply_uv(&hc);
-		shaded = shade(&hc, data->scene, &r);
-		if (data->scene->selected && hc.object == data->scene->selected)
-			color = apply_selection_rim(shaded, &hc, &r);
+		shaded = shade(&hc, scene, r);
+		if (scene->selected && hc.object == scene->selected && depth == 0)
+			color = apply_selection_rim(shaded, &hc, r);
 		else
-			color = vec3_to_color(shaded);
+			color = shaded;
 	}
 	return (color);
+}
+
+static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
+		int render_scale)
+{
+	t_vec3		color;
+	t_ray		r;
+
+	r = camera_ray(scene->cam, x + render_scale / 2, y + render_scale
+			/ 2);
+	color = rt_cast(scene, &r, 0);
+	return (vec3_to_color(color));
 }
 
 void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
@@ -104,7 +101,7 @@ void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
 	int			i;
 	int			j;
 
-	color = get_pixel_color(x, y, data, render_scale);
+	color = get_pixel_color(x, y, data->scene, render_scale);
 	i = 0;
 	while (i < render_scale)
 	{

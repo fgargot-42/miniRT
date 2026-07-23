@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:30:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:46:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	get_parse_element(char *id)
 	return (-1);
 }
 
-static int	parse_line(char *line, t_parser_ctx *ctx, void *mlx)
+static int	parse_line(char *line, t_parser_ctx *ctx)
 {
 	char						**line_split;
 	int							i;
@@ -54,7 +54,7 @@ static int	parse_line(char *line, t_parser_ctx *ctx, void *mlx)
 	i = get_parse_element(line_split[0]);
 	printf("Adding object to scene: %s\t(id=%i)\n", line_split[0], i);
 	if (i != -1)
-		ctx->obj = parse_elem[i](line_split, ctx, mlx);
+		ctx->obj = parse_elem[i](line_split, ctx);
 	else
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			ctx->line_nb);
@@ -86,7 +86,7 @@ static int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
 	return (status);
 }
 
-static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
+static int	parse_scene_loop(t_parser_ctx *ctx)
 {
 	char		*line;
 	int			status;
@@ -100,15 +100,15 @@ static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
 		if (!ft_strncmp(line, "obj", 3))
-			status = parse_obj_file(line, data, ctx);
+			status = parse_obj_file(line, ctx->data, ctx);
 		else if (!ft_strncmp(line, "SB", 2))
-			status = parse_skybox(line, data, ctx);
+			status = parse_skybox(line, ctx);
 		else
-			status = parse_line(line, ctx, data->mlx);
+			status = parse_line(line, ctx);
 		free(line);
 		line = get_next_line(ctx->fd);
 		if (status == 1)
-			status = add_element_to_scene(data->scene, ctx);
+			status = add_element_to_scene(ctx->data->scene, ctx);
 	}
 	clear_gnl(ctx->fd, line);
 	return (status);
@@ -120,11 +120,12 @@ int	parse_scene(char *file, t_data *data)
 	t_parser_ctx	parser_ctx;
 
 	parser_ctx.line_nb = 0;
+	parser_ctx.data = data;
 	parser_ctx.fd = open_file_read(file, "rt");
 	if (parser_ctx.fd == -1)
 		return (0);
 	parser_ctx.rt_path = get_directory_path(file);
-	status = parse_scene_loop(data, &parser_ctx);
+	status = parse_scene_loop(&parser_ctx);
 	free(parser_ctx.rt_path);
 	printf("Objects in scene: %zu\n", data->scene->objects.len);
 	return (status);

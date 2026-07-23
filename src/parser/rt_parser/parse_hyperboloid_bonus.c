@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:50:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:37:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "libft.h"
 
 static int	parse_hyperboloid_optional_elements(char **line_split,
-	t_object *obj, t_parser_ctx *ctx, void *mlx)
+	t_object *obj, t_parser_ctx *ctx)
 {
 	int	nb_elements;
 	int	p_res;
@@ -33,16 +33,16 @@ static int	parse_hyperboloid_optional_elements(char **line_split,
 		p_res &= parse_vector(line_split[10], &(obj->checker_color),
 				"hyperboloid", ctx->line_nb);
 	if (nb_elements > 11 && !is_ignored(line_split[11]))
-		p_res &= parse_texture_file(line_split[11], obj, ctx, mlx);
+		p_res &= parse_texture_file(line_split[11], obj, ctx);
 	if (nb_elements > 12 && !is_ignored(line_split[12]))
-		p_res &= parse_spec_texture_file(line_split[12], obj, ctx, mlx);
+		p_res &= parse_spec_texture_file(line_split[12], obj, ctx);
 	if (nb_elements > 13 && !is_ignored(line_split[13]))
-		p_res &= parse_bump_texture_file(line_split[13], obj, ctx, mlx);
+		p_res &= parse_bump_texture_file(line_split[13], obj, ctx);
 	return (p_res);
 }
 
 static int	parse_hyperboloid_elements(char **split, t_object *obj,
-		t_parser_ctx *ctx, void *mlx)
+		t_parser_ctx *ctx)
 {
 	int	p_res;
 
@@ -60,11 +60,11 @@ static int	parse_hyperboloid_elements(char **split, t_object *obj,
 	p_res &= parse_vector(split[7], &(obj->color), "hyperboloid", ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
-	p_res = parse_hyperboloid_optional_elements(split, obj, ctx, mlx);
+	p_res = parse_hyperboloid_optional_elements(split, obj, ctx);
 	return (p_res);
 }
 
-t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx, void *mlx)
+t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx)
 {
 	int				parse_result;
 	t_object		*obj;
@@ -78,7 +78,7 @@ t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx, void *mlx)
 		return (NULL);
 	}
 	obj->shininess = 1;
-	parse_result = parse_hyperboloid_elements(line_split, obj, ctx, mlx);
+	parse_result = parse_hyperboloid_elements(line_split, obj, ctx);
 	if (!parse_result)
 	{
 		free(obj);

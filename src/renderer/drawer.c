@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:39:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/23 23:37:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "miniRT.h"
 
-void		rt_draw_pixel(int x, int y, t_data *data, int render_scale);
+void		rt_draw_pixel(int x, int y, t_data *data);
 
 void	draw(t_data *data)
 {
@@ -26,7 +26,7 @@ void	draw(t_data *data)
 		y = 0;
 		while (y < HEIGHT)
 		{
-			rt_draw_pixel(x, y, data, data->render_scale);
+			rt_draw_pixel(x, y, data);
 			y += data->render_scale;
 		}
 		x += data->render_scale;

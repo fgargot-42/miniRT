@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:24:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 00:05:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,11 @@ typedef struct s_material
 	t_texture	*color_tex;
 	t_texture	*normal_tex;
 	t_texture	*spec_tex;
+	t_texture	*mask_tex;
 	double		density;
 	double		specular;
 	double		opacity;
+	double		refraction;
 }	t_material;
 
 int			parse_new_material(char *line, t_array *materials,
@@ -66,5 +68,7 @@ int			parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx);
 int			parse_mat_normal_tex(char *line, t_material *mat,
 				t_parser_ctx *ctx);
 int			parse_mat_spec_tex(char *line, t_material *mat, t_parser_ctx *ctx);
+void		destroy_material(void *o);
+void		destroy_texture(t_texture **t);
 
 #endif // MATERIAL_H
