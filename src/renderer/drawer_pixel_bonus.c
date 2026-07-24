@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 01:49:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 18:51:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "hit_bonus.h"
 #include "miniRT_bonus.h"
 #include "veclib.h"
+#include "normal.h"
 
 static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 		t_ray *ray)
@@ -35,7 +36,6 @@ static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 static void	apply_uv(t_hit_record *hc)
 {
 	t_vec2			uv;
-	t_vec3			uvcol;
 
 	if (!hc->object->material)
 		return ;
@@ -45,16 +45,20 @@ static void	apply_uv(t_hit_record *hc)
 			hc->specular = triangle_uv_to_color(hc->object,
 					hc->object->material->spec_tex, hc->point).x / 255.0;
 		if (hc->object->material->color_tex)
+		{
 			hc->color = triangle_uv_to_color(hc->object,
 					hc->object->material->color_tex, hc->point);
+			uv = get_triangle_uv_hit(hc->object, hc->point);
+			hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
+		}
 	}
 	if (hc->object->type == OBJ_SPHERE && hc->object->material->color_tex)
 	{
 		uv = get_uv(hc->normal);
 		uv.x = uv.x - floor(uv.x);
 		uv.y = uv.y - floor(uv.y);
-		uvcol = uv_to_color(hc->object->material->color_tex, uv);
-		hc->color = uvcol;
+		hc->color = uv_to_color(hc->object->material->color_tex, uv);
+		hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
 	}
 }
 
@@ -89,8 +93,7 @@ static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
 	t_vec3		color;
 	t_ray		r;
 
-	r = camera_ray(scene->cam, x + render_scale / 2, y + render_scale
-			/ 2);
+	r = camera_ray(scene->cam, x + render_scale / 2, y + render_scale / 2);
 	color = rt_cast(scene, &r, 0);
 	return (vec3_to_color(color));
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 01:35:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 18:57:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 	double			opacity;
 
 	opacity = get_object_hit_opacity(*rec);
-	if (opacity >= 1 || opacity < 0)
+	if (opacity >= 1 - 1e-4 || opacity < 0)
 		return ;
 	ft_bzero(&r_ray, sizeof(t_ray));
 	r_ray.origin = rec->point;
