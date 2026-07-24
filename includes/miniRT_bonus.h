@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:35:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 19:36:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,5 @@ void				setup_ambient_sliders(t_data *data, t_object *obj,
 void				setup_light_sliders(t_data *data);
 void				destroy_material(void *o);
 t_texture			*load_texture(char *path, mlx_context mlx);
-t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);
-t_vec3				triangle_uv_to_color(t_object *obj, t_texture *tex,
-						t_vec3 hit);
-t_vec2				get_uv(t_vec3 vec);
-t_vec2				get_triangle_uv_hit(t_object *obj, t_vec3 hit);
 
 #endif // NINIRT_BONUS_H

@@ -6,13 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 18:51:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 01:48:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "hit_bonus.h"
 #include "miniRT_bonus.h"
+#include "uv.h"
 #include "veclib.h"
 #include "normal.h"
 
@@ -39,6 +40,7 @@ static void	apply_uv(t_hit_record *hc)
 
 	if (!hc->object->material)
 		return ;
+	uv = get_uv(hc->object, hc->point);
 	if (hc->object->type == OBJ_TRIANGLE)
 	{
 		if (hc->object->material->spec_tex)
@@ -48,17 +50,13 @@ static void	apply_uv(t_hit_record *hc)
 		{
 			hc->color = triangle_uv_to_color(hc->object,
 					hc->object->material->color_tex, hc->point);
-			uv = get_triangle_uv_hit(hc->object, hc->point);
-			hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
+			//hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
 		}
 	}
 	if (hc->object->type == OBJ_SPHERE && hc->object->material->color_tex)
 	{
-		uv = get_uv(hc->normal);
-		uv.x = uv.x - floor(uv.x);
-		uv.y = uv.y - floor(uv.y);
 		hc->color = uv_to_color(hc->object->material->color_tex, uv);
-		hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
+		//hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
 	}
 }
 

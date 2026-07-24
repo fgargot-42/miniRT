@@ -6,23 +6,36 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 23:19:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 01:50:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT_bonus.h"
+#include "object_bonus.h"
+#include "material.h"
+#include "veclib.h"
+#include "uv.h"
+#include "mlx.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-t_vec2	get_uv(t_vec3 vec)
+static t_vec2	map_uv(t_vec2 uv)
 {
-	double	a;
-	double	b;
-	t_vec2	result;
+	uv.x = uv.x - floor(uv.x);
+	uv.y = uv.y - floor(uv.y);
+	return (uv);
+}
 
-	a = atan2(vec.z, vec.x);
-	b = fmax(-1.0, fmin(1.0, vec.y));
-	b = acos(b);
-	result.x = (a + M_PI) / (2 * M_PI);
-	result.y = b / M_PI;
+t_vec2	get_uv(t_object *obj, t_vec3 vec)
+{
+	t_vec2	result;
+	
+	ft_bzero(&result, sizeof(t_vec2));
+	if (obj->type == OBJ_SPHERE)
+		result = get_sphere_uv(obj, vec);
+	if (obj->type == OBJ_TRIANGLE)
+		result = get_triangle_uv(obj, vec);
+	result = map_uv(result);
 	return (result);
 }
 
@@ -42,38 +55,12 @@ t_vec3	uv_to_color(t_texture *tex, t_vec2 uv)
 	return (col);
 }
 
-t_vec2	get_triangle_uv_hit(t_object *obj, t_vec3 hit)
-{
-	t_vec3		obj_hit;
-	double		dot[2][3];
-	double		det;
-	t_vec2		uv;
-
-	obj_hit = vec3_sub(hit, obj->position);
-	dot[0][0] = vec3_dot(obj->props.b, obj->props.b);
-	dot[0][1] = vec3_dot(obj->props.b, obj->props.c);
-	dot[0][2] = vec3_dot(obj->props.b, obj_hit);
-	dot[1][1] = vec3_dot(obj->props.c, obj->props.c);
-	dot[1][2] = vec3_dot(obj->props.c, obj_hit);
-	det = dot[0][0] * dot[1][1] - pow(dot[0][1], 2);
-	if (fabs(det) < 1e-10)
-		return ((t_vec2){{0, 0}});
-	uv.x = (dot[1][1] * dot[0][2] - dot[0][1] * dot[1][2]) / det;
-	uv.y = (dot[0][0] * dot[1][2] - dot[0][1] * dot[0][2]) / det;
-	uv = vec2_add(vec2_add(obj->uv.tex_a,
-				vec2_scale(vec2_sub(obj->uv.tex_b, obj->uv.tex_a), uv.x)),
-			vec2_scale(vec2_sub(obj->uv.tex_c, obj->uv.tex_a), uv.y));
-	uv.x = uv.x - floor(uv.x);
-	uv.y = uv.y - floor(uv.y);
-	return (uv);
-}
-
 t_vec3	triangle_uv_to_color(t_object *obj, t_texture *tex, t_vec3 hit)
 {
 	t_vec2		uv;
 	mlx_color	pixel;
 
-	uv = get_triangle_uv_hit(obj, hit);
+	uv = get_triangle_uv(obj, hit);
 	uv.x = uv.x * (tex->width - 1);
 	uv.y = (1 - uv.y) * (tex->height - 1);
 	pixel = mlx_get_image_pixel(tex->mlx, tex->data, (int)uv.x, (int)uv.y);
