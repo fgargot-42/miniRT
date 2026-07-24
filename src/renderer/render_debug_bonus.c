@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:50:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 00:20:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ static void	print_fps(t_data *data, t_vec3 pos)
 
 void	add_debug(t_data *data)
 {
-	char			buf[128];
+	char				buf[128];
+	static const char	*on_off[] = {"off", "on"};
 
 	print_fps(data, (t_vec3){{10, 20, 0}});
 	print_nb_threads(data, (t_vec3){{10, 40, 0}});
@@ -76,5 +77,8 @@ void	add_debug(t_data *data)
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 	sprintf(buf, "BVH DISPLAY LEVEL: %d", data->scene->bvh_display_level);
 	mlx_string_put(data->mlx, data->win, 10, 140,
+		(mlx_color){.rgba = MLX_WHITE}, buf);
+	sprintf(buf, "transparency: %s", on_off[(int)data->scene->transparency]);
+	mlx_string_put(data->mlx, data->win, 10, 160,
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 }

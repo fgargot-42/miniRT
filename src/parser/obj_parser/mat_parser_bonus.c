@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:23:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 00:00:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ int	import_materials(char *mtl_file, t_array *materials, char *obj_path,
 	split = ft_split_by_whitespace(mtl_file);
 	if (!split)
 		return (0);
-	mtl_file = ft_strjoin(obj_path, split[1]);
+	if (*split[1] == '/')
+		mtl_file = ft_strdup(split[1]);
+	else
+		mtl_file = ft_strjoin(obj_path, split[1]);
 	ctx.rt_path = obj_path;
 	printf("Loading: %s\n", mtl_file);
 	ctx.fd = open_file_read(mtl_file, "mtl");

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   hooks_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 22:54:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 22:53:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "miniRT_bonus.h"
 #include <SDL2/SDL_scancode.h>
 
 static void	window_hook(int event, void *param)
@@ -68,6 +68,8 @@ static void	key_hook(int scancode, void *param)
 		data->scene->bvh_display_level--;
 	if (scancode == 46 && data->scene->bvh_display_level < BVH_DEPTH)
 		data->scene->bvh_display_level++;
+	if (scancode == SDL_SCANCODE_T)
+		data->scene->transparency = !data->scene->transparency;
 	draw(data);
 }
 

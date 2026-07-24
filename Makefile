@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/27 19:34:50 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/27 19:35:15 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,6 @@ SRC =	bvh/bvh.c \
 		hit/hit_bvh.c \
 		hit/hit_bvh_utils.c \
 		hit/ray.c \
-		input/hooks.c \
 		input/mouse_hooks.c \
 		lighting/lighting_utils.c \
 		parser/rt_parser/parser_utils.c \
@@ -78,6 +77,7 @@ SRC_MANDA = $(SRC) \
 		hit/hit_cylinder.c \
 		hit/hit_utils.c \
 		lighting/lighting.c \
+		input/hooks.c \
 		input/mouse_hooks_editor.c \
 		parser/rt_parser/parser.c \
 		parser/rt_parser/parse_light.c \
@@ -103,6 +103,7 @@ SRC_BONUS = $(SRC) \
 		bvh/bvh_utils_bonus.c \
 		camera/move_camera_bonus.c \
 		display/init_display_bonus.c \
+		input/hooks_bonus.c \
 		input/mouse_hooks_editor_bonus.c \
 		hit/hit_bonus.c \
 		hit/hit_sphere_bonus.c \

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 18:57:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 00:41:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 	ft_bzero(&r_ray, sizeof(t_ray));
 	r_ray.origin = rec->point;
 	r_ray.direction = get_refraction_vector(rec->normal, ray->direction,
-		ray->refraction, rec->object->material->refraction);
-	r_ray.refraction = rec->object->material->refraction;
+		ray->refraction, rec->object->material->density);
+	r_ray.refraction = rec->object->material->density;
 	rec->depth++;
 	color = rt_cast(scene, &r_ray, rec->depth);
 	color = vec3_scale(color, 1 - opacity);

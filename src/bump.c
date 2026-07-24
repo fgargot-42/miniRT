@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/23 20:56:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/24 23:38:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
 	ft_bzero(&pv, sizeof(t_vec3));
 	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
 	bump.obj = rec.object;
-	bump.uv = vec2_sub((t_vec2){{1, 1}}, uv);
+	bump.uv = uv;
 	get_triangle_tangent_frame(*rec.object, &pu, &pv);
 	n_prime = get_bump_gradient(bump, pu, pv, height_fn);
 	return (n_prime);
