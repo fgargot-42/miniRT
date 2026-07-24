@@ -18,9 +18,7 @@ static int	parse_cylinder_elements(char **line_split, t_object *obj,
 	t_parser_ctx *ctx)
 {
 	int	p_res;
-	int	split_len;
 
-	split_len = get_str_array_length(line_split);
 	p_res = parse_vector(line_split[1], &(obj->position), "cylinder",
 			ctx->line_nb);
 	p_res &= parse_vector(line_split[2], &(obj->direction), "cylinder",

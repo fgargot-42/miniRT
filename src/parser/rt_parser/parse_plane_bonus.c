@@ -45,9 +45,7 @@ static int	parse_plane_elements(char **line_split, t_object *obj,
 		t_parser_ctx *ctx, void *mlx)
 {
 	int	parse_result;
-	int	split_len;
 
-	split_len = get_str_array_length(line_split);
 	parse_result = parse_vector(line_split[1], &(obj->position), "plane",
 			ctx->line_nb);
 	parse_result &= parse_vector(line_split[2], &(obj->direction), "plane",

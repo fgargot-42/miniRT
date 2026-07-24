@@ -45,9 +45,7 @@ static int	parse_hyperboloid_elements(char **split, t_object *obj,
 		t_parser_ctx *ctx, void *mlx)
 {
 	int	p_res;
-	int	split_len;
 
-	split_len = get_str_array_length(split);
 	p_res = parse_vector(split[1], &(obj->position), "hyperboloid",
 			ctx->line_nb);
 	p_res &= parse_vector(split[2], &(obj->direction), "hyperboloid",

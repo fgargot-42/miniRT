@@ -45,9 +45,7 @@ static int	parse_sphere_elements(char **line_split, t_object *obj,
 		t_parser_ctx *ctx, void *mlx)
 {
 	int	p_res;
-	int	split_len;
 
-	split_len = get_str_array_length(line_split);
 	p_res = parse_vector(line_split[1], &(obj->position), "sphere",
 			ctx->line_nb);
 	p_res &= p_res && parse_double(line_split[2], &(obj->radius), "sphere",

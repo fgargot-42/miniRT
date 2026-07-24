@@ -49,8 +49,9 @@ static void	apply_uv(t_hit_record *hc)
 	t_vec2			uv;
 	t_vec3			uvcol;
 
-	if (hc->object->type == OBJ_TRIANGLE
-		&& hc->object->material && hc->object->material->color_tex)
+	if (!hc->object->material)
+		return ;
+	if (hc->object->type == OBJ_TRIANGLE)
 	{
 		if (hc->object->material->spec_tex)
 			hc->specular = triangle_uv_to_color(hc->object,
