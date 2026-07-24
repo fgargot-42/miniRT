@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 22:24:53 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/24 23:26:24 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 		mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
 		mlx_mouse_hide(data->mlx);
 		if (mouse_event == 2)
-			data->w_click_hold = 1;
+			data->w_click_hold = true;
 		else
-			data->r_click_hold = 1;
+			data->r_click_hold = true;
 	}
 }
 
@@ -64,9 +64,9 @@ void	mouse_up_hook(int mouse_event, void *param)
 	{
 		mlx_mouse_show(data->mlx);
 		if (mouse_event == 2)
-			data->w_click_hold = 0;
+			data->w_click_hold = false;
 		else
-			data->r_click_hold = 0;
+			data->r_click_hold = false;
 	}
 }
 

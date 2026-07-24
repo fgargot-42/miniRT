@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 22:14:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 00:41:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_material	*create_material(t_data *data, t_texture **tex)
 		destroy_texture(tex);
 		return (NULL);
 	}
-	new_material->refraction = 1;
+	new_material->density = 1;
 	new_material->opacity = 1;
 	ft_arrayadd_back(&data->scene->mat, new_material, destroy_material);
 	return (new_material);

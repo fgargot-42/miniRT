@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:05:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/25 00:41:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_material
 	double		density;
 	double		specular;
 	double		opacity;
-	double		refraction;
 }	t_material;
 
 int			parse_new_material(char *line, t_array *materials,

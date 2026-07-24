@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:08:27 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:35:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ typedef struct s_data
 	mlx_window	editor;
 	mlx_image	img;
 	t_scene		*scene;
-	int			r_click_hold;
-	int			w_click_hold;
+	bool		r_click_hold;
+	bool		w_click_hold;
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
