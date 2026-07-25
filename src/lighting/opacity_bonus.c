@@ -13,9 +13,8 @@
 #include "object_bonus.h"
 #include "hit_bonus.h"
 #include "material.h"
-
-t_vec2	get_triangle_uv_hit(t_object *obj, t_vec3 hit);
-t_vec3	triangle_uv_to_color(t_object *obj, t_texture *tex, t_vec3 hit);
+#include "uv.h"
+#include <stdio.h>
 
 double	get_object_hit_opacity(t_hit_record rec)
 {

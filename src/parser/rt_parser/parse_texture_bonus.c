@@ -24,8 +24,8 @@ static t_material	*create_material(t_data *data, t_texture **tex)
 		destroy_texture(tex);
 		return (NULL);
 	}
-	new_material->density = 1;
-	new_material->opacity = 1;
+	new_material->density = 1.0;
+	new_material->opacity = 1.0;
 	ft_arrayadd_back(&data->scene->mat, new_material, destroy_material);
 	return (new_material);
 }

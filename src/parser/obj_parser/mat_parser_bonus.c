@@ -18,15 +18,18 @@ static int	get_material_element_index(char *mat_elem)
 {
 	unsigned long		i;
 	static const char	*el_mat[] = {"Ns", "Ka", "Kd", "Ks", "Ke", "Ni", "d"};
+	static const int	mat_size = sizeof(el_mat) / sizeof(char *);
 
 	i = 0;
-	while (i < sizeof(el_mat) / sizeof(char *))
+	while (ft_iswhitespace(*mat_elem))
+		mat_elem++;
+	while (i < mat_size)
 	{
 		if (!ft_strncmp(mat_elem, el_mat[i], ft_strlen(el_mat[i])))
 			break ;
 		i++;
 	}
-	if (i >= sizeof(el_mat) / sizeof(char *))
+	if (i >= mat_size)
 		return (-1);
 	return (i);
 }
@@ -34,10 +37,12 @@ static int	get_material_element_index(char *mat_elem)
 static int	open_material_texture(char *line, t_material *mat,
 	t_parser_ctx *ctx)
 {
-	int		status;
-	char	**split;
+	int			status;
+	char		**split;
+	const char 	whitespaces[] = { 9, 10, 11, 12, 13, ' ' };
 
 	status = 1;
+	line = ft_strtrim(line, whitespaces);
 	split = ft_split_by_whitespace(line);
 	if (!split)
 		return (0);
@@ -53,6 +58,7 @@ static int	open_material_texture(char *line, t_material *mat,
 	if (!strncmp(split[0], "map_Ks", 6))
 		status &= parse_mat_spec_tex(line, mat, ctx);
 	free_str_array(split);
+	free(line);
 	return (status);
 }
 

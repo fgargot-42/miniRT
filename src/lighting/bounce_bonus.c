@@ -51,7 +51,7 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 	double			opacity;
 
 	opacity = get_object_hit_opacity(*rec);
-	if (opacity >= 1 - 1e-4 || opacity < 0)
+	if (opacity >= 1.0 - 1e-4 || opacity < 0.0)
 		return ;
 	ft_bzero(&r_ray, sizeof(t_ray));
 	r_ray.origin = rec->point;
