@@ -63,10 +63,8 @@ int			parse_mat_specular(char *line, t_material *mat, int line_nb);
 int			parse_mat_emissive(char *line, t_material *mat, int line_nb);
 int			parse_mat_density(char *line, t_material *mat, int line_nb);
 int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
-int			parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx);
-int			parse_mat_normal_tex(char *line, t_material *mat,
-				t_parser_ctx *ctx);
-int			parse_mat_spec_tex(char *line, t_material *mat, t_parser_ctx *ctx);
+int			parse_mat_tex(char *line, t_texture **tex, t_parser_ctx *ctx,
+				char *param);
 void		destroy_material(void *o);
 void		destroy_texture(t_texture **t);
 

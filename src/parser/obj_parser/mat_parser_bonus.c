@@ -52,11 +52,13 @@ static int	open_material_texture(char *line, t_material *mat,
 		return (0);
 	}
 	if (!strncmp(split[0], "map_Kd", 6))
-		status &= parse_mat_color_tex(line, mat, ctx);
+		status &= parse_mat_tex(line, &mat->color_tex, ctx, split[0]);
 	if (!strncmp(split[0], "map_Bump", 8))
-		status &= parse_mat_normal_tex(line, mat, ctx);
+	status &= parse_mat_tex(line, &mat->normal_tex, ctx, split[0]);
 	if (!strncmp(split[0], "map_Ks", 6))
-		status &= parse_mat_spec_tex(line, mat, ctx);
+	status &= parse_mat_tex(line, &mat->spec_tex, ctx, split[0]);
+	if (!strncmp(split[0], "map_d", 5))
+	status &= parse_mat_tex(line, &mat->mask_tex, ctx, split[0]);
 	free_str_array(split);
 	free(line);
 	return (status);

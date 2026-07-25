@@ -27,84 +27,27 @@ static char	*get_tex_path(char *rt_path, char *tex_path)
 	return (res_path);
 }
 
-int	parse_mat_color_tex(char *line, t_material *mat, t_parser_ctx *ctx)
+int	parse_mat_tex(char *line, t_texture **tex, t_parser_ctx *ctx, char *param)
 {
-	char	**split;
 	char	*path;
 
-	if (!line || !mat)
+	if (!line || !param)
 		return (0);
-	if (mat->color_tex)
+	if (!tex)
 		return (1);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 2, "map_Kd", ctx->line_nb))
+	while (*line && !ft_iswhitespace(*line))
+		line++;
+	while (*line && ft_iswhitespace(*line))
+		line++;
+	if (!*line)
 	{
-		free_str_array(split);
+		print_parse_error("missing parameter(s)", param, ctx->line_nb);
 		return (0);
 	}
-	path = get_tex_path(ctx->rt_path, split[1]);
-	free_str_array(split);
-	mat->color_tex = load_texture(path, ctx->mlx);
+	path = get_tex_path(ctx->rt_path, line);
+	*tex = load_texture(path, ctx->mlx);
 	free(path);
-	return (mat->color_tex != NULL);
-}
-
-int	parse_mat_normal_tex(char *line, t_material *mat, t_parser_ctx *ctx)
-{
-	char	**split;
-	char	*path;
-	int		i;
-
-	if (!line || !mat)
-		return (0);
-	if (mat->normal_tex)
-		return (1);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 2, "map_Bump", ctx->line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	i = 1;
-	while (split[i + 1])
-		i++;
-	path = get_tex_path(ctx->rt_path, split[i]);
-	free_str_array(split);
-	mat->normal_tex = load_texture(path, ctx->mlx);
-	free(path);
-	return (mat->normal_tex != NULL);
-}
-
-int	parse_mat_spec_tex(char *line, t_material *mat, t_parser_ctx *ctx)
-{
-	char	**split;
-	char	*path;
-	int		i;
-
-	if (!line || !mat)
-		return (0);
-	if (mat->spec_tex)
-		return (1);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 2, "map_Ks", ctx->line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	i = 1;
-	while (split[i + 1])
-		i++;
-	path = get_tex_path(ctx->rt_path, split[i]);
-	free_str_array(split);
-	mat->spec_tex = load_texture(path, ctx->mlx);
-	free(path);
-	return (mat->spec_tex != NULL);
+	return (*tex != NULL);
 }
 
 int	parse_obj_tex_file(t_object_model *obj, char *rt_path,
