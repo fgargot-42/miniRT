@@ -25,6 +25,7 @@ static t_vec3	get_refraction_vector(t_vec3 normal, t_vec3 incidence,
 	double	sin_t2;
 	double	cos_t;
 
+	return (incidence); // TODO: fix refraction vector calculation
 	if (n2 == 0)
 		return ((t_vec3){{0, 0, 0}});
 	n = n1 / n2;

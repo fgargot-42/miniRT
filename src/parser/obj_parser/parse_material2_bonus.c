@@ -95,5 +95,6 @@ void	destroy_material(void *o)
 	destroy_texture(&mat->color_tex);
 	destroy_texture(&mat->normal_tex);
 	destroy_texture(&mat->spec_tex);
+	destroy_texture(&mat->mask_tex);
 	free(mat);
 }
