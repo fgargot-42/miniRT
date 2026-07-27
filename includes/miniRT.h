@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 02:10:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 17:33:25 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,6 @@ t_vec3				linear_to_srgb(t_vec3 linear_rgb);
 
 double				get_time(void);
 void				editor_loop(void *param);
+void				draw_light_editor(t_data *d, double mx, double my);
 
 #endif // MINIRT_H
