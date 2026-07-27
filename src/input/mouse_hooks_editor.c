@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 17:31:10 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 18:47:50 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	editor_mouse_down(int event, void *param)
 			if (data->scene->selected)
 				draw_editor(data, mx, my);
 			else
-				draw_light_editor(data, mx, my);
+				draw_light_editor(data);
 			return ;
 		}
 		i++;
@@ -100,7 +100,7 @@ void	editor_loop(void *param)
 	if (data->scene->selected)
 		draw_editor(data, mx, my);
 	else
-		draw_light_editor(data, mx, my);
+		draw_light_editor(data);
 	bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
 	draw(data);
 }
