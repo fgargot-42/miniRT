@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:41:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 17:26:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ static t_vec3	get_refraction_vector(t_vec3 normal, t_vec3 incidence,
 	double	cos_t;
 
 	return (incidence); // TODO: fix refraction vector calculation
-	if (n2 == 0)
-		return ((t_vec3){{0, 0, 0}});
+	if (n1 == 0 || n2 == 0)
+		return (incidence);
 	n = n1 / n2;
 	cos_i = -vec3_dot(normal, incidence);
 	sin_t2 = n * n * (1 - cos_i * cos_i);
 	if (sin_t2 > 1.0)
-		return ((t_vec3){{0, 0, 0}});
+		return (incidence);
 	cos_t = sqrt(1.0 - sin_t2);
 	return (vec3_add(
 				vec3_scale(incidence, n),
