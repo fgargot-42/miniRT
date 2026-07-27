@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 23:38:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 22:13:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@
 #include "veclib.h"
 #include "libft.h"
 #include "mlx.h"
+#include "uv.h"
 #include <math.h>
 #include <stdio.h>
 
 double	get_bump_from_img(t_vec2 uv, t_object obj)
 {
-	mlx_color	pixel;
-	double		amplitude;
-	double		bump;
-	int			x;
-	int			y;
+	t_vec3	pixel;
+	double	amplitude;
+	double	bump;
 
 	amplitude = 0.0;
 	if (!obj.material || !obj.material->normal_tex)
@@ -36,15 +35,8 @@ double	get_bump_from_img(t_vec2 uv, t_object obj)
 	if (obj.type == OBJ_TRIANGLE)
 		amplitude = 0.02 * fmax(fmax(vec3_distance(obj.props.b, obj.props.c),
 					vec3_length(obj.props.b)), vec3_length(obj.props.c));
-	while (uv.x > 1.0)
-		uv.x -= 1.0;
-	while (uv.y > 1.0)
-		uv.y -= 1.0;
-	x = (1 - uv.x) * (obj.material->normal_tex->width - 1);
-	y = uv.y * (obj.material->normal_tex->height - 1);
-	pixel = mlx_get_image_pixel(obj.material->normal_tex->mlx,
-			obj.material->normal_tex->data, x, y);
-	bump = amplitude * (((double)pixel.r) / 255.0 - 0.5);
+	pixel = uv_to_color(&obj, obj.material->normal_tex, uv);
+	bump = amplitude * (((double)pixel.x) / 255.0 - 0.5);
 	return (bump);
 }
 
@@ -87,7 +79,7 @@ t_vec3	bump_normal_sphere(t_hit_record rec, t_vec2 uv,
 	bump.sin_theta = sin(uv.y * M_PI);
 	bump.cos_phi = cos(uv.x * 2.0 * M_PI);
 	bump.sin_phi = sin(uv.x * 2.0 * M_PI);
-	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
+	bump.normal = rec.normal;
 	bump.obj = rec.object;
 	bump.uv = uv;
 	pu = vec3_scale((t_vec3){{-bump.sin_phi, 0, bump.cos_phi}},
@@ -124,6 +116,8 @@ static void	get_triangle_tangent_frame(t_object obj, t_vec3 *pu, t_vec3 *pv)
 				vec3_scale(obj.props.c, dv[0])), det_inv);
 	*pv = vec3_scale(vec3_sub(vec3_scale(obj.props.c, du[0]),
 				vec3_scale(obj.props.b, du[1])), det_inv);
+	*pu = vec3_normalize(*pu);
+	*pv = vec3_normalize(*pv);
 }
 
 t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
@@ -136,7 +130,7 @@ t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
 
 	ft_bzero(&pu, sizeof(t_vec3));
 	ft_bzero(&pv, sizeof(t_vec3));
-	bump.normal = vec3_normalize(vec3_sub(rec.point, rec.object->position));
+	bump.normal = rec.normal;
 	bump.obj = rec.object;
 	bump.uv = uv;
 	get_triangle_tangent_frame(*rec.object, &pu, &pv);

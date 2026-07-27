@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 01:50:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 22:13:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,30 @@ t_vec2	get_uv(t_object *obj, t_vec3 vec)
 	return (result);
 }
 
-t_vec3	uv_to_color(t_texture *tex, t_vec2 uv)
+t_vec3	uv_to_color(t_object *obj, t_texture *tex, t_vec2 uv)
 {
 	t_vec3		col;
 	mlx_color	pixel;
-	int			x;
-	int			y;
 
-	x = (int)((1 - uv.x) * (tex->width - 1));
-	y = (int)(uv.y * (tex->height - 1));
-	pixel = mlx_get_image_pixel(tex->mlx, tex->data, x, y);
+	while (uv.x > 1.0)
+		uv.x--;
+	while (uv.y > 1.0)
+		uv.y--;
+	if (obj->type == OBJ_TRIANGLE)
+	{
+		uv.x = uv.x * (tex->width - 1);
+		uv.y = (1 - uv.y) * (tex->height - 1);
+	}
+	else
+	{
+		uv.x = (1 - uv.x) * (tex->width - 1);
+		uv.y = uv.y * (tex->height - 1);
+	}
+	pixel = mlx_get_image_pixel(tex->mlx, tex->data, (int)uv.x, (int)uv.y);
 	col.x = pixel.r;
 	col.y = pixel.g;
 	col.z = pixel.b;
 	return (col);
-}
-
-t_vec3	triangle_uv_to_color(t_object *obj, t_texture *tex, t_vec3 hit)
-{
-	t_vec2		uv;
-	mlx_color	pixel;
-
-	uv = get_triangle_uv(obj, hit);
-	uv.x = uv.x * (tex->width - 1);
-	uv.y = (1 - uv.y) * (tex->height - 1);
-	pixel = mlx_get_image_pixel(tex->mlx, tex->data, (int)uv.x, (int)uv.y);
-	return ((t_vec3){{pixel.r, pixel.g, pixel.b}});
 }
 
 t_texture	*load_texture(char *path, mlx_context mlx)

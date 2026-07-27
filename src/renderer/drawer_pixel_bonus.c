@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 01:48:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 22:02:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "uv.h"
 #include "veclib.h"
 #include "normal.h"
+#include <assert.h>
 
 static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 		t_ray *ray)
@@ -44,19 +45,19 @@ static void	apply_uv(t_hit_record *hc)
 	if (hc->object->type == OBJ_TRIANGLE)
 	{
 		if (hc->object->material->spec_tex)
-			hc->specular = triangle_uv_to_color(hc->object,
-					hc->object->material->spec_tex, hc->point).x / 255.0;
+			hc->specular = uv_to_color(hc->object,
+					hc->object->material->spec_tex, uv).x / 255.0;
 		if (hc->object->material->color_tex)
 		{
-			hc->color = triangle_uv_to_color(hc->object,
-					hc->object->material->color_tex, hc->point);
-			//hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
+			hc->color = uv_to_color(hc->object,
+					hc->object->material->color_tex, uv);
+			hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
 		}
 	}
 	if (hc->object->type == OBJ_SPHERE && hc->object->material->color_tex)
 	{
-		hc->color = uv_to_color(hc->object->material->color_tex, uv);
-		//hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
+		hc->color = uv_to_color(hc->object, hc->object->material->color_tex, uv);
+		hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
 	}
 }
 

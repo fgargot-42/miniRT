@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:32:48 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:43:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 21:18:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ double	get_object_hit_opacity(t_hit_record rec)
 {
 	double	opacity;
 	t_vec3	col;
+	t_vec2	uv;
 
 	if (!rec.object->material)
 		return (1.0);
 	opacity = rec.object->material->opacity;
 	if (rec.object->material->mask_tex)
 	{
-		col = triangle_uv_to_color(rec.object, rec.object->material->mask_tex,
-			rec.point);
+		uv = get_uv(rec.object, rec.point);
+		col = uv_to_color(rec.object, rec.object->material->mask_tex, uv);
 		opacity = col.x / 255.0;
 	}
 	return (opacity);
