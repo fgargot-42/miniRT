@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 20:58:01 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:02:18 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ typedef struct s_row_info
 }	t_row_info;
 
 // UI
-
-void		init_editor(t_data *data);
 
 void		init_editor(t_data *data);
 void		setup_sliders(t_data *data);
