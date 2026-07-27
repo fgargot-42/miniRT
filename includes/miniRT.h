@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 18:46:55 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:08:27 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ t_vec3				linear_to_srgb(t_vec3 linear_rgb);
 double				get_time(void);
 void				editor_loop(void *param);
 void				draw_light_editor(t_data *d);
+void				setup_light_sliders(t_data *data);
 
 #endif // MINIRT_H

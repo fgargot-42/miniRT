@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:02:00 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/27 19:08:23 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,7 @@ void				setup_property_sliders(t_data *data, t_object *obj);
 void				setup_ambient_sliders(t_data *data, t_object *obj,
 						int slider_id);
 
+void				setup_light_sliders(t_data *data);
 void				destroy_material(void *o);
 t_texture			*load_texture(char *path, mlx_context mlx);
 t_vec3				uv_to_color(t_texture *tex, t_vec2 uv);

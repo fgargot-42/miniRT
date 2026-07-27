@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/24 02:13:05 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/27 19:07:47 by mabarrer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,7 @@ SRC_MANDA = $(SRC) \
 		ui/ui.c \
 		ui/ui_helpers.c \
 		ui/ui_slider_header.c \
+		ui/ui_light.c \
 		ui/setup2.c 
 SRC_BONUS = $(SRC) \
 		main_bonus.c \
@@ -143,6 +144,7 @@ SRC_BONUS = $(SRC) \
 		ui/setup2_bonus.c \
 		ui/ui_helpers_bonus.c \
 		ui/ui_slider_header_bonus.c \
+		ui/ui_light_bonus.c \
 		uv_mapping_bonus.c \
 		bump.c
 OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
