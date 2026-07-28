@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:36:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 17:04:01 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_slider
 	double		max;
 	const char	*label;
 	mlx_color	col;
+	bool		affects_bvh;
 }	t_slider;
 
 typedef struct s_scene

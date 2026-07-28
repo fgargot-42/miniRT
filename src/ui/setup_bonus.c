@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/21 18:04:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 17:08:01 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 	{
 		data->sliders[i] = (t_slider){.value = &obj->position.vec[i],
 			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
-			.label = position_labels[i], .col = position_colors[i]};
+			.label = position_labels[i], .col = position_colors[i], .affects_bvh=true};
 		data->sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
 			.min = -1, .max = 1,
-			.label = rotation_labels[i], .col = position_colors[i]};
+			.label = rotation_labels[i], .col = position_colors[i], .affects_bvh=true};
 		i++;
 	}
 }
@@ -50,7 +50,7 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 	{
 		data->sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
 			.min = 0.0, .max = 255.0,
-			.label = color_labels[i], .col = color_colors[i]};
+			.label = color_labels[i], .col = color_colors[i], .affects_bvh=false};
 		i++;
 	}
 }
@@ -64,10 +64,10 @@ void	setup_material_sliders(t_data *data, t_object *obj)
 
 	data->sliders[9] = (t_slider){.value = &obj->specular,
 		.min = 0.0, .max = 1.0,
-		.label = material_labels[0], .col = material_colors[0]};
+		.label = material_labels[0], .col = material_colors[0], .affects_bvh=false};
 	data->sliders[10] = (t_slider){.value = &obj->shininess,
 		.min = 1.0, .max = 1000.0,
-		.label = material_labels[1], .col = material_colors[1]};
+		.label = material_labels[1], .col = material_colors[1], .affects_bvh=false};
 }
 
 static void	get_property_values(t_object *obj, double **radius, double **height)
@@ -100,8 +100,8 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	get_property_values(obj, &radius, &height);
 	data->sliders[11] = (t_slider){.value = radius,
 		.min = 0.0, .max = 90.0,
-		.label = properties_labels[0], .col = material_colors[1]};
+		.label = properties_labels[0], .col = material_colors[1], .affects_bvh=true};
 	data->sliders[12] = (t_slider){.value = height,
 		.min = 0.0, .max = 30.0,
-		.label = properties_labels[1], .col = material_colors[1]};
+		.label = properties_labels[1], .col = material_colors[1], .affects_bvh=true};
 }

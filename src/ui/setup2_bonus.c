@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/21 18:14:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 17:08:40 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col,
 	{
 		data->sliders[slider_id + i] = (t_slider){.value = &(col->vec[i]),
 			.min = 0.0, .max = 255.0,
-			.label = color_labels[i], .col = color_colors[i]};
+			.label = color_labels[i], .col = color_colors[i], .affects_bvh=false};
 		i++;
 	}
 }
@@ -40,5 +40,6 @@ void	setup_ambient_sliders(t_data *data, t_object *obj, int slider_id)
 		.value = &data->scene->ambient->props.intensity,
 		.min = 0.0, .max = 1.0,
 		.label = "power",
-		.col = (mlx_color){.r = 200, .g = 200, .b = 200, .a = 255}};
+		.col = (mlx_color){.r = 200, .g = 200, .b = 200, .a = 255},
+		.affects_bvh=false};
 }

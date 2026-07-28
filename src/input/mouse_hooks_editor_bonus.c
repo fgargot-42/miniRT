@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 18:48:41 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:19:09 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,15 @@ void	editor_mouse_down(int event, void *param)
 void	editor_mouse_up(int event, void *param)
 {
 	t_data	*data;
+	t_slider *s;
 
 	if (event != 1)
 		return ;
 	data = (t_data *)param;
+	s = &data->sliders[data->dragging_slider];
+	if (s->affects_bvh)
+		rebuild_bvh_tree(&data->scene->bvh, data->scene);
 	data->dragging_slider = -1;
-	rebuild_bvh_tree(&data->scene->bvh, data->scene);
 }
 
 void	editor_loop(void *param)
@@ -103,6 +106,7 @@ void	editor_loop(void *param)
 		draw_editor(data, mx, my);
 	else
 		draw_light_editor(data);
-	bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
+	if (s->affects_bvh)
+		bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
 	draw(data);
 }
