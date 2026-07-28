@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:41:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:58:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parser_bonus.h"
 #include "material.h"
 
-static t_material	*create_material(t_data *data, t_texture **tex)
+t_material	*create_material(t_data *data, t_texture **tex)
 {
 	t_material	*new_material;
 
@@ -26,6 +26,7 @@ static t_material	*create_material(t_data *data, t_texture **tex)
 	}
 	new_material->density = 1.0;
 	new_material->opacity = 1.0;
+	new_material->shininess = 1.0;
 	ft_arrayadd_back(&data->scene->mat, new_material, destroy_material);
 	return (new_material);
 }

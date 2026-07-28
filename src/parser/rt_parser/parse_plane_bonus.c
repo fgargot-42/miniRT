@@ -6,40 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:40:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 00:22:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
 #include "libft.h"
-
-static int	parse_plane_optional_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx)
-{
-	int	nb_elements;
-	int	p_res;
-
-	nb_elements = get_str_array_length(line_split);
-	p_res = 1;
-	obj->checker = (nb_elements > 6 && !is_ignored(line_split[6]));
-	if (nb_elements > 4 && !is_ignored(line_split[4]))
-		p_res &= parse_double(line_split[4], &(obj->specular), "plane",
-				ctx->line_nb);
-	if (nb_elements > 5 && !is_ignored(line_split[5]))
-		p_res &= parse_double(line_split[5], &(obj->shininess), "plane",
-				ctx->line_nb);
-	if (nb_elements > 6 && !is_ignored(line_split[6]))
-		p_res &= parse_vector(line_split[6], &(obj->checker_color),
-				"plane", ctx->line_nb);
-	if (nb_elements > 7 && !is_ignored(line_split[7]))
-		p_res &= parse_texture_file(line_split[7], obj, ctx);
-	if (nb_elements > 8 && !is_ignored(line_split[8]))
-		p_res &= parse_spec_texture_file(line_split[8], obj, ctx);
-	if (nb_elements > 9 && !is_ignored(line_split[9]))
-		p_res &= parse_bump_texture_file(line_split[9], obj, ctx);
-	return (p_res);
-}
 
 static int	parse_plane_elements(char **line_split, t_object *obj,
 		t_parser_ctx *ctx)
@@ -54,7 +27,7 @@ static int	parse_plane_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	if (parse_result)
 		obj->checker_color = obj->color;
-	parse_result &= parse_plane_optional_elements(line_split, obj, ctx);
+	parse_result &= parse_optional_elements(line_split, obj, ctx, 4);
 	return (parse_result);
 }
 
@@ -72,9 +45,9 @@ t_object	*parse_plane(char **line_split, t_parser_ctx *ctx)
 		print_parse_error("allocation failed", "plane", ctx->line_nb);
 		return (NULL);
 	}
-	obj->shininess = 1;
+	obj->material = create_material(ctx->data, NULL);
 	parse_result = parse_plane_elements(line_split, obj, ctx);
-	if (!parse_result)
+	if (!parse_result || !obj->material)
 	{
 		free(obj);
 		return (NULL);

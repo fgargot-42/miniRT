@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:16:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:37:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	rec->normal = vec3_normalize(normal);
 	rec->color = obj->color;
 	rec->object = obj;
-	rec->specular = obj->specular;
-	rec->shininess = obj->shininess;
+	rec->specular = obj->material->specular;
+	rec->shininess = obj->material->shininess;
 }
 
 static int	get_intersection(t_obj_prop props, t_hit_ctx *ctx)

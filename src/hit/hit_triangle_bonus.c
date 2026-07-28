@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:58:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:17:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:37:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	rec->point = ray_at(*ray, t);
 	rec->normal = obj->direction;
 	rec->object = obj;
-	rec->specular = obj->specular;
-	rec->shininess = obj->shininess;
+	rec->specular = obj->material->specular;
+	rec->shininess = obj->material->shininess;
 }
 
 static int	intersect_triangle_area(t_object *obj, t_vec3 point)

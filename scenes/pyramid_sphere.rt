@@ -16,10 +16,10 @@ L	15.0,12.0,-20.0		0.35		255,255,255
 SB	../textures/sky_4k.jpg
 
 # Sphere
-# sp	pos(x,y,z)		diameter	color(r,g,b)	[specular	shininess	checkered_color	texture_file]
-sp		0.0,1.5,0.0		2.0			230,230,230		0.6			32			30,30,30
+# sp	pos(x,y,z)		diameter	color(r,g,b)	[checkered_color	specular	shininess	texture_file]
+sp		0.0,1.5,0.0		2.0			230,230,230		30,30,30	0.6			32
 
-# tr	point_a(x,y,z)	point_b	point_c		color(r,g,b)	[specular	shininess	checkered_color	texture_file]
+# tr	point_a(x,y,z)	point_b	point_c		color(r,g,b)	[checkered_color	specular	shininess	texture_file]
 
 tr -3,0.5,-3	-3,0.5,3	3,0.5,3		128,128,0
 tr -3,0.5,-3	3,0.5,3		3,0.5,-3	128,128,0

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:09:50 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 00:39:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	setup_sliders(t_data *data)
 	setup_color_sliders(data, obj);
 	setup_property_sliders(data, obj);
 	setup_material_sliders(data, obj);
-	setup_ambient_sliders(data, obj, 13);
-	data->nb_sliders = 17;
+	setup_ambient_sliders(data, obj, 14);
+	data->nb_sliders = 18;
 }
 
 void	draw_editor(t_data *d, double mx, double my)
@@ -46,9 +46,9 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{0, 3}}, &y, "TRANSFORM -");
 	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
 	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
-	draw_group(d, (t_vec2){{9, 11}}, &y, "MATERIAL -----");
-	draw_group(d, (t_vec2){{11, 13}}, &y, "PROPERTIES -----");
-	draw_group(d, (t_vec2){{13, 17}}, &y, "AMBIENT ----");
+	draw_group(d, (t_vec2){{9, 12}}, &y, "MATERIAL -----");
+	draw_group(d, (t_vec2){{12, 14}}, &y, "PROPERTIES -----");
+	draw_group(d, (t_vec2){{14, 18}}, &y, "AMBIENT ----");
 	draw_hline(d, d->editor, y + 4);
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,

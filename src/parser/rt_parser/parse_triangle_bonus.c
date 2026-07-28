@@ -6,40 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:43:18 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 00:23:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
 #include "libft.h"
-
-static int	parse_triangle_optional_elements(char **line_split, t_object *obj,
-	t_parser_ctx *ctx)
-{
-	int	nb_elements;
-	int	p_res;
-
-	nb_elements = get_str_array_length(line_split);
-	p_res = 1;
-	obj->checker = (nb_elements > 9 && !is_ignored(line_split[9]));
-	if (nb_elements > 7 && !is_ignored(line_split[7]))
-		p_res &= parse_double(line_split[7], &(obj->specular), "triangle",
-				ctx->line_nb);
-	if (nb_elements > 8 && !is_ignored(line_split[8]))
-		p_res &= parse_double(line_split[8], &(obj->shininess), "triangle",
-				ctx->line_nb);
-	if (nb_elements > 9 && !is_ignored(line_split[9]))
-		p_res &= parse_vector(line_split[9], &(obj->checker_color),
-				"triangle", ctx->line_nb);
-	if (nb_elements > 10 && !is_ignored(line_split[10]))
-		p_res &= parse_texture_file(line_split[10], obj, ctx);
-	if (nb_elements > 11 && !is_ignored(line_split[11]))
-		p_res &= parse_spec_texture_file(line_split[11], obj, ctx);
-	if (nb_elements > 12 && !is_ignored(line_split[12]))
-		p_res &= parse_bump_texture_file(line_split[12], obj, ctx);
-	return (p_res);
-}
 
 static int	parse_triangle_elements(char **line_split, t_object *obj,
 	t_parser_ctx *ctx)
@@ -56,7 +29,7 @@ static int	parse_triangle_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
-	p_res &= parse_triangle_optional_elements(line_split, obj, ctx);
+	p_res &= parse_optional_elements(line_split, obj, ctx, 5);
 	return (p_res);
 }
 
@@ -86,9 +59,9 @@ t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx)
 		print_parse_error("allocation failed", "triangle", ctx->line_nb);
 		return (NULL);
 	}
-	obj->shininess = 1;
+	obj->material = create_material(ctx->data, NULL);
 	parse_result = parse_triangle_elements(line_split, obj, ctx);
-	if (!parse_result)
+	if (!parse_result || !obj->material)
 	{
 		free(obj);
 		return (NULL);

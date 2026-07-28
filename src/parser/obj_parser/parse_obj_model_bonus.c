@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:18:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:27:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:41:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
+#include "parser_bonus.h"
 #include "veclib.h"
 #include "libft.h"
 

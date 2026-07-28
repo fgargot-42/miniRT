@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/28 17:27:08 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:45:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,24 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 
 void	setup_material_sliders(t_data *data, t_object *obj)
 {
-	static const char		*material_labels[2] = {"specular", "shininess"};
-	static const mlx_color	material_colors[2] = {
+	static const char		*material_labels[3] = {"specular", "shininess",
+		"opacity"};
+	static const mlx_color	material_colors[3] = {
 	{.r = 180, .g = 180, .b = 255, .a = 255},
-	{.r = 200, .g = 200, .b = 200, .a = 255}};
+	{.r = 200, .g = 200, .b = 200, .a = 255},
+	{.r = 220, .g = 220, .b = 220, .a = 255}};
 
-	data->sliders[9] = (t_slider){.value = &obj->specular, .min = 0.0,
-		.max = 1.0, .label = material_labels[0], .col = material_colors[0],
+	data->sliders[9] = (t_slider){.value = &obj->material->specular,
+		.min = 0.0, .max = 1.0,
+		.label = material_labels[0], .col = material_colors[0],
 		.affects_bvh = false};
-	data->sliders[10] = (t_slider){.value = &obj->shininess, .min = 1.0,
-		.max = 1000.0, .label = material_labels[1], .col = material_colors[1],
+	data->sliders[10] = (t_slider){.value = &obj->material->shininess,
+		.min = 1.0, .max = 1000.0,
+		.label = material_labels[1], .col = material_colors[1],
+		.affects_bvh = false};
+	data->sliders[11] = (t_slider){.value = &obj->material->opacity,
+		.min = 0.0, .max = 1.0,
+		.label = material_labels[2], .col = material_colors[2],
 		.affects_bvh = false};
 }
 

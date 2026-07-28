@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:16:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:37:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	rec->point = ray_at(*ray, t);
 	rec->normal = obj->direction;
 	rec->object = obj;
-	rec->specular = obj->specular;
-	rec->shininess = obj->shininess;
+	rec->specular = obj->material->specular;
+	rec->shininess = obj->material->shininess;
 }
 
 int	hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)

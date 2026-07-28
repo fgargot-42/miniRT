@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:41:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 01:18:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "veclib.h"
 # include "mlx.h"
 # include "libft.h"
-# include "parser_bonus.h"
+
+typedef struct s_parser_ctx	t_parser_ctx;
 
 typedef union u_uv_texture
 {
@@ -50,6 +51,7 @@ typedef struct s_material
 	t_texture	*mask_tex;
 	double		density;
 	double		specular;
+	double		shininess;
 	double		opacity;
 }	t_material;
 
@@ -63,7 +65,7 @@ int			parse_mat_specular(char *line, t_material *mat, int line_nb);
 int			parse_mat_emissive(char *line, t_material *mat, int line_nb);
 int			parse_mat_density(char *line, t_material *mat, int line_nb);
 int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
-int			parse_mat_tex(char *line, t_texture **tex, t_parser_ctx *ctx,
+int			parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx,
 				char *param);
 void		destroy_material(void *o);
 void		destroy_texture(t_texture **t);

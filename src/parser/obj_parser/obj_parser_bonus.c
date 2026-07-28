@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:20:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 00:35:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
+#include "parser_bonus.h"
 #include "miniRT_bonus.h"
 #include <unistd.h>
 
@@ -39,6 +40,10 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	bool				status;
 
 	status = true;
+	if (!ctx->current_mat)
+		ctx->current_mat = create_material(ctx->data, NULL);
+	if (!ctx->current_mat)
+		return (false);
 	if (line[ft_strlen(line) - 1] == '\n')
 		line[ft_strlen(line) - 1] = '\0';
 	if (!ft_strncmp(line, "mtllib", 6))
@@ -89,6 +94,7 @@ static bool	parse_obj_elements(char **split, t_parser_ctx *ctx,
 static void	init_ctx(t_parser_ctx *obj_ctx, t_parser_ctx *ctx, t_data *data)
 {
 	ft_bzero(obj_ctx, sizeof(t_parser_ctx));
+	obj_ctx->data = data;
 	obj_ctx->mlx = data->mlx;
 	obj_ctx->rt_path = ctx->rt_path;
 	obj_ctx->line_nb = 1;

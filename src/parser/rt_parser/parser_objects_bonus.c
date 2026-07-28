@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_objects_bonus.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
+/*   Updated: 2026/07/28 01:49:11 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "object_bonus.h"
+#include "parser_bonus.h"
+#include "miniRT_bonus.h"
+#include "material.h"
+
+static char	*get_object_type_str(t_object o)
+{
+	long		max;
+	static char	*obj_names[] = {"ambient",
+		"camera", "sky", "light", "plane",
+		"sphere", "cylinder", "cone",
+		"hyperboloid", "paraboloid", "triangle"};
+
+	max = sizeof(obj_names) / sizeof(*obj_names);
+	if (o.type < 0 || o.type >= max)
+		return ("");
+	return (obj_names[o.type]);
+}
+
+static int	parse_texture_elements(char **params, t_object *obj,
+	t_parser_ctx *ctx, int i)
+{
+	int		nb_elements;
+	int		p_res;
+
+	nb_elements = get_str_array_length(params);
+	p_res = 1;
+	if (nb_elements > i && !is_ignored(params[i]))
+		p_res &= parse_texture_file(params[i], obj, ctx);
+	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
+		p_res &= parse_spec_texture_file(params[i + 1], obj, ctx);
+	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
+		p_res &= parse_bump_texture_file(params[i + 2], obj, ctx);
+	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
+		p_res &= parse_bump_texture_file(params[i + 3], obj, ctx);
+	return (p_res);
+}
+
+int	parse_optional_elements(char **params, t_object *obj,
+	t_parser_ctx *ctx, int i)
+{
+	int		nb_elements;
+	int		p_res;
+	int		ln;
+	char	*type;
+
+	if (!obj || !obj->material)
+		return (0);
+	type = get_object_type_str(*obj);
+	nb_elements = get_str_array_length(params);
+	p_res = 1;
+	ln = ctx->line_nb;
+	obj->checker = (nb_elements > i && !is_ignored(params[i]));
+	if (obj->checker)
+		p_res &= parse_vector(params[i], &(obj->checker_color), type, ln);
+	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
+		p_res &= parse_double(params[i + 1],
+			&(obj->material->specular), type, ln);
+	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
+		p_res &= parse_double(params[i + 2],
+			&(obj->material->shininess), type, ln);
+	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
+		p_res &= parse_double(params[i + 3],
+			&(obj->material->opacity), type, ln);
+	p_res &= parse_texture_elements(params, obj, ctx, i + 4);
+	return (p_res);
+}

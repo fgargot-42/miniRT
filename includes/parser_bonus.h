@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:48:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:33:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,18 @@
 
 # include "libft.h"
 # include "parser.h"
+# include "material.h"
 
 t_object	*parse_sky(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_cone(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx);
+int			parse_optional_elements(char **params, t_object *obj,
+				t_parser_ctx *ctx, int i);
 int			parse_skybox(char *line, t_parser_ctx *ctx);
 
+t_material	*create_material(t_data *data, t_texture **tex);
 int			parse_texture_file(char *param, t_object *obj, t_parser_ctx *ctx);
 int			parse_spec_texture_file(char *param, t_object *obj,
 				t_parser_ctx *ctx);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:08:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 01:16:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,24 @@ static char	*get_tex_path(char *rt_path, char *tex_path)
 	return (res_path);
 }
 
-int	parse_mat_tex(char *line, t_texture **tex, t_parser_ctx *ctx, char *param)
+int	parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx, char *param)
 {
 	char	*path;
+	int		i;
 
-	if (!line || !param)
+	if (!split || !split[0] || !split[1] || !param)
 		return (0);
 	if (!tex)
 		return (1);
-	while (*line && !ft_iswhitespace(*line))
-		line++;
-	while (*line && ft_iswhitespace(*line))
-		line++;
-	if (!*line)
+	i = 0;
+	while (split[i + 1])
+		i++;
+	if (!split[i][0])
 	{
 		print_parse_error("missing parameter(s)", param, ctx->line_nb);
 		return (0);
 	}
-	path = get_tex_path(ctx->rt_path, line);
+	path = get_tex_path(ctx->rt_path, split[i]);
 	*tex = load_texture(path, ctx->mlx);
 	free(path);
 	return (*tex != NULL);

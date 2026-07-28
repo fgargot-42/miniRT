@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:37:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 00:23:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,26 @@
 #include "parser_bonus.h"
 #include "libft.h"
 
-static int	parse_hyperboloid_optional_elements(char **line_split,
-	t_object *obj, t_parser_ctx *ctx)
-{
-	int	nb_elements;
-	int	p_res;
-
-	nb_elements = get_str_array_length(line_split);
-	p_res = 1;
-	obj->checker = (nb_elements > 10 && !is_ignored(line_split[10]));
-	if (nb_elements > 8 && !is_ignored(line_split[8]))
-		p_res &= parse_double(line_split[8], &(obj->specular), "hyperboloid",
-				ctx->line_nb);
-	if (nb_elements > 9 && !is_ignored(line_split[9]))
-		p_res &= parse_double(line_split[9], &(obj->shininess), "hyperboloid",
-				ctx->line_nb);
-	if (nb_elements > 10 && !is_ignored(line_split[10]))
-		p_res &= parse_vector(line_split[10], &(obj->checker_color),
-				"hyperboloid", ctx->line_nb);
-	if (nb_elements > 11 && !is_ignored(line_split[11]))
-		p_res &= parse_texture_file(line_split[11], obj, ctx);
-	if (nb_elements > 12 && !is_ignored(line_split[12]))
-		p_res &= parse_spec_texture_file(line_split[12], obj, ctx);
-	if (nb_elements > 13 && !is_ignored(line_split[13]))
-		p_res &= parse_bump_texture_file(line_split[13], obj, ctx);
-	return (p_res);
-}
-
-static int	parse_hyperboloid_elements(char **split, t_object *obj,
+static int	parse_hyperboloid_elements(char **line_split, t_object *obj,
 		t_parser_ctx *ctx)
 {
 	int	p_res;
 
-	p_res = parse_vector(split[1], &(obj->position), "hyperboloid",
+	p_res = parse_vector(line_split[1], &(obj->position), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_vector(split[2], &(obj->direction), "hyperboloid",
+	p_res &= parse_vector(line_split[2], &(obj->direction), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_double(split[3], &(obj->radius), "hyperboloid",
+	p_res &= parse_double(line_split[3], &(obj->radius), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_double(split[4], &(obj->angle), "hyperboloid", ctx->line_nb);
-	p_res &= parse_double(split[5], &(obj->props.height), "hyperboloid",
+	p_res &= parse_double(line_split[4], &(obj->angle), "hyperboloid", ctx->line_nb);
+	p_res &= parse_double(line_split[5], &(obj->props.height), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_double(split[6], &(obj->props.depth), "hyperboloid",
+	p_res &= parse_double(line_split[6], &(obj->props.depth), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_vector(split[7], &(obj->color), "hyperboloid", ctx->line_nb);
+	p_res &= parse_vector(line_split[7], &(obj->color), "hyperboloid", ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
-	p_res = parse_hyperboloid_optional_elements(split, obj, ctx);
+	p_res &= parse_optional_elements(line_split, obj, ctx, 8);
 	return (p_res);
 }
 
@@ -77,9 +50,9 @@ t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx)
 		print_parse_error("allocation failed", "hyperboloid", ctx->line_nb);
 		return (NULL);
 	}
-	obj->shininess = 1;
+	obj->material = create_material(ctx->data, NULL);
 	parse_result = parse_hyperboloid_elements(line_split, obj, ctx);
-	if (!parse_result)
+	if (!parse_result || !obj->material)
 	{
 		free(obj);
 		return (NULL);

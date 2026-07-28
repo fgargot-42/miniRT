@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/07/27 19:36:32 by fgargot          ###   ########.fr        #
+#    Updated: 2026/07/28 00:14:46 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ SRC_BONUS = $(SRC) \
 		parser/rt_parser/parse_paraboloid_bonus.c \
 		parser/rt_parser/parse_triangle_bonus.c \
 		parser/rt_parser/parse_texture_bonus.c \
+		parser/rt_parser/parser_objects_bonus.c \
 		renderer/drawer_bonus.c \
 		renderer/drawer_utils_bonus.c \
 		renderer/drawer_pixel_bonus.c \

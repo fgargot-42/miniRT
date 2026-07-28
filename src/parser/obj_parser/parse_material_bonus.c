@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 01:05:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 00:56:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,24 @@ int	parse_new_material(char *line, t_array *materials, void *mat_ptr)
 	if (!line || !materials || !mat)
 		return (0);
 	*mat = ft_calloc(1, sizeof(t_material));
-	if (*mat)
+	if (!*mat)
+		return (0);
+	split = ft_split_by_whitespace(line);
+	if (!split || !split[0] || !split[1])
 	{
-		split = ft_split_by_whitespace(line);
-		if (!split || !split[0] || !split[1])
-		{
-			if (split)
-				free_str_array(split);
-			free(*mat);
-			*mat = NULL;
-			return (0);
-		}
-		(*mat)->name = ft_strdup(split[1]);
-		free_str_array(split);
+		if (split)
+			free_str_array(split);
+		free(*mat);
+		*mat = NULL;
+		return (0);
 	}
-	if (*mat)
-		ft_arrayadd_back(materials, *mat, free);
-	return (*mat != NULL);
+	(*mat)->name = ft_strdup(split[1]);
+	(*mat)->density = 1.0;
+	(*mat)->opacity = 1.0;
+	(*mat)->shininess = 1.0;
+	free_str_array(split);
+	ft_arrayadd_back(materials, *mat, free);
+	return (1);
 }
 
 int	parse_mat_exponent(char *line, t_material *mat, int line_nb)

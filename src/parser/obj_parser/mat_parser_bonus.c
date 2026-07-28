@@ -6,11 +6,12 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:00:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 01:17:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
+#include "parser_bonus.h"
 #include "miniRT_bonus.h"
 #include <unistd.h>
 
@@ -44,6 +45,7 @@ static int	open_material_texture(char *line, t_material *mat,
 	status = 1;
 	line = ft_strtrim(line, whitespaces);
 	split = ft_split_by_whitespace(line);
+	free(line);
 	if (!split)
 		return (0);
 	if (check_array_size(split, 2, "mtl_texture", ctx->line_nb))
@@ -52,15 +54,14 @@ static int	open_material_texture(char *line, t_material *mat,
 		return (0);
 	}
 	if (!strncmp(split[0], "map_Kd", 6))
-		status &= parse_mat_tex(line, &mat->color_tex, ctx, split[0]);
+		status &= parse_mat_tex(split, &mat->color_tex, ctx, split[0]);
 	if (!strncmp(split[0], "map_Bump", 8))
-	status &= parse_mat_tex(line, &mat->normal_tex, ctx, split[0]);
+	status &= parse_mat_tex(split, &mat->normal_tex, ctx, split[0]);
 	if (!strncmp(split[0], "map_Ks", 6))
-	status &= parse_mat_tex(line, &mat->spec_tex, ctx, split[0]);
+	status &= parse_mat_tex(split, &mat->spec_tex, ctx, split[0]);
 	if (!strncmp(split[0], "map_d", 5))
-	status &= parse_mat_tex(line, &mat->mask_tex, ctx, split[0]);
+	status &= parse_mat_tex(split, &mat->mask_tex, ctx, split[0]);
 	free_str_array(split);
-	free(line);
 	return (status);
 }
 

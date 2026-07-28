@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:45:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/27 23:41:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "veclib.h"
+# include <stdbool.h>
 
 typedef struct s_scene	t_scene;
 typedef struct s_data	t_data;
