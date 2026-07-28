@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 18:00:55 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 18:04:45 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	apply_slider_x(t_slider *s, int mx)
 	new_val = s->min + t * (s->max - s->min);
 	*s->value = new_val;
 }
+
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 {
 	if (mouse_event == 2 || mouse_event == 3)
