@@ -24,7 +24,7 @@ SB	../textures/sky_4k.jpg
 # They must be specified in the same line, after the mandatory parameters.
 # They will be interpreted in order, and you can leave any parameter blank by adding a single `.`
 
-# [checkered_color	specular	shininess	opacity	textures(diff,spec,bump,opacity)]
+# [checkered_color	specular	shininess	opacity refraction	textures(diff,spec,bump,opacity)]
 
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)

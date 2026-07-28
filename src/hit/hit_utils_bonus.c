@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:49:37 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:17:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 00:13:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,14 @@ void	apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point)
 	int		y;
 	int		z;
 
+	rec->color = obj->color;
+	if (!obj->checker)
+		return ;
 	x = (int)floor(point.x + 1e-8);
 	y = (int)floor(point.y + 1e-8);
 	z = (int)floor(point.z + 1e-8);
-	if (obj->checker && (x + y + z) % 2 == 0)
+	if ((x + y + z) % 2 == 0)
 		rec->color = obj->checker_color;
-	else
-		rec->color = obj->color;
 }
 
 t_hit_fn	get_hit_fn(t_obj_type type)

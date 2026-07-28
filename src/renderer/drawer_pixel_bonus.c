@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 20:38:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 00:51:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 	return (vec3_clamp(result, 0.0, 255.0));
 }
 
-static void	apply_uv(t_hit_record *hc)
+static void	apply_uv(t_hit_record *hc, bool is_bump)
 {
 	t_vec2			uv;
 
@@ -51,14 +51,16 @@ static void	apply_uv(t_hit_record *hc)
 		{
 			hc->color = uv_to_color(hc->object,
 					hc->object->material->color_tex, uv);
-			hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
+			if (is_bump)
+				hc->normal = bump_normal_triangle(*hc, uv, get_bump_from_img);
 		}
 	}
 	if (hc->object->type == OBJ_SPHERE && hc->object->material->color_tex)
 	{
 		hc->color = uv_to_color(hc->object,
 				hc->object->material->color_tex, uv);
-		hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
+		if (is_bump)
+			hc->normal = bump_normal_sphere(*hc, uv, get_bump_from_img);
 	}
 }
 
@@ -77,8 +79,7 @@ t_vec3	rt_cast(t_scene *scene, t_ray *r, t_object *obj_from, int depth)
 	{
 		if (!hc.object)
 			return (hc.color);
-		apply_uv(&hc);
-		hc.normal = face_normal(r, hc.normal);
+		apply_uv(&hc, scene->bump);
 		if (obj_from == hc.object)
 			r->refraction = 1;
 		shaded = shade(&hc, scene, r);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 00:20:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 00:49:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,11 @@ void	add_debug(t_data *data)
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 	sprintf(buf, "transparency: %s", on_off[(int)data->scene->transparency]);
 	mlx_string_put(data->mlx, data->win, 10, 160,
+		(mlx_color){.rgba = MLX_WHITE}, buf);
+	sprintf(buf, "specular: %s", on_off[(int)data->scene->specular]);
+	mlx_string_put(data->mlx, data->win, 10, 180,
+		(mlx_color){.rgba = MLX_WHITE}, buf);
+	sprintf(buf, "bump: %s", on_off[(int)data->scene->bump]);
+	mlx_string_put(data->mlx, data->win, 10, 200,
 		(mlx_color){.rgba = MLX_WHITE}, buf);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 22:51:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 00:50:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	in_shadow(t_hit_record tmp, t_scene *scene, t_object *light)
 	return (is_hit);
 }
 
-t_vec3	apply_ambient(t_vec3 color, t_object *ambient)
+static t_vec3	apply_ambient(t_vec3 color, t_object *ambient)
 {
 	t_vec3	ambient_color;
 	t_vec3	ambient_linear;
@@ -43,20 +43,22 @@ t_vec3	apply_ambient(t_vec3 color, t_object *ambient)
 	return (ambient_color);
 }
 
-t_vec3	apply_diffuse(t_hit_record *rec, t_object *light)
+static void	apply_diffuse(t_hit_record *rec, t_object *light, t_vec3 *result)
 {
 	t_vec3	light_dir;
 	t_vec3	diff_color;
 	double	diff;
 
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
-	diff = smoothstep(-0.05, 0.15, vec3_dot(rec->normal, light_dir));
+	diff = fmax(0.0, vec3_dot(rec->normal, light_dir));
+	//diff = smoothstep(-0.05, 0.05, vec3_dot(rec->normal, light_dir));
 	diff_color = vec3_scale(vec3_multiply(rec->color, light->color),
 			diff * light->props.intensity);
-	return (diff_color);
+	*result = vec3_add(*result, diff_color);
 }
 
-t_vec3	apply_specular(t_hit_record *rec, t_object *light, t_ray *ray)
+static void	apply_specular(t_hit_record *rec, t_object *light, t_vec3 *result,
+	t_ray *ray)
 {
 	t_vec3	light_dir;
 	t_vec3	view_dir;
@@ -65,19 +67,20 @@ t_vec3	apply_specular(t_hit_record *rec, t_object *light, t_ray *ray)
 	double	spec;
 
 	if (rec->specular <= 0.0)
-		return ((t_vec3){{0, 0, 0}});
+		return ;
 	if (rec->shininess <= 0)
-		rec->shininess = 32;
+		rec->shininess = 128;
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
 	dot_ln = vec3_dot(light_dir, rec->normal);
 	if (dot_ln <= 0)
-		return ((t_vec3){{0, 0, 0}});
+		return ;
 	view_dir = vec3_normalize(vec3_scale(ray->direction, -1.0));
 	reflect_dir = vec3_normalize(vec3_sub(
 				vec3_scale(rec->normal, 2.0 * dot_ln), light_dir));
 	spec = pow(fmax(0.0, vec3_dot(reflect_dir, view_dir)), rec->shininess);
 	spec *= rec->specular * light->props.intensity;
-	return (vec3_scale(light->color, spec));
+	*result = vec3_add(vec3_scale(*result, 1 - rec->specular),
+			vec3_scale(light->color, spec * rec->specular));
 }
 
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
@@ -97,8 +100,9 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 		if (!in_shadow(tmp, scene, &light))
 		{
 			light.color = vec3_pow(vec3_scale(light.color, 1.0 / 255.0), 2.2);
-			result = vec3_add(result, apply_diffuse(&tmp, &light));
-			result = vec3_add(result, apply_specular(&tmp, &light, ray));
+			apply_diffuse(&tmp, &light, &result);
+			if (scene->specular)
+				apply_specular(&tmp, &light, &result, ray);
 		}
 		i++;
 	}

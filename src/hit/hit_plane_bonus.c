@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:37:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 22:45:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	update_hit_record(t_hit_record *rec, double t, t_ray *ray,
 	rec->t = t;
 	rec->point = ray_at(*ray, t);
 	rec->normal = obj->direction;
+	rec->color = obj->color;
 	rec->object = obj;
 	rec->specular = obj->material->specular;
 	rec->shininess = obj->material->shininess;

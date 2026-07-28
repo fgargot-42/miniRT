@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 20:47:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 00:47:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_scene
 	t_texture	*skybox;
 	t_array		mat;
 	bool		transparency;
+	bool		specular;
+	bool		bump;
 }	t_scene;
 
 typedef struct s_data

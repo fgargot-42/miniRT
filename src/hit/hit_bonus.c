@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 01:43:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 22:35:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,7 @@ int	hit_scene(t_scene *scene, t_ray *ray, double t_max, t_hit_record *rec)
 		1 / ray->direction.z}};
 	hit[0] = hit_list(scene->objects, ray, &closest, rec);
 	hit[1] = hit_bvh(scene, ray, &closest, rec);
+	if (hit[0] || hit[1])
+		rec->normal = face_normal(ray, rec->normal);
 	return (hit[0] || hit[1]);
 }

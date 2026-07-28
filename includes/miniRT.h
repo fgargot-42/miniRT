@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 18:02:05 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/29 00:46:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_data
 	int			nb_sliders;
 	int			dragging_slider;
 }	t_data;
+
 void				apply_slider_x(t_slider *s, int mx);
 
 // DISPLAY
