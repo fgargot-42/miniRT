@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:56:34 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 19:23:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
 	t_ray		r;
 
 	r = camera_ray(scene->cam, x + render_scale / 2, y + render_scale / 2);
+	r.refraction = 1.0;
 	color = rt_cast(scene, &r, 0);
 	return (vec3_to_color(color));
 }

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:02:18 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 18:19:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define UI_H
 
 # define EDITOR_W       300
-# define EDITOR_H       667
+# define EDITOR_H       720
 # define SLD_X          90
 # define SLD_W          150
 # define SLD_H          5

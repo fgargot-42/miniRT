@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/28 17:45:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 18:17:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 
 void	setup_material_sliders(t_data *data, t_object *obj)
 {
-	static const char		*material_labels[3] = {"specular", "shininess",
-		"opacity"};
+	static const char		*material_labels[4] = {"specular", "shininess",
+		"opacity", "refraction"};
 	static const mlx_color	material_colors[3] = {
 	{.r = 180, .g = 180, .b = 255, .a = 255},
 	{.r = 200, .g = 200, .b = 200, .a = 255},
@@ -76,6 +76,10 @@ void	setup_material_sliders(t_data *data, t_object *obj)
 	data->sliders[11] = (t_slider){.value = &obj->material->opacity,
 		.min = 0.0, .max = 1.0,
 		.label = material_labels[2], .col = material_colors[2],
+		.affects_bvh = false};
+	data->sliders[12] = (t_slider){.value = &obj->material->density,
+		.min = 0.0, .max = 10.0,
+		.label = material_labels[3], .col = material_colors[2],
 		.affects_bvh = false};
 }
 
@@ -107,10 +111,10 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	{.r = 200, .g = 200, .b = 200, .a = 255}};
 
 	get_property_values(obj, &radius, &height);
-	data->sliders[11] = (t_slider){.value = radius, .min = 0.0, .max = 90.0,
+	data->sliders[13] = (t_slider){.value = radius, .min = 0.0, .max = 90.0,
 		.label = properties_labels[0], .col = material_colors[1],
 		.affects_bvh = true};
-	data->sliders[12] = (t_slider){.value = height, .min = 0.0, .max = 30.0,
+	data->sliders[14] = (t_slider){.value = height, .min = 0.0, .max = 30.0,
 		.label = properties_labels[1], .col = material_colors[1],
 		.affects_bvh = true};
 }

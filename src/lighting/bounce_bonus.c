@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 17:26:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 19:19:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,22 @@ static t_vec3	get_refraction_vector(t_vec3 normal, t_vec3 incidence,
 	double	sin_t2;
 	double	cos_t;
 
-	return (incidence); // TODO: fix refraction vector calculation
 	if (n1 == 0 || n2 == 0)
 		return (incidence);
 	n = n1 / n2;
 	cos_i = -vec3_dot(normal, incidence);
+	if (cos_i < 0)
+	{
+		normal = vec3_scale(normal, -1);
+		cos_i = -cos_i;
+	}
 	sin_t2 = n * n * (1 - cos_i * cos_i);
 	if (sin_t2 > 1.0)
 		return (incidence);
 	cos_t = sqrt(1.0 - sin_t2);
-	return (vec3_add(
+	return (vec3_normalize(vec3_add(
 				vec3_scale(incidence, n),
-				vec3_scale(normal, n * cos_i - cos_t)));
+				vec3_scale(normal, n * cos_i - cos_t))));
 }
 
 static void	apply_reflection(t_hit_record *rec)
@@ -57,7 +61,7 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 	ft_bzero(&r_ray, sizeof(t_ray));
 	r_ray.origin = rec->point;
 	r_ray.direction = get_refraction_vector(rec->normal, ray->direction,
-		ray->refraction, rec->object->material->density);
+			ray->refraction, rec->object->material->density);
 	r_ray.refraction = rec->object->material->density;
 	rec->depth++;
 	color = rt_cast(scene, &r_ray, rec->depth);
