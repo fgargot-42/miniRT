@@ -3,16 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   mouse_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 23:26:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 18:00:55 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "hit.h"
 
+void	apply_slider_x(t_slider *s, int mx)
+{
+	double	t;
+	double	new_val;
+
+	t = (double)(mx - SLD_X) / SLD_W;
+	if (t < 0.0)
+		t = 0.0;
+	if (t > 1.0)
+		t = 1.0;
+	new_val = s->min + t * (s->max - s->min);
+	*s->value = new_val;
+}
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)
 {
 	if (mouse_event == 2 || mouse_event == 3)

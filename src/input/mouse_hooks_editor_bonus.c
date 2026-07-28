@@ -6,26 +6,12 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:44:16 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 18:00:37 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include <math.h>
-
-static void	apply_slider_x(t_slider *s, int mx)
-{
-	double	t;
-	double	new_val;
-
-	t = (double)(mx - SLD_X) / SLD_W;
-	if (t < 0.0)
-		t = 0.0;
-	if (t > 1.0)
-		t = 1.0;
-	new_val = s->min + t * (s->max - s->min);
-	*s->value = new_val;
-}
 
 static void	apply_tan_or_matrix(t_data *data)
 {

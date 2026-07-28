@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:04:01 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 18:01:52 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void				draw_light_editor(t_data *d);
 void				editor_mouse_down(int event, void *param);
 void				editor_mouse_up(int event, void *param);
 void				editor_loop(void *param);
+void				apply_slider_x(t_slider *s, int mx);
 
 void				fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
 						mlx_color col);
