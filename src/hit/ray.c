@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:28:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 23:55:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 21:40:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 t_vec3	ray_at(t_ray ray, double t)
 {
+	t -= fmax(1e-8, 1e-8 * t);
 	return (vec3_add(ray.origin, vec3_scale(ray.direction, t)));
 }
 
