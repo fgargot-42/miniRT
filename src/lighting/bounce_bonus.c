@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 19:19:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 19:48:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_vec3	get_refraction_vector(t_vec3 normal, t_vec3 incidence,
 	double	sin_t2;
 	double	cos_t;
 
-	if (n1 == 0 || n2 == 0)
+	if (n2 == 0)
 		return (incidence);
 	n = n1 / n2;
 	cos_i = -vec3_dot(normal, incidence);
@@ -64,7 +64,7 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 			ray->refraction, rec->object->material->density);
 	r_ray.refraction = rec->object->material->density;
 	rec->depth++;
-	color = rt_cast(scene, &r_ray, rec->depth);
+	color = rt_cast(scene, &r_ray, rec->object, rec->depth);
 	color = vec3_scale(color, 1 - opacity);
 	color = vec3_add(color, vec3_scale(rec->color, opacity));
 	rec->color = color;
