@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 01:49:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 17:54:34 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	parse_optional_elements(char **params, t_object *obj,
 		p_res &= parse_vector(params[i], &(obj->checker_color), type, ln);
 	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
 		p_res &= parse_double(params[i + 1],
-			&(obj->material->specular), type, ln);
+				&(obj->material->specular), type, ln);
 	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
 		p_res &= parse_double(params[i + 2],
-			&(obj->material->shininess), type, ln);
+				&(obj->material->shininess), type, ln);
 	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
 		p_res &= parse_double(params[i + 3],
-			&(obj->material->opacity), type, ln);
+				&(obj->material->opacity), type, ln);
 	p_res &= parse_texture_elements(params, obj, ctx, i + 4);
 	return (p_res);
 }

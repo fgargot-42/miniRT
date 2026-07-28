@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 22:50:02 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 01:48:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 17:55:51 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ t_vec3	draw_skybox(t_scene *scene, t_ray r)
 	uv.y = uv.y - floor(uv.y);
 	uv.x = (int)((1 - uv.x) * (scene->skybox->width - 1));
 	uv.y = (int)(uv.y * (scene->skybox->height - 1));
-	pixel = mlx_get_image_pixel(scene->skybox->mlx, scene->skybox->data,
-		(int)uv.x, (int)uv.y);
+	pixel = mlx_get_image_pixel(scene->skybox->mlx,
+			scene->skybox->data,
+			(int)uv.x, (int)uv.y);
 	uvcol.x = pixel.r;
 	uvcol.y = pixel.g;
 	uvcol.z = pixel.b;
