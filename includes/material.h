@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 01:18:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 20:49:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ typedef struct s_material
 	double		opacity;
 }	t_material;
 
+typedef int					(*t_obj_parser_fc)(char *, t_material *, int);
 int			parse_new_material(char *line, t_array *materials,
 				void *mat);
-typedef int	(*t_obj_parser_fc)(char *, t_material *, int);
 int			parse_mat_exponent(char *line, t_material *mat, int line_nb);
 int			parse_mat_ambient(char *line, t_material *mat, int line_nb);
 int			parse_mat_diffuse(char *line, t_material *mat, int line_nb);

@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 23:03:19 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 17:39:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 20:42:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HIT_BONUS_H
 # define HIT_BONUS_H
 
-# define	RAY_DEPTH	4
+# define RAY_DEPTH	4
 
 # include "hit.h"
 

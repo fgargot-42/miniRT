@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/22 19:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 19:37:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 20:43:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef NORMAL_H
 # define NORMAL_H
 
-typedef struct	s_bump
+typedef struct s_bump
 {
 	t_object	*obj;
 	t_vec2		uv;
@@ -26,8 +26,8 @@ typedef struct	s_bump
 
 double	get_bump_from_img(t_vec2 uv, t_object obj);
 t_vec3	bump_normal_sphere(t_hit_record rec, t_vec2 uv,
-	double (*height_fn)(t_vec2, t_object));
+			double (*height_fn)(t_vec2, t_object));
 t_vec3	bump_normal_triangle(t_hit_record rec, t_vec2 uv,
-	double (*height_fn)(t_vec2, t_object));
+			double (*height_fn)(t_vec2, t_object));
 
 #endif // NORMAL_H
