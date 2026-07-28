@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:18:59 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/28 17:44:43 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,42 +39,48 @@ static void	apply_tan_or_matrix(t_data *data)
 		= vec_get_matrix_rotation_z(vec3_normalize(rotation));
 }
 
+static int	handle_slider_click(t_data *data, t_slider *s, int mx, int my)
+{
+	if (!s || !s->value)
+		return (0);
+	if (mx < SLD_X || mx > SLD_X + SLD_W)
+		return (0);
+	if (my < s->y - 6 || my > s->y + SLD_H + 6)
+		return (0);
+	apply_slider_x(s, mx);
+	apply_tan_or_matrix(data);
+	if (data->scene->selected)
+		draw_editor(data, mx, my);
+	else
+		draw_light_editor(data);
+	return (1);
+}
+
 void	editor_mouse_down(int event, void *param)
 {
 	t_data		*data;
-	t_slider	*s;
 	int			mx;
 	int			my;
 	int			i;
 
-	if (event != 1 || ((t_data *)param)->nb_sliders == 0)
-		return ;
 	data = (t_data *)param;
+	if (event != 1 || data->nb_sliders == 0)
+		return ;
 	mlx_mouse_get_pos(data->mlx, &mx, &my);
 	i = 0;
 	while (i < data->nb_sliders)
 	{
-		s = &data->sliders[i];
-		if (s && s->value && mx >= SLD_X && mx <= SLD_X + SLD_W
-			&& my >= s->y - 6 && my <= s->y + SLD_H + 6)
-		{
-			data->dragging_slider = i;
-			apply_slider_x(s, mx);
-			apply_tan_or_matrix(data);
-			if (data->scene->selected)
-				draw_editor(data, mx, my);
-			else
-				draw_light_editor(data);
+		data->dragging_slider = i;
+		if (handle_slider_click(data, &data->sliders[i], mx, my))
 			return ;
-		}
 		i++;
 	}
 }
 
 void	editor_mouse_up(int event, void *param)
 {
-	t_data	*data;
-	t_slider *s;
+	t_data		*data;
+	t_slider	*s;
 
 	if (event != 1)
 		return ;
@@ -84,6 +90,7 @@ void	editor_mouse_up(int event, void *param)
 		rebuild_bvh_tree(&data->scene->bvh, data->scene);
 	data->dragging_slider = -1;
 }
+
 void	editor_loop(void *param)
 {
 	t_data		*data;
