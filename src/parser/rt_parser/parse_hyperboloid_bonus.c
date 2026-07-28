@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:23:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/28 18:05:55 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ static int	parse_hyperboloid_elements(char **line_split, t_object *obj,
 			ctx->line_nb);
 	p_res &= parse_double(line_split[3], &(obj->radius), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_double(line_split[4], &(obj->angle), "hyperboloid", ctx->line_nb);
+	p_res &= parse_double(line_split[4], &(obj->angle), "hyperboloid",
+			ctx->line_nb);
 	p_res &= parse_double(line_split[5], &(obj->props.height), "hyperboloid",
 			ctx->line_nb);
 	p_res &= parse_double(line_split[6], &(obj->props.depth), "hyperboloid",
 			ctx->line_nb);
-	p_res &= parse_vector(line_split[7], &(obj->color), "hyperboloid", ctx->line_nb);
+	p_res &= parse_vector(line_split[7], &(obj->color), "hyperboloid",
+			ctx->line_nb);
 	if (p_res)
 		obj->checker_color = obj->color;
 	p_res &= parse_optional_elements(line_split, obj, ctx, 8);
