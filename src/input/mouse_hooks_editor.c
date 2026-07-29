@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 19:01:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:29:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	editor_mouse_down(int event, void *param)
 			return ;
 		i++;
 	}
+	data->dragging_slider = -1;
 }
 
 void	editor_mouse_up(int event, void *param)
@@ -68,12 +69,12 @@ void	editor_mouse_up(int event, void *param)
 	t_data		*data;
 	t_slider	*s;
 
-	if (event != 1)
+	if (event != 1 || ((t_data *)param)->dragging_slider == -1)
 		return ;
 	data = (t_data *)param;
 	s = &data->sliders[data->dragging_slider];
-	if (s->affects_bvh &&
-			data->scene->selected && data->scene->selected->type != OBJ_PLANE)
+	if (s->affects_bvh && data->scene->selected
+		&& data->scene->selected->type != OBJ_PLANE)
 		rebuild_bvh_tree(&data->scene->bvh, data->scene);
 	data->dragging_slider = -1;
 }
