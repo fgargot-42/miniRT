@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 23:54:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 01:52:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,35 @@
 #include "normal.h"
 #include <math.h>
 
-static int	in_shadow(t_hit_record tmp, t_scene *scene, t_object *light)
-{
-	t_ray	shadow_ray;
-	t_vec3	to_light;
-	double	light_dist;
-	bool	is_hit;
+double	get_object_hit_opacity(t_hit_record rec);
 
-	to_light = vec3_sub(light->position, tmp.point);
-	if (vec3_dot(to_light, tmp.normal) < 0)
-		return (1);
-	light_dist = vec3_length(to_light);
-	shadow_ray.origin = tmp.point;
-	shadow_ray.direction = vec3_normalize(to_light);
-	is_hit = hit_scene(scene, &shadow_ray, light_dist, &tmp);
-	return (is_hit);
+static double	shadow_attenuate(t_hit_record tmp, t_scene *scene,
+	t_object *light)
+{
+	t_ray	s_ray;
+	double	light_dist;
+	double	s_factor;
+	double	opacity;
+
+	s_factor = 1.0;
+	if (vec3_dot(vec3_sub(light->position, tmp.point), tmp.normal) < 0)
+		return (0.0);
+	light_dist = vec3_length(vec3_sub(light->position, tmp.point));
+	s_ray.origin = tmp.point;
+	s_ray.direction = vec3_normalize(vec3_sub(light->position, tmp.point));
+	while (hit_scene(scene, &s_ray, light_dist, &tmp)
+		&& tmp.t < light_dist)
+	{
+		if (scene->transparency == false)
+			return (0.0);
+		opacity = get_object_hit_opacity(tmp);
+		s_factor *= (1 - opacity);
+		if (s_factor < 1e-4)
+			break ;
+		light_dist -= tmp.t;
+		s_ray.origin = vec3_add(tmp.point, vec3_scale(s_ray.direction, 1e-4));
+	}
+	return (s_factor);
 }
 
 static t_vec3	apply_ambient(t_vec3 color, t_object *ambient)
@@ -51,7 +65,6 @@ static void	apply_diffuse(t_hit_record *rec, t_object *light, t_vec3 *result)
 
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
 	diff = fmax(0.0, vec3_dot(rec->normal, light_dir));
-	//diff = smoothstep(-0.05, 0.05, vec3_dot(rec->normal, light_dir));
 	diff_color = vec3_scale(vec3_multiply(rec->color, light->color),
 			diff * light->props.intensity);
 	*result = vec3_add(*result, diff_color);
@@ -86,29 +99,28 @@ static void	apply_specular(t_hit_record *rec, t_object *light, t_vec3 *result,
 t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 {
 	t_hit_record	tmp;
-	t_vec3			result;
+	t_vec3			res;
 	t_object		light;
 	size_t			i;
 
 	i = 0;
 	tmp = *rec;
 	tmp.color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
-	result = apply_ambient(tmp.color, scene->ambient);
+	res = apply_ambient(tmp.color, scene->ambient);
 	while (i < scene->lights.len)
 	{
 		light = *((t_object *)(scene->lights.array[i]));
-		if (!in_shadow(tmp, scene, &light))
+		light.props.intensity *= shadow_attenuate(tmp, scene, &light);
+		if (light.props.intensity >= 1e-4)
 		{
 			light.color = vec3_pow(vec3_scale(light.color, 1.0 / 255.0), 2.2);
-			apply_diffuse(&tmp, &light, &result);
+			apply_diffuse(&tmp, &light, &res);
 			if (scene->specular)
-				apply_specular(&tmp, &light, &result, ray);
+				apply_specular(&tmp, &light, &res, ray);
 		}
 		i++;
 	}
-	rec->color = vec3_scale(vec3_clamp(
-				vec3_pow(result, 1.0 / 2.2), 0.0, 1.0), 255.0);
-	if (scene->transparency)
-		ray_bounce(scene, rec, ray);
+	rec->color = vec3_scale(vec3_clamp(vec3_pow(res, 1.0 / 2.2), 0, 1), 255);
+	ray_bounce(scene, rec, ray);
 	return (rec->color);
 }

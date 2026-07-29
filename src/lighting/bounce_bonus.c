@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 19:48:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 01:18:15 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 
 void	ray_bounce(t_scene *scene, t_hit_record *rec, t_ray *ray)
 {
+	if (!scene->transparency)
+		return ;
 	if (rec->depth == RAY_DEPTH)
 		return ;
 	apply_reflection(rec);

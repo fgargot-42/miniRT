@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 00:49:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 02:01:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,32 +59,28 @@ static void	print_fps(t_data *data, t_vec3 pos)
 
 void	add_debug(t_data *data)
 {
-	char				buf[128];
-	static const char	*on_off[] = {"off", "on"};
+	char					buf[128];
+	static const mlx_color	mlx_white = (mlx_color){.rgba = MLX_WHITE};
+	static const char		*on_off[] = {"off", "on"};
 
 	print_fps(data, (t_vec3){{10, 20, 0}});
 	print_nb_threads(data, (t_vec3){{10, 40, 0}});
 	sprintf(buf, "Render Scale: %d", data->render_scale);
-	mlx_string_put(data->mlx, data->win, 10, 60,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
+	mlx_string_put(data->mlx, data->win, 10, 60, mlx_white, buf);
 	print_vector(data, "POS", data->scene->cam->position,
 		(t_vec3){{10, 80, 0}});
 	print_vector(data, "DIR", data->scene->cam->direction,
 		(t_vec3){{10, 100, 0}});
 	sprintf(buf, "YAW: %.2f  PITCH: %.2f", data->scene->cam->props.yaw,
 		data->scene->cam->props.pitch);
-	mlx_string_put(data->mlx, data->win, 10, 120,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
+	mlx_string_put(data->mlx, data->win, 10, 120, mlx_white, buf);
 	sprintf(buf, "BVH DISPLAY LEVEL: %d", data->scene->bvh_display_level);
-	mlx_string_put(data->mlx, data->win, 10, 140,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
-	sprintf(buf, "transparency: %s", on_off[(int)data->scene->transparency]);
-	mlx_string_put(data->mlx, data->win, 10, 160,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
-	sprintf(buf, "specular: %s", on_off[(int)data->scene->specular]);
-	mlx_string_put(data->mlx, data->win, 10, 180,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
-	sprintf(buf, "bump: %s", on_off[(int)data->scene->bump]);
-	mlx_string_put(data->mlx, data->win, 10, 200,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
+	mlx_string_put(data->mlx, data->win, 10, 140, mlx_white, buf);
+	sprintf(buf, "transparency (T): %s",
+		on_off[(int)data->scene->transparency]);
+	mlx_string_put(data->mlx, data->win, 10, 160, mlx_white, buf);
+	sprintf(buf, "specular (G): %s", on_off[(int)data->scene->specular]);
+	mlx_string_put(data->mlx, data->win, 10, 180, mlx_white, buf);
+	sprintf(buf, "bump (B): %s", on_off[(int)data->scene->bump]);
+	mlx_string_put(data->mlx, data->win, 10, 200, mlx_white, buf);
 }
