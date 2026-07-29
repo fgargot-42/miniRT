@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 17:47:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/29 23:54:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static void	apply_specular(t_hit_record *rec, t_object *light, t_vec3 *result,
 				vec3_scale(rec->normal, 2.0 * dot_ln), light_dir));
 	spec = pow(fmax(0.0, vec3_dot(reflect_dir, view_dir)), rec->shininess);
 	spec *= rec->specular * light->props.intensity;
+	spec *= (rec->shininess + 8.0) / (8.0 * M_PI);
 	*result = vec3_add(*result, vec3_scale(light->color, spec * rec->specular));
 }
 
