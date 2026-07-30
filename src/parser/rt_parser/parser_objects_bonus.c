@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:54:34 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/07/30 18:54:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,32 +48,46 @@ static int	parse_texture_elements(char **params, t_object *obj,
 	return (p_res);
 }
 
+static int	parse_material_elements(char **params, t_object *obj,
+	int line_nb, int i)
+{
+	char		*type;
+	t_material	*mat;
+	int			nb_elements;
+	int			p_res;
+
+	type = get_object_type_str(*obj);
+	mat = obj->material;
+	nb_elements = get_str_array_length(params);
+	p_res = 1;
+	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
+		p_res &= parse_double(params[i + 1], &(mat->specular), type, line_nb);
+	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
+		p_res &= parse_double(params[i + 2], &(mat->shininess), type, line_nb);
+	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
+		p_res &= parse_double(params[i + 3], &(mat->opacity), type, line_nb);
+	if (nb_elements > i + 4 && !is_ignored(params[i + 4]))
+		p_res &= parse_double(params[i + 4], &(mat->density), type, line_nb);
+	return (p_res);
+}
+
 int	parse_optional_elements(char **params, t_object *obj,
 	t_parser_ctx *ctx, int i)
 {
+	char	*type;
 	int		nb_elements;
 	int		p_res;
-	int		ln;
-	char	*type;
 
 	if (!obj || !obj->material)
 		return (0);
+	p_res = 1;
 	type = get_object_type_str(*obj);
 	nb_elements = get_str_array_length(params);
-	p_res = 1;
-	ln = ctx->line_nb;
 	obj->checker = (nb_elements > i && !is_ignored(params[i]));
 	if (obj->checker)
-		p_res &= parse_vector(params[i], &(obj->checker_color), type, ln);
-	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
-		p_res &= parse_double(params[i + 1],
-				&(obj->material->specular), type, ln);
-	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
-		p_res &= parse_double(params[i + 2],
-				&(obj->material->shininess), type, ln);
-	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
-		p_res &= parse_double(params[i + 3],
-				&(obj->material->opacity), type, ln);
-	p_res &= parse_texture_elements(params, obj, ctx, i + 4);
+		p_res &= parse_vector(params[i], &(obj->checker_color),
+			type, ctx->line_nb);
+	p_res = parse_material_elements(params, obj, ctx->line_nb, i);
+	p_res &= parse_texture_elements(params, obj, ctx, i + 5);
 	return (p_res);
 }
