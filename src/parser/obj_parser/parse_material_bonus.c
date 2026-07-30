@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:56:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 19:14:13 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	parse_mat_exponent(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	parse_result = parse_double(split[1], &mat->specular, "Ns", line_nb);
+	parse_result = parse_double(split[1], &mat->shininess, "Ns", line_nb);
 	free_str_array(split);
 	return (parse_result);
 }
@@ -125,6 +125,7 @@ int	parse_mat_specular(char *line, t_material *mat, int line_nb)
 	parse_result = parse_double(split[1], &mat->spec_color.x, "Ks", line_nb);
 	parse_result &= parse_double(split[2], &mat->spec_color.y, "Ks", line_nb);
 	parse_result &= parse_double(split[3], &mat->spec_color.z, "Ks", line_nb);
+	mat->specular = mat->spec_color.x;
 	free_str_array(split);
 	return (parse_result);
 }

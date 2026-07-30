@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 23:09:20 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:36:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 19:21:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static bool	parse_face_values(char *line_split, t_object_model *model,
 static void	init_triangle_props(t_object *triangle, t_material *mat)
 {
 	triangle->type = OBJ_TRIANGLE;
-	triangle->material->shininess = mat->specular;
-	triangle->material->specular = .5;
 	triangle->position = triangle->props.a;
 	triangle->direction = vec3_normalize(vec3_cross(
 				vec3_sub(triangle->props.c, triangle->props.a),
