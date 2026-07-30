@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 22:13:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:42:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,16 @@ double	get_bump_from_img(t_vec2 uv, t_object obj)
 	double	amplitude;
 	double	bump;
 
-	amplitude = 0.0;
+	amplitude = 0.02;
 	if (!obj.material || !obj.material->normal_tex)
 		return (0.0);
 	if (obj.type == OBJ_SPHERE)
-		amplitude = obj.radius * 0.02;
-	if (obj.type == OBJ_TRIANGLE)
-		amplitude = 0.02 * fmax(fmax(vec3_distance(obj.props.b, obj.props.c),
-					vec3_length(obj.props.b)), vec3_length(obj.props.c));
+	{
+		if (obj.radius == 0.0)
+			return (0.0);
+		amplitude = 0.002 / obj.radius;
+
+	}
 	pixel = uv_to_color(&obj, obj.material->normal_tex, uv);
 	bump = amplitude * (((double)pixel.x) / 255.0 - 0.5);
 	return (bump);

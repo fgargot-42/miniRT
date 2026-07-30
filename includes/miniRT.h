@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 00:46:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:27:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define T_MIN 0.001
 # define T_MAX 5000
-# define WIDTH 1280
-# define HEIGHT 720
+# define WIDTH 720
+# define HEIGHT 480
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define DEBUG 1
