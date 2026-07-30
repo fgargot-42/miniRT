@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:37:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:05:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static double	get_paraboloid_z_radius(t_vec3 point, double tan_angle)
 {
 	point.z = 0;
-	if (fabs(tan_angle) < 1e-3)
+	if (fabs(tan_angle) < 1e-8)
 		return (0);
 	return (vec3_dot(point, point) / tan_angle);
 }
@@ -30,12 +30,12 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	t_vec3			normal;
 
 	normal = (t_vec3){{0, 0, 1}};
-	if (ctx.render_hit.z < obj->props.height - 1e-3)
+	if (ctx.render_hit.z < obj->props.height - 1e-8)
 	{
 		normal = vec3_scale(ctx.render_hit, 2);
 		normal.z = -obj->props.tan_angle;
 	}
-	if (fabs(obj->direction.z - 1) > 1e-3)
+	if (fabs(obj->direction.z - 1) > 1e-8)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
 	rec->point = ray_at(*ray, rec->t);
@@ -83,14 +83,14 @@ static int	hit_paraboloid_cap(t_obj_prop props, t_hit_ctx *ctx)
 	v_len = props.height;
 	if (ctx->oc.z < props.height)
 		if (get_paraboloid_z_radius(ctx->oc, props.tan_angle)
-			> fabs(ctx->oc.z) + 1e-3)
+			> fabs(ctx->oc.z) + 1e-8)
 			return (0);
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
 	if (v_len < T_MIN)
 		return (0);
-	if (fabs(v_hit_cap.z - props.height) > 1e-3)
+	if (fabs(v_hit_cap.z - props.height) > 1e-8)
 		return (0);
 	if (get_paraboloid_z_radius(v_hit_cap, props.tan_angle) > fabs(v_hit_cap.z))
 		return (0);

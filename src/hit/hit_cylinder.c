@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:56:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:04:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 	static const t_vec3	z_scale = (t_vec3){{1, 1, 0}};
 
 	z_cap = 2 * (int)(ctx.render_hit.z > 0) - 1;
-	if (fabs(fabs(ctx.render_hit.z) - obj->props.height / 2.0) < 1e-3)
+	if (fabs(fabs(ctx.render_hit.z) - obj->props.height / 2.0) < 1e-8)
 		rec->normal = vec3_normalize((t_vec3){{0, 0, z_cap}});
 	else
 		rec->normal = vec3_normalize(vec3_multiply(ctx.render_hit, z_scale));
-	if (fabs(obj->direction.z - 1) > 1e-3)
+	if (fabs(obj->direction.z - 1) > 1e-8)
 		rec->normal = vec_reverse_rotation(rec->normal,
 				obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
@@ -72,16 +72,16 @@ static int	hit_cylinder_cap(double radius, double height, t_hit_ctx *ctx)
 		v_len = -height / 2.0;
 	if (fabs(ctx->oc.z) < height / 2.0)
 	{
-		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > radius + 1e-3)
+		if (vec3_length(vec3_multiply(ctx->oc, z_scale)) > radius + 1e-8)
 			return (0);
 		v_len = (2 * (ctx->rd.z > 0) - 1) * height / 2.0;
 	}
 	v_len = fabs((v_len - ctx->oc.z) / ctx->rd.z);
 	v_hit_cap = vec3_add(ctx->oc, vec3_scale(ctx->rd, v_len));
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
-	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > radius + 1e-3)
+	if (vec3_length(vec3_multiply(v_hit_cap, z_scale)) > radius + 1e-8)
 		return (0);
-	if (fabs(v_hit_cap.z) > height / 2.0 + 1e-3 || v_len < T_MIN
+	if (fabs(v_hit_cap.z) > height / 2.0 + 1e-8 || v_len < T_MIN
 		|| v_len >= ctx->t_max || v_len > ctx->render_t)
 		return (0);
 	ctx->render_hit = v_hit_cap;

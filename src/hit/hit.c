@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 21:48:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 23:55:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:02:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	hit_list(t_array obj, t_ray *ray, double *closest,
 		hit_fn = get_hit_fn(((t_object *)obj.array[i])->type);
 		if (hit_fn)
 			hit_curr = hit_fn((t_object *)obj.array[i], ray, *closest, &temp);
-		if (hit_curr && temp.t >= T_MIN && temp.t < *closest)
+		if (hit_curr && temp.t >= T_MIN && temp.t < *closest - 1e-8)
 		{
 			hit = 1;
 			*closest = temp.t;

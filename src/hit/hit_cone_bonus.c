@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:37:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:03:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 
 	z_cap = 2 * (ctx.render_hit.z > 0) - 1;
 	normal = (t_vec3){{0, 0, z_cap}};
-	if (ctx.render_hit.z < obj->props.height - 1e-3
-		&& ctx.render_hit.z > -obj->props.depth + 1e-3)
+	if (ctx.render_hit.z < obj->props.height - 1e-8
+		&& ctx.render_hit.z > -obj->props.depth + 1e-8)
 	{
 		normal = vec3_normalize((t_vec3){{ctx.render_hit.x,
 				ctx.render_hit.y, 0}});
 		normal = vec3_add(normal, (t_vec3){{0, 0,
 				-z_cap * obj->props.tan_angle}});
 	}
-	if (fabs(obj->direction.z - 1) > 1e-3)
+	if (fabs(obj->direction.z - 1) > 1e-8)
 		normal = vec_reverse_rotation(normal, obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
 	rec->point = ray_at(*ray, rec->t);
@@ -78,7 +78,7 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 	if (ctx->oc.z < props.height && ctx->oc.z > -props.depth)
 	{
 		if (vec3_length((t_vec3){{ctx->oc.x, ctx->oc.y, 0}}) > fabs(ctx->oc.z
-					* props.tan_angle) + 1e-3)
+					* props.tan_angle) + 1e-8)
 			return (0);
 		v_len = (ctx->rd.z > 0) * props.height - (ctx->rd.z < 0) * props.depth;
 	}
@@ -87,11 +87,11 @@ static int	hit_cone_cap(t_obj_prop props, t_hit_ctx *ctx)
 	v_len = vec3_distance(v_hit_cap, ctx->oc);
 	if (v_len < T_MIN)
 		return (0);
-	if (fabs(v_hit_cap.z - props.height) > 1e-3
-		&& fabs(v_hit_cap.z + props.depth) > 1e-3)
+	if (fabs(v_hit_cap.z - props.height) > 1e-8
+		&& fabs(v_hit_cap.z + props.depth) > 1e-8)
 		return (0);
 	if (vec3_length((t_vec3){{v_hit_cap.x, v_hit_cap.y, 0}}) > fabs(v_hit_cap.z
-				* props.tan_angle) + 1e-3)
+				* props.tan_angle) + 1e-8)
 		return (0);
 	ctx->render_hit = v_hit_cap;
 	ctx->render_t = v_len;

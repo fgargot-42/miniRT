@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 19:05:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 22:45:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:06:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	hit_plane(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	double	t;
 
 	d = vec3_dot(ray->direction, obj->direction);
-	if (fabs(d) < 1e-6)
+	if (fabs(d) < 1e-8)
 		return (0);
 	t = vec3_dot(vec3_sub(obj->position, ray->origin), obj->direction) / d;
 	if (t < T_MIN || t > t_max)
