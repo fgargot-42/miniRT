@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/02 22:58:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:37:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/30 23:08:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	intersect_triangle_area(t_object *obj, t_vec3 point)
 	dot[1][1] = vec3_dot(obj->props.b, obj->props.b);
 	dot[1][2] = vec3_dot(obj->props.b, obj_hit);
 	denom = dot[0][0] * dot[1][1] - pow(dot[0][1], 2);
-	if (fabs(denom) < 1e-10)
+	if (fabs(denom) < 1e-30)
 		return (0);
 	u = (dot[1][1] * dot[0][2] - dot[0][1] * dot[1][2]) / denom;
 	v = (dot[0][0] * dot[1][2] - dot[0][1] * dot[0][2]) / denom;
@@ -53,7 +53,7 @@ int	hit_triangle(t_object *obj, t_ray *ray, double t_max, t_hit_record *rec)
 	t_vec3	point;
 
 	d = vec3_dot(ray->direction, obj->direction);
-	if (fabs(d) < 1e-6)
+	if (fabs(d) < 1e-8)
 		return (0);
 	t = vec3_dot(vec3_sub(obj->position, ray->origin), obj->direction) / d;
 	if (t < T_MIN || t > t_max)
