@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:21:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 18:29:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/31 18:56:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_display(char *rt_file, t_data *data)
 
 	data->render_scale = 1;
 	data->dragging_slider = -1;
+	data->show_hud = true;
 	data->nb_threads = NB_THREADS;
 	data->mlx = mlx_init();
 	if (!data->mlx)

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/30 23:27:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/31 18:45:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_data
 	t_scene		*scene;
 	bool		r_click_hold;
 	bool		w_click_hold;
+	bool		show_hud;
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;

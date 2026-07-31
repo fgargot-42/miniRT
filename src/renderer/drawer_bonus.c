@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/23 23:39:22 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/31 18:59:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	draw_single(t_data *data)
 	}
 	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){{0, 0, 0}}));
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	add_debug(data);
+	if (data->show_hud)
+		add_debug(data);
 }
 
 static void	*draw_thread(void *data)
@@ -80,7 +81,8 @@ static void	draw_threads_create(t_data *data)
 	}
 	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){{0, 0, 0}}));
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	add_debug(data);
+	if (data->show_hud)
+		add_debug(data);
 }
 
 void	draw(t_data *data)

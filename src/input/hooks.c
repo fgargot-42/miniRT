@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 22:54:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/07/31 18:49:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,7 @@ static void	key_hook(int scancode, void *param)
 	}
 	move_camera(scancode, data);
 	if (scancode == SDL_SCANCODE_TAB)
-	{
-		if (data->render_scale == 1)
-			data->render_scale = 8;
-		else
-			data->render_scale = 1;
-	}
+		data->show_hud = !data->show_hud;
 	if (scancode == 45 && data->scene->bvh_display_level > -1)
 		data->scene->bvh_display_level--;
 	if (scancode == 46 && data->scene->bvh_display_level < BVH_DEPTH)
