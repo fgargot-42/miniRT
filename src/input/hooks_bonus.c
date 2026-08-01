@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/31 18:49:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 17:36:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static void	key_hook(int scancode, void *param)
 		data->scene->specular = !data->scene->specular;
 	if (scancode == SDL_SCANCODE_B)
 		data->scene->bump = !data->scene->bump;
+	if (scancode == SDL_SCANCODE_Y)
+		data->scene->anti_aliasing = !data->scene->anti_aliasing;
 	draw(data);
 }
 

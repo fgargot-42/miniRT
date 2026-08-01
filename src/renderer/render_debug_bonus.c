@@ -6,81 +6,117 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/30 02:01:28 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 22:02:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "libft.h"
-#include <stdio.h>
-#include <sys/time.h>
 
-static void	print_vector(t_data *data, char *name, t_vec3 vec, t_vec3 pos)
+void	print_fps(t_data *data, double render_time_ms, t_vec2 pos);
+void	print_camera_orientation(t_data *data, t_vec2 pos);
+
+static void	print_vector(t_data *data, char *name, t_vec3 vec, t_vec2 pos)
 {
-	char				buf[128];
+	char	*str_arr[8];
+	char	*print_str;
 
-	sprintf(buf, "%s: %.2f %.2f %.2f", name, vec.x, vec.y, vec.z);
+	str_arr[0] = name;
+	str_arr[1] = ": ";
+	str_arr[2] = ft_dtoa(vec.x, 2);
+	str_arr[3] = " ";
+	str_arr[4] = ft_dtoa(vec.y, 2);
+	str_arr[5] = " ";
+	str_arr[6] = ft_dtoa(vec.z, 2);
+	str_arr[7] = NULL;
+	print_str = ft_strjoin_array((const char **)str_arr);
+	if (!print_str)
+		return ;
 	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
+		(mlx_color){.rgba = MLX_WHITE}, print_str);
+	free(print_str);
 }
 
-static void	print_nb_threads(t_data *data, t_vec3 pos)
+static void	print_nb_threads(t_data *data, t_vec2 pos)
 {
-	char				buf[128];
+	char	*nb_threads_str;
+	char	*print_tmp;
+	char	*print_str;
 
-	if (data->nb_threads > 1)
-		sprintf(buf, "Multi-thread mode using %i threads", data->nb_threads);
-	else
-		sprintf(buf, "Single-thread mode");
-	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
-}
-
-static void	print_fps(t_data *data, t_vec3 pos)
-{
-	static int			frame_count = 0;
-	static double		last_time = 0;
-	static double		fps = 0;
-	double				now;
-	char				buf[128];
-
-	now = get_time();
-	frame_count++;
-	if (now - last_time >= 1.0)
+	if (data->nb_threads <= 1)
 	{
-		fps = frame_count / (now - last_time);
-		frame_count = 0;
-		last_time = now;
+		mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
+			(mlx_color){.rgba = MLX_WHITE}, "Single-thread mode");
+		return ;
 	}
-	sprintf(buf, "FPS: %.1f", fps);
+	nb_threads_str = ft_itoa(data->nb_threads);
+	if (!nb_threads_str)
+		return ;
+	print_tmp = ft_strjoin("Multi-thread mode using ", nb_threads_str);
+	free(nb_threads_str);
+	if (!print_tmp)
+		return ;
+	print_str = ft_strjoin(print_tmp, " threads");
+	free(print_tmp);
+	if (!print_str)
+		return ;
 	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
-		(mlx_color){.rgba = MLX_WHITE}, buf);
+		(mlx_color){.rgba = MLX_WHITE}, print_str);
+	free(print_str);
 }
 
-void	add_debug(t_data *data)
+static void	print_toggle(t_data *data, char *label, bool value, t_vec2 pos)
 {
-	char					buf[128];
-	static const mlx_color	mlx_white = (mlx_color){.rgba = MLX_WHITE};
-	static const char		*on_off[] = {"off", "on"};
+	static const char	*on_off[] = {"off", "on"};
+	char				*print_str;
+	char				*print_label;
 
-	print_fps(data, (t_vec3){{10, 20, 0}});
-	print_nb_threads(data, (t_vec3){{10, 40, 0}});
-	sprintf(buf, "Render Scale: %d", data->render_scale);
-	mlx_string_put(data->mlx, data->win, 10, 60, mlx_white, buf);
-	print_vector(data, "POS", data->scene->cam->position,
-		(t_vec3){{10, 80, 0}});
-	print_vector(data, "DIR", data->scene->cam->direction,
-		(t_vec3){{10, 100, 0}});
-	sprintf(buf, "YAW: %.2f  PITCH: %.2f", data->scene->cam->props.yaw,
-		data->scene->cam->props.pitch);
-	mlx_string_put(data->mlx, data->win, 10, 120, mlx_white, buf);
-	sprintf(buf, "BVH DISPLAY LEVEL: %d", data->scene->bvh_display_level);
-	mlx_string_put(data->mlx, data->win, 10, 140, mlx_white, buf);
-	sprintf(buf, "transparency (T): %s",
-		on_off[(int)data->scene->transparency]);
-	mlx_string_put(data->mlx, data->win, 10, 160, mlx_white, buf);
-	sprintf(buf, "specular (G): %s", on_off[(int)data->scene->specular]);
-	mlx_string_put(data->mlx, data->win, 10, 180, mlx_white, buf);
-	sprintf(buf, "bump (B): %s", on_off[(int)data->scene->bump]);
-	mlx_string_put(data->mlx, data->win, 10, 200, mlx_white, buf);
+	print_label = ft_strjoin(label, ": ");
+	if (!print_label)
+		return ;
+	print_str = ft_strjoin(print_label, on_off[value]);
+	free(print_label);
+	if (!print_str)
+		return ;
+	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
+		(mlx_color){.rgba = MLX_WHITE}, print_str);
+	free(print_str);
+}
+
+static void	print_int_value(t_data *data, char *label, int value, t_vec2 pos)
+{
+	char	*value_str;
+	char	*print_tmp;
+	char	*print_str;
+
+	print_tmp = ft_strjoin(label, ": ");
+	if (!print_tmp)
+		return ;
+	value_str = ft_itoa(value);
+	print_str = ft_strjoin(print_tmp, value_str);
+	free(value_str);
+	free(print_tmp);
+	if (!print_str)
+		return ;
+	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
+		(mlx_color){.rgba = MLX_WHITE}, print_str);
+	free(print_str);
+}
+
+void	add_debug(t_data *data, double render_time_ms)
+{
+	print_fps(data, render_time_ms, (t_vec2){{10, 20}});
+	print_nb_threads(data, (t_vec2){{10, 40}});
+	print_vector(data, "POS", data->scene->cam->position, (t_vec2){{10, 60}});
+	print_vector(data, "DIR", data->scene->cam->direction, (t_vec2){{10, 80}});
+	print_camera_orientation(data, (t_vec2){{10, 100}});
+	print_int_value(data, "BVH DISPLAY LEVEL", data->scene->bvh_display_level,
+		(t_vec2){{10, 120}});
+	print_toggle(data, "transparency (T)", data->scene->transparency,
+		(t_vec2){{10, 140}});
+	print_toggle(data, "specular (G)", data->scene->specular,
+		(t_vec2){{10, 160}});
+	print_toggle(data, "bump (B)", data->scene->bump, (t_vec2){{10, 180}});
+	print_toggle(data, "anti-aliasing (Y)", data->scene->anti_aliasing,
+		(t_vec2){{10, 200}});
 }

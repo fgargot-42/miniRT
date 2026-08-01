@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/31 18:45:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 22:27:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define T_MIN 0.001
 # define T_MAX 5000
-# define WIDTH 720
-# define HEIGHT 480
+# define WIDTH 1280
+# define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define DEBUG 1
@@ -119,7 +119,7 @@ void				mouse_up_hook(int mouse_event, void *param);
 void				mouse_wheel_hook(int mouse_event, void *param);
 
 //src/camera.c
-t_ray				camera_ray(t_object *cam, int x, int y);
+t_ray				camera_ray(t_object *cam, double x, double y);
 void				mouse_loop(void *param);
 
 //lighting.c

@@ -1,0 +1,69 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render_debug_bonus2.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/01 20:36:04 by fgargot           #+#    #+#             */
+/*   Updated: 2026/08/01 22:00:20 by fgargot          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "miniRT_bonus.h"
+#include "libft.h"
+
+void	print_fps(t_data *data, double render_time_ms, t_vec2 pos)
+{
+	char	*print_fps[6];
+	char	*print_str;
+	double	fps;
+
+	fps = 1000.0 / render_time_ms;
+	print_str = NULL;
+	print_fps[0] = "Frame rendered in ";
+	print_fps[1] = ft_dtoa(render_time_ms, 2);
+	print_fps[2] = " ms (";
+	print_fps[3] = ft_dtoa(fps, 2);
+	print_fps[4] = " FPS)";
+	print_fps[5] = NULL;
+	if (print_fps[1] && print_fps[3])
+	{
+		print_str = ft_strjoin_array((const char **)print_fps);
+		if (print_str)
+			mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
+				(mlx_color){.rgba = MLX_WHITE}, print_str);
+	}
+	if (print_fps[1])
+		free(print_fps[1]);
+	if (print_fps[3])
+		free(print_fps[3]);
+	if (print_str)
+		free(print_str);
+}
+
+void	print_camera_orientation(t_data *data, t_vec2 pos)
+{
+	char	*print_cam_o[5];
+	char	*print_str;
+
+	print_str = NULL;
+	print_cam_o[0] = "YAW: ";
+	print_cam_o[1] = ft_dtoa(data->scene->cam->props.yaw, 2);
+	print_cam_o[2] = "  PITCH:";
+	print_cam_o[3] = ft_dtoa(data->scene->cam->props.pitch, 2);
+	print_cam_o[4] = NULL;
+	if (print_cam_o[1] && print_cam_o[3])
+	{
+		print_str = ft_strjoin_array((const char **)print_cam_o);
+		if (print_str)
+			mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
+				(mlx_color){.rgba = MLX_WHITE}, print_str);
+	}
+	if (print_cam_o[1])
+		free(print_cam_o[1]);
+	if (print_cam_o[3])
+		free(print_cam_o[3]);
+	if (print_str)
+		free(print_str);
+}

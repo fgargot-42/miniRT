@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 16:49:01 by fgargot           #+#    #+#             */
-/*   Updated: 2025/10/21 19:40:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 19:17:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,29 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	join[i] = '\0';
+	return (join);
+}
+
+char	*ft_strjoin_array(char const **str_array)
+{
+	size_t	array_size;
+	size_t	i;
+	char	*join;
+	char	*tmp;
+
+	array_size = 0;
+	while (str_array[array_size])
+		array_size++;
+	if (!array_size)
+		return (NULL);
+	join = ft_strdup(str_array[0]);
+	i = 1;
+	while (str_array[i])
+	{
+		tmp = ft_strjoin(join, str_array[i]);
+		free(join);
+		join = tmp;
+		i++;
+	}
 	return (join);
 }

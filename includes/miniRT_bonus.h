@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/31 18:46:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 22:27:39 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define T_MIN 0.001
 # define T_MAX 5000
-# define WIDTH 720
-# define HEIGHT 480
+# define WIDTH 1280
+# define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
 # define NB_THREADS 16
@@ -24,6 +24,7 @@
 # define DEBUG 1
 # define BVH_VIEW 1
 # define SAH_BINS 64
+# define RAYS_PER_PIXEL 8
 # define MLX_WHITE 0xFFFFFFFF
 
 # define MAX_SLIDERS    32
@@ -65,6 +66,7 @@ typedef struct s_scene
 	bool		transparency;
 	bool		specular;
 	bool		bump;
+	bool		anti_aliasing;
 }	t_scene;
 
 typedef struct s_data
@@ -109,13 +111,12 @@ void		check_scene_mandatory_object(void *obj, char *obj_str,
 
 void		draw(t_data *data);
 void		draw_single(t_data *data);
-void		add_debug(t_data *data);
+void		add_debug(t_data *data, double render_time_ms);
 void		open_inspector(t_data *data, t_hit_record hc,
 				double mouse_x, double mouse_y);
 void		print_hit_info_debug(t_hit_record hc, t_scene *scene,
 				t_ray *ray, t_vec2 mouse_pos);
 mlx_color	vec3_to_color(t_vec3 v);
-void		add_debug(t_data *data);
 t_vec3		draw_skybox(t_scene *scene, t_ray r);
 t_vec3		rt_cast(t_scene *scene, t_ray *r, t_object *obj_from,
 				int depth);
@@ -128,7 +129,7 @@ void		mouse_up_hook(int mouse_event, void *param);
 void		mouse_wheel_hook(int mouse_event, void *param);
 
 // CAMERA
-t_ray		camera_ray(t_object *cam, int x, int y);
+t_ray		camera_ray(t_object *cam, double x, double y);
 void		mouse_loop(void *param);
 
 // LIGHTING

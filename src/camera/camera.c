@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 23:54:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/01 17:25:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_vec3	get_ray_direction(t_object *cam, double u, double v)
 	return (dir);
 }
 
-t_ray	camera_ray(t_object *cam, int x, int y)
+t_ray	camera_ray(t_object *cam, double x, double y)
 {
 	double	u;
 	double	v;
