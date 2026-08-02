@@ -14,6 +14,15 @@
 #include "parser_bonus.h"
 #include "material.h"
 
+static void	init_material_props(t_material *m, char *name)
+{
+	m->density = 1.0;
+	m->opacity = 1.0;
+	m->shininess = 32.0;
+	m->illum = 2;
+	m->name = ft_strdup(name);
+}
+
 int	parse_new_material(char *line, t_array *materials, void *mat_ptr)
 {
 	char		**split;
@@ -34,98 +43,31 @@ int	parse_new_material(char *line, t_array *materials, void *mat_ptr)
 		*mat = NULL;
 		return (0);
 	}
-	(*mat)->name = ft_strdup(split[1]);
-	(*mat)->density = 1.0;
-	(*mat)->opacity = 1.0;
-	(*mat)->shininess = 1.0;
+	init_material_props(*mat, split[1]);
 	free_str_array(split);
 	ft_arrayadd_back(materials, *mat, free);
 	return (1);
 }
 
-int	parse_mat_exponent(char *line, t_material *mat, int line_nb)
+void	destroy_texture(t_texture **t)
 {
-	char	**split;
-	int		parse_result;
-
-	if (!line || !mat)
-		return (0);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 2, "Ns", line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	parse_result = parse_double(split[1], &mat->shininess, "Ns", line_nb);
-	free_str_array(split);
-	return (parse_result);
+	if (!*t)
+		return ;
+	mlx_destroy_image((*t)->mlx, (*t)->data);
+	free(*t);
+	*t = NULL;
 }
 
-int	parse_mat_ambient(char *line, t_material *mat, int line_nb)
+void	destroy_material(void *o)
 {
-	char	**split;
-	int		parse_result;
+	t_material	*mat;
 
-	if (!line || !mat)
-		return (0);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 4, "Ka", line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	parse_result = parse_double(split[1], &mat->amb_color.x, "Ka", line_nb);
-	parse_result &= parse_double(split[2], &mat->amb_color.y, "Ka", line_nb);
-	parse_result &= parse_double(split[3], &mat->amb_color.z, "Ka", line_nb);
-	free_str_array(split);
-	return (parse_result);
-}
-
-int	parse_mat_diffuse(char *line, t_material *mat, int line_nb)
-{
-	char	**split;
-	int		parse_result;
-
-	if (!line || !mat)
-		return (0);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 4, "Kd", line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	parse_result = parse_double(split[1], &mat->diff_color.x, "Kd", line_nb);
-	parse_result &= parse_double(split[2], &mat->diff_color.y, "Kd", line_nb);
-	parse_result &= parse_double(split[3], &mat->diff_color.z, "Kd", line_nb);
-	free_str_array(split);
-	return (parse_result);
-}
-
-int	parse_mat_specular(char *line, t_material *mat, int line_nb)
-{
-	char	**split;
-	int		parse_result;
-
-	if (!line || !mat)
-		return (0);
-	split = ft_split_by_whitespace(line);
-	if (!split)
-		return (0);
-	if (check_array_size(split, 4, "Ks", line_nb))
-	{
-		free_str_array(split);
-		return (0);
-	}
-	parse_result = parse_double(split[1], &mat->spec_color.x, "Ks", line_nb);
-	parse_result &= parse_double(split[2], &mat->spec_color.y, "Ks", line_nb);
-	parse_result &= parse_double(split[3], &mat->spec_color.z, "Ks", line_nb);
-	mat->specular = mat->spec_color.x;
-	free_str_array(split);
-	return (parse_result);
+	mat = (t_material *)o;
+	if (mat->name)
+		free(mat->name);
+	destroy_texture(&mat->color_tex);
+	destroy_texture(&mat->normal_tex);
+	destroy_texture(&mat->spec_tex);
+	destroy_texture(&mat->mask_tex);
+	free(mat);
 }

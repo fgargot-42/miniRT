@@ -41,7 +41,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (join);
 }
 
-char	*ft_strjoin_array(char const **str_array)
+char	*ft_strjoin_array(char const **str_array, char *sep)
 {
 	size_t	array_size;
 	size_t	i;
@@ -51,15 +51,16 @@ char	*ft_strjoin_array(char const **str_array)
 	array_size = 0;
 	while (str_array[array_size])
 		array_size++;
-	if (!array_size)
+	if (!array_size || !sep)
 		return (NULL);
 	join = ft_strdup(str_array[0]);
 	i = 1;
 	while (str_array[i])
 	{
-		tmp = ft_strjoin(join, str_array[i]);
+		tmp = ft_strjoin(join, sep);
 		free(join);
-		join = tmp;
+		join = ft_strjoin(tmp, str_array[i]);
+		free(tmp);
 		i++;
 	}
 	return (join);

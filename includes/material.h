@@ -41,6 +41,7 @@ typedef struct s_texture
 typedef struct s_material
 {
 	char		*name;
+	int			illum;
 	t_vec3		amb_color;
 	t_vec3		diff_color;
 	t_vec3		spec_color;
@@ -65,6 +66,7 @@ int			parse_mat_specular(char *line, t_material *mat, int line_nb);
 int			parse_mat_emissive(char *line, t_material *mat, int line_nb);
 int			parse_mat_density(char *line, t_material *mat, int line_nb);
 int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
+int			parse_mat_illum(char *line, t_material *mat, int line_nb);
 int			parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx,
 				char *param);
 void		destroy_material(void *o);
