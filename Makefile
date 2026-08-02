@@ -119,7 +119,8 @@ SRC_BONUS = $(SRC) \
 		parser/obj_parser/obj_parser_bonus.c \
 		parser/obj_parser/mat_parser_bonus.c \
 		parser/obj_parser/parse_material_bonus.c \
-		parser/obj_parser/parse_material2_bonus.c \
+		parser/obj_parser/parse_material_props_bonus.c \
+		parser/obj_parser/parse_material_props2_bonus.c \
 		parser/obj_parser/parse_obj_face_bonus.c \
 		parser/obj_parser/parse_obj_model_bonus.c \
 		parser/obj_parser/parser_texture_bonus.c \

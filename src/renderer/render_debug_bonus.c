@@ -18,18 +18,24 @@ void	print_camera_orientation(t_data *data, t_vec2 pos);
 
 static void	print_vector(t_data *data, char *name, t_vec3 vec, t_vec2 pos)
 {
-	char	*str_arr[8];
+	char	*str_arr[5];
 	char	*print_str;
+	int		i;
 
-	str_arr[0] = name;
-	str_arr[1] = ": ";
-	str_arr[2] = ft_dtoa(vec.x, 2);
-	str_arr[3] = " ";
-	str_arr[4] = ft_dtoa(vec.y, 2);
-	str_arr[5] = " ";
-	str_arr[6] = ft_dtoa(vec.z, 2);
-	str_arr[7] = NULL;
-	print_str = ft_strjoin_array((const char **)str_arr);
+	str_arr[0] = ft_strjoin(name, ":");
+	str_arr[1] = ft_dtoa(vec.x, 2);
+	str_arr[2] = ft_dtoa(vec.y, 2);
+	str_arr[3] = ft_dtoa(vec.z, 2);
+	str_arr[4] = NULL;
+	if (str_arr[0] && str_arr[1] && str_arr[2] && str_arr[3])
+		print_str = ft_strjoin_array((const char **)str_arr, " ");
+	i = 0;
+	while (i < 4)
+	{
+		if (str_arr[i])
+			free(str_arr[i]);
+		i++;
+	}
 	if (!print_str)
 		return ;
 	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,

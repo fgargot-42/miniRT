@@ -29,7 +29,7 @@ void	print_fps(t_data *data, double render_time_ms, t_vec2 pos)
 	print_fps[5] = NULL;
 	if (print_fps[1] && print_fps[3])
 	{
-		print_str = ft_strjoin_array((const char **)print_fps);
+		print_str = ft_strjoin_array((const char **)print_fps, "");
 		if (print_str)
 			mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
 				(mlx_color){.rgba = MLX_WHITE}, print_str);
@@ -55,7 +55,7 @@ void	print_camera_orientation(t_data *data, t_vec2 pos)
 	print_cam_o[4] = NULL;
 	if (print_cam_o[1] && print_cam_o[3])
 	{
-		print_str = ft_strjoin_array((const char **)print_cam_o);
+		print_str = ft_strjoin_array((const char **)print_cam_o, "");
 		if (print_str)
 			mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
 				(mlx_color){.rgba = MLX_WHITE}, print_str);

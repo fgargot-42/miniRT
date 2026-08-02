@@ -27,24 +27,56 @@ static char	*get_tex_path(char *rt_path, char *tex_path)
 	return (res_path);
 }
 
+static bool	parse_tex_vector(char **split, t_vec3* vec, char* param, int line_nb)
+{
+	bool	parse_result;
+
+	parse_result = parse_double(split[1], &vec->x, param, line_nb);
+	parse_result &= parse_double(split[2], &vec->y, param, line_nb);
+	parse_result &= parse_double(split[3], &vec->z, param, line_nb);
+	return (parse_result);
+}
+
+static bool	parse_tex_option(char **split, int *i, t_material *mat, int line_nb)
+{
+	bool	parse_result;
+
+	parse_result = true;
+	if (!ft_strcmp(split[*i], "-s"))
+	{
+		parse_result = parse_tex_vector(&split[*i], &(mat->spec_color), "-s", line_nb);
+		*i += 4;
+	}
+	else if (!ft_strcmp(split[*i], "-o") || !ft_strcmp(split[*i], "-t"))
+		*i += 4;
+	else
+		*i += 2;
+	return (parse_result);
+}
+
 int	parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx, char *param)
 {
 	char	*path;
 	int		i;
+	char	*filename;
 
 	if (!split || !split[0] || !split[1] || !param)
 		return (0);
 	if (!tex)
 		return (1);
-	i = 0;
-	while (split[i + 1])
-		i++;
+	i = 1;
+	while (split[i][0] == '-')
+		parse_tex_option(split, &i, ctx->mat_parse, ctx->line_nb);
 	if (!split[i][0])
 	{
 		print_parse_error("missing parameter(s)", param, ctx->line_nb);
 		return (0);
 	}
-	path = get_tex_path(ctx->rt_path, split[i]);
+	filename = ft_strjoin_array((const char **)&split[i], " ");
+	if (!filename)
+		return (0);
+	path = get_tex_path(ctx->rt_path, filename);
+	free(filename);
 	*tex = load_texture(path, ctx->mlx);
 	free(path);
 	return (*tex != NULL);

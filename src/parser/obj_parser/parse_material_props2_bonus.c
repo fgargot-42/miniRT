@@ -76,26 +76,3 @@ int	parse_mat_opacity(char *line, t_material *mat, int line_nb)
 	free_str_array(split);
 	return (parse_result);
 }
-
-void	destroy_texture(t_texture **t)
-{
-	if (!*t)
-		return ;
-	mlx_destroy_image((*t)->mlx, (*t)->data);
-	free(*t);
-	*t = NULL;
-}
-
-void	destroy_material(void *o)
-{
-	t_material	*mat;
-
-	mat = (t_material *)o;
-	if (mat->name)
-		free(mat->name);
-	destroy_texture(&mat->color_tex);
-	destroy_texture(&mat->normal_tex);
-	destroy_texture(&mat->spec_tex);
-	destroy_texture(&mat->mask_tex);
-	free(mat);
-}
