@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:09:28 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/27 19:46:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/02 19:12:01 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	draw_light_editor(t_data *d)
 	int		i;
 	int		base;
 	char	title[24];
-
+ 
 	if (!d->editor || d->nb_sliders == 0)
 		return ;
 	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_WHITE});
@@ -86,7 +86,7 @@ void	draw_light_editor(t_data *d)
 		(mlx_color){.rgba = COL_BG});
 	y = 10;
 	i = 0;
-	while (i * 7 < d->nb_sliders)
+	while (i * 7 + 7 <= d->nb_sliders)
 	{
 		base = i * 7;
 		snprintf(title, sizeof(title), "LIGHT %d -----", i);
@@ -94,6 +94,9 @@ void	draw_light_editor(t_data *d)
 		draw_slider_group(d, base + 3, base + 7, &y);
 		i++;
 	}
+	base = i * 7;
+	draw_group(d, (t_vec2){{base, base + 3}}, &y, "AMBIENT -----");
+	draw_slider_group(d, base + 3, base + 4, &y);
 	draw_hline(d, d->editor, y + 4);
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:49:37 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 18:56:39 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/02 19:05:27 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point)
 		
 	scale = obj->checker_scale;
     if (scale <= 0.0)
-		scale = 1.0;
+		return ;
 	x = (int)floor(point.x / scale + 1e-8);
     y = (int)floor(point.y / scale + 1e-8);
     z = (int)floor(point.z / scale + 1e-8);
