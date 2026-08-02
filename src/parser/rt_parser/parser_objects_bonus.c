@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 16:56:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/02 18:50:58 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,12 @@ int	parse_optional_elements(char **params, t_object *obj,
 	nb_elements = get_str_array_length(params);
 	obj->checker = (nb_elements > i && !is_ignored(params[i]));
 	if (obj->checker)
+	{
 		p_res &= parse_vector(params[i], &(obj->checker_color),
 				type, ctx->line_nb);
+		if (nb_elements > i + 9 && !is_ignored(params[i + 9]))
+				p_res &= parse_double(params[i + 9], &(obj->checker_scale), type, ctx->line_nb);
+	}
 	p_res = parse_material_elements(params, obj, ctx->line_nb, i);
 	p_res &= parse_texture_elements(params, obj, ctx, i + 5);
 	return (p_res);

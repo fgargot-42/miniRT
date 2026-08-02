@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:32:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/02 18:57:24 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_object
 	double			angle;
 	bool			checker;
 	t_vec3			checker_color;
+	double			checker_scale;
 	t_uv_texture	uv;
 	t_material		*material;
 }	t_object;
