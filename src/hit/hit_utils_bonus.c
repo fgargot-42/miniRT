@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 22:49:37 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 20:41:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 23:35:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	apply_checker(t_hit_record *rec, t_object *obj, t_vec3 point)
 	double	scale;
 
 	rec->color = obj->color;
-	if (!obj->checker)
-		return ;
 	scale = obj->checker_scale;
 	if (scale <= 0.0)
 		return ;

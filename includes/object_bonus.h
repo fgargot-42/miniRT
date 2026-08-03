@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 18:57:24 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/03 23:39:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_object
 	t_vec3			color;
 	double			radius;
 	double			angle;
-	bool			checker;
 	t_vec3			checker_color;
 	double			checker_scale;
 	t_uv_texture	uv;

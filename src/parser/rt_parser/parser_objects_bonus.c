@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 22:25:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 23:34:27 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int	parse_optional_elements(char **params, t_object *obj,
 	p_res = 1;
 	type = get_object_type_str(*obj);
 	nb_elements = get_str_array_length(params);
-	obj->checker = (nb_elements > i && !is_ignored(params[i]));
-	if (obj->checker)
+	obj->checker_scale = 0;
+	if (nb_elements > i && !is_ignored(params[i]))
 	{
 		p_res &= parse_vector(params[i], &(obj->checker_color),
 				type, ctx->line_nb);
