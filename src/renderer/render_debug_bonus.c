@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 22:02:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 22:58:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,8 @@
 
 void	print_fps(t_data *data, double render_time_ms, t_vec2 pos);
 void	print_camera_orientation(t_data *data, t_vec2 pos);
-
-static void	print_vector(t_data *data, char *name, t_vec3 vec, t_vec2 pos)
-{
-	char	*str_arr[5];
-	char	*print_str;
-	int		i;
-
-	str_arr[0] = ft_strjoin(name, ":");
-	str_arr[1] = ft_dtoa(vec.x, 2);
-	str_arr[2] = ft_dtoa(vec.y, 2);
-	str_arr[3] = ft_dtoa(vec.z, 2);
-	str_arr[4] = NULL;
-	if (str_arr[0] && str_arr[1] && str_arr[2] && str_arr[3])
-		print_str = ft_strjoin_array((const char **)str_arr, " ");
-	i = 0;
-	while (i < 4)
-	{
-		if (str_arr[i])
-			free(str_arr[i]);
-		i++;
-	}
-	if (!print_str)
-		return ;
-	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
-		(mlx_color){.rgba = MLX_WHITE}, print_str);
-	free(print_str);
-}
+void	print_vector(t_data *data, char *name, t_vec3 vec, t_vec2 pos);
+void	print_int_value(t_data *data, char *label, int value, t_vec2 pos);
 
 static void	print_nb_threads(t_data *data, t_vec2 pos)
 {
@@ -82,26 +57,6 @@ static void	print_toggle(t_data *data, char *label, bool value, t_vec2 pos)
 		return ;
 	print_str = ft_strjoin(print_label, on_off[value]);
 	free(print_label);
-	if (!print_str)
-		return ;
-	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,
-		(mlx_color){.rgba = MLX_WHITE}, print_str);
-	free(print_str);
-}
-
-static void	print_int_value(t_data *data, char *label, int value, t_vec2 pos)
-{
-	char	*value_str;
-	char	*print_tmp;
-	char	*print_str;
-
-	print_tmp = ft_strjoin(label, ": ");
-	if (!print_tmp)
-		return ;
-	value_str = ft_itoa(value);
-	print_str = ft_strjoin(print_tmp, value_str);
-	free(value_str);
-	free(print_tmp);
 	if (!print_str)
 		return ;
 	mlx_string_put(data->mlx, data->win, (int)pos.x, (int)pos.y,

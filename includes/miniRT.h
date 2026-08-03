@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 18:39:14 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/03 23:06:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,12 @@ void				check_scene_mandatory_object(void *obj, char *obj_str,
 
 void				draw(t_data *data);
 void				draw_single(t_data *data);
-void				add_debug(t_data *data);
+void				add_debug(t_data *data, double render_time_ms);
 void				open_inspector(t_data *data, t_hit_record hc,
 						double mouse_x, double mouse_y);
 void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
 						t_vec2 mouse_pos);
 mlx_color			vec3_to_color(t_vec3 v);
-void				add_debug(t_data *data);
 
 //src/hooks.c
 void				attach_hooks(t_data *data);

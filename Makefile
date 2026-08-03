@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/03 19:14:27 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/03 23:02:34 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC =	bvh/bvh.c \
 		parser/rt_parser/parse_ambient.c \
 		parser/rt_parser/parse_camera.c \
 		renderer/drawer_utils.c \
+		renderer/render_debug_props.c \
 		veclib/veclib2_math.c \
 		veclib/veclib2_math2.c \
 		veclib/veclib3_math.c \
@@ -143,7 +144,6 @@ SRC_BONUS = $(SRC) \
 		renderer/drawer_utils_bonus.c \
 		renderer/drawer_pixel_bonus.c \
 		renderer/render_debug_bonus.c \
-		renderer/render_debug_bonus2.c \
 		scene/scene_bonus.c \
 		scene/scene_utils_bonus.c \
 		ui/ui_bonus.c \
