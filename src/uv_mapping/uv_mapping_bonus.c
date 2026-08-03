@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 17:55:06 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/03 18:39:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,4 @@ t_vec3	uv_to_color(t_object *obj, t_texture *tex, t_vec2 uv)
 	col.y = pixel.g;
 	col.z = pixel.b;
 	return (col);
-}
-
-t_texture	*load_texture(char *path, mlx_context mlx)
-{
-	t_texture	*tex;
-
-	tex = ft_calloc(1, sizeof(t_texture));
-	if (!tex)
-		return (NULL);
-	tex->data = mlx_new_image_from_file(mlx, path, &tex->width, &tex->height);
-	if (!tex->data)
-	{
-		printf("Failed to load image\n");
-		free(tex);
-		return (NULL);
-	}
-	tex->mlx = mlx;
-	mlx_get_image_pixel(tex->mlx, tex->data, 0, 0);
-	printf("Image loaded: %s (%i x %i) at address %p\n", path,
-		tex->width, tex->height, tex->data);
-	return (tex);
 }

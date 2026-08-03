@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/01 21:12:03 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/03 19:14:27 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,6 +116,8 @@ SRC_BONUS = $(SRC) \
 		lighting/bounce_bonus.c \
 		lighting/lighting_bonus.c \
 		lighting/opacity_bonus.c \
+		material/material_bonus.c \
+		material/texture_bonus.c \
 		parser/obj_parser/obj_parser_bonus.c \
 		parser/obj_parser/mat_parser_bonus.c \
 		parser/obj_parser/parse_material_bonus.c \

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 19:01:24 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/03 19:24:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,5 @@ void		setup_ambient_sliders(t_data *data, t_object *obj,
 void		setup_checker_sliders(t_data *data, t_object *obj, int slider_id);
 void		setup_light_sliders(t_data *data);
 void		destroy_material(void *o);
-t_texture	*load_texture(char *path, mlx_context mlx);
 
 #endif // MINIRT_BONUS_H

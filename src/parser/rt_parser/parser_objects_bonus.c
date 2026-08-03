@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 18:50:58 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/03 20:38:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,17 @@ static int	parse_texture_elements(char **params, t_object *obj,
 	nb_elements = get_str_array_length(params);
 	p_res = 1;
 	if (nb_elements > i && !is_ignored(params[i]))
-		p_res &= parse_texture_file(params[i], obj, ctx);
+		p_res &= parse_texture_file(params[i],
+				&obj->material->color_tex, ctx);
 	if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
-		p_res &= parse_spec_texture_file(params[i + 1], obj, ctx);
+		p_res &= parse_texture_file(params[i + 1],
+				&obj->material->spec_tex, ctx);
 	if (nb_elements > i + 2 && !is_ignored(params[i + 2]))
-		p_res &= parse_bump_texture_file(params[i + 2], obj, ctx);
+		p_res &= parse_texture_file(params[i + 2],
+				&obj->material->normal_tex, ctx);
 	if (nb_elements > i + 3 && !is_ignored(params[i + 3]))
-		p_res &= parse_bump_texture_file(params[i + 3], obj, ctx);
+		p_res &= parse_texture_file(params[i + 3],
+				&obj->material->mask_tex, ctx);
 	return (p_res);
 }
 
@@ -89,7 +93,8 @@ int	parse_optional_elements(char **params, t_object *obj,
 		p_res &= parse_vector(params[i], &(obj->checker_color),
 				type, ctx->line_nb);
 		if (nb_elements > i + 9 && !is_ignored(params[i + 9]))
-				p_res &= parse_double(params[i + 9], &(obj->checker_scale), type, ctx->line_nb);
+			p_res &= parse_double(params[i + 9], &(obj->checker_scale),
+					type, ctx->line_nb);
 	}
 	p_res = parse_material_elements(params, obj, ctx->line_nb, i);
 	p_res &= parse_texture_elements(params, obj, ctx, i + 5);

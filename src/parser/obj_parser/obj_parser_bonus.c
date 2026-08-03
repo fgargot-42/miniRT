@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:35:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 20:28:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 
 	status = true;
 	if (!ctx->current_mat)
-		ctx->current_mat = create_material(ctx->data, NULL);
+		ctx->current_mat = create_material(ctx->data);
 	if (!ctx->current_mat)
 		return (false);
 	if (line[ft_strlen(line) - 1] == '\n')
