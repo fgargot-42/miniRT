@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:46:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 21:09:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	parse_scene(char *file, t_data *data)
 
 	parser_ctx.line_nb = 0;
 	parser_ctx.data = data;
+	parser_ctx.mlx = data->mlx;
 	parser_ctx.fd = open_file_read(file, "rt");
 	if (parser_ctx.fd == -1)
 		return (0);
