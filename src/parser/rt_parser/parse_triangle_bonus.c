@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 22:53:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:23:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 20:29:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_object	*parse_triangle(char **line_split, t_parser_ctx *ctx)
 		print_parse_error("allocation failed", "triangle", ctx->line_nb);
 		return (NULL);
 	}
-	obj->material = create_material(ctx->data, NULL);
+	obj->material = create_material(ctx->data);
 	parse_result = parse_triangle_elements(line_split, obj, ctx);
 	if (!parse_result || !obj->material)
 	{

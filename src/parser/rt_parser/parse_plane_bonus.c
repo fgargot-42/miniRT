@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 00:22:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 20:28:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_object	*parse_plane(char **line_split, t_parser_ctx *ctx)
 		print_parse_error("allocation failed", "plane", ctx->line_nb);
 		return (NULL);
 	}
-	obj->material = create_material(ctx->data, NULL);
+	obj->material = create_material(ctx->data);
 	parse_result = parse_plane_elements(line_split, obj, ctx);
 	if (!parse_result || !obj->material)
 	{

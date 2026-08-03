@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/24 00:42:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 19:29:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	parse_skybox(char *line, t_parser_ctx *ctx)
 {
 	char	**line_split;
 	char	*skybox_path;
+	bool	is_loaded;
 
 	if (ctx->data->scene->skybox)
 	{
@@ -50,13 +51,16 @@ int	parse_skybox(char *line, t_parser_ctx *ctx)
 		return (0);
 	}
 	line_split = ft_split_by_whitespace(line);
-	if (!line_split)
+	if (!line_split || check_array_size(line_split, 2, "skybox", ctx->line_nb))
 		return (0);
-	if (check_array_size(line_split, 2, "skybox", ctx->line_nb))
+	ctx->data->scene->skybox = new_texture();
+	if (!ctx->data->scene->skybox)
 		return (0);
 	skybox_path = ft_strjoin(ctx->rt_path, line_split[1]);
 	free_str_array(line_split);
-	ctx->data->scene->skybox = load_texture(skybox_path, ctx->data->mlx);
+	is_loaded = load_texture(skybox_path, ctx->data->scene->skybox, ctx->mlx);
 	free(skybox_path);
+	if (!is_loaded)
+		destroy_texture(&ctx->data->scene->skybox);
 	return (ctx->data->scene->skybox != NULL);
 }

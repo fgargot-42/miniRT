@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_material_bonus.c                             :+:      :+:    :+:   */
+/*   parse_material_props_bonus.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/30 19:14:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 20:39:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	parse_mat_illum(char *line, t_material *mat, int line_nb)
 		free_str_array(split);
 		return (0);
 	}
-	mat->illum =  ft_atoi(split[1]);
+	mat->illum = ft_atoi(split[1]);
 	free_str_array(split);
 	return (1);
 }

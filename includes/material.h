@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 20:49:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 19:22:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_texture
 	int			height;
 	mlx_image	data;
 	mlx_context	mlx;
+	t_vec3		scale;
 }	t_texture;
 
 typedef struct s_material
@@ -57,6 +58,14 @@ typedef struct s_material
 }	t_material;
 
 typedef int					(*t_obj_parser_fc)(char *, t_material *, int);
+
+t_texture	*new_texture(void);
+bool		load_texture(char *path, t_texture *tex, mlx_context mlx);
+void		destroy_texture(t_texture **t);
+
+t_material	*new_material(char *name);
+void		destroy_material(void *o);
+
 int			parse_new_material(char *line, t_array *materials,
 				void *mat);
 int			parse_mat_exponent(char *line, t_material *mat, int line_nb);
@@ -69,7 +78,5 @@ int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
 int			parse_mat_illum(char *line, t_material *mat, int line_nb);
 int			parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx,
 				char *param);
-void		destroy_material(void *o);
-void		destroy_texture(t_texture **t);
 
 #endif // MATERIAL_H
