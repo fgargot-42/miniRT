@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:30:04 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 19:29:13 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 00:05:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	init_material_props(t_material *m, char *name)
 	m->density = 1.0;
 	m->opacity = 1.0;
 	m->shininess = 32.0;
-	m->illum = 2;
+	m->illum = 4;
 	m->name = ft_strdup(name);
 }
 

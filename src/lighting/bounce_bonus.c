@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/30 01:18:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 00:23:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 		return ;
 	ft_bzero(&r_ray, sizeof(t_ray));
 	r_ray.origin = rec->point;
-	r_ray.direction = get_refraction_vector(rec->normal, ray->direction,
-			ray->refraction, rec->object->material->density);
-	r_ray.refraction = rec->object->material->density;
+	r_ray.direction = ray->direction;
+	if (rec->object->material->illum >= 4)
+		r_ray.direction = get_refraction_vector(rec->normal, ray->direction,
+				ray->refraction, rec->object->material->density);
+	r_ray.refraction = 1.0;
+	if (rec->object->material->illum >= 4)
+		r_ray.refraction = rec->object->material->density;
 	rec->depth++;
 	color = rt_cast(scene, &r_ray, rec->object, rec->depth);
 	color = vec3_scale(color, 1 - opacity);
@@ -76,6 +80,7 @@ void	ray_bounce(t_scene *scene, t_hit_record *rec, t_ray *ray)
 		return ;
 	if (rec->depth == RAY_DEPTH)
 		return ;
-	apply_reflection(rec);
+	if (rec->object->material->illum >= 3)
+		apply_reflection(rec);
 	apply_refraction(scene, rec, ray);
 }

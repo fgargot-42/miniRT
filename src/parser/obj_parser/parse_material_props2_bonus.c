@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_material2_bonus.c                            :+:      :+:    :+:   */
+/*   parse_material_props2_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 21:16:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 00:18:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/03 23:53:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	parse_mat_density(char *line, t_material *mat, int line_nb)
 	char	**split;
 	int		parse_result;
 
-	return (1);
 	if (!line || !mat)
 		return (0);
 	split = ft_split_by_whitespace(line);
