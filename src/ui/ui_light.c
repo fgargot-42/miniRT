@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:10:07 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/04 18:32:56 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/04 18:37:37 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	draw_light_editor(t_data *d)
 	fill_rect(d, (t_vec2){{0, 0}}, (t_vec2){{EDITOR_W, EDITOR_H}},
 		(mlx_color){.rgba = COL_BG});
 	y = 10;
-
 	draw_group(d, (t_vec2){{0, 4}}, &y, "AMBIENT -----");
 	snprintf(title, sizeof(title), "LIGHT");
 	draw_group(d, (t_vec2){{4, 8}}, &y, title);

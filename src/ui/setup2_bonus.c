@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/04 18:13:38 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/04 18:37:53 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	setup_ambient_sliders(t_data *data, int slider_id)
 		.g = 200, .b = 200, .a = 255}, .affects_bvh = false};
 }
 
-
 void	setup_checker_sliders(t_data *data, t_object *obj, int slider_id)
 {
 	int						i;
@@ -50,7 +49,7 @@ void	setup_checker_sliders(t_data *data, t_object *obj, int slider_id)
 	{.r = 255, .g = 140, .b = 140, .a = 255},
 	{.r = 140, .g = 255, .b = 160, .a = 255},
 	{.r = 140, .g = 180, .b = 255, .a = 255}};
- 
+
 	i = 0;
 	while (i < 3)
 	{
