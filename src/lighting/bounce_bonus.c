@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 02:44:52 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 19:01:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ static t_vec3	get_refraction_vector(t_vec3 normal, t_vec3 incidence,
 				vec3_scale(normal, n * cos_i - cos_t))));
 }
 
-static double	get_object_hit_reflection(t_hit_record rec)
+static t_vec3	get_object_hit_reflection(t_hit_record rec)
 {
-	(void)rec;
-	return (0.6);
+	return (vec3_sub((t_vec3){{1, 1, 1}}, rec.object->material->amb_color));
 }
 
 static void	apply_reflection(t_scene *scene, t_hit_record *rec, t_ray *ray,
@@ -54,11 +53,11 @@ static void	apply_reflection(t_scene *scene, t_hit_record *rec, t_ray *ray,
 {
 	t_vec3	color;
 	t_ray	reflect_ray;
-	double	r_factor;
+	t_vec3	r_factor;
 	
-	r_factor = get_object_hit_reflection(*rec);
-	if (r_factor > 1.0 || r_factor <= 0.0)
+	if (rec->object->material->illum  < 3)
 		return ;
+	r_factor = get_object_hit_reflection(*rec);
 	ft_bzero(&reflect_ray, sizeof(t_ray));
 	reflect_ray.origin = vec3_add(rec->point, vec3_scale(rec->normal, 1e-4));
 	reflect_ray.direction = vec3_normalize(vec3_sub(ray->direction,
@@ -66,8 +65,10 @@ static void	apply_reflection(t_scene *scene, t_hit_record *rec, t_ray *ray,
 	reflect_ray.refraction = ray->refraction;
 	rec->depth++;
 	color = rt_cast(scene, &reflect_ray, rec->object, rec->depth);
-	color = vec3_scale(color, 1 - (r_factor * factor));
-	color = vec3_add(color, vec3_scale(rec->color, r_factor * factor));
+	color = vec3_scale(vec3_multiply(color,
+				vec3_sub((t_vec3){{1, 1, 1}}, r_factor)), factor);
+	color = vec3_add(color,
+			vec3_scale(vec3_multiply(rec->color, r_factor), factor));
 	rec->color = color;
 	return ;
 }
@@ -93,29 +94,29 @@ static void	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray,
 		r_ray.refraction = rec->object->material->density;
 	rec->depth++;
 	color = rt_cast(scene, &r_ray, rec->object, rec->depth);
-	color = vec3_scale(color, 1 - (opacity * factor));
+	color = vec3_scale(color, (1 - opacity) * factor);
 	color = vec3_add(color, vec3_scale(rec->color, opacity * factor));
 	rec->color = color;
 }
 
 void	ray_bounce(t_scene *scene, t_hit_record *rec, t_ray *ray)
 {
-	//double	n1;
-	//double	n2;
-	//double	r0;
-	//double	cos_i;
-	//double	fresnel;
-
-	//fresnel = 0.0;
-	//if (rec->object->material->illum >= 3)
-	//{
-	//	n1 = ray->refraction;
-	//	n2 = rec->object->material->density;
-	//	r0 = pow((n1 - n2) / (n1 + n2), 2.0);
-	//	cos_i = vec3_dot(rec->normal, ray->direction);
-	//	if (cos_i >= 0.0)
-	//		fresnel = r0 + (1 - r0) * pow(1 - cos_i, 5.0);
-	//}
+//	double	n1;
+//	double	n2;
+//	double	r0;
+//	double	cos_i;
+//	double	fresnel;
+//
+//	fresnel = 0.0;
+//	if (rec->object->material->illum >= 3)
+//	{
+//		n1 = ray->refraction;
+//		n2 = rec->object->material->density;
+//		r0 = pow((n1 - n2) / (n1 + n2), 2.0);
+//		cos_i = vec3_dot(rec->normal, ray->direction);
+//		if (cos_i >= 0.0)
+//			fresnel = r0 + (1 - r0) * pow(1 - cos_i, 5.0);
+//	}
 	if (!scene->transparency)
 		return ;
 	if (rec->depth >= RAY_DEPTH)
