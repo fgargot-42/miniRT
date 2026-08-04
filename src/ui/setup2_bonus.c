@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setup2_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/12 19:52:13 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/02 19:04:19 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/04 18:13:38 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ static void	setup_ambient_color_sliders(t_data *data, t_vec3 *col,
 	}
 }
 
-void	setup_ambient_sliders(t_data *data, t_object *obj, int slider_id)
+void	setup_ambient_sliders(t_data *data, int slider_id)
 {
-	(void)obj;
 	setup_ambient_color_sliders(data, &data->scene->ambient->color, slider_id);
 	data->sliders[slider_id
 		+ 3] = (t_slider){.value = &data->scene->ambient->props.intensity,

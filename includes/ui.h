@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 18:19:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 18:15:00 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ void		setup_transform_sliders(t_data *data, t_object *obj);
 void		setup_color_sliders(t_data *data, t_object *obj);
 void		setup_property_sliders(t_data *data, t_object *obj);
 
-void		setup_ambient_sliders(t_data *data, t_object *obj,
-				int slider_id);
+void		setup_ambient_sliders(t_data *data, int slider_id);
 mlx_color	slider_dim(t_slider *s);
 double		slider_ratio(t_slider *s);
 void		header(t_data *data, double mouse_x, double mouse_y);

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 19:06:43 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/04 18:20:57 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	setup_sliders(t_data *data)
 	setup_transform_sliders(data, obj);
 	setup_color_sliders(data, obj);
 	setup_property_sliders(data, obj);
-	setup_ambient_sliders(data, obj, 11);
+	setup_ambient_sliders(data, 11);
 	data->nb_sliders = 15;
 }
 

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 19:24:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 18:14:18 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,7 @@ void		setup_transform_sliders(t_data *data, t_object *obj);
 void		setup_color_sliders(t_data *data, t_object *obj);
 void		setup_material_sliders(t_data *data, t_object *obj);
 void		setup_property_sliders(t_data *data, t_object *obj);
-
-void		setup_ambient_sliders(t_data *data, t_object *obj,
-				int slider_id);
-
+void		setup_ambient_sliders(t_data *data, int slider_id);
 void		setup_checker_sliders(t_data *data, t_object *obj, int slider_id);
 void		setup_light_sliders(t_data *data);
 void		destroy_material(void *o);
