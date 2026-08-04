@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 00:13:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 22:56:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static t_vec3	apply_ambient(t_hit_record rec, t_object *ambient)
 	t_vec3	ambient_linear;
 
 	if (rec.object->material->illum == 0)
-		return ((t_vec3){{0, 0, 0}});
+		return (rec.object->color);
 	ambient_linear = vec3_pow(vec3_scale(ambient->color, 1.0 / 255.0), 2.2);
 	ambient_color = vec3_scale(vec3_multiply(rec.color, ambient_linear),
 			ambient->props.intensity);
