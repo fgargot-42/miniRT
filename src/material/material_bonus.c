@@ -6,12 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:30:04 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 00:05:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/04 18:48:08 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "libft.h"
+#include "veclib.h"
 #include <stdlib.h>
 
 static void	init_material_props(t_material *m, char *name)
