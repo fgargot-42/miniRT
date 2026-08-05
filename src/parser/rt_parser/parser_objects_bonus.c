@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 23:34:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/05 22:06:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,9 @@ static int	parse_material_elements(char **params, t_object *obj,
 		p_res &= parse_double(params[i + 3], &(mat->opacity), type, line_nb);
 	if (nb_elements > i + 4 && !is_ignored(params[i + 4]))
 		p_res &= parse_double(params[i + 4], &(mat->density), type, line_nb);
+	if (nb_elements > i + 5 && !is_ignored(params[i + 5]))
+		p_res &= parse_double(params[i + 5],
+			&(mat->reflectance), type, line_nb);
 	return (p_res);
 }
 
@@ -93,11 +96,11 @@ int	parse_optional_elements(char **params, t_object *obj,
 		p_res &= parse_vector(params[i], &(obj->checker_color),
 				type, ctx->line_nb);
 		obj->checker_scale = 1;
-		if (nb_elements > i + 9 && !is_ignored(params[i + 9]))
-			p_res &= parse_double(params[i + 9], &(obj->checker_scale),
+		if (nb_elements > i + 1 && !is_ignored(params[i + 1]))
+			p_res &= parse_double(params[i + 1], &(obj->checker_scale),
 					type, ctx->line_nb);
 	}
-	p_res = parse_material_elements(params, obj, ctx->line_nb, i);
-	p_res &= parse_texture_elements(params, obj, ctx, i + 5);
+	p_res = parse_material_elements(params, obj, ctx->line_nb, i + 1);
+	p_res &= parse_texture_elements(params, obj, ctx, i + 7);
 	return (p_res);
 }

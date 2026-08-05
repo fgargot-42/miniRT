@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:43:25 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 21:42:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/06 00:06:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_vec3	apply_refraction(t_scene *scene, t_hit_record *rec, t_ray *ray)
 }
 
 static double	fresnel_reflectance(t_hit_record *rec, t_ray *ray,
-	bool *can_refract)
+	double opacity, bool *can_refract)
 {
 	double	r0;
 	double	cos_i;
@@ -85,6 +85,9 @@ static double	fresnel_reflectance(t_hit_record *rec, t_ray *ray,
 	*can_refract = false;
 	if (ray->refraction <= 0.0 || rec->object->material->density <= 0.0)
 		return (1.0);
+	if (rec->object->material->illum <= 3 && opacity >= 1 - 1e-4)
+		return (rec->object->material->reflectance
+			* (rec->object->material->illum == 3));
 	r0 = pow((ray->refraction - rec->object->material->density)
 			/ (ray->refraction + rec->object->material->density), 2.0);
 	cos_i = vec3_dot(rec->normal, ray->direction);
@@ -112,10 +115,7 @@ void	ray_bounce(t_scene *scene, t_hit_record *rec, t_ray *ray)
 	if (!scene->transparency || rec->depth >= RAY_DEPTH)
 		return ;
 	opacity = get_object_hit_opacity(*rec);
-	kr = fresnel_reflectance(rec, ray, &can_refract);
-	if (opacity >= 1 - 1e-4)
-		kr = rec->object->material->reflectance
-			* (rec->object->material->illum >= 3);
+	kr = fresnel_reflectance(rec, ray, opacity, &can_refract);
 	if (kr > 1e-4 && rec->depth < RAY_DEPTH)
 		reflect_color = apply_reflection(scene, rec, ray);
 	if (can_refract && opacity < 1 - 1e-4 && kr < 1 - 1e-4
