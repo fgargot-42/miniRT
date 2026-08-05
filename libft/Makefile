@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/20 19:31:22 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/01 21:12:27 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/05 19:03:50 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRC=ft_is/ft_isalpha.c \
 	ft_str/ft_split_by_whitespace.c \
 	ft_str/ft_itoa.c \
 	ft_str/ft_dtoa.c \
+	ft_str/ft_ptrtoa.c \
 	ft_str/ft_strmapi.c \
 	ft_str/ft_striteri.c \
 	ft_putfd/ft_putchar_fd.c \

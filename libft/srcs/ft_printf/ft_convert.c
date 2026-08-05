@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 16:56:08 by fgargot           #+#    #+#             */
-/*   Updated: 2025/12/11 21:06:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/05 19:01:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,6 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include "libft.h"
-
-static char	*ft_ptrtoa(void *p)
-{
-	unsigned long	ptrnb;
-	char			*s;
-	char			c;
-	size_t			i;
-
-	ptrnb = (unsigned long)p;
-	s = malloc(sizeof(char) * (sizeof(ptrnb) * 2 + 1));
-	if (!s)
-		return (NULL);
-	i = 0;
-	while (i < sizeof(ptrnb) * 2)
-	{
-		c = ptrnb >> (((sizeof(ptrnb) * 2) - 1 - i) * 4) & 0xf;
-		if (c >= 10)
-			c += 'a' - 10;
-		else
-			c += '0';
-		s[i] = c;
-		i++;
-	}
-	s[i] = 0;
-	return (s);
-}
 
 int	ft_print_c(va_list args)
 {

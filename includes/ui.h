@@ -6,18 +6,18 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 18:15:00 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/05 21:34:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UI_H
 # define UI_H
 
-# define EDITOR_W       300
+# define EDITOR_W       320
 # define EDITOR_H       720
-# define SLD_X          90
+# define SLD_X          100
 # define SLD_W          150
-# define SLD_H          5
+# define SLD_H          8
 # define SLD_SPACING    17
 # define SLD_POS_RANGE  50.0
 # define SLD_BASE_Y     220
@@ -71,8 +71,7 @@ void		fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
 
 void		draw_hline(t_data *data, void *win, int y);
 
-void		put_row(t_data *data, t_row_info info,
-				const char *fmt, ...);
+void		put_row(t_data *data, t_row_info info, const char *str);
 void		put_section(t_data *data, void *win, int *y,
 				const char *title);
 void		setup_transform_sliders(t_data *data, t_object *obj);

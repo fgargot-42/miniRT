@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/02 19:01:52 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/05 21:30:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{13, 15}}, &y, "PROPERTIES -----");
 	draw_group(d, (t_vec2){{15, 19}}, &y, "CHECKER ----");
 	draw_hline(d, d->editor, y + 4);
-	mlx_set_font_scale(d->mlx, "resources/font.ttf", 8.0f);
+	mlx_set_font_scale(d->mlx, "resources/font.ttf", 12.0f);
 	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,
 		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 16.0f);
