@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 00:16:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/05 20:49:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	get_material_element_index(char *mat_elem)
 {
 	unsigned long		i;
 	static const char	*el_mat[] = {
-		"Ns", "Ka", "Kd", "Ks", "Ke", "Ni", "d", "illum"};
+		"Ns", "Ka", "Kd", "Ks", "Ni", "d", "illum"};
 	static const int	mat_size = sizeof(el_mat) / sizeof(char *);
 
 	i = 0;
@@ -73,7 +73,7 @@ static int	parse_material_line(char *line, t_array *materials,
 	int								index;
 	static const t_obj_parser_fc	parse_elem[] = {
 		parse_mat_exponent, parse_mat_ambient, parse_mat_diffuse,
-		parse_mat_specular, parse_mat_emissive, parse_mat_density,
+		parse_mat_specular, parse_mat_density,
 		parse_mat_opacity, parse_mat_illum};
 
 	if (!line)

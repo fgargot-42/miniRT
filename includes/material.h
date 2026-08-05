@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 19:22:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/05 20:49:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ typedef struct s_material
 {
 	char		*name;
 	int			illum;
-	t_vec3		amb_color;
 	t_vec3		diff_color;
-	t_vec3		spec_color;
-	t_vec3		emissive;
 	t_texture	*color_tex;
 	t_texture	*normal_tex;
 	t_texture	*spec_tex;
@@ -55,6 +52,7 @@ typedef struct s_material
 	double		specular;
 	double		shininess;
 	double		opacity;
+	double		reflectance;
 }	t_material;
 
 typedef int					(*t_obj_parser_fc)(char *, t_material *, int);
@@ -72,7 +70,6 @@ int			parse_mat_exponent(char *line, t_material *mat, int line_nb);
 int			parse_mat_ambient(char *line, t_material *mat, int line_nb);
 int			parse_mat_diffuse(char *line, t_material *mat, int line_nb);
 int			parse_mat_specular(char *line, t_material *mat, int line_nb);
-int			parse_mat_emissive(char *line, t_material *mat, int line_nb);
 int			parse_mat_density(char *line, t_material *mat, int line_nb);
 int			parse_mat_opacity(char *line, t_material *mat, int line_nb);
 int			parse_mat_illum(char *line, t_material *mat, int line_nb);
