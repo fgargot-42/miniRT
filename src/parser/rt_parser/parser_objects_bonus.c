@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 22:06:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/06 01:10:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	parse_material_elements(char **params, t_object *obj,
 		p_res &= parse_double(params[i + 4], &(mat->density), type, line_nb);
 	if (nb_elements > i + 5 && !is_ignored(params[i + 5]))
 		p_res &= parse_double(params[i + 5],
-			&(mat->reflectance), type, line_nb);
+				&(mat->reflectance), type, line_nb);
 	return (p_res);
 }
 
