@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 20:15:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/05 19:03:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	**ft_split_keep_empty(char const *s, char c);
 char	**ft_split_by_whitespace(char const *s);
 char	*ft_itoa(int n);
 char	*ft_dtoa(double number, int precision);
+char	*ft_ptrtoa(void *p);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putchar_fd(char c, int fd);

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 18:14:18 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/05 21:43:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,28 +154,11 @@ t_vec3		linear_to_srgb(t_vec3 linear_rgb);
 double		get_time(void);
 
 // UI
-void		setup_sliders(t_data *data);
-void		draw_editor(t_data *data, double mouse_x, double mouse_y);
 void		draw_light_editor(t_data *d);
-void		editor_mouse_down(int event, void *param);
-void		editor_mouse_up(int event, void *param);
 void		editor_loop(void *param);
 void		apply_slider_x(t_slider *s, int mx);
 
-void		fill_rect(t_data *data, t_vec2 pos, t_vec2 size,
-				mlx_color col);
-
-void		draw_hline(t_data *data, void *win, int y);
-
-void		put_row(t_data *data, t_row_info info,
-				const char *fmt, ...);
-void		put_section(t_data *data, void *win, int *y,
-				const char *title);
-void		setup_transform_sliders(t_data *data, t_object *obj);
-void		setup_color_sliders(t_data *data, t_object *obj);
 void		setup_material_sliders(t_data *data, t_object *obj);
-void		setup_property_sliders(t_data *data, t_object *obj);
-void		setup_ambient_sliders(t_data *data, int slider_id);
 void		setup_checker_sliders(t_data *data, t_object *obj, int slider_id);
 void		setup_light_sliders(t_data *data);
 void		destroy_material(void *o);
