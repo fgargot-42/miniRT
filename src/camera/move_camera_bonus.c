@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 20:36:54 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/16 22:35:19 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/06 21:00:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,14 @@ void	mouse_loop(void *param)
 	t_vec2		mouse_delta;
 
 	data = (t_data *)param;
+	moved = 0;
 	if (!data->r_click_hold && !data->w_click_hold)
 		return ;
 	mlx_mouse_get_pos(data->mlx, &mouse_x, &mouse_y);
 	mouse_delta.x = mouse_x - data->last_mouse_x;
 	mouse_delta.y = mouse_y - data->last_mouse_y;
-	moved = move_camera(data, mouse_delta);
+	if (mouse_delta.x || mouse_delta.y)
+		moved = move_camera(data, mouse_delta);
 	if (!moved)
 		return ;
 	mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);

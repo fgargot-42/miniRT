@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/28 17:30:31 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/06 19:57:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 void	setup_transform_sliders(t_data *data, t_object *obj)
 {
-	int				i;
-	const char		*position_labels[3] = {"pos.x", "pos.y", "pos.z"};
-	const char		*rotation_labels[3] = {"rot.x", "rot.y", "rot.z"};
-	const mlx_color	position_colors[3] = {
+	int						i;
+	static const char		*position_labels[3] = {"pos.x", "pos.y", "pos.z"};
+	static const char		*rotation_labels[3] = {"rot.x", "rot.y", "rot.z"};
+	static const mlx_color	position_colors[3] = {
 	{.r = 100, .g = 200, .b = 255, .a = 255},
 	{.r = 100, .g = 255, .b = 130, .a = 255},
 	{.r = 255, .g = 150, .b = 100, .a = 255}};

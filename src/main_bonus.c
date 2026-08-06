@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/21 00:09:51 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/06 20:49:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 	data.scene = ft_calloc(1, sizeof(t_scene));
 	if (!data.scene)
 	{
-		fprintf(stderr, "Failed to allocate scene\n");
+		ft_putstr_fd("Failed to allocate scene\n", 2);
 		return (1);
 	}
 	init_display(argv[1], &data);

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 18:04:45 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/06 20:40:01 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	mouse_up_hook(int mouse_event, void *param)
 			data->w_click_hold = false;
 		else
 			data->r_click_hold = false;
+		data->render_scale = 1;
+		draw(data);
 	}
 }
 

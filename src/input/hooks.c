@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/31 18:49:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/06 20:40:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,22 @@ static void	move_camera(int scancode, t_data *data)
 		cam->position = vec3_add(cam->position, vec3_scale(w_up, MOVE_STEP));
 	else if (scancode == SDL_SCANCODE_Q)
 		cam->position = vec3_add(cam->position, vec3_scale(w_up, -MOVE_STEP));
+	else
+		return ;
+	draw(data);
+}
+
+static void	update_control_state(int scancode, t_data *data)
+{
+	if (scancode == SDL_SCANCODE_TAB)
+		data->show_hud = !data->show_hud;
+	else if (scancode == 45 && data->scene->bvh_display_level > -1)
+		data->scene->bvh_display_level--;
+	else if (scancode == 46 && data->scene->bvh_display_level < BVH_DEPTH)
+		data->scene->bvh_display_level++;
+	else
+		return ;
+	draw(data);
 }
 
 static void	key_hook(int scancode, void *param)
@@ -57,13 +73,7 @@ static void	key_hook(int scancode, void *param)
 		return ;
 	}
 	move_camera(scancode, data);
-	if (scancode == SDL_SCANCODE_TAB)
-		data->show_hud = !data->show_hud;
-	if (scancode == 45 && data->scene->bvh_display_level > -1)
-		data->scene->bvh_display_level--;
-	if (scancode == 46 && data->scene->bvh_display_level < BVH_DEPTH)
-		data->scene->bvh_display_level++;
-	draw(data);
+	update_control_state(scancode, data);
 }
 
 void	attach_hooks(t_data *data)
