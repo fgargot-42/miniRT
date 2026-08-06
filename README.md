@@ -22,7 +22,7 @@ miniRT is a raytracer written in C using MacroLibX.
 - `.obj` model loading, with material `.mtl` and texture parsing
 - Texture mapping (uv mapping) on object
 - Bump mapping for surface detail
-- Extended lighting properties: specular, shininess, opacity, refraction
+- Extended lighting properties: specular, shininess, opacity, refraction, reflection
 - Multithreaded rendering (pthreads)
 - Skybox / sky color
 
@@ -41,8 +41,8 @@ make [bonus]
 ### Controls
 | Key         | Action                  |
 |-------------|-------------------------|
-| `W A S D`   | Movement                |
-| `E` / `A`   | Height control          |
+| `W A S D`   | Move camera             |
+| `E` / `A`   | Camera height           |
 | `MOUSE2`    | Camera panning          |
 | `MOUSE1`    | Select / unselect object|
 | `MWHEEL`    | Camera zoom             |
@@ -50,7 +50,8 @@ make [bonus]
 | `T`         | Toggle transparency     |
 | `G`         | Toggle specular         |
 | `B`         | Toggle bump             |
-| `TAB`       | Render scale            |
+| `Y`         | Toggle anti-aliasing    |
+| `TAB`       | Toggle info             |
 | `+` / `-`   | BVH display level       |
 
 ## Resources
@@ -62,9 +63,8 @@ make [bonus]
 
 [How to build a BVH - Part 2: Faster rays](https://jacco.ompf2.com/2022/04/18/how-to-build-a-bvh-part-2-faster-rays/) - Visited: 2026/06/12
 
-[Video about BVH by Sebastien Lague](https://youtu.be/C1H4zIiCOaI?si=FIgXkzk2PjYqYfKb)
-
-
 [How to build a BVH - Part 3: Faster construction](https://jacco.ompf2.com/2022/04/21/how-to-build-a-bvh-part-3-quick-builds/) - Visited: 2026/06/17
+
+[Video about BVH by Sebastien Lague](https://youtu.be/C1H4zIiCOaI?si=FIgXkzk2PjYqYfKb)
 
 [How to make a raytracer from scratch playlist by The Cherno](https://youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl&si=vxszfJgvRj4SNdXP)
