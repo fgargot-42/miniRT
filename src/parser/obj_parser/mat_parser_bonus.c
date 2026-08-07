@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 20:49:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 23:21:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	open_material_texture(char *line, t_material *mat,
 {
 	int			status;
 	char		**split;
-	const char	whitespaces[] = {9, 10, 11, 12, 13, ' ' };
+	const char	whitespaces[] = {9, 10, 11, 12, 13, ' ', '\0'};
 
 	status = 1;
 	line = ft_strtrim(line, whitespaces);

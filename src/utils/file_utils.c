@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 23:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/07 21:42:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 23:39:16 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static bool	check_file_errors(char *file)
 		ft_putendl_fd(file, 2);
 		return (1);
 	}
-	close(fd);
+	if (fd > -1)
+		close(fd);
 	return (0);
 }
 
