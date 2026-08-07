@@ -34,7 +34,6 @@ OK: ✅ 	KO: ❌
 | Path with spaces			| 			| ❌ (not functional, leak)	|
 
 **Notes:**
-- `.obj` should not open, it is a hidden file, not an actual `.obj` file
 - Absolute path fails to open
 - Path with spaces fails to open, tries (and fails) to open the part after space as image, leak occurs in `parse_scene`
 
@@ -42,20 +41,18 @@ OK: ✅ 	KO: ❌
 ### .mtl files
 | Test case					| Manda		| Bonus		|
 |---------------------------|-----------|-----------|
-| File does not exist		| 			| ❌ (leak)	|
+| File does not exist		| 			| ✅		|
 | Does not end with `.mtl`	| 			|			|
-| 	- `materialmtl`			| 			| ❌ (leak) |
-| 	- `material.mtlmtl`		| 			| ❌ (leak) |
-| Is a directory `dir.mtl`	| 			| ❌ (leak) |
-| Is named `.mtl`			| 			| ❌ (leak) |
-| No read permission		| 			| ❌ (leak) |
+| 	- `materialmtl`			| 			| ✅		|
+| 	- `material.mtlmtl`		| 			| ✅		|
+| Is a directory `dir.mtl`	| 			| ✅		|
+| Is named `.mtl`			| 			| ✅		|
+| No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ❌ (cond) |
 | Absolute path				| 			| ❌ (cond) |
-| Path with spaces			| 			| ❌ (not functional, cond) |
+| Path with spaces			| 			| ❌ (not functional) |
 
 **Notes:**
-- `.mtl` should not open, it is a hidden file, not an actual `.mtl` file
-- Leak occurs in `get_next_line` called by `parse_scene` when `.mtl` file fails to open
 - Conditional jump occurs in `parse_scene` when `.mtl` file successfully opens
 
 ### Images in .rt files
