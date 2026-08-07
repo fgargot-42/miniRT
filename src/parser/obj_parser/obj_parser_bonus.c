@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   obj_parser_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 20:28:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 22:33:27 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static bool	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	if (status)
 		add_triangles_to_scene(scene, obj->triangles);
 	free(obj_file);
-	close(ctx->fd);
+	clear_gnl(ctx->fd, line);
 	return (status);
 }
 
