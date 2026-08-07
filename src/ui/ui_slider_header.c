@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ui_slider_header.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:05:07 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/06 20:03:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 20:02:12 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	draw_slider(t_data *data, t_slider *s)
 	double	t;
 	int		filled_w;
 	int		thumb_x;
-	char	buf[32];
+	char	*buf;
 
 	if (!data->editor || !s->value)
 		return ;
@@ -35,9 +35,10 @@ void	draw_slider(t_data *data, t_slider *s)
 		(mlx_color){.rgba = COL_LABEL}, (char *)s->label);
 	fill_rect(data, (t_vec2){{SLD_X + SLD_W + 8, s->y - 2}}, (t_vec2){{70, SLD_H
 		+ 4}}, (mlx_color){.rgba = COL_BG});
-	snprintf(buf, sizeof(buf), "%.2f", *s->value);
+	buf = ft_dtoa(*s->value, 2);
 	mlx_string_put(data->mlx, data->editor, SLD_X + SLD_W + 12, s->y + 7,
 		(mlx_color){.rgba = COL_VALUE}, buf);
+	free(buf);
 }
 
 static void	put_mouse_coordinates(t_data *data, t_row_info info, t_vec2 uv)

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:09:28 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/05 21:31:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 20:01:20 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	draw_light_editor(t_data *d)
 	int		y;
 	int		i;
 	int		base;
-	char	title[24];
 
 	if (!d->editor || d->nb_sliders == 0)
 		return ;
@@ -90,8 +89,7 @@ void	draw_light_editor(t_data *d)
 	while (4 + i * 7 + 7 <= d->nb_sliders)
 	{
 		base = 4 + i * 7;
-		snprintf(title, sizeof(title), "LIGHT %d -----", i);
-		draw_group(d, (t_vec2){{base, base + 7}}, &y, title);
+		draw_group(d, (t_vec2){{base, base + 7}}, &y, "LIGHT");
 		i++;
 	}
 	mlx_set_font_scale(d->mlx, "resources/font.ttf", 12.0f);
