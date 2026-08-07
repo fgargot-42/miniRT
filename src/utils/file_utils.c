@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 23:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/05/12 22:54:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 21:42:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <errno.h>
+#include <stdbool.h>
 
 char	*get_directory_path(char *filepath)
 {
@@ -37,7 +38,7 @@ char	*get_directory_path(char *filepath)
 	return (path);
 }
 
-static int	check_file_errors(char *file)
+static bool	check_file_errors(char *file)
 {
 	int		fd;
 
@@ -57,20 +58,34 @@ static int	check_file_errors(char *file)
 	return (0);
 }
 
+static bool	check_file_extension(char *filepath, char *ext)
+{
+	char	*filename;
+	size_t	file_len;
+	size_t	ext_len;
+
+	file_len = 0;
+	filename = ft_strrchr(filepath, '/');
+	if (!filename)
+		file_len = ft_strlen(filepath);
+	if (filename[0])
+		filename++;
+	file_len = ft_strlen(filename);
+	ext_len = ft_strlen(ext);
+	return (file_len < ext_len + 2 || filename[file_len - ext_len - 1] != '.'
+		|| ft_strcmp(&filename[file_len - ext_len], ext));
+}
+
 int	open_file_read(char *file, char *extension)
 {
 	int		fd;
-	int		file_err;
-	size_t	file_len;
-	size_t	ext_len;
+	bool	file_err;
 
 	file_err = check_file_errors(file);
 	if (file_err)
 		return (-1);
-	file_len = ft_strlen(file);
-	ext_len = ft_strlen(extension);
-	if (file_len < ext_len + 2 || file[file_len - ext_len - 1] != '.'
-		|| ft_strcmp(&file[file_len - ext_len], extension))
+	file_err = check_file_extension(file, extension);
+	if (file_err)
 	{
 		ft_putstr_fd("Error\nMiniRT: Not a valid file name: ", 2);
 		ft_putendl_fd(file, 2);

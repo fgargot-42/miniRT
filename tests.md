@@ -12,14 +12,12 @@ OK: ✅ 	KO: ❌
 | 	- `scenert`				| ✅		| ✅		|
 | 	- `scene.rtrt`			| ✅		| ✅		|
 | Is a directory `dir.rt`	| ✅		| ✅		|
-| Is named `.rt`			| ❌ (not functional)		| ❌ (not functional)		|
+| Is named `.rt`			| ✅		| ✅		|
 | No read permission		| ✅		| ✅		|
 | No write/exec permission	| ✅		| ✅		|
 | Absolute path				| ✅		| ✅		|
 | Path with spaces			| ✅		| ✅		|
 
-**Notes:**
-- `.rt` should not open, it is a hidden file, not an actual `.rt` file
 
 ### .obj files
 | Test case					| Manda		| Bonus		|
@@ -29,7 +27,7 @@ OK: ✅ 	KO: ❌
 | 	- `cubeobj`				| 			| ✅		|
 | 	- `cube.objobj`			| 			| ✅		|
 | Is a directory `dir.obj`	| 			| ✅		|
-| Is named `.obj`			| 			| ❌ (not functional)		|
+| Is named `.obj`			| 			| ⚠️	 (fd -1)|
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
 | Absolute path				| 			| ❌ (not functional)		|
@@ -49,7 +47,7 @@ OK: ✅ 	KO: ❌
 | 	- `materialmtl`			| 			| ❌ (leak) |
 | 	- `material.mtlmtl`		| 			| ❌ (leak) |
 | Is a directory `dir.mtl`	| 			| ❌ (leak) |
-| Is named `.mtl`			| 			| ❌ (not functional, cond) |
+| Is named `.mtl`			| 			| ❌ (leak) |
 | No read permission		| 			| ❌ (leak) |
 | No write/exec permission	| 			| ❌ (cond) |
 | Absolute path				| 			| ❌ (cond) |
