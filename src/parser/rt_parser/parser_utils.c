@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 01:18:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 23:46:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	clear_gnl(int fd, char *line)
 		free(line);
 		line = get_next_line(fd);
 	}
-	close(fd);
+	if (fd > -1)
+		close(fd);
 }
 
 int	check_array_size(char **array, int expected, char *object, int line_nb)
