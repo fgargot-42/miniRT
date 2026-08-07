@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 20:28:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/07 19:35:56 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx)
 	int			parse_result;
 	t_object	*obj;
 
-	if (check_array_size(line_split, 4, "cylinder", ctx->line_nb))
+	if (check_array_size(line_split, 6, "cylinder", ctx->line_nb))
 		return (0);
 	obj = ft_calloc(1, sizeof(t_object));
 	if (!obj)
