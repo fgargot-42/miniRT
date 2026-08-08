@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/05 23:50:07 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 00:41:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 	i = 0;
 	while (i < 3)
 	{
-		data->sliders[i] = (t_slider){.value = &obj->position.vec[i],
+		data->ui.sliders[i] = (t_slider){.value = &obj->position.vec[i],
 			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
 			.label = position_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
-		data->sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
+		data->ui.sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
 			.min = -1, .max = 1, .label = rotation_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
 		i++;
@@ -49,7 +49,7 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 	i = 0;
 	while (i < 3)
 	{
-		data->sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
+		data->ui.sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
 			.min = 0.0, .max = 255.0, .label = color_labels[i],
 			.col = color_colors[i], .affects_bvh = false};
 		i++;
@@ -65,19 +65,19 @@ void	setup_material_sliders(t_data *data, t_object *obj)
 	{.r = 200, .g = 200, .b = 200, .a = 255},
 	{.r = 220, .g = 220, .b = 220, .a = 255}};
 
-	data->sliders[9] = (t_slider){.value = &obj->material->specular,
+	data->ui.sliders[9] = (t_slider){.value = &obj->material->specular,
 		.min = 0.0, .max = 1.0, .label = material_labels[0],
 		.col = material_colors[0], .affects_bvh = false};
-	data->sliders[10] = (t_slider){.value = &obj->material->shininess,
+	data->ui.sliders[10] = (t_slider){.value = &obj->material->shininess,
 		.min = 1.0, .max = 1000.0, .label = material_labels[1],
 		.col = material_colors[1], .affects_bvh = false};
-	data->sliders[11] = (t_slider){.value = &obj->material->opacity,
+	data->ui.sliders[11] = (t_slider){.value = &obj->material->opacity,
 		.min = 0.0, .max = 1.0, .label = material_labels[2],
 		.col = material_colors[2], .affects_bvh = false};
-	data->sliders[12] = (t_slider){.value = &obj->material->density,
+	data->ui.sliders[12] = (t_slider){.value = &obj->material->density,
 		.min = 0.0, .max = 10.0, .label = material_labels[3],
 		.col = material_colors[2], .affects_bvh = false};
-	data->sliders[13] = (t_slider){.value = &obj->material->reflectance,
+	data->ui.sliders[13] = (t_slider){.value = &obj->material->reflectance,
 		.min = 0.0, .max = 1.0, .label = material_labels[4],
 		.col = material_colors[2], .affects_bvh = false};
 }
@@ -110,10 +110,10 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	{.r = 200, .g = 200, .b = 200, .a = 255}};
 
 	get_property_values(obj, &radius, &height);
-	data->sliders[14] = (t_slider){.value = radius, .min = 0.0, .max = 90.0,
+	data->ui.sliders[14] = (t_slider){.value = radius, .min = 0.0, .max = 90.0,
 		.label = properties_labels[0], .col = material_colors[1],
 		.affects_bvh = true};
-	data->sliders[15] = (t_slider){.value = height, .min = 0.0, .max = 30.0,
+	data->ui.sliders[15] = (t_slider){.value = height, .min = 0.0, .max = 30.0,
 		.label = properties_labels[1], .col = material_colors[1],
 		.affects_bvh = true};
 }

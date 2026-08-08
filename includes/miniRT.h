@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 23:06:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 00:35:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define BVH_VIEW 1
 # define MLX_WHITE 0xFFFFFFFF
 
-# define MAX_SLIDERS    15
-
 # include "mlx.h"
 # include "veclib.h"
 # include "object.h"
@@ -33,17 +31,6 @@
 # include <math.h>
 # include "SDL2/SDL_scancode.h"
 # include "libft.h"
-
-typedef struct s_slider
-{
-	int			y;
-	double		*value;
-	double		min;
-	double		max;
-	const char	*label;
-	mlx_color	col;
-	bool		affects_bvh;
-}	t_slider;
 
 typedef struct s_scene
 {
@@ -70,10 +57,7 @@ typedef struct s_data
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
-	// temp slider -> ui.h
-	t_slider	sliders[MAX_SLIDERS];
-	int			nb_sliders;
-	int			dragging_slider;
+	t_ui_info	ui;
 }	t_data;
 
 void				apply_slider_x(t_slider *s, int mx);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 22:30:27 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 00:39:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
 	color = get_pixel_color(x + render_scale / 2, y + render_scale / 2,
 			data->scene,
 			data->scene->anti_aliasing && !data->r_click_hold
-			&& !data->w_click_hold && data->dragging_slider == -1);
+			&& !data->w_click_hold && data->ui.dragging_slider == -1);
 	i = 0;
 	while (i < render_scale)
 	{

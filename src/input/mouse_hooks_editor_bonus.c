@@ -6,12 +6,14 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/29 19:29:39 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 02:36:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include <math.h>
+
+void	handle_button_click(t_data *data, t_button button, int mx, int my);
 
 static void	apply_tan_or_matrix(t_data *data)
 {
@@ -53,18 +55,21 @@ void	editor_mouse_down(int event, void *param)
 	int			i;
 
 	data = (t_data *)param;
-	if (event != 1 || data->nb_sliders == 0)
+	if (event != 1 || data->ui.nb_sliders == 0)
 		return ;
 	mlx_mouse_get_pos(data->mlx, &mx, &my);
 	i = 0;
-	while (i < data->nb_sliders)
+	while (i < data->ui.nb_sliders)
 	{
-		data->dragging_slider = i;
-		if (handle_slider_click(data, &data->sliders[i], mx, my))
-			return ;
+		data->ui.dragging_slider = i;
+		if (handle_slider_click(data, &data->ui.sliders[i], mx, my))
+			break ;
 		i++;
 	}
-	data->dragging_slider = -1;
+	if (i >= data->ui.nb_sliders)
+		data->ui.dragging_slider = -1;
+	handle_button_click(data, data->ui.buttons[0], mx, my);
+	handle_button_click(data, data->ui.buttons[1], mx, my);
 }
 
 void	editor_mouse_up(int event, void *param)
@@ -72,14 +77,14 @@ void	editor_mouse_up(int event, void *param)
 	t_data		*data;
 	t_slider	*s;
 
-	if (event != 1 || ((t_data *)param)->dragging_slider == -1)
+	if (event != 1 || ((t_data *)param)->ui.dragging_slider == -1)
 		return ;
 	data = (t_data *)param;
-	s = &data->sliders[data->dragging_slider];
+	s = &data->ui.sliders[data->ui.dragging_slider];
 	if (s->affects_bvh && data->scene->selected
 		&& data->scene->selected->type != OBJ_PLANE)
 		rebuild_bvh_tree(&data->scene->bvh, data->scene);
-	data->dragging_slider = -1;
+	data->ui.dragging_slider = -1;
 }
 
 void	editor_loop(void *param)
@@ -90,11 +95,11 @@ void	editor_loop(void *param)
 	int			my;
 
 	data = (t_data *)param;
-	if (data->dragging_slider < 0
-		|| data->dragging_slider >= data->nb_sliders)
+	if (data->ui.dragging_slider < 0
+		|| data->ui.dragging_slider >= data->ui.nb_sliders)
 		return ;
 	mlx_mouse_get_pos(data->mlx, &mx, &my);
-	s = &data->sliders[data->dragging_slider];
+	s = &data->ui.sliders[data->ui.dragging_slider];
 	apply_slider_x(s, mx);
 	apply_tan_or_matrix(data);
 	if (data->scene->selected)

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:03:45 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/21 20:58:27 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/08 02:22:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,14 @@ mlx_color	slider_dim(t_slider *s)
 	c.b = s->col.b / 5;
 	c.a = 255;
 	return (c);
+}
+
+void	draw_button(t_data *data, t_button *button)
+{
+	fill_rect(data, button->pos, button->size, (mlx_color){.rgba = COL_BUTTON});
+	mlx_set_font_scale(data->mlx, "resources/font.ttf", 12.0f);
+	mlx_string_put(data->mlx, data->editor,
+		button->pos.x + button->size.x / 2 - 4,
+		button->pos.y + button->size.y / 2 + 4,
+		(mlx_color){.rgba = COL_BTN_TEXT}, button->label);
 }

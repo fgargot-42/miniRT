@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/03 23:02:34 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/08 02:35:42 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,7 @@ SRC_BONUS = $(SRC) \
 		display/init_display_bonus.c \
 		input/hooks_bonus.c \
 		input/mouse_hooks_editor_bonus.c \
+		input/button_handle_click_bonus.c \
 		hit/hit_bonus.c \
 		hit/hit_sphere_bonus.c \
 		hit/hit_plane_bonus.c \
@@ -152,6 +153,7 @@ SRC_BONUS = $(SRC) \
 		ui/ui_helpers_bonus.c \
 		ui/ui_slider_header_bonus.c \
 		ui/ui_light_bonus.c \
+		ui/ui_button_event_bonus.c \
 		uv_mapping/uv_mapping_bonus.c \
 		uv_mapping/uv_object_bonus.c \
 		bump.c

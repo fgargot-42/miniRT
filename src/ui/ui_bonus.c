@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 23:48:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 02:48:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	setup_sliders(t_data *data)
 {
 	t_object	*obj;
 
-	data->nb_sliders = 0;
+	data->ui.nb_sliders = 0;
 	obj = data->scene->selected;
 	if (!obj)
 		return ;
@@ -29,19 +29,20 @@ void	setup_sliders(t_data *data)
 	setup_property_sliders(data, obj);
 	setup_material_sliders(data, obj);
 	setup_checker_sliders(data, obj, 16);
-	data->nb_sliders = 20;
+	data->ui.nb_sliders = 20;
 }
 
 void	draw_editor(t_data *d, double mx, double my)
 {
 	int	y;
 
-	if (!d->editor || d->nb_sliders == 0)
+	if (!d->editor || d->ui.nb_sliders == 0)
 		return ;
 	mlx_clear_window(d->mlx, d->editor, (mlx_color){.rgba = COL_BG});
 	fill_rect(d, (t_vec2){{0, 0}}, (t_vec2){{EDITOR_W, EDITOR_H}},
 		(mlx_color){.rgba = COL_BG});
-	header(d, mx, my);
+	draw_header(d);
+	draw_object_header(d, mx, my);
 	y = SLD_BASE_Y - 130;
 	draw_group(d, (t_vec2){{0, 3}}, &y, "TRANSFORM -");
 	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
@@ -49,11 +50,7 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{9, 14}}, &y, "MATERIAL -----");
 	draw_group(d, (t_vec2){{14, 16}}, &y, "PROPERTIES -----");
 	draw_group(d, (t_vec2){{16, 20}}, &y, "CHECKER ----");
-	draw_hline(d, d->editor, y + 4);
-	mlx_set_font_scale(d->mlx, "resources/font.ttf", 12.0f);
-	mlx_string_put(d->mlx, d->editor, PANEL_PAD, y + 4,
-		(mlx_color){.rgba = COL_FOOTER}, "fgargot && mabarrer | miniRT");
-	mlx_set_font_scale(d->mlx, "resources/font.ttf", 16.0f);
+	draw_footer(d);
 }
 
 void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
@@ -69,7 +66,12 @@ void	open_inspector(t_data *data, t_hit_record hit, double mouse_x,
 	}
 	else
 	{
+		setup_ambient_sliders(data, 0);
 		setup_light_sliders(data);
+		setup_button_event(&data->ui.buttons[0], "<", (t_vec2){{10, 135}},
+			select_prev_light);
+		setup_button_event(&data->ui.buttons[1], ">", (t_vec2){{270, 135}},
+			select_next_light);
 		draw_light_editor(data);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/06 19:57:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 02:52:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 	i = 0;
 	while (i < 3)
 	{
-		data->sliders[i] = (t_slider){.value = &obj->position.vec[i],
+		data->ui.sliders[i] = (t_slider){.value = &obj->position.vec[i],
 			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
 			.label = position_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
-		data->sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
+		data->ui.sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
 			.min = -1, .max = 1, .label = rotation_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
 		i++;
@@ -49,7 +49,7 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 	i = 0;
 	while (i < 3)
 	{
-		data->sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
+		data->ui.sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
 			.min = 0.0, .max = 255.0, .label = color_labels[i],
 			.col = color_colors[i], .affects_bvh = false};
 		i++;
@@ -63,13 +63,13 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	{.r = 180, .g = 180, .b = 255, .a = 255},
 	{.r = 200, .g = 200, .b = 200, .a = 255}};
 
-	ft_bzero(&data->sliders[9], 2 * sizeof(t_slider));
+	ft_bzero(&data->ui.sliders[9], 2 * sizeof(t_slider));
 	if (obj->type == OBJ_SPHERE || obj->type == OBJ_CYLINDER)
-		data->sliders[9] = (t_slider){.value = &obj->radius, .min = 0.0,
-			.max = 90.0, .label = properties_labels[0],
+		data->ui.sliders[9] = (t_slider){.value = &obj->radius,
+			.min = 0.0, .max = 90.0, .label = properties_labels[0],
 			.col = material_colors[1], .affects_bvh = true};
 	if (obj->type == OBJ_CYLINDER)
-		data->sliders[10] = (t_slider){.value = &obj->props.height, .min = 0.0,
-			.max = 30.0, .label = properties_labels[1],
+		data->ui.sliders[10] = (t_slider){.value = &obj->props.height,
+			.min = 0.0, .max = 30.0, .label = properties_labels[1],
 			.col = material_colors[1], .affects_bvh = true};
 }

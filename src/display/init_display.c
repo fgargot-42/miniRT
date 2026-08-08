@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:16:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/31 18:51:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 00:47:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	init_display(char *rt_file, t_data *data)
 	mlx_window_create_info	info;
 
 	data->render_scale = 1;
-	data->dragging_slider = -1;
+	data->ui.dragging_slider = -1;
+	data->ui.selected_light = 0;
 	data->show_hud = true;
 	data->mlx = mlx_init();
 	if (!data->mlx)

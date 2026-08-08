@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:05:07 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/07 20:02:12 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/08 01:18:52 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,49 +64,23 @@ static void	put_mouse_coordinates(t_data *data, t_row_info info, t_vec2 uv)
 		free(print_str);
 }
 
-static char	*get_object_ptr_str(t_object *o)
-{
-	char	*tmp;
-	char	*ptr_str;
-	int		i;
-
-	tmp = ft_ptrtoa(o);
-	if (!tmp)
-		return (NULL);
-	i = 0;
-	while (tmp[i] == '0')
-		i++;
-	ptr_str = ft_strjoin("0x", &tmp[i]);
-	free(tmp);
-	return (ptr_str);
-}
-
-void	header(t_data *data, double mouse_x, double mouse_y)
+void	draw_object_header(t_data *data, double mouse_x, double mouse_y)
 {
 	int			y;
 	t_object	*o;
 	t_row_info	info;
-	char		*obj_ptr_str;
 
 	o = data->scene->selected;
-	info = (t_row_info){.y = &y, .win = data->editor, .label = "addr",
-		.val_col = (mlx_color){.rgba = COL_ADDR}};
-	obj_ptr_str = get_object_ptr_str(o);
-	mlx_set_font_scale(data->mlx, "resources/font.ttf", 14.0f);
-	mlx_string_put(data->mlx, data->editor, PANEL_X + PANEL_PAD, PANEL_Y + 16,
-		(mlx_color){.rgba = COL_WHITE}, "miniRT INSPECTOR |      ;)");
-	y = PANEL_Y + TITLE_H + 8;
-	put_section(data, data->editor, &y, "DATA ----");
-	if (obj_ptr_str)
-		put_row(data, info, obj_ptr_str);
+	info.y = &y;
+	info.win = data->editor;
 	info.label = "type";
 	info.val_col = (mlx_color){.rgba = COL_TYPE};
+	y = PANEL_Y + TITLE_H + 8;
+	put_section(data, data->editor, &y, "DATA ----");
 	put_row(data, info, obj_type_name(o));
 	info.label = "mouse";
 	info.val_col = (mlx_color){.rgba = COL_VALUE};
 	put_mouse_coordinates(data, info, (t_vec2){{.x = mouse_x, .y = mouse_y}});
-	if (obj_ptr_str)
-		free(obj_ptr_str);
 }
 
 void	draw_slider_group(t_data *d, int start, int end, int *y)
@@ -116,8 +90,8 @@ void	draw_slider_group(t_data *d, int start, int end, int *y)
 	i = start;
 	while (i < end)
 	{
-		d->sliders[i].y = *y;
-		draw_slider(d, &d->sliders[i]);
+		d->ui.sliders[i].y = *y;
+		draw_slider(d, &d->ui.sliders[i]);
 		*y += SLD_SPACING;
 		i++;
 	}

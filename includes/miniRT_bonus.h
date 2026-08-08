@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 21:43:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/08 00:35:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # define RAYS_PER_PIXEL 8
 # define MLX_WHITE 0xFFFFFFFF
 
-# define MAX_SLIDERS    32
-
 # include "mlx.h"
 # include "veclib.h"
 # include "object_bonus.h"
@@ -38,17 +36,6 @@
 # include "SDL2/SDL_scancode.h"
 # include "libft.h"
 # include "material.h"
-
-typedef struct s_slider
-{
-	int			y;
-	double		*value;
-	double		min;
-	double		max;
-	const char	*label;
-	mlx_color	col;
-	bool		affects_bvh;
-}	t_slider;
 
 typedef struct s_scene
 {
@@ -82,11 +69,9 @@ typedef struct s_data
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
-	t_slider	sliders[MAX_SLIDERS];
-	int			nb_sliders;
-	int			dragging_slider;
 	int			th_nb;
 	int			nb_threads;
+	t_ui_info	ui;
 }	t_data;
 
 // DISPLAY
