@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 23:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/07 23:39:16 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/10 17:58:12 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,27 @@ static bool	check_file_errors(char *file)
 	return (0);
 }
 
+
 static bool	check_file_extension(char *filepath, char *ext)
 {
 	char	*filename;
 	size_t	file_len;
 	size_t	ext_len;
 
-	file_len = 0;
+	if (!filepath || !ext)
+		return (false);
 	filename = ft_strrchr(filepath, '/');
-	if (!filename)
-		file_len = ft_strlen(filepath);
-	if (filename[0])
+	if (filename)
 		filename++;
+	else
+		filename = filepath;
 	file_len = ft_strlen(filename);
 	ext_len = ft_strlen(ext);
-	return (file_len < ext_len + 2 || filename[file_len - ext_len - 1] != '.'
-		|| ft_strcmp(&filename[file_len - ext_len], ext));
+	if (file_len < ext_len + 1)
+		return (false);
+	if (filename[file_len - ext_len - 1] != '.')
+		return (false);
+	return (ft_strcmp(&filename[file_len - ext_len], ext) == 0);
 }
 
 int	open_file_read(char *file, char *extension)
@@ -86,7 +91,7 @@ int	open_file_read(char *file, char *extension)
 	if (file_err)
 		return (-1);
 	file_err = check_file_extension(file, extension);
-	if (file_err)
+	if (!file_err)
 	{
 		ft_putstr_fd("Error\nMiniRT: Not a valid file name: ", 2);
 		ft_putendl_fd(file, 2);
