@@ -27,7 +27,7 @@ OK: ✅ 	KO: ❌
 | 	- `cubeobj`				| 			| ✅		|
 | 	- `cube.objobj`			| 			| ✅		|
 | Is a directory `dir.obj`	| 			| ✅		|
-| Is named `.obj`			| 			| ⚠️	 (fd -1)|
+| Is named `.obj`			| 			| ✅		|
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
 | Absolute path				| 			| ❌ (not functional)		|
@@ -48,8 +48,8 @@ OK: ✅ 	KO: ❌
 | Is a directory `dir.mtl`	| 			| ✅		|
 | Is named `.mtl`			| 			| ✅		|
 | No read permission		| 			| ✅		|
-| No write/exec permission	| 			| ❌ (cond) |
-| Absolute path				| 			| ❌ (cond) |
+| No write/exec permission	| 			| ✅		|
+| Absolute path				| 			| ✅		|
 | Path with spaces			| 			| ❌ (not functional) |
 
 **Notes:**
@@ -77,17 +77,17 @@ OK: ✅ 	KO: ❌
 ### Images in .mtl files
 | Test case					| Manda		| Bonus		|
 |---------------------------|-----------|-----------|
-| File does not exist		| 			| ❌ (crash)|
+| File does not exist		| 			| ✅		|
 | Wrong file extension		| 			| 			|
-| 	- `imagepng`			| 			| ❌ (crash)		|
-| 	- `image.pngpng`		| 			| ❌ (crash)			|
-| Is a directory `dir.png`	| 			| ❌ (crash)		|
-| Is named `.png`			| 			| ❌ (crash)		|	
-| Is empty file				| 			| ❌ (crash)			|
-| No read permission		| 			| ❌ (crash)			|
-| No write/exec permission	| 			| ❌ (cond)			|
-| Absolute path				| 			| ❌ (cond)			|
-| Path with spaces			| 			| ❌ (cond)			|
+| 	- `imagepng`			| 			| ✅		|
+| 	- `image.pngpng`		| 			| ✅		|
+| Is a directory `dir.png`	| 			| ✅		|
+| Is named `.png`			| 			| ✅		|
+| Is empty file				| 			| ✅		|
+| No read permission		| 			| ✅		|
+| No write/exec permission	| 			| ✅		|
+| Absolute path				| 			| ✅		|
+| Path with spaces			| 			| ✅		|
 
 
 Parsing test cases
