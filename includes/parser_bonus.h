@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 20:31:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/10 22:35:57 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "libft.h"
 # include "parser.h"
 # include "material.h"
-
+# include "object_bonus.h"
 t_object	*parse_sky(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_cone(char **line_split, t_parser_ctx *ctx);
 t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx);
@@ -32,4 +32,6 @@ int			parse_texture_file(char *param, t_texture **tex,
 void		add_triangles_to_scene(t_scene *scene, t_array triangles);
 void		add_materials_to_scene(t_scene *scene, t_array materials);
 
+bool		process_obj_file(t_object_model *obj, char *obj_file, t_parser_ctx *ctx);
+bool		parse_obj_line(t_object_model *obj, char *line, char *obj_path, t_parser_ctx *ctx);
 #endif // PARSER_BONUS_H

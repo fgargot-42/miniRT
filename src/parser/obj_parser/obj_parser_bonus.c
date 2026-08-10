@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/07 22:33:27 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/10 22:41:31 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_material	*get_material(char *line, t_array materials)
 	return (materials.array[i]);
 }
 
-static bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
+bool	parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 	t_parser_ctx *ctx)
 {
 	bool				status;
@@ -68,28 +68,22 @@ static bool	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	char	*line;
 	char	*obj_file;
 
-	obj_file = ft_strjoin(ctx->rt_path, split[2]);
+	obj_file = split[2];
+	if (split[2][0] != '/')
+		obj_file = ft_strjoin(ctx->rt_path, split[2]);
+	printf("HLELOOOOOOO %s\n", obj_file);
 	ctx->fd = open_file_read(obj_file, "obj");
 	line = ft_strrchr(obj_file, '/');
 	if (line)
 		line[1] = '\0';
-	line = get_next_line(ctx->fd);
-	status = (ctx->fd != -1);
-	while (line && status)
-	{
-		status = parse_obj_line(obj, line, obj_file, ctx);
-		if (!status)
-			printf("\t%s\n", line);
-		free(line);
-		line = get_next_line(ctx->fd);
-		ctx->line_nb++;
-	}
+	status = process_obj_file(obj, obj_file, ctx);
 	if (status)
 		add_triangles_to_scene(scene, obj->triangles);
-	free(obj_file);
-	clear_gnl(ctx->fd, line);
+	if (obj_file != split[2])
+		free(obj_file);
 	return (status);
 }
+
 
 static void	init_ctx(t_parser_ctx *obj_ctx, t_parser_ctx *ctx, t_data *data)
 {
