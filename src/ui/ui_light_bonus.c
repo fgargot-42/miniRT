@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:09:28 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/08 02:53:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/10 17:27:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,11 @@ static void	draw_light(t_data *d, int *y)
 
 	light_nb = ft_itoa(d->ui.selected_light);
 	if (light_nb)
-	{
 		light_str = ft_strjoin("LIGHT ", light_nb);
-		free(light_nb);
-	}
 	else
 		light_str = ft_strdup("LIGHT");
+	if (light_nb)
+		free(light_nb);
 	if (light_str)
 	{
 		*y += 12;
@@ -84,7 +83,11 @@ static void	draw_light(t_data *d, int *y)
 		*y += LINE_H - 6;
 		draw_hline(d, d->editor, *y);
 		*y += 16;
-		draw_slider_group(d, 4, 11, y);
+		draw_slider_group(d, 4, 7, y);
+		*y += 12;
+		draw_slider_group(d, 7, 10, y);
+		*y += 12;
+		draw_slider_group(d, 10, 11, y);
 		free(light_str);
 	}
 }
