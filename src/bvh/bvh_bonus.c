@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/11 20:44:12 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 22:07:15 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/10 21:25:32 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,6 @@ t_bvh	*build_bvh_tree(t_scene *scene)
 	}
 	bvh_split(bvh);
 	time_end = get_time() - time_start;
-	printf("BVH built in %fs\n", time_end);
+	printf("BVH built in %.3f ms\n", 1000 * time_end);
 	return (bvh);
 }

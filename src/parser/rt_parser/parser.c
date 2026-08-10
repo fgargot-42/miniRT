@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 00:47:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/10 21:12:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,18 @@ int	parse_scene(char *file, t_data *data)
 {
 	int				status;
 	t_parser_ctx	parser_ctx;
+	double			parse_start_ms;
+	double			parse_end_ms;
 
+	parse_start_ms = get_time();
 	parser_ctx.line_nb = 0;
 	parser_ctx.fd = open_file_read(file, "rt");
 	if (parser_ctx.fd == -1)
 		return (0);
 	parser_ctx.rt_path = get_directory_path(file);
 	status = parse_scene_loop(data, &parser_ctx);
+	parse_end_ms = get_time();
+	printf("Parsed scene in %.3f ms\n", parse_end_ms - parse_start_ms);
 	free(parser_ctx.rt_path);
 	return (status);
 }

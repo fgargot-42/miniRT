@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 23:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 17:58:12 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/10 21:57:56 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ static bool	check_file_errors(char *file)
 		close(fd);
 	return (0);
 }
-
 
 static bool	check_file_extension(char *filepath, char *ext)
 {

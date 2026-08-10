@@ -30,7 +30,7 @@ OK: ✅ 	KO: ❌
 | Is named `.obj`			| 			| ✅		|
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
-| Absolute path				| 			| ❌ (not functional)		|
+| Absolute path				| 			| ✅		|
 | Path with spaces			| 			| ❌ (not functional, leak)	|
 
 **Notes:**
@@ -67,7 +67,7 @@ OK: ✅ 	KO: ❌
 | Is empty file				| 			| ✅		|
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
-| Absolute path				| 			| ❌ (not functional)			|
+| Absolute path				| 			| ✅		|
 | Path with spaces			| 			| ❌ (not functional)			|
 
 **Notes:**
@@ -90,22 +90,49 @@ OK: ✅ 	KO: ❌
 | Path with spaces			| 			| ✅		|
 
 
-Parsing test cases
+## Parsing test cases
 
-.rt files:
+### .rt files
+| Test case								| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| No A										| 			| 			|
+| No C										| 			| 			|
+| No L										| 			| 			|
+| Multiple A								| 			| 			|
+| Multiple C								| 			| 			|
+| Multiple L (manda only)					| 			| 			|
+| Multiple S (bonus only)					| 			| 			|
+| Multiple SB (bonus only)					| 			| 			|
+| S and SB present (bonus only)				| 			| 			|
+| No shape									| 			| 			|
+| Only non-bvh shapes (planes)				| 			| 			|
+| Wrong parameters							| 			| 			|
+| Bonus parameters (manda only)				| 			| 			|
+| Wrong identifier							| 			| 			|
+| Bonus object identifier (manda only)		| 			| 			|
 
-	- no A
-	- no C
-	- no L
-	- multiple A
-	- multiple C
-	- multiple L (manda only)
-	- multiple S (bonus only)
-	- multiple SB (bonus only)
-	- S and SB present (bonus only)
-	- no shape
-	- only non-bvh shapes (planes)
-	- wrong parameters
-	- bonus parameters (manda only)
-	- wrong identifier
-	- bonus object identifier (manda only)
+### .obj file
+| Test case									| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| Missing/additional parameter in `v`		| 			| 			|
+| Missing/additional parameter in `vn`		| 			| 			|
+| Missing/additional parameter in `vt`		| 			| 			|
+| `f` has missing v/vn/vt					| 			| 			|
+| `f` has missing parameter (0..2 vertices)	| 			| 			|
+| `f` has wrong parameter					| 			| 			|
+| `f` has a negative index					| 			| 			|
+| `usemtl` with missing `mtllib`			| 			| 			|
+| `usemtl` with wrong material name (not in mtl file)	| 			| 			|
+| v/vt/vn/f has non-numeric parameter		| 			| 			|
+
+### .mtl file
+| Test case									| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| No `newmtl`								| 			| 			|
+| Unnamed `newmtl`							| 			| 			|
+| Wrong number of parameters (Ka 1.000000, Ns 250.000000 1.000000)	| 			| 			|
+| Not valid value							| 			| 			|
+| Empty material (nothing between two consecutive `newmtl` lines)	| 			| 			|
+| Invalid parameter							| 			| 			|
+| Invalid option (ex. map\_Kd -nope)		| 			| 			|
+| Wrong number of option values (ex. map\_Kd -s 0.5)	| 			| 			|

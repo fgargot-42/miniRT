@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 22:41:31 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/10 23:12:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static bool	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	obj_file = split[2];
 	if (split[2][0] != '/')
 		obj_file = ft_strjoin(ctx->rt_path, split[2]);
-	printf("HLELOOOOOOO %s\n", obj_file);
 	ctx->fd = open_file_read(obj_file, "obj");
 	line = ft_strrchr(obj_file, '/');
 	if (line)
