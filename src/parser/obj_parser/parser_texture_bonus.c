@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 19:02:37 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 23:56:16 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	parse_tex_option(char **split, t_texture *tex, int line_nb)
 
 	parse_result = true;
 	i = 1;
-	while (split[i][0] == '-')
+	while (split[i] && split[i][0] == '-')
 	{
 		if (!ft_strcmp(split[i], "-s"))
 		{
@@ -76,7 +76,7 @@ int	parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx, char *param)
 	if (!*tex)
 		return (0);
 	i = parse_tex_option(split, *tex, ctx->line_nb);
-	if (i == -1 || !split[i][0])
+	if (i == -1 || !split[i] || !split[i][0])
 	{
 		if (i != -1)
 			print_parse_error("missing parameter(s)", param, ctx->line_nb);
