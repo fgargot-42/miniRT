@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/07 23:46:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 22:48:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 	if (*dst)
 	{
 		print_parse_error("Duplicate element detected", elem, ctx->line_nb);
+		free(ctx->obj);
 		return (0);
 	}
 	*dst = ctx->obj;

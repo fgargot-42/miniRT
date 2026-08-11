@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 21:12:29 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 22:52:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ static int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
 	}
 	if (ctx->obj->type == OBJ_AMBIENT)
 		status = add_specials(&scene->ambient, ctx, "ambient");
-	if (ctx->obj->type == OBJ_CAMERA)
+	else if (ctx->obj->type == OBJ_CAMERA)
 		status = add_specials(&scene->cam, ctx, "camera");
-	if (ctx->obj->type == OBJ_LIGHT)
+	else if (ctx->obj->type == OBJ_LIGHT)
 		status = add_specials(&scene->light, ctx, "light");
 	return (status);
 }
@@ -107,18 +107,20 @@ int	parse_scene(char *file, t_data *data)
 {
 	int				status;
 	t_parser_ctx	parser_ctx;
-	double			parse_start_ms;
-	double			parse_end_ms;
+	double			parse_start_s;
+	double			parse_end_s;
 
-	parse_start_ms = get_time();
+	parse_start_s = get_time();
 	parser_ctx.line_nb = 0;
 	parser_ctx.fd = open_file_read(file, "rt");
 	if (parser_ctx.fd == -1)
 		return (0);
 	parser_ctx.rt_path = get_directory_path(file);
 	status = parse_scene_loop(data, &parser_ctx);
-	parse_end_ms = get_time();
-	printf("Parsed scene in %.3f ms\n", parse_end_ms - parse_start_ms);
+	parse_end_s = get_time();
+	if (status)
+		printf("Parsed %zu objects in %.3f ms\n", data->scene->objects.len,
+				1000 * (parse_end_s - parse_start_s));
 	free(parser_ctx.rt_path);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 21:16:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 22:52:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ static int	add_element_to_scene(t_scene *scene, t_parser_ctx *ctx)
 	}
 	if (ctx->obj->type == OBJ_AMBIENT)
 		status = add_specials(&scene->ambient, ctx, "ambient");
-	if (ctx->obj->type == OBJ_CAMERA)
+	else if (ctx->obj->type == OBJ_CAMERA)
 		status = add_specials(&scene->cam, ctx, "camera");
-	if (ctx->obj->type == OBJ_SKY)
+	else if (ctx->obj->type == OBJ_SKY)
 		status = add_specials(&scene->sky, ctx, "sky");
 	return (status);
 }
@@ -133,7 +133,8 @@ int	parse_scene(char *file, t_data *data)
 	status = parse_scene_loop(&parser_ctx);
 	parse_end_s = get_time();
 	free(parser_ctx.rt_path);
-	printf("Parsed %zu objects in %.3f ms\n", data->scene->objects.len,
-		1000 * (parse_end_s - parse_start_s));
+	if (status)
+		printf("Parsed %zu objects in %.3f ms\n", data->scene->objects.len,
+				1000 * (parse_end_s - parse_start_s));
 	return (status);
 }
