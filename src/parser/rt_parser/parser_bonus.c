@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 21:24:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 21:16:11 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ static int	parse_line(char *line, t_parser_ctx *ctx)
 {
 	char						**line_split;
 	int							i;
+	const char					sep[] = {9, 10, 11, 12, 13, ' ', '\0'};
 	static const t_parser_func	parse_elem[] = {parse_ambient, parse_camera,
 		parse_light, parse_sky, parse_sphere, parse_plane, parse_cylinder,
 		parse_cone, parse_hyperboloid, parse_paraboloid, parse_triangle};
 
-	line_split = ft_split_by_whitespace(line);
+	line_split = rt_parser_split(line, sep);
 	if (!line_split)
 		return (0);
 	if (!*line_split || *line_split[0] == '\0' || *line_split[0] == '#')

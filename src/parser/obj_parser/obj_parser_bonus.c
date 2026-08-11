@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 23:12:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 21:18:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ static bool	parse_obj_elements(char **split, t_parser_ctx *ctx,
 	return (status);
 }
 
-
 static void	init_ctx(t_parser_ctx *obj_ctx, t_parser_ctx *ctx, t_data *data)
 {
 	ft_bzero(obj_ctx, sizeof(t_parser_ctx));
@@ -103,7 +102,7 @@ int	parse_obj_file(char *file, t_data *data, t_parser_ctx *ctx)
 	status = 1;
 	init_ctx(&obj_ctx, ctx, data);
 	init_object_model(&obj);
-	split = ft_split_by_whitespace(file);
+	split = rt_parser_split(file, (char []){9, 10, 11, 12, 13, ' ', '\0'});
 	if (!split)
 		return (0);
 	if (check_array_size(split, 3, "obj", ctx->line_nb))

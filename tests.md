@@ -31,7 +31,8 @@ OK: ✅ 	KO: ❌
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
 | Absolute path				| 			| ✅		|
-| Path with spaces			| 			| ❌ (not functional, leak)	|
+| Path with spaces			| 			| ✅		|
+| Quoted path with spaces	| 			| ✅		|
 
 **Notes:**
 - Absolute path fails to open
@@ -50,7 +51,7 @@ OK: ✅ 	KO: ❌
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
 | Absolute path				| 			| ✅		|
-| Path with spaces			| 			| ❌ (not functional) |
+| Path with spaces			| 			| ✅		|
 
 **Notes:**
 - Conditional jump occurs in `parse_scene` when `.mtl` file successfully opens
@@ -68,7 +69,8 @@ OK: ✅ 	KO: ❌
 | No read permission		| 			| ✅		|
 | No write/exec permission	| 			| ✅		|
 | Absolute path				| 			| ✅		|
-| Path with spaces			| 			| ❌ (not functional)			|
+| Path with spaces			| 			| ✅		|
+| Quoted path with spaces	| 			| ✅		|
 
 **Notes:**
 - absolute path is appended to the .rt filepath as if it was a relative path
@@ -89,6 +91,48 @@ OK: ✅ 	KO: ❌
 | Absolute path				| 			| ✅		|
 | Path with spaces			| 			| ✅		|
 
+
+### General / cross-cutting
+| Test case									| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| No argument given (0 args)					| 			| ✅			|
+| Too many arguments (multiple `.rt` files)	| 			| ✅			|
+| Same file passed twice					| 			| ✅			|
+| File extension in different case (`SCENE.RT`)	| 			| 			|
+| Symbolic link to a valid file				| 			| ✅			|
+| Symlink name has wrong extension, points to valid file (e.g. `link_no_ext -> scene.rt`)	| 			| ✅			|
+| Symlink has correct extension, points to file with different/no extension (e.g. `link.rt -> scene.txt`)	| 			| ⚠️	(extension of pointed file not checked)		|
+| Symlink has correct extension, points to a directory	| 			| ✅			|
+| Broken symbolic link						| 			| ✅			|
+| Symlink loop (`ln -s a b; ln -s b a`)		| 			| ✅			|
+| File is a FIFO/pipe or special device file	| 			| ⚠️ (hanging on FIFO if no timeout)			|
+| Filename with `..` / relative traversal	| 			| 			|
+| Extremely long filename/path (near `PATH_MAX`)	| 			| 			|
+| Multiple extensions, only last matters (`scene.txt.rt`)	| 			| 			|
+| Hidden file that's valid (`.scene.rt`)		| 			| 			|
+| Read permission on file but not on parent directory	| 			| 			|
+
+**Notes:**
+- Extension checks should be performed on the path/name as given (the symlink's own name), not on the resolved target. `open()` transparently follows the symlink regardless of the name check, so a symlink named `link_no_ext` pointing to a valid `.rt` file should still fail the extension check. Conversely, a symlink named `link.rt` pointing to a directory or wrong-extension file should pass the extension check and be caught later (directory check / open failure / content parsing), not by the extension check itself.
+- `cat scene.rt > fifo.rt & timeout 5 ./miniRT fifo.rt` to run miniRT with a FIFO file. `mkfifo fifo.rt` to create FIFO file.
+
+### File content edge cases
+| Test case									| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| Correct extension but 0 bytes (empty)		| 			| 			|
+| File contains only whitespace/newlines	| 			| 			|
+| File contains null bytes or binary garbage	| 			| 			|
+| Non-UTF-8 encoding (invalid bytes)		| 			| 			|
+| Line without trailing newline at EOF		| 			| 			|
+| Extremely large file (stress/performance, e.g. huge `.obj` mesh)	| 			| 			|
+| Windows-style line endings (`\r\n`)		| 			| 			|
+
+### Referenced sub-files (`.obj`, `.mtl`, images)
+| Test case									| Manda		| Bonus		|
+|-------------------------------------------|-----------|-----------|
+| Relative path resolved from wrong base directory	| 			| 			|
+| Same image/material file referenced multiple times	| 			| 			|
+| Circular reference (e.g. `.mtl` referencing itself)	| 			| 			|
 
 ## Parsing test cases
 

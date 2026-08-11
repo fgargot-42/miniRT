@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 23:56:16 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/11 23:59:20 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,12 @@ int	parse_obj_tex_file(t_object_model *obj, char *rt_path,
 		return (0);
 	tex = new_texture();
 	if (!tex)
+	{
+		free(tex_path);
 		return (0);
+	}
 	is_tex_loaded = load_texture(tex_path, tex, mlx);
+	free(tex_path);
 	if (!is_tex_loaded)
 	{
 		free(tex);
