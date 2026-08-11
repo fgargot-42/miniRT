@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 22:52:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 23:51:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	parse_scene(char *file, t_data *data)
 	parse_end_s = get_time();
 	if (status)
 		printf("Parsed %zu objects in %.3f ms\n", data->scene->objects.len,
-				1000 * (parse_end_s - parse_start_s));
+			1000 * (parse_end_s - parse_start_s));
 	free(parser_ctx.rt_path);
 	return (status);
 }

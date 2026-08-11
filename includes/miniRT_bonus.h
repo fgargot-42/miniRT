@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 00:35:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/12 00:03:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ void		free_scene(t_scene *scene, mlx_context mlx);
 void		free_object(void *object);
 void		check_scene_mandatory_object(void *obj, char *obj_str,
 				t_scene *scene, mlx_context mlx);
+void		check_scene_array_not_empty(t_array *arr, char *arr_str,
+				t_scene *scene, mlx_context mlx);
+void		set_default_sky(t_scene *scene, mlx_context mlx);
 
 // DRAWER
 

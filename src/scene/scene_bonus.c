@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/22 23:27:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 23:48:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,6 @@
 #include "parser_bonus.h"
 #include "libft.h"
 #include <unistd.h>
-
-static void	set_default_sky(t_scene *scene, mlx_context mlx)
-{
-	t_object	*default_sky;
-
-	default_sky = ft_calloc(1, sizeof(t_object));
-	if (!default_sky)
-	{
-		free_scene(scene, mlx);
-		exit(1);
-	}
-	default_sky->color = (t_vec3){{0, 0, 0}};
-	if (!scene->sky)
-		scene->sky = default_sky;
-	else
-		free(default_sky);
-}
 
 static int	ft_no_bvh_obj(void *e)
 {
@@ -40,16 +23,26 @@ static int	ft_no_bvh_obj(void *e)
 	return (obj->type <= OBJ_PLANE);
 }
 
+static bool	init_scene_arrays(t_scene *scene)
+{
+	if (!scene)
+		return (false);
+	scene->objects = ft_arraynew();
+	scene->lights = ft_arraynew();
+	scene->mat = ft_arraynew();
+	if (!scene->objects.array || !scene->lights.array || !scene->mat.array)
+		return (false);
+	return (true);
+}
+
 void	init_scene(char *file, t_data *data)
 {
-	int		parse_status;
+	bool	parse_status;
 	t_array	new_obj;
 
 	ft_bzero(data->scene, sizeof(t_scene));
-	data->scene->objects = ft_arraynew();
-	data->scene->lights = ft_arraynew();
-	data->scene->mat = ft_arraynew();
-	parse_status = parse_scene(file, data);
+	parse_status = init_scene_arrays(data->scene);
+	parse_status &= parse_scene(file, data);
 	if (!parse_status)
 	{
 		free_scene(data->scene, data->mlx);
@@ -58,6 +51,8 @@ void	init_scene(char *file, t_data *data)
 	check_scene_mandatory_object(data->scene->ambient, "ambient lighting",
 		data->scene, data->mlx);
 	check_scene_mandatory_object(data->scene->cam, "camera",
+		data->scene, data->mlx);
+	check_scene_array_not_empty(&data->scene->lights, "light",
 		data->scene, data->mlx);
 	data->scene->bvh_objects = ft_array_filter(data->scene->objects,
 			is_bvh_object, free_object);

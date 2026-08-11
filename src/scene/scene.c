@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/19 01:33:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/17 20:13:06 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/11 23:53:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	init_scene(char *file, t_data *data)
 
 	ft_bzero(data->scene, sizeof(t_scene));
 	data->scene->objects = ft_arraynew();
-	parse_status = parse_scene(file, data);
+	parse_status = data->scene->objects.array != NULL;
+	parse_status &= parse_scene(file, data);
 	if (!parse_status)
 	{
 		free_scene(data->scene);
