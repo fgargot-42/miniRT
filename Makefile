@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/11 19:50:26 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/12 01:46:49 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,7 @@ SRC_BONUS = $(SRC) \
 		parser/obj_parser/parse_obj_face_bonus.c \
 		parser/obj_parser/parse_obj_model_bonus.c \
 		parser/obj_parser/parser_texture_bonus.c \
+		parser/obj_parser/parser_texture_utils_bonus.c \
 		parser/obj_parser/obj_parser_utils_bonus.c \
 		parser/rt_parser/parser_bonus.c \
 		parser/rt_parser/parse_sky_bonus.c \

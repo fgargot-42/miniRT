@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/27 23:41:23 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/12 02:02:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_parser_ctx
 // PARSING
 
 typedef t_object		*(*t_parser_func)(char **, t_parser_ctx *);
-int					parse_scene(char *file, t_data *data);
+bool				parse_scene(char *file, t_data *data);
 t_object			*parse_ambient(char **line_split, t_parser_ctx *ctx);
 t_object			*parse_camera(char **line_split, t_parser_ctx *ctx);
 t_object			*parse_light(char **line_split, t_parser_ctx *ctx);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 23:59:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/12 02:16:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,50 @@
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
 
-static char	*get_tex_path(char *rt_path, char *tex_path)
-{
-	char	*res_path;
+char	*get_tex_path(char *rt_path, char *tex_path);
+bool	parse_tex_vector(char **split, t_vec3 *vec, char *param,
+			int line_nb);
 
-	if (!rt_path || !tex_path)
-		return (NULL);
-	if (tex_path[0] == '/')
-		res_path = ft_strdup(tex_path);
-	else
-		res_path = ft_strjoin(rt_path, tex_path);
-	return (res_path);
+static bool	is_one_param_option(char *option)
+{
+	static const char	*options[] = {"-blendu", "-blendv", "-cc", "-clamp",
+		"-texres", "-imfchan", "-bm"};
+	static const int	nb_options = sizeof(options) / sizeof(char *);
+	int					i;
+
+	i = 0;
+	while (i < nb_options)
+	{
+		if (!ft_strcmp(option, (char *)options[i]))
+			return (true);
+		i++;
+	}
+	return (false);
 }
 
-static bool	parse_tex_vector(char **split, t_vec3 *vec, char *param,
-	int line_nb)
+static bool	check_option_param_count(char **split, int *index)
 {
-	bool	parse_result;
+	int					nb_p;
+	int					i;
+	bool				status;
 
-	parse_result = parse_double(split[1], &vec->x, param, line_nb);
-	parse_result &= parse_double(split[2], &vec->y, param, line_nb);
-	parse_result &= parse_double(split[3], &vec->z, param, line_nb);
-	return (parse_result);
+	nb_p = 0;
+	status = true;
+	if (!ft_strcmp(split[0], "-o") || !ft_strcmp(split[0], "-t")
+		|| !ft_strcmp(split[0], "-s"))
+		nb_p = 3;
+	else if (!ft_strcmp(split[0], "-mm"))
+		nb_p = 2;
+	else if (is_one_param_option(split[0]))
+		nb_p = 1;
+	i = 0;
+	while (status && i < nb_p)
+	{
+		status = split[i] != NULL;
+		i++;
+	}
+	*index += i + 1;
+	return (status);
 }
 
 static int	parse_tex_option(char **split, t_texture *tex, int line_nb)
@@ -45,18 +67,12 @@ static int	parse_tex_option(char **split, t_texture *tex, int line_nb)
 
 	parse_result = true;
 	i = 1;
-	while (split[i] && split[i][0] == '-')
+	while (parse_result && split[i] && split[i][0] == '-')
 	{
 		if (!ft_strcmp(split[i], "-s"))
-		{
 			parse_result = parse_tex_vector(&split[i], &(tex->scale), "-s",
 					line_nb);
-			i += 4;
-		}
-		else if (!ft_strcmp(split[i], "-o") || !ft_strcmp(split[i], "-t"))
-			i += 4;
-		else
-			i += 2;
+		parse_result &= check_option_param_count(&split[i], &i);
 	}
 	if (!parse_result)
 		i = -1;

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 23:51:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/12 02:03:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static int	parse_scene_loop(t_data *data, t_parser_ctx *ctx)
 	return (status);
 }
 
-int	parse_scene(char *file, t_data *data)
+bool	parse_scene(char *file, t_data *data)
 {
 	int				status;
 	t_parser_ctx	parser_ctx;
@@ -122,5 +122,5 @@ int	parse_scene(char *file, t_data *data)
 		printf("Parsed %zu objects in %.3f ms\n", data->scene->objects.len,
 			1000 * (parse_end_s - parse_start_s));
 	free(parser_ctx.rt_path);
-	return (status);
+	return (status != 0);
 }
