@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 22:56:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 01:00:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ static t_vec3	apply_ambient(t_hit_record rec, t_object *ambient)
 	t_vec3	ambient_color;
 	t_vec3	ambient_linear;
 
-	if (rec.object->material->illum == 0)
-		return (rec.object->color);
 	ambient_linear = vec3_pow(vec3_scale(ambient->color, 1.0 / 255.0), 2.2);
 	ambient_color = vec3_scale(vec3_multiply(rec.color, ambient_linear),
 			ambient->props.intensity);
@@ -81,8 +79,6 @@ static void	apply_specular(t_hit_record *rec, t_object *light, t_vec3 *result,
 	double	dot_ln;
 	double	spec;
 
-	if (rec->specular <= 0.0 || rec->object->material->illum < 2)
-		return ;
 	if (rec->shininess <= 0)
 		rec->shininess = 128;
 	light_dir = vec3_normalize(vec3_sub(light->position, rec->point));
@@ -109,7 +105,7 @@ t_vec3	shade(t_hit_record *rec, t_scene *scene, t_ray *ray)
 	tmp = *rec;
 	tmp.color = vec3_pow(vec3_scale(rec->color, 1.0 / 255.0), 2.2);
 	res = apply_ambient(tmp, scene->ambient);
-	while (rec->object->material->illum > 0 && i < scene->lights.len)
+	while (i < scene->lights.len)
 	{
 		light = *((t_object *)(scene->lights.array[i]));
 		light.props.intensity *= shadow_attenuate(tmp, scene, &light);

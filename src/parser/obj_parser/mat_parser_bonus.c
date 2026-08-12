@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/12 22:38:22 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 22:09:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 01:42:28 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,20 @@
 static int	get_material_element_index(char *mat_elem)
 {
 	unsigned long		i;
+	size_t				j;
 	static const char	*el_mat[] = {
 		"Ns", "Ka", "Kd", "Ks", "Ni", "d", "illum"};
 	static const int	mat_size = sizeof(el_mat) / sizeof(char *);
 
 	i = 0;
+	j = 0;
 	while (ft_iswhitespace(*mat_elem))
 		mat_elem++;
+	while (mat_elem[j] && !ft_iswhitespace(mat_elem[j]))
+		j++;
 	while (i < mat_size)
 	{
-		if (!ft_strncmp(mat_elem, el_mat[i], ft_strlen(el_mat[i])))
+		if (!strncmp_case_i(mat_elem, (char *)el_mat[i], j))
 			break ;
 		i++;
 	}
@@ -54,13 +58,13 @@ static int	open_material_texture(char *line, t_material *mat,
 		free_str_array(split);
 		return (0);
 	}
-	if (!strncmp(split[0], "map_Kd", 6))
+	if (!strncmp_case_i(split[0], "map_Kd", 7))
 		status &= parse_mat_tex(split, &mat->color_tex, ctx, split[0]);
-	if (!strncmp(split[0], "map_Bump", 8))
+	if (!strncmp_case_i(split[0], "map_Bump", 9))
 		status &= parse_mat_tex(split, &mat->normal_tex, ctx, split[0]);
-	if (!strncmp(split[0], "map_Ks", 6))
+	if (!strncmp_case_i(split[0], "map_Ks", 7))
 		status &= parse_mat_tex(split, &mat->spec_tex, ctx, split[0]);
-	if (!strncmp(split[0], "map_d", 5))
+	if (!strncmp_case_i(split[0], "map_d", 6))
 		status &= parse_mat_tex(split, &mat->mask_tex, ctx, split[0]);
 	free_str_array(split);
 	return (status);
@@ -80,6 +84,7 @@ static int	parse_material_line(char *line, t_array *materials,
 		return (0);
 	if (!ft_strncmp(line, "newmtl", 6))
 	{
+		apply_illum(ctx->mat_parse);
 		status = parse_new_material(line, materials, &ctx->mat_parse);
 		return (status);
 	}
@@ -108,6 +113,8 @@ static int	material_parse_loop(t_array *materials, t_parser_ctx *ctx)
 		line = get_next_line(ctx->fd);
 		ctx->line_nb++;
 	}
+	if (status)
+		apply_illum(ctx->mat_parse);
 	if (!status)
 		clear_gnl(ctx->fd, line);
 	return (status);
@@ -120,6 +127,7 @@ int	import_materials(char *mtl_file, t_array *materials, char *obj_path,
 	char			*mtl_path;
 	t_parser_ctx	ctx;
 
+	ft_bzero(&ctx, sizeof(t_parser_ctx));
 	ctx.line_nb = 1;
 	ctx.mlx = mlx;
 	while (*mtl_file && *mtl_file != ' ')

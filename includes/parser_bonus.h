@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 21:20:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 01:42:45 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,8 @@ bool		process_obj_file(t_object_model *obj, char *obj_file,
 bool		parse_obj_line(t_object_model *obj, char *line, char *obj_path,
 				t_parser_ctx *ctx);
 char		**rt_parser_split(char *str, char const *sep);
+
+void		apply_illum(t_material *mat);
+int			strncmp_case_i(char const *str1, char const *str2, size_t n);
 
 #endif // PARSER_BONUS_H
