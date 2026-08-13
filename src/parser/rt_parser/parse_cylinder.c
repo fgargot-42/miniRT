@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/07 19:36:13 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/13 23:51:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_object	*parse_cylinder(char **line_split, t_parser_ctx *ctx)
 	}
 	obj->direction = vec3_normalize(obj->direction);
 	obj->radius /= 2;
-	obj->props.transform_axis = vec_get_matrix_rotation_z(obj->direction);
 	obj->type = OBJ_CYLINDER;
 	return (obj);
 }

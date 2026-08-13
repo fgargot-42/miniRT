@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 22:44:49 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/06 20:40:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:55:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	move_camera(int scancode, t_data *data)
 	t_vec3			right;
 
 	cam = data->scene->cam;
-	fwd = vec3_normalize(cam->direction);
+	fwd = vec3_normalize(euler_to_direction(cam->rotation));
 	right = vec3_normalize(vec3_cross(fwd, w_up));
 	if (scancode == 26)
 		cam->position = vec3_add(cam->position, vec3_scale(fwd, MOVE_STEP));

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 18:28:55 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:27:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 00:09:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,33 @@
 #include "libft.h"
 #include <math.h>
 #include <stdlib.h>
+
+t_mat3	mat3_multiply(t_mat3 a, t_mat3 b)
+{
+	t_mat3	r;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	while (i < 3)
+	{
+		j = 0;
+		while (j < 3)
+		{
+			r.mat[i][j] = 0;
+			k = 0;
+			while (k < 3)
+			{
+				r.mat[i][j] += a.mat[i][k] * b.mat[k][j];
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (r);
+}
 
 double	det3(t_mat3 mat)
 {
@@ -88,17 +115,4 @@ t_mat3	transpose_mat3(t_mat3 mat)
 	tr.mat[2][1] = mat.mat[1][2];
 	tr.mat[2][2] = mat.mat[2][2];
 	return (tr);
-}
-
-t_vec3	mat3_vec_mult(t_mat3 mat, t_vec3 vec)
-{
-	t_vec3	res;
-
-	res = vec3_scale((t_vec3){{mat.mat[0][0], mat.mat[0][1],
-			mat.mat[0][2]}}, vec.x);
-	res = vec3_add(res, vec3_scale((t_vec3){{.x = mat.mat[1][0],
-				.y = mat.mat[1][1], .z = mat.mat[1][2]}}, vec.y));
-	res = vec3_add(res, vec3_scale((t_vec3){{.x = mat.mat[2][0],
-				.y = mat.mat[2][1], .z = mat.mat[2][2]}}, vec.z));
-	return (res);
 }

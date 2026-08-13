@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/08 00:41:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:14:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 {
 	int						i;
 	static const char		*position_labels[3] = {"pos.x", "pos.y", "pos.z"};
-	static const char		*rotation_labels[3] = {"rot.x", "rot.y", "rot.z"};
+	static const char		*rotation_labels[3] = {"pitch", "yaw", "roll"};
 	static const mlx_color	position_colors[3] = {
 	{.r = 100, .g = 200, .b = 255, .a = 255},
 	{.r = 100, .g = 255, .b = 130, .a = 255},
@@ -30,8 +30,9 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
 			.label = position_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
-		data->ui.sliders[3 + i] = (t_slider){.value = &obj->direction.vec[i],
-			.min = -1, .max = 1, .label = rotation_labels[i],
+		data->ui.sliders[3 + i] = (t_slider){.value = &obj->rotation.vec[i],
+			.min = -90 * ((i > 0) + 1), .max = 90 * ((i > 0) + 1),
+			.label = rotation_labels[i],
 			.col = position_colors[i], .affects_bvh = true};
 		i++;
 	}

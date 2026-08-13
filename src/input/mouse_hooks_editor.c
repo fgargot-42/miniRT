@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 00:32:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 00:32:03 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 static void	apply_tan_or_matrix(t_data *data)
 {
-	t_object	*obj;
-	t_vec3		rotation;
+	static const t_vec3	z_base = (t_vec3){{0.0, 0.0, 1.0}};
+	t_object			*obj;
+	t_mat3				dr;
 
 	obj = data->scene->selected;
 	if (!obj || obj->type != OBJ_CYLINDER)
 		return ;
-	rotation = obj->direction;
-	obj->props.transform_axis
-		= vec_get_matrix_rotation_z(vec3_normalize(rotation));
+	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
+	dr = mat3_multiply(
+			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
+	dr = mat3_multiply(
+			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
+	obj->direction = vec_apply_matrix(z_base, dr);
+	obj->props.transform_axis = dr;
 }
 
 static int	handle_slider_click(t_data *data, t_slider *s, int mx, int my)

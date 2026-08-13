@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 00:35:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:53:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void				mouse_wheel_hook(int mouse_event, void *param);
 //src/camera.c
 t_ray				camera_ray(t_object *cam, double x, double y);
 void				mouse_loop(void *param);
+t_vec3				euler_to_direction(t_vec3 euler);
 
 //lighting.c
 t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);

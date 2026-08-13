@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 22:58:20 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 20:23:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,14 @@ void	add_debug(t_data *data, double render_time_ms)
 	print_fps(data, render_time_ms, (t_vec2){{10, 20}});
 	print_nb_threads(data, (t_vec2){{10, 40}});
 	print_vector(data, "POS", data->scene->cam->position, (t_vec2){{10, 60}});
-	print_vector(data, "DIR", data->scene->cam->direction, (t_vec2){{10, 80}});
-	print_camera_orientation(data, (t_vec2){{10, 100}});
+	print_camera_orientation(data, (t_vec2){{10, 80}});
 	print_int_value(data, "BVH DISPLAY LEVEL", data->scene->bvh_display_level,
-		(t_vec2){{10, 120}});
+		(t_vec2){{10, 100}});
 	print_toggle(data, "transparency (T)", data->scene->transparency,
-		(t_vec2){{10, 140}});
+		(t_vec2){{10, 120}});
 	print_toggle(data, "specular (G)", data->scene->specular,
-		(t_vec2){{10, 160}});
-	print_toggle(data, "bump (B)", data->scene->bump, (t_vec2){{10, 180}});
+		(t_vec2){{10, 140}});
+	print_toggle(data, "bump (B)", data->scene->bump, (t_vec2){{10, 160}});
 	print_toggle(data, "anti-aliasing (Y)", data->scene->anti_aliasing,
-		(t_vec2){{10, 200}});
+		(t_vec2){{10, 180}});
 }

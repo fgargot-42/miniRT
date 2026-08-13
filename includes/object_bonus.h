@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 23:39:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 00:13:26 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,13 @@ typedef union u_obj_prop
 		double	depth;
 		t_mat3	transform_axis;
 	};
-	// camera
-	struct
-	{
-		double	fov;
-		double	pitch;
-		double	yaw;
-	};
 	struct
 	{
 		t_vec3	a;
 		t_vec3	b;
 		t_vec3	c;
 	};
+	double	fov; // camera field of view
 	double	intensity; // light/ambient
 }	t_obj_prop;
 
@@ -76,6 +70,7 @@ typedef struct s_object
 	t_obj_prop		props;
 	t_vec3			position;
 	t_vec3			direction; // normal for planes
+	t_vec3			rotation; // euler-angle rotation (x=pitch, y=yaw, z=roll)
 	t_vec3			scale;
 	t_vec3			color;
 	double			radius;

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/20 23:36:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 21:57:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:02:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,18 @@ int	open_file_read(char *file, char *extension)
 		perror("miniRT");
 	}
 	return (fd);
+}
+
+void	clear_gnl(int fd, char *line)
+{
+	if (line)
+		free(line);
+	line = get_next_line(fd);
+	while (line)
+	{
+		free(line);
+		line = get_next_line(fd);
+	}
+	if (fd > -1)
+		close(fd);
 }

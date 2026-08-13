@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 20:28:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 23:52:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_object	*parse_hyperboloid(char **line_split, t_parser_ctx *ctx)
 	}
 	obj->direction = vec3_normalize(obj->direction);
 	obj->props.tan_angle = tan(obj->angle * M_PI / 180);
-	obj->props.transform_axis = vec_get_matrix_rotation_z(obj->direction);
 	obj->type = OBJ_HYPERBOLOID;
 	return (obj);
 }

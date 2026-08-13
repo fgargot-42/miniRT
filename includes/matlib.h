@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 20:03:39 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/18 00:16:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 20:58:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,13 @@ t_mat3	init_mat3(t_vec3 a, t_vec3 b, t_vec3 c);
 t_mat3	inv_mat3(t_mat3 mat);
 t_mat3	transpose_mat3(t_mat3 mat);
 t_vec3	mat3_vec_mult(t_mat3 mat, t_vec3 vec);
+t_mat3	mat3_multiply(t_mat3 a, t_mat3 b);
 
-t_mat3	vec_get_matrix_rotation_z(t_vec3 v_from);
-t_vec3	vec_apply_rotation_z(t_vec3 v_from, t_mat3 t_matrix);
-t_vec3	vec_reverse_rotation(t_vec3 v_from, t_mat3 t_matrix);
+t_mat3	vec_get_matrix_rotation_x(double theta);
+t_mat3	vec_get_matrix_rotation_y(double theta);
+t_mat3	vec_get_matrix_rotation_z(double theta);
+t_mat3	vec_get_matrix_align_z(t_vec3 v_from);
+t_vec3	vec_apply_matrix(t_vec3 v_from, t_mat3 t_matrix);
+t_vec3	vec_reverse_matrix(t_vec3 v_from, t_mat3 t_matrix);
 
 #endif // VECLIB_H
