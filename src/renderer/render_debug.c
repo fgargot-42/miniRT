@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 23:19:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 23:04:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 20:23:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	add_debug(t_data *data, double render_time_ms)
 	print_int_value(data, "Render Scale", data->render_scale,
 		(t_vec2){{10, 40}});
 	print_vector(data, "POS", data->scene->cam->position, (t_vec2){{10, 60}});
-	print_vector(data, "DIR", data->scene->cam->direction, (t_vec2){{10, 80}});
-	print_camera_orientation(data, (t_vec2){{10, 100}});
+	print_camera_orientation(data, (t_vec2){{10, 80}});
 	print_int_value(data, "BVH DISPLAY LEVEL", data->scene->bvh_display_level,
-		(t_vec2){{10, 120}});
+		(t_vec2){{10, 100}});
 }

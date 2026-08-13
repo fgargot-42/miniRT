@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 00:42:26 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 01:05:53 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 23:42:42 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_object_header(d, mx, my);
 	y = SLD_BASE_Y - 130;
 	draw_group(d, (t_vec2){{0, 3}}, &y, "TRANSFORM -");
-	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
-	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
-	draw_group(d, (t_vec2){{9, 11}}, &y, "PROPERTIES -----");
+	draw_group(d, (t_vec2){{3, 5}}, &y, "ROTATION -");
+	draw_group(d, (t_vec2){{5, 8}}, &y, "COLOR -----");
+	draw_group(d, (t_vec2){{8, 10}}, &y, "PROPERTIES -----");
 	draw_footer(d);
 }
 

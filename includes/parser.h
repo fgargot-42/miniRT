@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/12 02:02:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:08:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int					parse_vector(char *param, t_vec3 *v_res, char *object,
 int					parse_double(char *param, double *res, char *object,
 						int line_nb);
 bool				is_ignored(char *param);
+void				set_euler_rotation(t_object *obj);
 
 #endif

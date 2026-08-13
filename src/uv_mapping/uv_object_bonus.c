@@ -6,13 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 01:25:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/25 01:28:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 01:04:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object_bonus.h"
 #include "veclib.h"
 #include <math.h>
+#include <stdio.h>
 
 t_vec2	get_sphere_uv(t_object *obj, t_vec3 point)
 {
@@ -22,9 +23,10 @@ t_vec2	get_sphere_uv(t_object *obj, t_vec3 point)
 	t_vec2	result;
 
 	vec = vec3_normalize(vec3_sub(point, obj->position));
+	vec = vec_apply_matrix(vec, obj->props.transform_axis);
 	a = atan2(vec.z, vec.x);
 	b = fmax(-1.0, fmin(1.0, vec.y));
-	b = acos(b);
+	b = acos(vec.y);
 	result.x = (a + M_PI) / (2 * M_PI);
 	result.y = b / M_PI;
 	return (result);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_debug_specials.c                            :+:      :+:    :+:   */
+/*   render_debug_props.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/01 20:36:04 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 22:56:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/13 19:29:44 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	print_camera_orientation(t_data *data, t_vec2 pos)
 
 	print_str = NULL;
 	print_cam_o[0] = "YAW: ";
-	print_cam_o[1] = ft_dtoa(data->scene->cam->props.yaw, 2);
+	print_cam_o[1] = ft_dtoa(data->scene->cam->rotation.y, 2);
 	print_cam_o[2] = "  PITCH:";
-	print_cam_o[3] = ft_dtoa(data->scene->cam->props.pitch, 2);
+	print_cam_o[3] = ft_dtoa(data->scene->cam->rotation.x, 2);
 	print_cam_o[4] = NULL;
 	if (print_cam_o[1] && print_cam_o[3])
 	{

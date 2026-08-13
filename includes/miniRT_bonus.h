@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/12 00:03:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 00:25:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		mouse_wheel_hook(int mouse_event, void *param);
 // CAMERA
 t_ray		camera_ray(t_object *cam, double x, double y);
 void		mouse_loop(void *param);
+t_vec3		euler_to_direction(t_vec3 euler);
 
 // LIGHTING
 t_vec3		shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
@@ -145,6 +146,7 @@ double		get_time(void);
 void		draw_light_editor(t_data *d);
 void		editor_loop(void *param);
 void		apply_slider_x(t_slider *s, int mx);
+void		handle_button_click(t_data *data, t_button button, int mx, int my);
 
 void		setup_material_sliders(t_data *data, t_object *obj);
 void		setup_checker_sliders(t_data *data, t_object *obj, int slider_id);

@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 22:48:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 01:15:06 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ void	print_parse_error(char *message, char *element, int line_nb)
 	}
 	if (message || element)
 		ft_putstr_fd("\n", 2);
-}
-
-void	clear_gnl(int fd, char *line)
-{
-	if (line)
-		free(line);
-	line = get_next_line(fd);
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	if (fd > -1)
-		close(fd);
 }
 
 int	check_array_size(char **array, int expected, char *object, int line_nb)
@@ -84,4 +70,25 @@ int	add_specials(t_object **dst, t_parser_ctx *ctx, char *elem)
 	}
 	*dst = ctx->obj;
 	return (1);
+}
+
+void	set_euler_rotation(t_object *obj)
+{
+	t_mat3	dr;
+
+	if (!obj)
+		return ;
+	obj->rotation.x = -asin(obj->direction.y) * 180 / M_PI;
+	if (fabs(obj->direction.y - 1) < 1e-8)
+		obj->rotation.y = 0.0;
+	else
+		obj->rotation.y = atan2(obj->direction.x, obj->direction.z)
+			* 180 / M_PI;
+	obj->rotation.z = 0.0;
+	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
+	dr = mat3_multiply(
+			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
+	dr = mat3_multiply(
+			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
+	obj->props.transform_axis = dr;
 }

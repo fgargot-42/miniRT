@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:28:05 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/28 21:40:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 01:13:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,9 @@ t_ray	get_object_relative_ray(t_ray ray, t_object *obj)
 
 	result.origin = vec3_sub(ray.origin, obj->position);
 	result.direction = ray.direction;
-	if (fabs(obj->direction.z - 1) > 1e-3)
-	{
-		result.origin = vec_apply_rotation_z(result.origin,
-				obj->props.transform_axis);
-		result.direction = vec_apply_rotation_z(result.direction,
-				obj->props.transform_axis);
-	}
+	result.origin = vec_apply_matrix(result.origin,
+			obj->props.transform_axis);
+	result.direction = vec_apply_matrix(result.direction,
+			obj->props.transform_axis);
 	return (result);
 }
