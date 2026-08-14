@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 18:57:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 22:07:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 17:56:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 		rec->normal = vec3_normalize((t_vec3){{0, 0, z_cap}});
 	else
 		rec->normal = vec3_normalize(vec3_multiply(ctx.render_hit, z_scale));
-	if (fabs(obj->direction.z - 1) > 1e-8)
-		rec->normal = vec_reverse_matrix(rec->normal,
-				obj->props.transform_axis);
+	rec->normal = vec_reverse_matrix(rec->normal, obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
 	rec->point = ray_at(*ray, rec->t);
 	rec->color = obj->color;
