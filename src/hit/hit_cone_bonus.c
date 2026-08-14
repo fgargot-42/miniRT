@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 16:34:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 22:07:56 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 17:58:31 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static void	update_hit_record(t_hit_record *rec, t_ray *ray, t_object *obj,
 		normal = vec3_add(normal, (t_vec3){{0, 0,
 				-z_cap * obj->props.tan_angle}});
 	}
-	if (fabs(obj->direction.z - 1) > 1e-8)
-		normal = vec_reverse_matrix(normal, obj->props.transform_axis);
+	normal = vec_reverse_matrix(normal, obj->props.transform_axis);
 	rec->t = vec3_distance(ctx.render_hit, ctx.oc);
 	rec->point = ray_at(*ray, rec->t);
 	rec->normal = vec3_normalize(normal);
