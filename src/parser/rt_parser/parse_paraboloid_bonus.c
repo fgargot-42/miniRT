@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 18:12:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 23:52:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 20:03:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_object	*parse_paraboloid(char **line_split, t_parser_ctx *ctx)
 		return (NULL);
 	}
 	obj->direction = vec3_normalize(obj->direction);
-	obj->props.tan_angle = tan(obj->angle * M_PI / 180);
+	obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
 	obj->type = OBJ_PARABOLOID;
 	return (obj);
 }

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:10:07 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/08 02:53:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 23:35:00 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	setup_light_pos_sliders(t_data *data, t_vec3 *pos, int slider_id)
 		data->ui.sliders[slider_id + i] = (t_slider){.value = &pos->vec[i],
 			.min = -SLD_POS_RANGE,
 			.max = SLD_POS_RANGE,
+			.snap = 0.5,
 			.label = pos_labels[i],
 			.col = pos_colors[i]};
 		i++;
@@ -41,7 +42,7 @@ void	setup_light_sliders(t_data *data)
 	setup_ambient_sliders(data, 0);
 	setup_light_pos_sliders(data, &light->position, 4);
 	data->ui.sliders[7] = (t_slider){.value = &light->props.intensity,
-		.min = 0.0, .max = 1.0, .label = "power",
+		.min = 0.0, .max = 1.0, .snap = 0.01, .label = "power",
 		.col = (mlx_color){.r = 200, .g = 200, .b = 200, .a = 255}};
 	data->ui.nb_sliders = 8;
 }

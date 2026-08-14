@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 19:44:36 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 00:27:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,24 @@ static void	apply_tan_or_matrix(t_data *data)
 
 static int	handle_slider_click(t_data *data, t_slider *s, int mx, int my)
 {
+	double	t;
+
 	if (!s || !s->value)
 		return (0);
 	if (mx < SLD_X || mx > SLD_X + SLD_W)
 		return (0);
 	if (my < s->y - 6 || my > s->y + SLD_H + 6)
 		return (0);
-	apply_slider_x(s, mx);
+	t = (double)(mx - SLD_X) / SLD_W;
+	t = fmin(fmax(0.0, t), 1.0);
+	*s->value = s->min + t * (s->max - s->min);
 	apply_tan_or_matrix(data);
 	if (data->scene->selected)
 		draw_editor(data, mx, my);
 	else
 		draw_light_editor(data);
+	mlx_mouse_move(data->mlx, data->editor, SLD_X + SLD_W / 2, s->y + SLD_H / 2);
+	mlx_mouse_hide(data->mlx);
 	return (1);
 }
 
@@ -83,26 +89,27 @@ void	editor_mouse_up(int event, void *param)
 		rebuild_bvh_tree(&data->scene->bvh, data->scene);
 	data->ui.dragging_slider = -1;
 	data->render_scale = 1;
+	mlx_mouse_show(data->mlx);
 	draw(data);
 }
 
 void	editor_loop(void *param)
 {
-	t_data		*data;
 	t_slider	*s;
-	int			mx;
-	int			my;
+	t_data		*data;
+	bool		edited;
 
 	data = (t_data *)param;
 	if (data->ui.dragging_slider < 0
 		|| data->ui.dragging_slider >= data->ui.nb_sliders)
 		return ;
-	mlx_mouse_get_pos(data->mlx, &mx, &my);
 	s = &data->ui.sliders[data->ui.dragging_slider];
-	apply_slider_x(s, mx);
+	edited = apply_slider_x(s, data);
+	if (!edited)
+		return ;
 	apply_tan_or_matrix(data);
 	if (data->scene->selected)
-		draw_editor(data, mx, my);
+		draw_editor(data, -1, -1);
 	else
 		draw_light_editor(data);
 	if (s->affects_bvh)

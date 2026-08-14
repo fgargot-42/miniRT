@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/01 19:49:11 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 21:35:00 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 23:40:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ char	*ft_dtoa(double number, int precision)
 	if (!nb_str)
 		return (NULL);
 	set_int_part(number, int_size, nb_str);
-	nb_str[int_size] = '.';
+	if (precision)
+		nb_str[int_size] = '.';
 	set_decimal_part(number, int_size, precision, nb_str);
 	return (nb_str);
 }

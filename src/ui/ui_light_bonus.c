@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 19:09:28 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/10 17:27:02 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 21:40:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	setup_light_pos_sliders(t_data *data, t_vec3 *pos, int slider_id)
 		data->ui.sliders[slider_id + i] = (t_slider){.value = &pos->vec[i],
 			.min = -SLD_POS_RANGE,
 			.max = SLD_POS_RANGE,
+			.snap = 1,
 			.label = pos_labels[i],
 			.col = pos_colors[i]};
 		i++;
@@ -44,8 +45,8 @@ static void	setup_light_sliders_rgb(t_data *data, t_vec3 *col, int slider_id)
 	while (i < 3)
 	{
 		data->ui.sliders[slider_id + i] = (t_slider){.value = &(col->vec[i]),
-			.min = 0.0, .max = 255.0, .label = color_labels[i],
-			.col = color_colors[i]};
+			.min = 0.0, .max = 255.0, .snap = 1, .label = color_labels[i],
+			.col = color_colors[i], .affects_bvh = false, .is_int = true};
 		i++;
 	}
 }
@@ -58,7 +59,7 @@ void	setup_light_sliders(t_data *data)
 	setup_light_pos_sliders(data, &light->position, 4);
 	setup_light_sliders_rgb(data, &light->color, 7);
 	data->ui.sliders[10] = (t_slider){.value = &light->props.intensity,
-		.min = 0.0, .max = 1.0, .label = "power",
+		.min = 0.0, .max = 1.0, .snap = 0.05, .label = "power",
 		.col = (mlx_color){.r = 200, .g = 200, .b = 200, .a = 255}};
 	data->ui.nb_sliders = 11;
 }

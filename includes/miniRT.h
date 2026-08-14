@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 18:10:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 00:36:29 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,81 +52,73 @@ typedef struct s_data
 	mlx_window	editor;
 	mlx_image	img;
 	t_scene		*scene;
+	t_ui_info	ui;
 	bool		r_click_hold;
 	bool		w_click_hold;
 	bool		show_hud;
 	int			last_mouse_x;
 	int			last_mouse_y;
 	int			render_scale;
-	t_ui_info	ui;
 }	t_data;
-
-void				apply_slider_x(t_slider *s, int mx);
 
 // DISPLAY
 
-void				init_display(char *rt_file, t_data *data);
-void				destroy_display(t_data *data);
+void		init_display(char *rt_file, t_data *data);
+void		destroy_display(t_data *data);
 
-// OBJECTS
+// OBJECT
 
-t_object			*create_object(void *object, t_obj_type type);
-
-// DEBUG
-
-void				print_object(void *o);
-void				print_bvh_tree(t_bvh *bvh, int depth);
+t_object	*create_object(void *object, t_obj_type type);
 
 // SCENE
-void				init_scene(char *file, t_data *data);
-void				free_scene(t_scene *scene);
-void				free_object(void *object);
-void				check_scene_mandatory_object(void *obj, char *obj_str,
-						t_scene *scene);
+void		init_scene(char *file, t_data *data);
+void		free_scene(t_scene *scene);
+void		free_object(void *object);
+void		check_scene_mandatory_object(void *obj, char *obj_str,
+				t_scene *scene);
 
 // DRAWER
 
-void				draw(t_data *data);
-void				draw_single(t_data *data);
-void				add_debug(t_data *data, double render_time_ms);
-void				open_inspector(t_data *data, t_hit_record hc,
-						double mouse_x, double mouse_y);
-void				print_hit_info_debug(t_hit_record hc, t_scene *scene,
-						t_vec2 mouse_pos);
-mlx_color			vec3_to_color(t_vec3 v);
+void		draw(t_data *data);
+void		draw_single(t_data *data);
+void		add_debug(t_data *data, double render_time_ms);
+void		open_inspector(t_data *data, t_hit_record hc,
+				double mouse_x, double mouse_y);
+mlx_color	vec3_to_color(t_vec3 v);
 
-//src/hooks.c
-void				attach_hooks(t_data *data);
+// HOOKS
+void		attach_hooks(t_data *data);
+void		editor_attach_hooks(t_data *data);
 
-void				mouse_down_hook(int mouse_event, void *param);
-void				mouse_up_hook(int mouse_event, void *param);
-void				mouse_wheel_hook(int mouse_event, void *param);
+void		mouse_down_hook(int mouse_event, void *param);
+void		mouse_up_hook(int mouse_event, void *param);
+void		mouse_wheel_hook(int mouse_event, void *param);
 
-//src/camera.c
-t_ray				camera_ray(t_object *cam, double x, double y);
-void				mouse_loop(void *param);
-t_vec3				euler_to_direction(t_vec3 euler);
+bool		apply_slider_x(t_slider *s, t_data *data);
 
-//lighting.c
-t_vec3				shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
-double				smoothstep(double min, double max, double value);
+// CAMERA
+t_ray		camera_ray(t_object *cam, double x, double y);
+void		mouse_loop(void *param);
+t_vec3		euler_to_direction(t_vec3 euler);
+
+// LIGHTING
+t_vec3		shade(t_hit_record *rec, t_scene *scene, t_ray *ray);
+double		smoothstep(double min, double max, double value);
+t_vec3		srgb_to_linear(t_vec3 srgb);
+t_vec3		linear_to_srgb(t_vec3 linear_rgb);
 
 // UTILS
 
-int					get_polynom2_roots(double *roots, double a, double b,
-						double c);
-int					open_file_read(char *file, char *extension);
-char				*get_directory_path(char *filepath);
-void				free_str_array(char **array);
-size_t				get_str_array_length(char **array);
-void				free_array(void **array);
+int			get_polynom2_roots(double *roots, double a, double b, double c);
+int			open_file_read(char *file, char *extension);
+char		*get_directory_path(char *filepath);
+void		free_str_array(char **array);
+size_t		get_str_array_length(char **array);
+void		free_array(void **array);
 
-t_vec3				srgb_to_linear(t_vec3 srgb);
-t_vec3				linear_to_srgb(t_vec3 linear_rgb);
-
-double				get_time(void);
-void				editor_loop(void *param);
-void				draw_light_editor(t_data *d);
-void				setup_light_sliders(t_data *data);
+double		get_time(void);
+void		editor_loop(void *param);
+void		draw_light_editor(t_data *d);
+void		setup_light_sliders(t_data *data);
 
 #endif // MINIRT_H

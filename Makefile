@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/12 01:46:49 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/15 00:00:46 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,9 @@ SRC =	bvh/bvh.c \
 		matlib/matrix2.c \
 		matlib/matrix3.c \
 		matlib/matrix_utils.c \
+		ui/ui_init.c \
 		ui/helpers.c \
 		ui/ui_draw.c \
-		ui/ui_init.c \
 		utils/polynom.c \
 		utils/file_utils.c \
 		utils/array_utils.c \
@@ -79,6 +79,7 @@ SRC_MANDA = $(SRC) \
 		lighting/lighting.c \
 		input/hooks.c \
 		input/mouse_hooks_editor.c \
+		input/key_hooks_editor.c \
 		parser/rt_parser/parser.c \
 		parser/rt_parser/parse_light.c \
 		parser/rt_parser/parse_sphere.c \
@@ -105,6 +106,7 @@ SRC_BONUS = $(SRC) \
 		display/init_display_bonus.c \
 		input/hooks_bonus.c \
 		input/mouse_hooks_editor_bonus.c \
+		input/key_hooks_editor_bonus.c \
 		input/button_handle_click_bonus.c \
 		hit/hit_bonus.c \
 		hit/hit_sphere_bonus.c \
