@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/13 23:41:54 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 23:37:59 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 	while (i < 3)
 	{
 		data->ui.sliders[i] = (t_slider){.value = &obj->position.vec[i],
-			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
-			.label = position_labels[i],
-			.col = position_colors[i], .affects_bvh = true};
+			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE, .snap = 0.5,
+			.label = position_labels[i], .col = position_colors[i],
+			.affects_bvh = true, .is_int = false};
 		i++;
 	}
 	data->ui.sliders[3] = (t_slider){.value = &obj->rotation.vec[0],
-		.min = -90, .max = 90, .label = rotation_labels[0],
-		.col = position_colors[0], .affects_bvh = true};
+		.min = -90, .max = 90, .snap = 0.5, .label = rotation_labels[0],
+		.col = position_colors[0], .affects_bvh = true, .is_int = false};
 	data->ui.sliders[4] = (t_slider){.value = &obj->rotation.vec[1],
-		.min = -180, .max = 180, .label = rotation_labels[1],
-		.col = position_colors[1], .affects_bvh = true};
+		.min = -180, .max = 180, .snap = 0.5, .label = rotation_labels[1],
+		.col = position_colors[1], .affects_bvh = true, .is_int = false};
 }
 
 void	setup_color_sliders(t_data *data, t_object *obj)
@@ -53,8 +53,8 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 	while (i < 3)
 	{
 		data->ui.sliders[5 + i] = (t_slider){.value = &obj->color.vec[i],
-			.min = 0.0, .max = 255.0, .label = color_labels[i],
-			.col = color_colors[i], .affects_bvh = false};
+			.min = 0.0, .max = 255.0, .snap = 1, .label = color_labels[i],
+			.col = color_colors[i], .affects_bvh = false, .is_int = true};
 		i++;
 	}
 }
@@ -69,10 +69,10 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	ft_bzero(&data->ui.sliders[9], 2 * sizeof(t_slider));
 	if (obj->type == OBJ_SPHERE || obj->type == OBJ_CYLINDER)
 		data->ui.sliders[8] = (t_slider){.value = &obj->radius,
-			.min = 0.0, .max = 90.0, .label = properties_labels[0],
-			.col = material_colors[1], .affects_bvh = true};
+			.min = 0.0, .max = 90.0, .snap = 0.5, .label = properties_labels[0],
+			.col = material_colors[1], .affects_bvh = true, .is_int = false};
 	if (obj->type == OBJ_CYLINDER)
 		data->ui.sliders[9] = (t_slider){.value = &obj->props.height,
-			.min = 0.0, .max = 30.0, .label = properties_labels[1],
-			.col = material_colors[1], .affects_bvh = true};
+			.min = 0.0, .max = 100.0, .snap = .5, .label = properties_labels[1],
+			.col = material_colors[1], .affects_bvh = true, .is_int = false};
 }

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 00:04:32 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 21:44:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	setup_sliders(t_data *data)
 	setup_color_sliders(data, obj);
 	setup_property_sliders(data, obj);
 	setup_material_sliders(data, obj);
-	setup_checker_sliders(data, obj, 16);
-	data->ui.nb_sliders = 20;
+	setup_checker_sliders(data, obj, 17);
+	data->ui.nb_sliders = 21;
 }
 
 void	draw_editor(t_data *d, double mx, double my)
@@ -48,8 +48,8 @@ void	draw_editor(t_data *d, double mx, double my)
 	draw_group(d, (t_vec2){{3, 6}}, &y, "ROTATION -");
 	draw_group(d, (t_vec2){{6, 9}}, &y, "COLOR -----");
 	draw_group(d, (t_vec2){{9, 14}}, &y, "MATERIAL -----");
-	draw_group(d, (t_vec2){{14, 16}}, &y, "PROPERTIES -----");
-	draw_group(d, (t_vec2){{16, 20}}, &y, "CHECKER ----");
+	draw_group(d, (t_vec2){{14, 17}}, &y, "PROPERTIES -----");
+	draw_group(d, (t_vec2){{17, 21}}, &y, "CHECKER ----");
 	draw_footer(d);
 }
 

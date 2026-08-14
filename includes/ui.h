@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 22:30:46 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 02:03:44 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 23:25:10 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define SLD_W          150
 # define SLD_H          8
 # define SLD_SPACING    17
-# define SLD_POS_RANGE  50.0
+# define SLD_POS_RANGE  100.0
 # define SLD_BASE_Y     220
 # define SLD_COL_BASE_Y 300
 # define MAX_SLIDERS    32
@@ -59,9 +59,11 @@ typedef struct s_slider
 	double		*value;
 	double		min;
 	double		max;
+	double		snap;
 	const char	*label;
 	mlx_color	col;
 	bool		affects_bvh;
+	bool		is_int;
 }	t_slider;
 
 typedef struct s_button
@@ -87,6 +89,9 @@ typedef struct s_ui_info
 	int			nb_sliders;
 	int			dragging_slider;
 	int			selected_light;
+	bool		is_lshift_enabled;
+	int			last_mouse_x;
+	int			last_mouse_y;
 }	t_ui_info;
 
 // UI

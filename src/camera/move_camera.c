@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 20:36:54 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 18:05:34 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 20:20:37 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	rotate_camera(t_object *cam, t_vec2 mouse_delta)
 {
 	cam->rotation.x -= mouse_delta.y * CAMERA_SENS;
-	cam->rotation.y += mouse_delta.x * CAMERA_SENS;
+	cam->rotation.y -= mouse_delta.x * CAMERA_SENS;
 	if (fabs(cam->rotation.x) > 89.0)
 		cam->rotation.x = 89.0 * (2 * (cam->rotation.x > 0) - 1);
 }

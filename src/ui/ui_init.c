@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:04:24 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/07/20 19:04:35 by mabarrer         ###   ########.fr       */
+/*   Updated: 2026/08/14 23:51:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,5 @@ void	init_editor(t_data *data)
 	if (!data->editor)
 		exit(1);
 	mlx_set_window_size(data->mlx, data->editor, EDITOR_W, EDITOR_H);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEDOWN, editor_mouse_down,
-		data);
-	mlx_on_event(data->mlx, data->editor, MLX_MOUSEUP, editor_mouse_up, data);
+	editor_attach_hooks(data);
 }

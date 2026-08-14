@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:21:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 00:47:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 00:23:41 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,22 @@
 #include <mlx.h>
 #include <stdlib.h>
 
+static void	init_ui(t_ui_info *ui)
+{
+	ui->dragging_slider = -1;
+	ui->selected_light = 0;
+	ui->last_mouse_x = SLD_X + SLD_W / 2;
+	ui->last_mouse_y = SLD_W + SLD_H / 2;
+}
+
+
+
 void	init_display(char *rt_file, t_data *data)
 {
 	mlx_window_create_info	info;
 
+	init_ui(&data->ui);
 	data->render_scale = 1;
-	data->ui.dragging_slider = -1;
-	data->ui.selected_light = 0;
 	data->show_hud = true;
 	data->nb_threads = NB_THREADS;
 	data->mlx = mlx_init();

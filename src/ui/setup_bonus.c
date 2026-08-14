@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/13 19:14:50 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 21:45:48 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ void	setup_transform_sliders(t_data *data, t_object *obj)
 	while (i < 3)
 	{
 		data->ui.sliders[i] = (t_slider){.value = &obj->position.vec[i],
-			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE,
+			.min = -SLD_POS_RANGE, .max = SLD_POS_RANGE, .snap = 1,
 			.label = position_labels[i],
-			.col = position_colors[i], .affects_bvh = true};
+			.col = position_colors[i], .affects_bvh = true, .is_int = false};
 		data->ui.sliders[3 + i] = (t_slider){.value = &obj->rotation.vec[i],
-			.min = -90 * ((i > 0) + 1), .max = 90 * ((i > 0) + 1),
+			.min = -90 * ((i > 0) + 1), .max = 90 * ((i > 0) + 1), .snap = 1,
 			.label = rotation_labels[i],
-			.col = position_colors[i], .affects_bvh = true};
+			.col = position_colors[i], .affects_bvh = true, .is_int = false};
 		i++;
 	}
 }
@@ -51,8 +51,8 @@ void	setup_color_sliders(t_data *data, t_object *obj)
 	while (i < 3)
 	{
 		data->ui.sliders[6 + i] = (t_slider){.value = &obj->color.vec[i],
-			.min = 0.0, .max = 255.0, .label = color_labels[i],
-			.col = color_colors[i], .affects_bvh = false};
+			.min = 0.0, .max = 255.0, .snap = 1, .label = color_labels[i],
+			.col = color_colors[i], .affects_bvh = false, .is_int = true};
 		i++;
 	}
 }
@@ -67,26 +67,28 @@ void	setup_material_sliders(t_data *data, t_object *obj)
 	{.r = 220, .g = 220, .b = 220, .a = 255}};
 
 	data->ui.sliders[9] = (t_slider){.value = &obj->material->specular,
-		.min = 0.0, .max = 1.0, .label = material_labels[0],
-		.col = material_colors[0], .affects_bvh = false};
+		.min = 0.0, .max = 1.0, .snap = 0.05, .label = material_labels[0],
+		.col = material_colors[0], .affects_bvh = false, .is_int = false};
 	data->ui.sliders[10] = (t_slider){.value = &obj->material->shininess,
-		.min = 1.0, .max = 1000.0, .label = material_labels[1],
-		.col = material_colors[1], .affects_bvh = false};
+		.min = 1.0, .max = 1000.0, .snap = 1, .label = material_labels[1],
+		.col = material_colors[1], .affects_bvh = false, .is_int = false};
 	data->ui.sliders[11] = (t_slider){.value = &obj->material->opacity,
-		.min = 0.0, .max = 1.0, .label = material_labels[2],
-		.col = material_colors[2], .affects_bvh = false};
+		.min = 0.0, .max = 1.0, .snap = 0.05, .label = material_labels[2],
+		.col = material_colors[2], .affects_bvh = false, .is_int = false};
 	data->ui.sliders[12] = (t_slider){.value = &obj->material->density,
-		.min = 0.0, .max = 10.0, .label = material_labels[3],
-		.col = material_colors[2], .affects_bvh = false};
+		.min = 0.0, .max = 10.0, .snap = 0.05, .label = material_labels[3],
+		.col = material_colors[2], .affects_bvh = false, .is_int = false};
 	data->ui.sliders[13] = (t_slider){.value = &obj->material->reflectance,
-		.min = 0.0, .max = 1.0, .label = material_labels[4],
-		.col = material_colors[2], .affects_bvh = false};
+		.min = 0.0, .max = 1.0, .snap = 0.05, .label = material_labels[4],
+		.col = material_colors[2], .affects_bvh = false, .is_int = false};
 }
 
-static void	get_property_values(t_object *obj, double **radius, double **height)
+static void	get_property_values(t_object *obj, double **radius, double **height,
+	double **depth)
 {
 	*radius = NULL;
 	*height = NULL;
+	*depth = NULL;
 	if (obj->type == OBJ_SPHERE)
 		*radius = &obj->radius;
 	else if (obj->type == OBJ_CYLINDER)
@@ -98,6 +100,8 @@ static void	get_property_values(t_object *obj, double **radius, double **height)
 	{
 		*radius = &obj->angle;
 		*height = &obj->props.height;
+		if (obj->type == OBJ_CONE || obj->type == OBJ_HYPERBOLOID)
+			*depth = &obj->props.depth;
 	}
 }
 
@@ -105,16 +109,21 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 {
 	double					*radius;
 	double					*height;
-	const char				*properties_labels[2] = {"radius", "height"};
-	const mlx_color			material_colors[2] = {
+	double					*depth;
+	const char				*properties_labels[3] = {"radius", "height", "depth"};
+	const mlx_color			material_colors[3] = {
 	{.r = 180, .g = 180, .b = 255, .a = 255},
-	{.r = 200, .g = 200, .b = 200, .a = 255}};
+	{.r = 200, .g = 200, .b = 255, .a = 255},
+	{.r = 220, .g = 220, .b = 200, .a = 255}};
 
-	get_property_values(obj, &radius, &height);
+	get_property_values(obj, &radius, &height, &depth);
 	data->ui.sliders[14] = (t_slider){.value = radius, .min = 0.0, .max = 90.0,
-		.label = properties_labels[0], .col = material_colors[1],
-		.affects_bvh = true};
-	data->ui.sliders[15] = (t_slider){.value = height, .min = 0.0, .max = 30.0,
-		.label = properties_labels[1], .col = material_colors[1],
-		.affects_bvh = true};
+		.snap = 1, .label = properties_labels[0], .col = material_colors[1],
+		.affects_bvh = true, .is_int = false};
+	data->ui.sliders[15] = (t_slider){.value = height, .min = 0.0, .max = 100.0,
+		.snap = 1, .label = properties_labels[1], .col = material_colors[1],
+		.affects_bvh = true, .is_int = false};
+	data->ui.sliders[16] = (t_slider){.value = depth, .min = 0.0, .max = 100.0,
+		.snap = 1, .label = properties_labels[2], .col = material_colors[2],
+		.affects_bvh = true, .is_int = false};
 }

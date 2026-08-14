@@ -6,25 +6,38 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 19:09:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 00:27:12 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 #include "hit.h"
 
-void	apply_slider_x(t_slider *s, int mx)
+bool	apply_slider_x(t_slider *s, t_data *data)
 {
-	double	t;
-	double	new_val;
+	int			mx;
+	int			my;
+	double		t;
+	t_vec2		mouse_delta;
 
-	t = (double)(mx - SLD_X) / SLD_W;
-	if (t < 0.0)
-		t = 0.0;
-	if (t > 1.0)
-		t = 1.0;
-	new_val = s->min + t * (s->max - s->min);
-	*s->value = new_val;
+	mlx_mouse_get_pos(data->mlx, &mx, &my);
+	mouse_delta.x = mx - data->ui.last_mouse_x;
+	mouse_delta.y = mx - data->ui.last_mouse_y;
+	if (!mouse_delta.x || !mouse_delta.y)
+		return (false);
+	t = mouse_delta.x * s->snap;
+	if (data->ui.is_lshift_enabled && !s->is_int)
+		t = mouse_delta.x * 0.01;
+	if (s->is_int)
+		*s->value = floor(*s->value + t);
+	else
+		*s->value += t;
+	*s->value = fmin(fmax(s->min, *s->value), s->max);
+	mlx_mouse_move(data->mlx, data->editor,
+		SLD_X + SLD_W / 2, s->y + SLD_H / 2);
+	data->ui.last_mouse_x = SLD_X + SLD_W / 2;
+	data->ui.last_mouse_y = s->y + SLD_H / 2;
+	return (true);
 }
 
 static void	mouse_enable_move_mode(t_data *data, int mouse_event)

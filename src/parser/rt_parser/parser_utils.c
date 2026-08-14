@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 19:06:01 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 20:28:55 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,12 @@ void	set_euler_rotation(t_object *obj)
 
 	if (!obj)
 		return ;
-	obj->rotation.x = -asin(obj->direction.y) * 180 / M_PI;
+	obj->rotation.x = -asin(obj->direction.y) * 180.0 / M_PI;
 	if (fabs(fabs(obj->direction.y) - 1) < 1e-8)
 		obj->rotation.y = 0.0;
 	else
 		obj->rotation.y = atan2(obj->direction.x, obj->direction.z)
-			* 180 / M_PI;
+			* 180.0 / M_PI;
 	obj->rotation.z = 0.0;
 	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
 	dr = mat3_multiply(
