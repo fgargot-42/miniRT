@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 00:32:03 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 19:44:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	apply_tan_or_matrix(t_data *data)
 			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
 	dr = mat3_multiply(
 			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
-	obj->direction = vec_apply_matrix(z_base, dr);
+	obj->direction = vec_reverse_matrix(z_base, dr);
 	obj->props.transform_axis = dr;
 }
 
@@ -82,6 +82,8 @@ void	editor_mouse_up(int event, void *param)
 		&& data->scene->selected->type != OBJ_PLANE)
 		rebuild_bvh_tree(&data->scene->bvh, data->scene);
 	data->ui.dragging_slider = -1;
+	data->render_scale = 1;
+	draw(data);
 }
 
 void	editor_loop(void *param)
@@ -105,5 +107,8 @@ void	editor_loop(void *param)
 		draw_light_editor(data);
 	if (s->affects_bvh)
 		bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
+	data->render_scale = 1;
+	if (data->ui.dragging_slider != -1)
+		data->render_scale = RENDER_SCALE;
 	draw(data);
 }
