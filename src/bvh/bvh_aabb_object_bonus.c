@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 22:07:32 by fgargot           #+#    #+#             */
-/*   Updated: 2026/07/20 22:07:05 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 19:40:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	get_paraboloid_aabb(t_object *obj, t_aabb *aabb)
 		return ;
 	cap_center = vec3_add(obj->position,
 			vec3_scale(obj->direction, obj->props.height));
-	r_max = obj->props.tan_angle * sqrt(obj->props.height);
+	r_max = sqrt(obj->props.tan_angle * obj->props.height);
 	d2.x = fmin(1.0, pow(obj->direction.x, 2));
 	d2.y = fmin(1.0, pow(obj->direction.y, 2));
 	d2.z = fmin(1.0, pow(obj->direction.z, 2));

@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 00:31:42 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 19:39:07 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	apply_tan_or_matrix(t_data *data)
 			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
 	dr = mat3_multiply(
 			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
-	obj->direction = vec_apply_matrix(z_base, dr);
+	obj->direction = vec_reverse_matrix(z_base, dr);
 	obj->props.transform_axis = dr;
 }
 

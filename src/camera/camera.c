@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 19:15:40 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 00:12:14 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 19:43:18 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_vec3	euler_to_direction(t_vec3 euler)
 	yaw_rad = euler.y * (M_PI / 180.0);
 	pitch_rad = euler.x * (M_PI / 180.0);
 	cos_pitch = cos(pitch_rad);
-	direction.x = -sin(yaw_rad) * cos_pitch;
+	direction.z = -sin(yaw_rad) * cos_pitch;
 	direction.y = sin(pitch_rad);
-	direction.z = cos(yaw_rad) * cos_pitch;
+	direction.x = -cos(yaw_rad) * cos_pitch;
 	return (direction);
 }
 

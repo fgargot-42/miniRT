@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 19:53:49 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/14 18:10:04 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # define HEIGHT 720
 # define CAMERA_SENS 0.35
 # define MOVE_STEP 0.5
+# define RENDER_SCALE 4
 # define DEBUG 1
 # define BVH_VIEW 1
 # define MLX_WHITE 0xFFFFFFFF
