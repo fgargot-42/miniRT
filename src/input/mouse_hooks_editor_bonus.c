@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 00:28:46 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 02:05:21 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	apply_tan_or_matrix(t_data *data)
 		obj->props.tan_angle = tan(obj->angle * M_PI / 180.0);
 	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
 	dr = mat3_multiply(
-			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
+			vec_get_matrix_rotation_x(-obj->rotation.x * M_PI / 180.0), dr);
 	dr = mat3_multiply(
 			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
 	obj->direction = vec_reverse_matrix(z_base, dr);
@@ -51,7 +51,8 @@ static int	handle_slider_click(t_data *data, t_slider *s, int mx, int my)
 		draw_editor(data, mx, my);
 	else
 		draw_light_editor(data);
-	mlx_mouse_move(data->mlx, data->editor, SLD_X + SLD_W / 2, s->y + SLD_H / 2);
+	mlx_mouse_move(data->mlx, data->editor,
+		SLD_X + SLD_W / 2, s->y + SLD_H / 2);
 	mlx_mouse_hide(data->mlx);
 	return (1);
 }

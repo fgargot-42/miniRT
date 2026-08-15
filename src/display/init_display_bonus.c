@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/16 21:21:31 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 00:23:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 02:03:50 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ static void	init_ui(t_ui_info *ui)
 	ui->last_mouse_x = SLD_X + SLD_W / 2;
 	ui->last_mouse_y = SLD_W + SLD_H / 2;
 }
-
-
 
 void	init_display(char *rt_file, t_data *data)
 {
