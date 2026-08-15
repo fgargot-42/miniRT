@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/13 20:04:40 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/14 21:45:48 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 02:04:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,8 @@ void	setup_property_sliders(t_data *data, t_object *obj)
 	double					*radius;
 	double					*height;
 	double					*depth;
-	const char				*properties_labels[3] = {"radius", "height", "depth"};
+	const char				*properties_labels[3] = {
+		"radius", "height", "depth"};
 	const mlx_color			material_colors[3] = {
 	{.r = 180, .g = 180, .b = 255, .a = 255},
 	{.r = 200, .g = 200, .b = 255, .a = 255},

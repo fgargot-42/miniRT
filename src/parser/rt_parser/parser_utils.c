@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/23 17:47:00 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 20:28:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 01:58:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	set_euler_rotation(t_object *obj)
 
 	if (!obj)
 		return ;
-	obj->rotation.x = -asin(obj->direction.y) * 180.0 / M_PI;
+	obj->rotation.x = asin(obj->direction.y) * 180.0 / M_PI;
 	if (fabs(fabs(obj->direction.y) - 1) < 1e-8)
 		obj->rotation.y = 0.0;
 	else
@@ -87,7 +87,7 @@ void	set_euler_rotation(t_object *obj)
 	obj->rotation.z = 0.0;
 	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
 	dr = mat3_multiply(
-			vec_get_matrix_rotation_x(obj->rotation.x * M_PI / 180.0), dr);
+			vec_get_matrix_rotation_x(-obj->rotation.x * M_PI / 180.0), dr);
 	dr = mat3_multiply(
 			vec_get_matrix_rotation_y(obj->rotation.y * M_PI / 180.0), dr);
 	obj->props.transform_axis = dr;

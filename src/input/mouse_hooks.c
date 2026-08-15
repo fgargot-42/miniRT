@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 21:46:57 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 00:27:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/15 02:06:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,8 @@ void	mouse_wheel_hook(int mouse_event, void *param)
 
 	data = (t_data *)param;
 	cam = data->scene->cam;
-	fwd = vec3_normalize(euler_to_direction(cam->rotation));
+	fwd = vec3_normalize(vec_reverse_matrix((t_vec3){{0, 0, 1}},
+				cam->props.transform_axis));
 	if (mouse_event == 1)
 		cam->position = vec3_add(cam->position, vec3_scale(fwd, MOVE_STEP));
 	else if (mouse_event == 2)
