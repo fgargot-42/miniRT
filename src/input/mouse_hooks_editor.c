@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 02:05:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 21:15:17 by mabarrer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	apply_tan_or_matrix(t_data *data)
 	t_mat3				dr;
 
 	obj = data->scene->selected;
-	if (!obj || obj->type != OBJ_CYLINDER)
+	if (!obj || (obj->type != OBJ_CYLINDER && obj->type != OBJ_PLANE))
 		return ;
 	dr = vec_get_matrix_rotation_z(obj->rotation.z * M_PI / 180.0);
 	dr = mat3_multiply(
