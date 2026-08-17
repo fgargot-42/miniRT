@@ -10,11 +10,9 @@ C	6.0,6.0,-12.0	0.0,0.0,1.0				70
 
 # Light (multi-light supported with bonus)
 # L	pos(x,y,z)		intensity	color(r,g,b)
-L	-8.0,20.0,2.0		0.9			255,240,200
+L	32.0,10.0,-6.0		0.9			255,240,200
 
-# Sky (Unique)
-# S color(r,g,b)
-# S	140,140,255
+SB	../textures/sky_4k.jpg
 
 # Sphere
 # sp	pos(x,y,z)		diameter	color(r,g,b)
