@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 20:09:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 01:06:25 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ static int	parse_line(char *line, t_parser_ctx *ctx)
 		return (2);
 	}
 	i = get_parse_element(line_split[0]);
-	printf("Adding object to scene: %s\t(id=%i)\n", line_split[0], i);
 	if (i != -1)
 		ctx->obj = parse_elem[i](line_split, ctx);
 	else
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			ctx->line_nb);
-	set_euler_rotation(ctx->obj);
+	if (ctx->obj->type != OBJ_TRIANGLE)
+		set_euler_rotation(ctx->obj);
 	free_str_array(line_split);
 	return (ctx->obj != NULL);
 }
