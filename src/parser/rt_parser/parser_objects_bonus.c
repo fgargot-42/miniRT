@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/27 22:51:53 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/06 01:10:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:29:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object_bonus.h"
 #include "parser_bonus.h"
 #include "miniRT_bonus.h"
-#include "material.h"
+#include "material_bonus.h"
 
 static char	*get_object_type_str(t_object o)
 {

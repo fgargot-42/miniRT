@@ -6,11 +6,11 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 21:24:16 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/12 02:16:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:28:36 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "material.h"
+#include "material_bonus.h"
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
 

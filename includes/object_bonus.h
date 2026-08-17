@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 22:00:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 00:13:26 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:23:57 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECT_BONUS_H
 # define OBJECT_BONUS_H
 
-# include "material.h"
+# include "material_bonus.h"
 # include "matlib.h"
 
 typedef struct s_data	t_data;

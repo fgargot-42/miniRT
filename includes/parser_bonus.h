@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:50:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 01:42:45 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:24:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 # include "parser.h"
-# include "material.h"
+# include "material_bonus.h"
 # include "object_bonus.h"
 
 t_object	*parse_sky(char **line_split, t_parser_ctx *ctx);

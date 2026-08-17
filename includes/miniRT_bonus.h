@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 00:42:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:23:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # include <math.h>
 # include "SDL2/SDL_scancode.h"
 # include "libft.h"
-# include "material.h"
+# include "material_bonus.h"
 
 typedef struct s_scene
 {

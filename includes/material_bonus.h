@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material.h                                         :+:      :+:    :+:   */
+/*   material_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:33 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 20:49:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:35:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATERIAL_H
-# define MATERIAL_H
+#ifndef MATERIAL_BONUS_H
+# define MATERIAL_BONUS_H
 
 # include "veclib.h"
 # include "mlx.h"
@@ -76,4 +76,4 @@ int			parse_mat_illum(char *line, t_material *mat, int line_nb);
 int			parse_mat_tex(char **split, t_texture **tex, t_parser_ctx *ctx,
 				char *param);
 
-#endif // MATERIAL_H
+#endif // MATERIAL_BONUS_H

@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 22:32:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/10 23:17:35 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:29:19 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
-#include "material.h"
+#include "material_bonus.h"
 
 t_material	*create_material(t_data *data)
 {

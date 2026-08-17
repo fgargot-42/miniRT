@@ -6,14 +6,14 @@
 /*   By: mabarrer <mabarrer@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:03:45 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/08 02:22:41 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:38:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "ui.h"
-#include "object.h"
-#include "miniRT.h"
+#include "object_bonus.h"
+#include "miniRT_bonus.h"
 #include <stdarg.h>
 
 const char	*obj_type_name(t_object *o)
