@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/20 19:05:07 by mabarrer          #+#    #+#             */
-/*   Updated: 2026/08/08 01:20:57 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 20:06:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	draw_slider(t_data *data, t_slider *s)
 		(mlx_color){.rgba = COL_LABEL}, (char *)s->label);
 	fill_rect(data, (t_vec2){{SLD_X + SLD_W + 8, s->y - 2}}, (t_vec2){{70, SLD_H
 		+ 4}}, (mlx_color){.rgba = COL_BG});
-	buf = ft_dtoa(*s->value, 2);
+	buf = ft_dtoa(*s->value, 2 * (!s->is_int));
 	mlx_string_put(data->mlx, data->editor, SLD_X + SLD_W + 12, s->y + 6,
 		(mlx_color){.rgba = COL_VALUE}, buf);
 	free(buf);
