@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/22 17:40:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 01:00:17 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:26:58 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "hit_bonus.h"
-#include "normal.h"
+#include "normal_bonus.h"
 #include <math.h>
 
 double	get_object_hit_opacity(t_hit_record rec);

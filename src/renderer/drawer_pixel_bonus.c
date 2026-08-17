@@ -6,16 +6,16 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/08 00:39:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:37:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "hit_bonus.h"
 #include "miniRT_bonus.h"
-#include "uv.h"
+#include "uv_bonus.h"
 #include "veclib.h"
-#include "normal.h"
+#include "normal_bonus.h"
 #include <time.h>
 
 static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,

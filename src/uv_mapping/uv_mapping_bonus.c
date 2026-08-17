@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/03 18:39:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:32:47 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object_bonus.h"
-#include "material.h"
+#include "material_bonus.h"
 #include "veclib.h"
-#include "uv.h"
+#include "uv_bonus.h"
 #include "mlx.h"
 #include <stdio.h>
 #include <stdlib.h>

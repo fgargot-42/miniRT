@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bump.c                                             :+:      :+:    :+:   */
+/*   bump_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/02 20:34:38 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 16:58:08 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:33:49 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hit_bonus.h"
 #include "object_bonus.h"
-#include "material.h"
-#include "normal.h"
+#include "material_bonus.h"
+#include "normal_bonus.h"
 #include "veclib.h"
 #include "libft.h"
 #include "mlx.h"
-#include "uv.h"
+#include "uv_bonus.h"
 #include <math.h>
 #include <stdio.h>
 

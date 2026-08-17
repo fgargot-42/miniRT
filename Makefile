@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/15 00:00:46 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/17 18:35:17 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,6 +118,7 @@ SRC_BONUS = $(SRC) \
 		hit/hit_triangle_bonus.c \
 		hit/hit_utils_bonus.c \
 		lighting/bounce_bonus.c \
+		lighting/bump_bonus.c \
 		lighting/lighting_bonus.c \
 		lighting/opacity_bonus.c \
 		material/material_bonus.c \
@@ -159,8 +160,7 @@ SRC_BONUS = $(SRC) \
 		ui/ui_light_bonus.c \
 		ui/ui_button_event_bonus.c \
 		uv_mapping/uv_mapping_bonus.c \
-		uv_mapping/uv_object_bonus.c \
-		bump.c
+		uv_mapping/uv_object_bonus.c
 OBJ_MANDA = $(addprefix $(OBJDIR)/,$(SRC_MANDA:.c=.o))
 OBJ_BONUS = $(addprefix $(OBJDIR)/,$(SRC_BONUS:.c=.o))
 

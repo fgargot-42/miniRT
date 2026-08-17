@@ -6,13 +6,13 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 20:27:07 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/13 00:04:11 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:28:05 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT_bonus.h"
 #include "parser_bonus.h"
-#include "material.h"
+#include "material_bonus.h"
 
 void	apply_illum(t_material *mat)
 {

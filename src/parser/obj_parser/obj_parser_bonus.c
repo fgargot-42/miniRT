@@ -6,11 +6,11 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 19:14:06 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/11 21:18:55 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:27:53 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "material.h"
+#include "material_bonus.h"
 #include "parser_bonus.h"
 #include "miniRT_bonus.h"
 #include <unistd.h>

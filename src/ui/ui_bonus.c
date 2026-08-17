@@ -6,11 +6,11 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/24 02:06:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/14 21:44:04 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:31:23 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hit.h"
+#include "hit_bonus.h"
 #include "miniRT_bonus.h"
 #include "mlx.h"
 #include "ui.h"

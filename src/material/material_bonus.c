@@ -6,11 +6,11 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/03 18:30:04 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/12 17:33:24 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:27:22 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "material.h"
+#include "material_bonus.h"
 #include "libft.h"
 #include "veclib.h"
 #include <stdlib.h>

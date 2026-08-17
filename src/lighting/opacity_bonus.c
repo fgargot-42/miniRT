@@ -6,14 +6,14 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 01:32:48 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/04 02:46:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/17 18:37:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "object_bonus.h"
 #include "hit_bonus.h"
-#include "material.h"
-#include "uv.h"
+#include "material_bonus.h"
+#include "uv_bonus.h"
 #include <stdio.h>
 
 double	get_object_hit_opacity(t_hit_record rec)
