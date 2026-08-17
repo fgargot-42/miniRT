@@ -53,6 +53,7 @@ make [bonus]
 | `Y`         | Toggle anti-aliasing    |
 | `TAB`       | Toggle info             |
 | `+` / `-`   | BVH display level       |
+| `LSHIFT`    | Precise slider edit (hold)      |
 
 ## Resources
 
@@ -68,3 +69,11 @@ make [bonus]
 [Video about BVH by Sebastien Lague](https://youtu.be/C1H4zIiCOaI?si=FIgXkzk2PjYqYfKb)
 
 [How to make a raytracer from scratch playlist by The Cherno](https://youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl&si=vxszfJgvRj4SNdXP)
+
+### AI usage
+
+- Mathematical concept explanation
+	- Lighting computation
+- How to build a proper UI layout
+- Scene generation for debugging (BVH, parsing tests, etc.)
+- Obj/mtl documentation/structure
