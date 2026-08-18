@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/05 19:03:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 17:59:38 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
+# define FT_RANDMAX 0x7fffffff
 
 typedef struct s_list
 {
@@ -39,6 +40,7 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_iswhitespace(int c);
 int		is_numeric(char *nstr);
+
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
@@ -94,6 +96,8 @@ int		ft_printf(const char *s, ...);
 
 // ft_math
 double	ft_pow(double nb, int pow);
+int		ft_rand(void);
+void	ft_srand(int seed);
 
 // ft_array
 

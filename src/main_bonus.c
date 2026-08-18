@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 20:22:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/06 20:49:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 19:02:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_display(argv[1], &data);
+	ft_srand((int)get_time());
 	draw(&data);
 	attach_hooks(&data);
 	mlx_add_loop_hook(data.mlx, mouse_loop, &data);

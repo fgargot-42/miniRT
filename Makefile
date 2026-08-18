@@ -6,7 +6,7 @@
 #    By: fgargot <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/29 18:52:27 by fgargot           #+#    #+#              #
-#    Updated: 2026/08/17 18:35:17 by fgargot          ###   ########.fr        #
+#    Updated: 2026/08/18 17:34:19 by fgargot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 MLX_DIR = lib/MacroLibX
 MLX = $(MLX_DIR)/libmlx.so
-INCLUDE = -Iincludes -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
+INCLUDE = -I$(INCDIR) -I$(LIBFT_DIR)/includes -I$(MLX_DIR)/includes
 SRC =	bvh/bvh.c \
 		bvh/bvh_aabb_object.c \
 		bvh/bvh_init.c \
@@ -167,7 +167,7 @@ OBJ_BONUS = $(addprefix $(OBJDIR)/,$(SRC_BONUS:.c=.o))
 all: $(NAME)
 
 manda: $(OBJ_MANDA) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)
+	$(CC) $(CFLAGS) $(CLINK) $(INCLUDE) $^ -o $(NAME)
 
 bonus: $(OBJ_BONUS) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(CLINK_BONUS) $(INCLUDE) $^ -o $(NAME)

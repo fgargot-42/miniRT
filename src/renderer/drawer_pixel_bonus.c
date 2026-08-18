@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/17 18:37:33 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 19:18:43 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "veclib.h"
 #include "normal_bonus.h"
 #include <time.h>
+#include <pthread.h>
 
 static t_vec3	apply_selection_rim(t_vec3 shaded, t_hit_record *hc,
 		t_ray *ray)
@@ -94,28 +95,28 @@ t_vec3	rt_cast(t_scene *scene, t_ray *r, t_object *obj_from, int depth)
 static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
 		bool anti_aliasing)
 {
-	static bool	is_rng_init = false;
-	t_vec3		color;
-	t_ray		r;
-	int			i;
+	static pthread_mutex_t	rand_mutex = PTHREAD_MUTEX_INITIALIZER;
+	t_vec3					color;
+	t_ray					r;
+	int						i;
 
-	if (!is_rng_init)
-		srand(time(NULL));
-	is_rng_init = true;
 	i = 0;
 	color = (t_vec3){{0, 0, 0}};
-	while (i < RAYS_PER_PIXEL)
+	while (i < RAYS_PER_PIXEL && (i == 0 || anti_aliasing))
 	{
 		if (anti_aliasing)
-			r = camera_ray(scene->cam, x + (double)rand() / (double)RAND_MAX,
-					y + (double)rand() / (double)RAND_MAX);
+		{
+			pthread_mutex_lock(&rand_mutex);
+			r = camera_ray(scene->cam,
+					x + (double)ft_rand() / (double)FT_RANDMAX,
+					y + (double)ft_rand() / (double)FT_RANDMAX);
+			pthread_mutex_unlock(&rand_mutex);
+		}
 		else
 			r = camera_ray(scene->cam, x, y);
 		r.refraction = 1.0;
 		color = vec3_add(color, rt_cast(scene, &r, NULL, 0));
 		i++;
-		if (!anti_aliasing)
-			break ;
 	}
 	color = vec3_scale(color, 1.0 / i);
 	return (vec3_to_color(color));

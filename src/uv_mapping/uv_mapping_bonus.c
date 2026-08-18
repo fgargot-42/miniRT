@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/21 18:21:30 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/17 18:32:47 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 17:45:40 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ static t_vec2	map_uv(t_vec2 uv)
 	uv.x = uv.x - floor(uv.x);
 	uv.y = uv.y - floor(uv.y);
 	return (uv);
+}
+
+static t_vec2	map_uv_transform(t_vec2 uv, t_texture *tex)
+{
+	t_vec2	res;
+
+	res.x = uv.x * tex->scale.x;
+	res.y = uv.y * tex->scale.y;
+	res = map_uv(res);
+	return (res);
 }
 
 t_vec2	get_uv(t_object *obj, t_vec3 vec)
@@ -44,6 +54,9 @@ t_vec3	uv_to_color(t_object *obj, t_texture *tex, t_vec2 uv)
 	t_vec3		col;
 	mlx_color	pixel;
 
+	if (!tex)
+		return ((t_vec3){{0, 0, 0}});
+	uv = map_uv_transform(uv, tex);
 	while (uv.x > 1.0)
 		uv.x--;
 	while (uv.y > 1.0)
