@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 17:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 20:06:58 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:30:51 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,15 @@ int	ft_rand(void)
 void	ft_srand(int seed)
 {
 	next_rand(seed, true);
+}
+
+int	ft_rand_r(int *state)
+{
+	int					prev;
+	static const int	mult = 1103515245;
+	static const int	add = 12345;
+
+	prev = *state;
+	*state = *state * mult + add;
+	return ((prev << 16 | (*state & 0xffff)) & FT_RANDMAX);
 }

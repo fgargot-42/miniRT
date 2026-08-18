@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 18:43:41 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/17 18:23:40 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:21:09 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_data
 	int			render_scale;
 	int			th_nb;
 	int			nb_threads;
+	int			rng_seed;
 }	t_data;
 
 // DISPLAY

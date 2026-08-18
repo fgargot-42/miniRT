@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 12:50:03 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 17:59:38 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:26:46 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		ft_printf(const char *s, ...);
 double	ft_pow(double nb, int pow);
 int		ft_rand(void);
 void	ft_srand(int seed);
+int		ft_rand_r(int *state);
 
 // ft_array
 

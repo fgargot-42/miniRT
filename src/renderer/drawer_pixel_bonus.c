@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 19:18:43 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:26:02 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,9 @@ t_vec3	rt_cast(t_scene *scene, t_ray *r, t_object *obj_from, int depth)
 	return (color);
 }
 
-static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
+static mlx_color	get_pixel_color(int x, int y, t_data *d,
 		bool anti_aliasing)
 {
-	static pthread_mutex_t	rand_mutex = PTHREAD_MUTEX_INITIALIZER;
 	t_vec3					color;
 	t_ray					r;
 	int						i;
@@ -106,16 +105,14 @@ static mlx_color	get_pixel_color(int x, int y, t_scene *scene,
 	{
 		if (anti_aliasing)
 		{
-			pthread_mutex_lock(&rand_mutex);
-			r = camera_ray(scene->cam,
-					x + (double)ft_rand() / (double)FT_RANDMAX,
-					y + (double)ft_rand() / (double)FT_RANDMAX);
-			pthread_mutex_unlock(&rand_mutex);
+			r = camera_ray(d->scene->cam,
+					x + (double)ft_rand_r(&d->rng_seed) / (double)FT_RANDMAX,
+					y + (double)ft_rand_r(&d->rng_seed) / (double)FT_RANDMAX);
 		}
 		else
-			r = camera_ray(scene->cam, x, y);
+			r = camera_ray(d->scene->cam, x, y);
 		r.refraction = 1.0;
-		color = vec3_add(color, rt_cast(scene, &r, NULL, 0));
+		color = vec3_add(color, rt_cast(d->scene, &r, NULL, 0));
 		i++;
 	}
 	color = vec3_scale(color, 1.0 / i);
@@ -129,8 +126,7 @@ void	rt_draw_pixel(int x, int y, t_data *data, int render_scale)
 	int			j;
 
 	color = get_pixel_color(x + render_scale / 2, y + render_scale / 2,
-			data->scene,
-			data->scene->anti_aliasing && !data->r_click_hold
+			data, data->scene->anti_aliasing && !data->r_click_hold
 			&& !data->w_click_hold && data->ui.dragging_slider == -1);
 	i = 0;
 	while (i < render_scale)

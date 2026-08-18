@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/01 22:01:12 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:27:30 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	draw_threads_create(t_data *data)
 		th_data[i] = malloc(sizeof(t_data));
 		memcpy(th_data[i], data, sizeof(t_data));
 		th_data[i]->th_nb = i;
+		th_data[i]->rng_seed = data->rng_seed + i * 7919;
 		pthread_create(&threads[i], NULL, draw_thread, th_data[i]);
 		i++;
 	}
@@ -77,6 +78,7 @@ static void	draw_threads_create(t_data *data)
 		free(th_data[i]);
 		i++;
 	}
+	ft_rand_r(&data->rng_seed);
 	mlx_clear_window(data->mlx, data->win, vec3_to_color((t_vec3){{0, 0, 0}}));
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 }
