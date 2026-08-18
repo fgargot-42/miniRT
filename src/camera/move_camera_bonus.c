@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/25 20:36:54 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 02:07:10 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:58:35 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	move_camera(t_data *data, t_vec2 mouse_delta)
 		return (0);
 	is_moving = (mouse_delta.x || mouse_delta.y);
 	data->render_scale = 1;
-	if (NB_THREADS <= 1 && is_moving)
+	if (is_moving)
 		data->render_scale = RENDER_SCALE;
 	if (is_moving && data->r_click_hold)
 		rotate_camera(data->scene->cam, mouse_delta);

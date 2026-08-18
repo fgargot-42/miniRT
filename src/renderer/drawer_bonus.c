@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/13 22:51:47 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 21:27:30 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 23:32:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,16 @@ static void	*draw_thread(void *data)
 	int	x;
 	int	y;
 
-	y = ((t_data *)data)->th_nb;
+	y = ((t_data *)data)->th_nb * ((t_data *)data)->render_scale;
 	while (y < HEIGHT)
 	{
 		x = 0;
 		while (x < WIDTH)
 		{
-			rt_draw_pixel(x, y, (t_data *)data, 1);
-			x++;
+			rt_draw_pixel(x, y, (t_data *)data, ((t_data *)data)->render_scale);
+			x += ((t_data *)data)->render_scale;
 		}
-		y += ((t_data *)data)->nb_threads;
+		y += ((t_data *)data)->nb_threads * ((t_data *)data)->render_scale;
 	}
 	return (NULL);
 }

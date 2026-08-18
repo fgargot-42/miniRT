@@ -6,7 +6,7 @@
 /*   By: mabarrer <mabarrer@student.42angouleme.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:14:14 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/15 02:05:21 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/18 21:59:17 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	editor_loop(void *param)
 		draw_light_editor(data);
 	if (s->affects_bvh)
 		bvh_grow_all_to_include(data->scene->bvh, data->scene->selected);
-	if (data->ui.dragging_slider != -1 && NB_THREADS <= 1)
+	if (data->ui.dragging_slider != -1)
 		data->render_scale = RENDER_SCALE;
 	draw(data);
 }
