@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 23:23:56 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 22:03:31 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/19 19:19:34 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static mlx_color	get_pixel_color(int x, int y, t_data *d,
 	color = (t_vec3){{0, 0, 0}};
 	while (i < RAYS_PER_PIXEL && (i == 0 || anti_aliasing))
 	{
-		if (anti_aliasing || d->render_scale == 1)
+		if (anti_aliasing && d->render_scale == 1)
 		{
 			r = camera_ray(d->scene->cam,
 					x + (double)ft_rand_r(&d->rng_seed) / (double)FT_RANDMAX,
