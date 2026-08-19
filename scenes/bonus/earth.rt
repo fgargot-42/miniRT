@@ -7,5 +7,5 @@ C	4.0,5.0,-16.0	-0.707,0,0.707	70
 
 L	0.0,5.0,-80.0		0.8		255,240,200
 
-sp	0.0,0.0,0.0		20.0	255,255,255	.	.	0.4		128	 1 	1 0 ../textures/8k_earth_daymap.jpg earth/textures/8k_earth_specular_map.png ../textures/8k_earth_bump.jpg
+sp	0.0,0.0,0.0		20.0	255,255,255	.	.	0.4		128	 1 	1 0 ../textures/8k_earth_daymap.jpg ../textures/8k_earth_specular.jpg ../textures/8k_earth_bump.jpg
 sp	-40.0,0.0,0.0		4.0		255,255,255	.	. 0.2		128	1 1 0  ../textures/2k_moon.jpg

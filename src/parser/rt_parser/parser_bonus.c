@@ -6,7 +6,7 @@
 /*   By: fgargot <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:55:52 by fgargot           #+#    #+#             */
-/*   Updated: 2026/08/18 01:06:25 by fgargot          ###   ########.fr       */
+/*   Updated: 2026/08/19 19:46:33 by fgargot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	parse_line(char *line, t_parser_ctx *ctx)
 	else
 		print_parse_error("parser: wrong element identifier", line_split[0],
 			ctx->line_nb);
-	if (ctx->obj->type != OBJ_TRIANGLE)
+	if (ctx->obj && ctx->obj->type != OBJ_TRIANGLE)
 		set_euler_rotation(ctx->obj);
 	free_str_array(line_split);
 	return (ctx->obj != NULL);
